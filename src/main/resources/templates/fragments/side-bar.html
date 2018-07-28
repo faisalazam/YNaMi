@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="side-bar">
+            <!--TODO hide the whole side bar when there is no link to display-->
+            <div class="toggle-holyGrail-nav">
+                <a href="javascript:void(0);" class="icon side-bar-toggle">
+                    <i class="fa fa-angle-double-left"></i>
+                </a>
+            </div>
+            <div class="vertical-center auto-scrollable" >
+                <div class="holyGrail-nav-container">
+                    <a href="#" class="menu-dropdown">Sales
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div class="menu-container">
+                        <a href="#">Cash Sales</a>
+                        <a href="#">Credit Sales</a>
+                    </div>
+                    <a href="#" class="menu-dropdown">Purchases
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div class="menu-container">
+                        <a href="#">Cash Purchases</a>
+                        <a href="#">Credit Purchases</a>
+                    </div>
+
+                    <a href="#">Payments</a>
+                    <a href="#">Receipts</a>
+                    <a href="#">General Transactions</a>
+
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#clients">Clients</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#" class="menu-dropdown">Dropdown 1
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div class="menu-container">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                    <a href="#contact">Search</a>
+                    <a href="#" class="menu-dropdown">Dropdown 2
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div class="menu-container">
+                        <a href="#">Link 12</a>
+                        <a href="#">Link 22</a>
+
+                        <a href="#" class="menu-dropdown">Dropdown 111
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <div class="menu-container">
+                            <a href="#">Link 11</a>
+                            <a href="#">Link 211</a>
+                            <a href="#">Link 31</a>
+                        </div>
+                        <a href="#contact">Search</a>
+                        <a href="#">Link 32</a>
+                    </div>
+                    <a href="#contact">Search 3</a>
+                </div>
+            </div>
+        </th:block>
+    </body>
+</html>

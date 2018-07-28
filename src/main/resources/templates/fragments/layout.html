@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/layout/HolyGrail.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/layout/HolyGrail-header.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/layout/HolyGrail-body.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/layout/HolyGrail-sideBar.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/Base.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/webjars/font-awesome/5.1.0/css/fontawesome.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/webjars/font-awesome/5.1.0/css/solid.css}"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"/>
+
+        <th:block layout:fragment="styles" />
+
+        <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Why Not Me!!!</title>
+
+        <style>
+            /*Common css*/
+            .auto-scrollable {
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body class="bg-cyan">
+        <div class="HolyGrail">
+            <header class="HolyGrail-header">
+                <th:block th:replace="fragments/header :: header"/>
+            </header>
+
+            <div class="HolyGrail-body">
+                <nav class="HolyGrail-nav">
+                    <th:block th:replace="fragments/side-bar :: side-bar"/>
+                </nav>
+                <main class="HolyGrail-content auto-scrollable">
+                    <div class="vertical-center" >
+                        <div class="container">
+                            <div class="refreshable-content">
+                                <th:block layout:fragment="content"/>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <footer class="HolyGrail-footer">
+                <th:block th:replace="fragments/footer :: footer"/>
+            </footer>
+        </div>
+
+        <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js/}"></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/sideBar.js}"></script>
+
+        <th:block layout:fragment="scripts" />
+    </body>
+</html>

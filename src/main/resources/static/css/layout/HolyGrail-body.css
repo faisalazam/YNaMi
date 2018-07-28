@@ -1,0 +1,17 @@
+.HolyGrail-body {
+    flex: auto;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.HolyGrail-content {
+    flex: 1;
+}
+
+@media all and (max-width: 600px) {
+    .HolyGrail-body {
+        margin-top: 5px;
+        flex-direction: column;
+    }
+}

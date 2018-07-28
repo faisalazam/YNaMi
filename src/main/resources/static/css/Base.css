@@ -1,0 +1,135 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background: fixed 50% 50%;
+    background-size: cover;
+    font: normal 14px/100% "Andale Mono", AndaleMono, monospace !important;
+    color: #fff !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.bg-cyan {
+    background-image: url(../img/background.jpg);
+}
+
+.body {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.body-s {
+    max-width: 445px;
+}
+
+@media screen and (max-width: 600px) {
+    .body {
+        padding: 20px;
+    }
+}
+
+.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/*=======================================================================*/
+.button {
+    color: #fff;
+    padding: 5px;
+    font-size: 1.2rem;
+    border-radius: 15px;
+    text-decoration: none;
+    border: 1px solid #86c023;
+}
+
+.detail-container {
+    margin: 0 auto;
+    padding: 40px;
+    max-width: 500px;
+}
+
+.detail dl {
+    margin: 0;
+    padding: 0;
+}
+
+.detail dt {
+    font-size: 2.2rem;
+    font-weight: 300;
+}
+
+.detail dd {
+    margin: 0 0 40px 0;
+    font-size: 1.8rem;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ac2647;
+    box-shadow: 0 1px 0 #c52c51;
+}
+
+.detail {
+    color: #fff;
+    background-color: #BD2A4E;
+    width: 100%;
+    height: 100%;
+    padding: 40px 0;
+    position: fixed;
+    z-index: 15;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    -moz-transition: -moz-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+.detail.open {
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.close {
+    color: #fff;
+    font-weight: 300;
+    font-size: 3rem;
+    position: fixed;
+    right: 40px;
+    top: 20px;
+    -moz-transition: border 0.3s linear;
+    -o-transition: border 0.3s linear;
+    -webkit-transition: border 0.3s linear;
+    transition: border 0.3s linear;
+}
+
+.close:hover, .close:focus {
+    background-color: #a82545;
+    border: 1px solid #a82545;
+}
+
+a {
+    transition-property: color, background-color;
+    transition-duration: 1s;
+    transition-timing-function: ease-out;
+}
+
+a:hover, a:focus {
+    color: #333;
+    background-color: #fff;
+    border-radius: 18px;
+    border: 1px solid #86c023;
+}

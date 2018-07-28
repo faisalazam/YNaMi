@@ -1,0 +1,27 @@
+html {
+    height: 100%;
+    font-family: sans-serif;
+}
+body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+}
+
+.HolyGrail {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.HolyGrail-footer {
+    z-index: 2;
+    background-color: gray;
+}
+
+.HolyGrail .vertical-center {
+    min-height: 100%;
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
