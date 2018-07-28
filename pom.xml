@@ -52,6 +52,7 @@
 			<version>3.3.7-1</version>
 		</dependency>
 
+		<!-- Following is the dependency which will be helping us with automated testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
