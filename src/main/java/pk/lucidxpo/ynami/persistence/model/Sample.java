@@ -1,8 +1,17 @@
 package pk.lucidxpo.ynami.persistence.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Sample {
+    @Id
+    @Column(nullable = false, updatable = false)
     Long id;
+    @Column
     String name;
+    @Column
     boolean active;
 
     public Sample() {

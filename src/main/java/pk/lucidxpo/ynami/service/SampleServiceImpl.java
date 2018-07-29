@@ -1,30 +1,34 @@
 package pk.lucidxpo.ynami.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pk.lucidxpo.ynami.persistence.dao.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.Sample;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
-import static java.util.Optional.empty;
+import static java.lang.Boolean.valueOf;
 
 @Service
 public class SampleServiceImpl implements SampleService {
+    @Autowired
+    private SampleRepository sampleRepository;
+
     @Override
     public List<Sample> getAll() {
-        return emptyList();
+        return sampleRepository.findAll();
     }
 
     @Override
     public Optional<Sample> findById(Long id) {
-        return empty();
+        return sampleRepository.findById(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return sampleRepository.existsById(id);
     }
 
     @Override
@@ -39,11 +43,16 @@ public class SampleServiceImpl implements SampleService {
 
     @Override
     public void delete(Long id) {
-
+        sampleRepository.deleteById(id);
     }
 
     @Override
     public Sample updateStatus(Long id, Map<String, Object> updates) {
-        return null;
+        final Optional<Sample> sample = findById(id);
+
+        //potential NullPointerException
+        sample.get().setActive(valueOf((String) updates.get("active")));
+
+        return sampleRepository.save(sample.get());
     }
 }
