@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -50,21 +49,26 @@ public class SampleController {
 
         model.addAttribute("samples", samples);
 
-        return "welcome";
+        return "listSamples";
+    }
+
+    @GetMapping(value = "/samples/new")
+    public String prepareSampleCreation(Model model) {
+        model.addAttribute("sample", new Sample());
+        return "createSample";
     }
 
     @PostMapping(value = "/samples")
     public String createSample(@ModelAttribute("sample") Sample sample, HttpServletResponse response) {
         if (sampleService.exists(sample.getId())) {
             response.setStatus(CONFLICT.value());
-        } else {
-            sampleService.create(sample);
-            response.setStatus(CREATED.value());
+            return "createSample";
         }
-        return "welcome";
+        sampleService.create(sample);
+        return "redirect:/samples";
     }
 
-    @GetMapping(value = "/samples/{id}")
+    @GetMapping(value = "/samples/{id}/view")
     public String getSample(@PathVariable Long id, Model model, HttpServletResponse response) {
         final Optional<Sample> sample = sampleService.findById(id);
 
@@ -74,7 +78,19 @@ public class SampleController {
         } else {
             response.setStatus(NOT_FOUND.value());
         }
-        return "welcome";
+        return "viewSample";
+    }
+
+    @GetMapping(value = "/samples/{id}")
+    public String prepareSampleUpdation(@PathVariable final Long id, final Model model, final HttpServletResponse response) {
+        final Optional<Sample> optionalSample = sampleService.findById(id);
+        if (optionalSample.isPresent()) {
+            model.addAttribute("sample", optionalSample.get());
+            response.setStatus(FOUND.value());
+        } else {
+            response.setStatus(NOT_FOUND.value());
+        }
+        return "editSample";
     }
 
     @PutMapping(value = "/samples/{id}")
@@ -82,11 +98,10 @@ public class SampleController {
         final Optional<Sample> optionalSample = sampleService.findById(id);
         if (optionalSample.isPresent()) {
             sampleService.update(sample);
-            response.setStatus(OK.value());
-        } else {
-            response.setStatus(NOT_FOUND.value());
+            return "redirect:/samples";
         }
-        return "welcome";
+        response.setStatus(NOT_FOUND.value());
+        return "updateSample";
     }
 
     @DeleteMapping(value = "/samples/{id}")
@@ -94,11 +109,10 @@ public class SampleController {
         final Optional<Sample> optionalSample = sampleService.findById(id);
         if (optionalSample.isPresent()) {
             sampleService.delete(id);
-            response.setStatus(OK.value());
-        } else {
-            response.setStatus(NOT_FOUND.value());
+            return "redirect:/samples";
         }
-        return "welcome";
+        response.setStatus(NOT_FOUND.value());
+        return "deleteSample";
     }
 
     @PatchMapping(value = "/samples/{id}", consumes = APPLICATION_JSON_VALUE)

@@ -5,6 +5,9 @@ public class Sample {
     String name;
     boolean active;
 
+    public Sample() {
+    }
+
     public Sample(Long id, String name, boolean active) {
         this.id = id;
         this.name = name;
