@@ -1,5 +1,7 @@
 package pk.lucidxpo.ynami.service;
 
+import org.joda.time.LocalDateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +10,27 @@ import pk.lucidxpo.ynami.persistence.dao.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.Sample;
 import pk.lucidxpo.ynami.testutils.ObjectDeepDetailMatcher;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static java.lang.Long.valueOf;
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hibernate.validator.internal.util.CollectionHelper.newHashMap;
+import static org.joda.time.DateTimeUtils.setCurrentMillisFixed;
+import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
+import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 
 public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
+    private static final long FROZEN_TIME = new LocalDateTime().toDateTime().getMillis();
+
     @Autowired
     private SampleService sampleService;
 
@@ -44,25 +54,45 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         sample5 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
     }
 
+    @Before
+    public void freezeTime() {
+        setCurrentMillisFixed(FROZEN_TIME);
+    }
+
+    @After
+    public void unFreezeTime() {
+        setCurrentMillisSystem();
+    }
+
+    @Test
+    public void shouldVerifyThatAuditInfoIsStored() throws Exception {
+        assertThat(sample1.getCreatedDate(), nullValue());
+        assertThat(sample1.getLastModifiedDate(), nullValue());
+        assertThat(sample1.getLastModifiedBy(), nullValue());
+        assertThat(sample1.getCreatedBy(), nullValue());
+
+        final Sample savedSample = sampleRepository.save(sample1);
+
+        assertThat(savedSample.getCreatedDate().toString(), containsString(now().toString()));
+        assertThat(savedSample.getLastModifiedDate().toString(), containsString(now().toString()));
+        assertThat(savedSample.getLastModifiedBy(), is("Crazy"));
+        assertThat(savedSample.getCreatedBy(), is("Crazy"));
+    }
+
     @Test
     public void shouldVerifyThatAllElementsAreReturnedOnGetAll() throws Exception {
-        sampleRepository.save(sample1);
-        sampleRepository.save(sample2);
-        sampleRepository.save(sample3);
-        sampleRepository.save(sample4);
-        sampleRepository.save(sample5);
-
-        final List<Sample> expectedSamples = new ArrayList();
-        expectedSamples.add(sample1);
-        expectedSamples.add(sample2);
-        expectedSamples.add(sample3);
-        expectedSamples.add(sample4);
-        expectedSamples.add(sample5);
+        final List<Sample> expectedSamples = asList(
+                sampleRepository.save(sample1),
+                sampleRepository.save(sample2),
+                sampleRepository.save(sample3),
+                sampleRepository.save(sample4),
+                sampleRepository.save(sample5)
+        );
 
         final List<Sample> actualSamples = sampleService.getAll();
 
         assertThat(actualSamples.size(), is(expectedSamples.size()));
-        assertThat(actualSamples, new ObjectDeepDetailMatcher(expectedSamples));
+        assertThat(actualSamples, containsInAnyOrder(expectedSamples.toArray()));
     }
 
     @Test
@@ -75,9 +105,9 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void shouldVerifyTheRetrievalOfElementById() throws Exception {
         sample1 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        sampleRepository.save(sample1);
+        final Sample savedSample = sampleRepository.save(sample1);
 
-        assertThat(sampleService.findById(sample1.getId()).get(), new ObjectDeepDetailMatcher(sample1));
+        assertThat(sampleService.findById(sample1.getId()).get(), new ObjectDeepDetailMatcher(savedSample));
         assertThat(sampleService.findById(sample2.getId()).isPresent(), is(false));
         assertThat(sampleService.findById(sample3.getId()).isPresent(), is(false));
     }
