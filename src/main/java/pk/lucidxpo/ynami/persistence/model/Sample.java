@@ -9,7 +9,10 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
@@ -20,6 +23,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = true)
 public class Sample extends Auditable<String> {
     @Id
+    @GeneratedValue(strategy = SEQUENCE)
     @Column(nullable = false, updatable = false)
     private Long id;
     @Column

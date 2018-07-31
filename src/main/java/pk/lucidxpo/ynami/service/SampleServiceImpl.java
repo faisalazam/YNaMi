@@ -33,12 +33,12 @@ public class SampleServiceImpl implements SampleService {
 
     @Override
     public Sample create(Sample sample) {
-        return null;
+        return sampleRepository.save(sample);
     }
 
     @Override
     public Sample update(Sample sample) {
-        return null;
+        return sampleRepository.save(sample);
     }
 
     @Override

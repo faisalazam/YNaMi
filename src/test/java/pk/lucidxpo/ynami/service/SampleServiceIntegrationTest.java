@@ -49,35 +49,30 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         sampleRepository.deleteAll();
 
         sample1 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
         sample2 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
         sample3 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
         sample4 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
         sample5 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
@@ -136,7 +131,6 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void shouldVerifyTheRetrievalOfElementById() throws Exception {
         sample1 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
@@ -144,15 +138,13 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
                 .build();
         final Sample savedSample = sampleRepository.save(sample1);
 
-        assertThat(sampleService.findById(sample1.getId()).get(), new ObjectDeepDetailMatcher(savedSample));
-        assertThat(sampleService.findById(sample2.getId()).isPresent(), is(false));
-        assertThat(sampleService.findById(sample3.getId()).isPresent(), is(false));
+        assertThat(sampleService.findById(savedSample.getId()).get(), new ObjectDeepDetailMatcher(savedSample));
+        assertThat(sampleService.findById(valueOf(randomInt())).isPresent(), is(false));
     }
 
     @Test
     public void shouldVerifyTheExistenceOfElement() throws Exception {
         sample1 = builder()
-                .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
@@ -167,17 +159,53 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void create() throws Exception {
+        sample1 = builder()
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
+        final Sample createdSample = sampleService.create(sample1);
 
+        final Sample actualSample = sampleService.findById(createdSample.getId()).get();
+        assertThat(actualSample.isActive(), is(sample1.isActive()));
+        assertThat(actualSample.getAddress(), is(sample1.getAddress()));
+        assertThat(actualSample.getFirstName(), is(sample1.getFirstName()));
+        assertThat(actualSample.getLastName(), is(sample1.getLastName()));
     }
 
     @Test
     public void update() throws Exception {
+        sample1 = builder()
+                .active(true)
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
+        final Sample createdSample = sampleService.create(sample1);
 
+        final Sample actualCreatedSample = sampleService.findById(createdSample.getId()).get();
+        assertThat(actualCreatedSample.isActive(), is(sample1.isActive()));
+        assertThat(actualCreatedSample.getAddress(), is(sample1.getAddress()));
+        assertThat(actualCreatedSample.getFirstName(), is(sample1.getFirstName()));
+        assertThat(actualCreatedSample.getLastName(), is(sample1.getLastName()));
+
+        sample1.setActive(false);
+        sample1.setAddress("Dummy Address");
+        sample1.setFirstName("First Name");
+        sample1.setLastName("Last Name");
+        sampleService.update(sample1);
+
+        final Sample actualUpdatedSample = sampleService.findById(createdSample.getId()).get();
+        assertThat(actualUpdatedSample.isActive(), is(false));
+        assertThat(actualUpdatedSample.getAddress(), is("Dummy Address"));
+        assertThat(actualUpdatedSample.getFirstName(), is("First Name"));
+        assertThat(actualUpdatedSample.getLastName(), is("Last Name"));
     }
 
     @Test
     public void shouldVerifyTheDeletionOfElement() throws Exception {
-        sampleRepository.save(sample1);
+        sample1 = sampleRepository.save(sample1);
 
         assertThat(sampleService.findById(sample1.getId()).isPresent(), is(true));
 
@@ -198,12 +226,12 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         sample1.setActive(false);
         final Sample savedSample = sampleRepository.save(sample1);
 
-        assertThat(sampleService.findById(sample1.getId()).get().isActive(), is(false));
+        assertThat(sampleService.findById(savedSample.getId()).get().isActive(), is(false));
 
-        final Sample actualService = sampleService.updateStatus(sample1.getId(), updates);
+        final Sample actualService = sampleService.updateStatus(savedSample.getId(), updates);
 
         assertThat(actualService.isActive(), is(true));
-        assertThat(actualService.getId(), is(sample1.getId()));
+        assertThat(actualService.getId(), is(savedSample.getId()));
         assertThat(actualService.getFirstName(), is(sample1.getFirstName()));
         assertThat(actualService.getLastName(), is(sample1.getLastName()));
         assertThat(actualService.getAddress(), is(sample1.getAddress()));
