@@ -27,8 +27,8 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public boolean exists(Long id) {
-        return sampleRepository.existsById(id);
+    public boolean existsByFirstName(String firstName) {
+        return sampleRepository.existsByFirstName(firstName);
     }
 
     @Override

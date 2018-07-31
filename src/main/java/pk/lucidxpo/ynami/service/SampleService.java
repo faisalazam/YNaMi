@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface SampleService {
     List<Sample> getAll();
 
-    boolean exists(Long id);
+    boolean existsByFirstName(String firstName);
 
     Optional<Sample> findById(Long id);
 

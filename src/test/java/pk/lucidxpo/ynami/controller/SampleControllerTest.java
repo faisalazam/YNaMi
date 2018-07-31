@@ -7,20 +7,22 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
 import org.springframework.test.web.servlet.MockMvc;
+import pk.lucidxpo.ynami.persistence.dto.SampleCreationDTO;
+import pk.lucidxpo.ynami.persistence.dto.SampleDTO;
+import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
+import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.Sample;
 import pk.lucidxpo.ynami.service.SampleService;
-import pk.lucidxpo.ynami.testutils.ObjectDeepDetailMatcher;
 
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.assertj.core.util.Maps.newHashMap;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyMap;
@@ -30,7 +32,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,12 +46,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
-import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SampleControllerTest {
     private MockMvc mockMvc;
+
+    @Mock
+    private ModelMapper modelMapper;
 
     @Mock
     private SampleService sampleService;
@@ -78,12 +83,18 @@ public class SampleControllerTest {
 
     @Test
     public void shouldGetAllSamples() throws Exception {
-        List<Sample> expectedSamples = asList(
-                new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false)),
-                new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false))
-        );
+        final Sample sample1 = builder().build();
+        final Sample sample2 = builder().build();
+        final List<Sample> sampleList = asList(sample1, sample2);
+        given(sampleService.getAll()).willReturn(sampleList);
 
-        given(sampleService.getAll()).willReturn(expectedSamples);
+        final SampleDTO sampleDTO1 = SampleDTO.builder().build();
+        given(modelMapper.map(sample1, SampleDTO.class)).willReturn(sampleDTO1);
+
+        final SampleDTO sampleDTO2 = SampleDTO.builder().build();
+        given(modelMapper.map(sample2, SampleDTO.class)).willReturn(sampleDTO2);
+
+        final List<SampleDTO> expectedSamples = asList(sampleDTO1, sampleDTO2);
 
         mockMvc.perform(get("/samples"))
                 .andExpect(status().isOk())
@@ -92,25 +103,32 @@ public class SampleControllerTest {
                 .andReturn();
 
         verify(sampleService, times(1)).getAll();
-        verifyNoMoreInteractions(sampleService);
+        verify(modelMapper, times(2)).map(sample1, SampleDTO.class);
+        verify(modelMapper, times(2)).map(sample2, SampleDTO.class);
+        verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
     // =========================================== Get Sample By ID =========================================
 
     @Test
     public void shouldGetSampleById() throws Exception {
-        Sample expectedSample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        final Long id = valueOf(randomInt());
+        final Sample sample = builder().build();
 
-        given(sampleService.findById(expectedSample.getId())).willReturn(of(expectedSample));
+        given(sampleService.findById(id)).willReturn(of(sample));
 
-        mockMvc.perform(get("/samples/{id}/view", expectedSample.getId()))
+        final SampleDTO sampleDTO = SampleDTO.builder().build();
+        given(modelMapper.map(sample, SampleDTO.class)).willReturn(sampleDTO);
+
+        mockMvc.perform(get("/samples/{id}/view", id))
                 .andExpect(status().isFound())
                 .andExpect(forwardedUrl("viewSample"))
-                .andExpect(model().attribute("sample", expectedSample))
+                .andExpect(model().attribute("sample", sampleDTO))
                 .andReturn();
 
-        verify(sampleService, times(1)).findById(expectedSample.getId());
-        verifyNoMoreInteractions(sampleService);
+        verify(modelMapper, times(1)).map(sample, SampleDTO.class);
+        verify(sampleService, times(1)).findById(id);
+        verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
     @Test
@@ -125,51 +143,62 @@ public class SampleControllerTest {
 
         verify(sampleService, times(1)).findById(id);
         verifyNoMoreInteractions(sampleService);
+        verifyZeroInteractions(modelMapper);
     }
 
     // =========================================== Prepare New Sample Creation ==============================
 
     @Test
     public void shouldPrepareNewSampleCreation() throws Exception {
-        Sample expectedSample = new Sample();
+        final SampleCreationDTO expectedSample = SampleCreationDTO.builder().build();
 
         mockMvc.perform(get("/samples/new"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("createSample"))
-                .andExpect(model().attribute("sample", new ObjectDeepDetailMatcher(expectedSample)))
+                .andExpect(model().attribute("sample", expectedSample))
                 .andReturn();
+
+        verifyZeroInteractions(modelMapper, sampleService);
     }
 
     // =========================================== Create New Sample ========================================
 
     @Test
     public void shouldCreateNewSampleSuccessfully() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
+                .firstName(randomAlphabetic(5, 50))
+                .build();
 
-        given(sampleService.exists(sample.getId())).willReturn(false);
+        final Sample sample = builder().build();
+        given(sampleService.existsByFirstName(sampleCreationDTO.getFirstName())).willReturn(false);
         given(sampleService.create(sample)).willReturn(sample);
+        given(modelMapper.map(sampleCreationDTO, Sample.class)).willReturn(sample);
 
-        mockMvc.perform(post("/samples").flashAttr("sample", sample))
+        mockMvc.perform(post("/samples").flashAttr("sample", sampleCreationDTO))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
 
-        verify(sampleService, times(1)).exists(sample.getId());
+        verify(sampleService, times(1)).existsByFirstName(sampleCreationDTO.getFirstName());
         verify(sampleService, times(1)).create(sample);
-        verifyNoMoreInteractions(sampleService);
+        verify(modelMapper, times(1)).map(sampleCreationDTO, Sample.class);
+        verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
     @Test
     public void shouldNotCreateNewSampleWhenSampleAlreadyExistsAndReturnWith409ConflictStatus() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
+                .firstName(randomAlphabetic(5, 50))
+                .build();
 
-        given(sampleService.exists(sample.getId())).willReturn(true);
+        given(sampleService.existsByFirstName(sampleCreationDTO.getFirstName())).willReturn(true);
 
-        mockMvc.perform(post("/samples").flashAttr("sample", sample))
+        mockMvc.perform(post("/samples").flashAttr("sample", sampleCreationDTO))
                 .andExpect(status().isConflict())
                 .andExpect(forwardedUrl("createSample"));
 
-        verify(sampleService, times(1)).exists(sample.getId());
+        verify(sampleService, times(1)).existsByFirstName(sampleCreationDTO.getFirstName());
         verify(sampleService, never()).create(any(Sample.class));
+        verifyZeroInteractions(modelMapper);
         verifyNoMoreInteractions(sampleService);
     }
 
@@ -177,142 +206,149 @@ public class SampleControllerTest {
 
     @Test
     public void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
-        Sample expectedSample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        given(sampleService.findById(expectedSample.getId())).willReturn(of(expectedSample));
 
-        mockMvc.perform(get("/samples/{id}", expectedSample.getId()))
+        final Long id = valueOf(randomInt());
+        final Sample sample = Sample.builder().id(id).build();
+        given(sampleService.findById(id)).willReturn(of(sample));
+
+        final SampleUpdationDTO expectedSampleUpdationDTO = SampleUpdationDTO.builder().build();
+        given(modelMapper.map(sample, SampleUpdationDTO.class)).willReturn(expectedSampleUpdationDTO);
+
+        mockMvc.perform(get("/samples/{id}", id))
                 .andExpect(status().isFound())
                 .andExpect(forwardedUrl("editSample"))
-                .andExpect(model().attribute("sample", new ObjectDeepDetailMatcher(expectedSample)))
+                .andExpect(model().attribute("sample", expectedSampleUpdationDTO))
                 .andReturn();
-        verify(sampleService, times(1)).findById(expectedSample.getId());
-        verifyNoMoreInteractions(sampleService);
+        verify(sampleService, times(1)).findById(id);
+        verify(modelMapper, times(1)).map(sample, SampleUpdationDTO.class);
+        verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
     @Test
     public void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        Sample expectedSample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        given(sampleService.findById(expectedSample.getId())).willReturn(empty());
+        final Long id = valueOf(randomInt());
+        given(sampleService.findById(id)).willReturn(empty());
 
-        mockMvc.perform(get("/samples/{id}", expectedSample.getId()))
+        mockMvc.perform(get("/samples/{id}", id))
                 .andExpect(status().isNotFound())
                 .andExpect(forwardedUrl("editSample"))
                 .andExpect(model().attributeDoesNotExist("sample"))
                 .andReturn();
-        verify(sampleService, times(1)).findById(expectedSample.getId());
+        verify(sampleService, times(1)).findById(id);
         verifyNoMoreInteractions(sampleService);
+        verifyZeroInteractions(modelMapper);
     }
 
     // =========================================== Update Existing Sample ===================================
 
     @Test
     public void shouldUpdateSampleSuccessfully() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-
-        given(sampleService.findById(sample.getId())).willReturn(of(sample));
+        final Long id = valueOf(randomInt());
+        final Sample sample = builder().build();
+        given(sampleService.findById(id)).willReturn(of(sample));
         given(sampleService.update(sample)).willReturn(sample);
 
-        mockMvc.perform(put("/samples/{id}", sample.getId()).flashAttr("sample", sample))
+        final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder().build();
+        given(modelMapper.map(sampleUpdationDTO, Sample.class)).willReturn(sample);
+
+        mockMvc.perform(put("/samples/{id}", id).flashAttr("sample", sampleUpdationDTO))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
 
-        verify(sampleService, times(1)).findById(sample.getId());
+        verify(sampleService, times(1)).findById(id);
         verify(sampleService, times(1)).update(sample);
-        verifyNoMoreInteractions(sampleService);
+        verify(modelMapper, times(1)).map(sampleUpdationDTO, Sample.class);
+        verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
     @Test
     public void shouldNotUpdateAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        final Long id = valueOf(randomInt());
+        given(sampleService.findById(id)).willReturn(empty());
 
-        given(sampleService.findById(sample.getId())).willReturn(empty());
+        final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder().build();
 
-        mockMvc.perform(
-                put("/samples/{id}", sample.getId()).flashAttr("sample", sample))
+        mockMvc.perform(put("/samples/{id}", id).flashAttr("sample", sampleUpdationDTO))
                 .andExpect(status().isNotFound())
                 .andExpect(forwardedUrl("updateSample"));
 
-        verify(sampleService, times(1)).findById(sample.getId());
+        verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).update(any(Sample.class));
         verifyNoMoreInteractions(sampleService);
+        verifyZeroInteractions(modelMapper);
     }
 
     // =========================================== Patch Sample ============================================
 
     @Test
     public void shouldUpdateSamplePartiallySuccessfully() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        final Map<String, Object> updates = newHashMap("active", chooseOneOf(true, false));
+        final Long id = valueOf(randomInt());
+        final Sample sample = builder().build();
+        final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
-        given(sampleService.findById(sample.getId())).willReturn(of(sample));
-        given(sampleService.updateStatus(sample.getId(), updates)).willReturn(sample);
+        given(sampleService.findById(id)).willReturn(of(sample));
 
-        mockMvc.perform(
-                patch("/samples/{id}", sample.getId())
-                        .contentType(APPLICATION_JSON)
-                        .content(asJsonString(updates))
-        )
+        mockMvc.perform(patch("/samples/{id}", id).flashAttr("sample", sampleUpdateStatusDTO))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Sample state has been updated successfully"));
 
-        verify(sampleService, times(1)).findById(sample.getId());
-        verify(sampleService, times(1)).updateStatus(sample.getId(), updates);
+        verify(sampleService, times(1)).findById(id);
+        verify(sampleService, times(1)).update(sample);
+        verify(modelMapper, times(1)).map(sampleUpdateStatusDTO, sample);
         verifyNoMoreInteractions(sampleService);
     }
 
     @Test
     public void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        final Map<String, Object> updates = newHashMap("active", chooseOneOf(true, false));
+        final Long id = valueOf(randomInt());
+        final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
-        given(sampleService.findById(sample.getId())).willReturn(empty());
+        given(sampleService.findById(id)).willReturn(empty());
 
-        mockMvc.perform(
-                patch("/samples/{id}", sample.getId())
-                        .contentType(APPLICATION_JSON)
-                        .content(asJsonString(updates))
-        )
+        mockMvc.perform(patch("/samples/{id}", id).flashAttr("sample", sampleUpdateStatusDTO))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Sample not found"));
 
-        verify(sampleService, times(1)).findById(sample.getId());
+        verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).updateStatus(anyLong(), anyMap());
         verifyNoMoreInteractions(sampleService);
+        verifyZeroInteractions(modelMapper);
     }
 
     // =========================================== Delete Sample ============================================
 
     @Test
     public void shouldDeleteSampleSuccessfully() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        final Long id = valueOf(randomInt());
+        Sample sample = builder().build();
 
-        given(sampleService.findById(sample.getId())).willReturn(of(sample));
-        doNothing().when(sampleService).delete(sample.getId());
+        given(sampleService.findById(id)).willReturn(of(sample));
+        doNothing().when(sampleService).delete(id);
 
         mockMvc.perform(
-                delete("/samples/{id}", sample.getId()))
+                delete("/samples/{id}", id))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
 
-        verify(sampleService, times(1)).findById(sample.getId());
-        verify(sampleService, times(1)).delete(sample.getId());
+        verify(sampleService, times(1)).findById(id);
+        verify(sampleService, times(1)).delete(id);
         verifyNoMoreInteractions(sampleService);
     }
 
     @Test
     public void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        Sample sample = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-
-        given(sampleService.findById(sample.getId())).willReturn(empty());
+        final Long id = valueOf(randomInt());
+        given(sampleService.findById(id)).willReturn(empty());
 
         mockMvc.perform(
-                delete("/samples/{id}", sample.getId()))
+                delete("/samples/{id}", id))
                 .andExpect(status().isNotFound())
                 .andExpect(forwardedUrl("deleteSample"));
 
-        verify(sampleService, times(1)).findById(sample.getId());
+        verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).delete(anyLong());
         verifyNoMoreInteractions(sampleService);
+        verifyZeroInteractions(modelMapper);
     }
 
     public static String asJsonString(final Object obj) {

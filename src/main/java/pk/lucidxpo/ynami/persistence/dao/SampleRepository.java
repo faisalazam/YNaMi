@@ -6,4 +6,5 @@ import pk.lucidxpo.ynami.persistence.model.Sample;
 
 @Repository
 public interface SampleRepository extends JpaRepository<Sample, Long> {
+    boolean existsByFirstName(String firstName);
 }

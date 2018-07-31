@@ -25,6 +25,7 @@ import static org.joda.time.DateTimeUtils.setCurrentMillisFixed;
 import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
 import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
+import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 
@@ -47,11 +48,41 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     public void setup() {
         sampleRepository.deleteAll();
 
-        sample1 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        sample2 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        sample3 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        sample4 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
-        sample5 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        sample1 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
+        sample2 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
+        sample3 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
+        sample4 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
+        sample5 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
     }
 
     @Before
@@ -104,7 +135,13 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void shouldVerifyTheRetrievalOfElementById() throws Exception {
-        sample1 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+        sample1 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
         final Sample savedSample = sampleRepository.save(sample1);
 
         assertThat(sampleService.findById(sample1.getId()).get(), new ObjectDeepDetailMatcher(savedSample));
@@ -113,13 +150,19 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyTheExistanceOfElement() throws Exception {
-        sample1 = new Sample(valueOf(randomInt()), randomAlphabetic(5, 50), chooseOneOf(true, false));
+    public void shouldVerifyTheExistenceOfElement() throws Exception {
+        sample1 = builder()
+                .id(valueOf(randomInt()))
+                .active(chooseOneOf(true, false))
+                .address(randomAlphabetic(5, 50))
+                .firstName(randomAlphabetic(5, 50))
+                .lastName(randomAlphabetic(5, 50))
+                .build();
         sampleRepository.save(sample1);
 
-        assertThat(sampleService.exists(sample1.getId()), is(true));
-        assertThat(sampleService.exists(sample2.getId()), is(false));
-        assertThat(sampleService.exists(sample3.getId()), is(false));
+        assertThat(sampleService.existsByFirstName(sample1.getFirstName()), is(true));
+        assertThat(sampleService.existsByFirstName(sample2.getFirstName()), is(false));
+        assertThat(sampleService.existsByFirstName(sample3.getFirstName()), is(false));
     }
 
     @Test
@@ -144,21 +187,27 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatOnlyStatusIsUpdatedOnUpdateStatusWhenElemendSpecifiedByIdIsFound() throws Exception {
+    public void shouldVerifyThatOnlyStatusIsUpdatedOnUpdateStatusWhenElementSpecifiedByIdIsFound() throws Exception {
         final Map<String, Object> updates = newHashMap();
         updates.put("id", "12");
-        updates.put("name", "test");
+        updates.put("firstName", "test first");
+        updates.put("lastName", "test last");
+        updates.put("address", "test address");
         updates.put("active", "true");
 
         sample1.setActive(false);
-        sampleRepository.save(sample1);
+        final Sample savedSample = sampleRepository.save(sample1);
 
         assertThat(sampleService.findById(sample1.getId()).get().isActive(), is(false));
 
         final Sample actualService = sampleService.updateStatus(sample1.getId(), updates);
 
-        assertThat(actualService.getId(), is(sample1.getId()));
-        assertThat(actualService.getName(), is(sample1.getName()));
         assertThat(actualService.isActive(), is(true));
+        assertThat(actualService.getId(), is(sample1.getId()));
+        assertThat(actualService.getFirstName(), is(sample1.getFirstName()));
+        assertThat(actualService.getLastName(), is(sample1.getLastName()));
+        assertThat(actualService.getAddress(), is(sample1.getAddress()));
+
+        assertThat(actualService.getLastModifiedDate().isAfter(savedSample.getLastModifiedDate()), is(true));
     }
 }
