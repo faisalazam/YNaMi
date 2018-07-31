@@ -98,7 +98,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(get("/samples"))
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("listSamples"))
+                .andExpect(forwardedUrl("sample/listSamples"))
                 .andExpect(model().attribute("samples", expectedSamples))
                 .andReturn();
 
@@ -122,7 +122,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(get("/samples/{id}/view", id))
                 .andExpect(status().isFound())
-                .andExpect(forwardedUrl("viewSample"))
+                .andExpect(forwardedUrl("sample/viewSample"))
                 .andExpect(model().attribute("sample", sampleDTO))
                 .andReturn();
 
@@ -138,7 +138,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(get("/samples/{id}/view", id))
                 .andExpect(status().isNotFound())
-                .andExpect(forwardedUrl("viewSample"))
+                .andExpect(forwardedUrl("sample/viewSample"))
                 .andExpect(model().attributeDoesNotExist("sample"));
 
         verify(sampleService, times(1)).findById(id);
@@ -154,7 +154,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(get("/samples/new"))
                 .andExpect(status().isOk())
-                .andExpect(forwardedUrl("createSample"))
+                .andExpect(forwardedUrl("sample/createSample"))
                 .andExpect(model().attribute("sample", expectedSample))
                 .andReturn();
 
@@ -194,7 +194,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(post("/samples").flashAttr("sample", sampleCreationDTO))
                 .andExpect(status().isConflict())
-                .andExpect(forwardedUrl("createSample"));
+                .andExpect(forwardedUrl("sample/createSample"));
 
         verify(sampleService, times(1)).existsByFirstName(sampleCreationDTO.getFirstName());
         verify(sampleService, never()).create(any(Sample.class));
@@ -216,7 +216,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(get("/samples/{id}", id))
                 .andExpect(status().isFound())
-                .andExpect(forwardedUrl("editSample"))
+                .andExpect(forwardedUrl("sample/editSample"))
                 .andExpect(model().attribute("sample", expectedSampleUpdationDTO))
                 .andReturn();
         verify(sampleService, times(1)).findById(id);
@@ -231,7 +231,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(get("/samples/{id}", id))
                 .andExpect(status().isNotFound())
-                .andExpect(forwardedUrl("editSample"))
+                .andExpect(forwardedUrl("sample/editSample"))
                 .andExpect(model().attributeDoesNotExist("sample"))
                 .andReturn();
         verify(sampleService, times(1)).findById(id);
@@ -249,7 +249,7 @@ public class SampleControllerTest {
         given(sampleService.update(sample)).willReturn(sample);
 
         final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder().build();
-        given(modelMapper.map(sampleUpdationDTO, Sample.class)).willReturn(sample);
+        doNothing().when(modelMapper).map(sampleUpdationDTO, sample);
 
         mockMvc.perform(put("/samples/{id}", id).flashAttr("sample", sampleUpdationDTO))
                 .andExpect(status().is3xxRedirection())
@@ -257,7 +257,7 @@ public class SampleControllerTest {
 
         verify(sampleService, times(1)).findById(id);
         verify(sampleService, times(1)).update(sample);
-        verify(modelMapper, times(1)).map(sampleUpdationDTO, Sample.class);
+        verify(modelMapper, times(1)).map(sampleUpdationDTO, sample);
         verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
@@ -270,7 +270,7 @@ public class SampleControllerTest {
 
         mockMvc.perform(put("/samples/{id}", id).flashAttr("sample", sampleUpdationDTO))
                 .andExpect(status().isNotFound())
-                .andExpect(forwardedUrl("updateSample"));
+                .andExpect(forwardedUrl("sample/updateSample"));
 
         verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).update(any(Sample.class));
@@ -343,7 +343,7 @@ public class SampleControllerTest {
         mockMvc.perform(
                 delete("/samples/{id}", id))
                 .andExpect(status().isNotFound())
-                .andExpect(forwardedUrl("deleteSample"));
+                .andExpect(forwardedUrl("sample/deleteSample"));
 
         verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).delete(anyLong());

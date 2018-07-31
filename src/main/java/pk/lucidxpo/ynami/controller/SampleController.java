@@ -58,13 +58,13 @@ public class SampleController {
 
         model.addAttribute("samples", sampleDTOs);
 
-        return "listSamples";
+        return "sample/listSamples";
     }
 
     @GetMapping(value = "/samples/new")
     public String prepareSampleCreation(final Model model) {
         model.addAttribute("sample", SampleCreationDTO.builder().build());
-        return "createSample";
+        return "sample/createSample";
     }
 
     @PostMapping(value = "/samples")
@@ -72,7 +72,7 @@ public class SampleController {
                                final HttpServletResponse response) {
         if (sampleService.existsByFirstName(sampleCreationDTO.getFirstName())) {
             response.setStatus(CONFLICT.value());
-            return "createSample";
+            return "sample/createSample";
         }
         final Sample sample = modelMapper.map(sampleCreationDTO, Sample.class);
         sampleService.create(sample);
@@ -90,7 +90,7 @@ public class SampleController {
         } else {
             response.setStatus(NOT_FOUND.value());
         }
-        return "viewSample";
+        return "sample/viewSample";
     }
 
     @GetMapping(value = "/samples/{id}")
@@ -103,7 +103,7 @@ public class SampleController {
         } else {
             response.setStatus(NOT_FOUND.value());
         }
-        return "editSample";
+        return "sample/editSample";
     }
 
     @PutMapping(value = "/samples/{id}")
@@ -112,12 +112,13 @@ public class SampleController {
                                final HttpServletResponse response) {
         final Optional<Sample> optionalSample = sampleService.findById(id);
         if (optionalSample.isPresent()) {
-            final Sample sample = modelMapper.map(sampleUpdationDTO, Sample.class);
+            final Sample sample = optionalSample.get();
+            modelMapper.map(sampleUpdationDTO, sample);
             sampleService.update(sample);
             return "redirect:/samples";
         }
         response.setStatus(NOT_FOUND.value());
-        return "updateSample";
+        return "sample/updateSample";
     }
 
     @DeleteMapping(value = "/samples/{id}")
@@ -129,7 +130,7 @@ public class SampleController {
             return "redirect:/samples";
         }
         response.setStatus(NOT_FOUND.value());
-        return "deleteSample";
+        return "sample/deleteSample";
     }
 
     @PatchMapping(value = "/samples/{id}")
