@@ -20,6 +20,7 @@ import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.Sample;
 import pk.lucidxpo.ynami.service.SampleService;
+import pk.lucidxpo.ynami.spring.features.FeatureAssociation;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +32,8 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.FEATURE_ONE;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.CONDITIONAL_STATEMENTS_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.METHOD_EXECUTION;
 
 @Controller
 public class SampleController {
@@ -49,13 +51,14 @@ public class SampleController {
     private FeatureManagerWrapper featureManager;
 
     @RequestMapping("/")
+    @FeatureAssociation(value = METHOD_EXECUTION)
     public String welcome(Model model) {
         model.addAttribute("message", message);
 
-        if (featureManager.isActive(FEATURE_ONE)) {
-            model.addAttribute("featureStatus", FEATURE_ONE.name() + " is enabled.");
+        if (featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)) {
+            model.addAttribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled.");
         } else {
-            model.addAttribute("featureStatus", FEATURE_ONE.name() + " is disabled.");
+            model.addAttribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled.");
         }
 
         return "welcome";

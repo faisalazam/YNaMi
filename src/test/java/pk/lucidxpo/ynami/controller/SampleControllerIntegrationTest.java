@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.util.NestedServletException;
+import org.thymeleaf.exceptions.TemplateInputException;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.SampleRepository;
 import pk.lucidxpo.ynami.persistence.dto.SampleCreationDTO;
@@ -18,9 +20,11 @@ import java.util.List;
 import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.data.domain.Example.of;
 import static org.springframework.data.domain.ExampleMatcher.matching;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -34,7 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.FEATURE_ONE;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.CONDITIONAL_STATEMENTS_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.METHOD_EXECUTION;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 
@@ -56,24 +61,41 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================== Verify Feature Toggles are working as expected ===========================
 
     @Test
+    public void shouldNotExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+        featureManager.deactivate(METHOD_EXECUTION);
+
+        try {
+            mockMvc.perform(get("/"));
+            fail("TemplateInputException should have been thrown, " +
+                    "as empty string for template name is returned " +
+                    "because method execution is not allowed due to feature being disabled");
+        } catch (Exception e) {
+            assertThat(e, instanceOf(NestedServletException.class));
+            assertThat(e.getCause(), instanceOf(TemplateInputException.class));
+        }
+    }
+
+    @Test
     public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
-        featureManager.activate(FEATURE_ONE);
+        featureManager.activate(CONDITIONAL_STATEMENTS_EXECUTION);
+        featureManager.activate(METHOD_EXECUTION);
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("welcome"))
-                .andExpect(model().attribute("featureStatus", FEATURE_ONE.name() + " is enabled."))
+                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled."))
                 .andReturn();
     }
 
     @Test
     public void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
-        featureManager.deactivate(FEATURE_ONE);
+        featureManager.deactivate(CONDITIONAL_STATEMENTS_EXECUTION);
+        featureManager.activate(METHOD_EXECUTION);
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("welcome"))
-                .andExpect(model().attribute("featureStatus", FEATURE_ONE.name() + " is disabled."))
+                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled."))
                 .andReturn();
     }
 
