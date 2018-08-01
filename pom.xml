@@ -77,6 +77,13 @@
             <version>${togglz.version}</version>
         </dependency>
 
+        <!-- Togglz Admin Console -->
+        <dependency>
+            <groupId>org.togglz</groupId>
+            <artifactId>togglz-console</artifactId>
+            <version>${togglz.version}</version>
+        </dependency>
+
 		<!-- hot swapping, disable cache for template, enable live reload -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
