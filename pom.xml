@@ -9,7 +9,11 @@
 	<packaging>jar</packaging>
 
 	<name>YNaMi</name>
-	<description>YNaMi -&gt; Why Not Me: Template project to help with future projects. It aims to provide a template with web layout, database, database migrations, auditing, testing, feature toggles, security etc.</description>
+	<description>
+        YNaMi -&gt; Why Not Me: Template project to help with future projects.
+        It aims to provide a template with web layout, database, database migrations, auditing,
+        unit/integration/performance/acceptance testing, log rotation, feature toggles, security, actuator etc.
+    </description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -47,6 +51,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- MySql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -58,6 +63,12 @@
             <artifactId>h2</artifactId>
         </dependency>
 
+        <!-- Actuator, helps with monitoring our app, gathering metrics, understanding traffic or the state of database  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
 		<!-- hot swapping, disable cache for template, enable live reload -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -65,6 +76,7 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- ModelMapper used for object to object conversion -->
         <dependency>
             <groupId>com.github.rozidan</groupId>
             <artifactId>modelmapper-spring-boot-starter</artifactId>
@@ -87,6 +99,7 @@
             <scope>provided</scope>
         </dependency>
 
+		<!-- Webjars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
