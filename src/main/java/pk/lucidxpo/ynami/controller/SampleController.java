@@ -20,6 +20,7 @@ import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.Sample;
 import pk.lucidxpo.ynami.service.SampleService;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -30,6 +31,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.FEATURE_ONE;
 
 @Controller
 public class SampleController {
@@ -43,9 +45,19 @@ public class SampleController {
     @Autowired
     private SampleService sampleService;
 
+    @Autowired
+    private FeatureManagerWrapper featureManager;
+
     @RequestMapping("/")
     public String welcome(Model model) {
         model.addAttribute("message", message);
+
+        if (featureManager.isActive(FEATURE_ONE)) {
+            model.addAttribute("featureStatus", FEATURE_ONE.name() + " is enabled.");
+        } else {
+            model.addAttribute("featureStatus", FEATURE_ONE.name() + " is disabled.");
+        }
+
         return "welcome";
     }
 

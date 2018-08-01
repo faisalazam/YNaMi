@@ -11,6 +11,7 @@ import pk.lucidxpo.ynami.persistence.dto.SampleDTO;
 import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.Sample;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.FEATURE_ONE;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 
@@ -43,9 +45,36 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private SampleRepository sampleRepository;
 
+    @Autowired
+    private FeatureManagerWrapper featureManager;
+
     @Before
     public void setup() {
         sampleRepository.deleteAll();
+    }
+
+    // =========================== Verify Feature Toggles are working as expected ===========================
+
+    @Test
+    public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+        featureManager.activate(FEATURE_ONE);
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("welcome"))
+                .andExpect(model().attribute("featureStatus", FEATURE_ONE.name() + " is enabled."))
+                .andReturn();
+    }
+
+    @Test
+    public void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
+        featureManager.deactivate(FEATURE_ONE);
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("welcome"))
+                .andExpect(model().attribute("featureStatus", FEATURE_ONE.name() + " is disabled."))
+                .andReturn();
     }
 
     // =========================================== Get All Samples ==========================================

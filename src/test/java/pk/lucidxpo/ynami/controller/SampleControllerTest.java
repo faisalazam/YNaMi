@@ -15,6 +15,7 @@ import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.Sample;
 import pk.lucidxpo.ynami.service.SampleService;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
+import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.FEATURE_ONE;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,6 +60,9 @@ public class SampleControllerTest {
 
     @Mock
     private SampleService sampleService;
+
+    @Mock
+    private FeatureManagerWrapper featureManager;
 
     @InjectMocks
     private SampleController sampleController;
@@ -76,6 +81,30 @@ public class SampleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("welcome"))
                 .andExpect(model().attribute("message", "Welcome Crazy"))
+                .andReturn();
+    }
+
+    // =========================== Verify Feature Toggles are working as expected ===========================
+
+    @Test
+    public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+        given(featureManager.isActive(FEATURE_ONE)).willReturn(true);
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("welcome"))
+                .andExpect(model().attribute("featureStatus", FEATURE_ONE.name() + " is enabled."))
+                .andReturn();
+    }
+
+    @Test
+    public void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
+        given(featureManager.isActive(FEATURE_ONE)).willReturn(false);
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("welcome"))
+                .andExpect(model().attribute("featureStatus", FEATURE_ONE.name() + " is disabled."))
                 .andReturn();
     }
 
