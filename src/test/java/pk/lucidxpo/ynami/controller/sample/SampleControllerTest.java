@@ -15,7 +15,6 @@ import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.service.sample.SampleService;
-import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import java.util.List;
 
@@ -48,7 +47,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.CONDITIONAL_STATEMENTS_EXECUTION;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,9 +58,6 @@ public class SampleControllerTest {
 
     @Mock
     private SampleService sampleService;
-
-    @Mock
-    private FeatureManagerWrapper featureManager;
 
     @InjectMocks
     private SampleController sampleController;
@@ -81,30 +76,6 @@ public class SampleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("welcome"))
                 .andExpect(model().attribute("message", "Welcome Crazy"))
-                .andReturn();
-    }
-
-    // =========================== Verify Feature Toggles are working as expected ===========================
-
-    @Test
-    public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
-        given(featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)).willReturn(true);
-
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("welcome"))
-                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled."))
-                .andReturn();
-    }
-
-    @Test
-    public void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
-        given(featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)).willReturn(false);
-
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("welcome"))
-                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled."))
                 .andReturn();
     }
 
