@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami.spring.features;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
 import org.togglz.core.manager.EnumBasedFeatureProvider;
@@ -27,6 +28,9 @@ import static pk.lucidxpo.ynami.testutils.ReflectionHelper.getField;
         "togglz.caching.state.repository.ttl=5000"
 })
 public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest {
+    @Value("${togglz.console.path}")
+    private String togglzConsolePath;
+
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -48,7 +52,7 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
 
     @Test
     public void shouldVerifyThatTogglzAdminConsoleIsAccessibleWhenTogglzConsoleIsEnabled() throws Exception {
-        mockMvc.perform(get("/actuator/togglz"))
+        mockMvc.perform(get(togglzConsolePath))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/vnd.spring-boot.actuator.v2+json;charset=UTF-8"))
                 .andExpect(content().string(containsString(chooseOneOf(values()).name())))
