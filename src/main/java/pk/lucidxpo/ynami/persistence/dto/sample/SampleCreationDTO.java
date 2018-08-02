@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.persistence.dto;
+package pk.lucidxpo.ynami.persistence.dto.sample;
 
 import lombok.Builder;
 import lombok.Data;

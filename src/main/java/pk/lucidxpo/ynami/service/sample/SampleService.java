@@ -1,6 +1,6 @@
-package pk.lucidxpo.ynami.service;
+package pk.lucidxpo.ynami.service.sample;
 
-import pk.lucidxpo.ynami.persistence.model.Sample;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 
 import java.util.List;
 import java.util.Map;

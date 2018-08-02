@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.controller;
+package pk.lucidxpo.ynami.controller.sample;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pk.lucidxpo.ynami.persistence.dto.SampleCreationDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
-import pk.lucidxpo.ynami.persistence.model.Sample;
-import pk.lucidxpo.ynami.service.SampleService;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
+import pk.lucidxpo.ynami.service.sample.SampleService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

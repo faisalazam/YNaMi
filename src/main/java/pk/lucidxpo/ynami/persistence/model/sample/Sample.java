@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.persistence.model;
+package pk.lucidxpo.ynami.persistence.model.sample;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pk.lucidxpo.ynami.persistence.model.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

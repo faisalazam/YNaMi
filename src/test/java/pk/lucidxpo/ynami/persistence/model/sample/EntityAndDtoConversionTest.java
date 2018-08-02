@@ -1,10 +1,10 @@
-package pk.lucidxpo.ynami.persistence.model;
+package pk.lucidxpo.ynami.persistence.model.sample;
 
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
-import pk.lucidxpo.ynami.persistence.dto.SampleCreationDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 
 import static java.lang.Long.valueOf;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;

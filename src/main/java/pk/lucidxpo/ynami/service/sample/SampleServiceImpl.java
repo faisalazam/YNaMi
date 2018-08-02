@@ -1,9 +1,9 @@
-package pk.lucidxpo.ynami.service;
+package pk.lucidxpo.ynami.service.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pk.lucidxpo.ynami.persistence.dao.SampleRepository;
-import pk.lucidxpo.ynami.persistence.model.Sample;
+import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 
 import java.util.List;
 import java.util.Map;

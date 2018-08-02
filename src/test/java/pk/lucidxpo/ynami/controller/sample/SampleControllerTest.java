@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.controller;
+package pk.lucidxpo.ynami.controller.sample;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -9,12 +9,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.web.servlet.MockMvc;
-import pk.lucidxpo.ynami.persistence.dto.SampleCreationDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleUpdateStatusDTO;
-import pk.lucidxpo.ynami.persistence.dto.SampleUpdationDTO;
-import pk.lucidxpo.ynami.persistence.model.Sample;
-import pk.lucidxpo.ynami.service.SampleService;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
+import pk.lucidxpo.ynami.service.sample.SampleService;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import java.util.List;
@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
+import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.CONDITIONAL_STATEMENTS_EXECUTION;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 

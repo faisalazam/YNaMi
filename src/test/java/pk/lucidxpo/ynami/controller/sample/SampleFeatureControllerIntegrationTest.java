@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.controller;
+package pk.lucidxpo.ynami.controller.sample;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

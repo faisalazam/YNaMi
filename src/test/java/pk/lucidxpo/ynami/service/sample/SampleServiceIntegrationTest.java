@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.service;
+package pk.lucidxpo.ynami.service.sample;
 
 import org.joda.time.LocalDateTime;
 import org.junit.After;
@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
-import pk.lucidxpo.ynami.persistence.dao.SampleRepository;
-import pk.lucidxpo.ynami.persistence.model.Sample;
+import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.testutils.ObjectDeepDetailMatcher;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import static org.joda.time.DateTimeUtils.setCurrentMillisFixed;
 import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
 import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
-import static pk.lucidxpo.ynami.persistence.model.Sample.builder;
+import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
 import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 

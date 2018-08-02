@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.controller;
+package pk.lucidxpo.ynami.controller.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
