@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.values;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.values;
 import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
 import static pk.lucidxpo.ynami.testutils.ReflectionHelper.getField;
 

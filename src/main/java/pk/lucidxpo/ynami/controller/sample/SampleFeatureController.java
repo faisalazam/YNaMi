@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pk.lucidxpo.ynami.spring.features.FeatureAssociation;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.CONDITIONAL_STATEMENTS_EXECUTION;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.METHOD_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
 
 @Controller
 public class SampleFeatureController {

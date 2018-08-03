@@ -26,7 +26,7 @@ public class TogglzConfiguration {
 
     @Bean
     public FeatureProvider featureProvider() {
-        return new EnumBasedFeatureProvider(AvailableFeatures.class);
+        return new EnumBasedFeatureProvider(FeatureToggles.class);
     }
 
     /*

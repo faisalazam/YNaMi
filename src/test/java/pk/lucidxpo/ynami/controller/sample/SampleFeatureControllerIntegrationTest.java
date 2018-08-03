@@ -14,8 +14,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.CONDITIONAL_STATEMENTS_EXECUTION;
-import static pk.lucidxpo.ynami.spring.features.AvailableFeatures.METHOD_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
 
 public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
 
