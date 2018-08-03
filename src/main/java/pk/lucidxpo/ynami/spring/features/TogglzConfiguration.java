@@ -1,6 +1,5 @@
 package pk.lucidxpo.ynami.spring.features;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -13,15 +12,6 @@ import javax.sql.DataSource;
 
 @Configuration
 public class TogglzConfiguration {
-    @Autowired
-    private DataSource dataSource;
-
-    @Value("${togglz.table.name}")
-    private String tableName;
-
-    @Value("${togglz.caching.state.repository.ttl}")
-    private Long cachingStateRepositoryTtl;
-
     /*
      * The CachingStateRepository will act as a cache for persistentStateRepository.
      * It will cache the results for 'cachingStateRepositoryTtl' milliseconds. If you omit the timeout, lookups will be cached
@@ -30,7 +20,9 @@ public class TogglzConfiguration {
      */
     @Bean
     @ConditionalOnProperty(name = "config.persistable.feature.toggles", havingValue = "true")
-    public StateRepository getStateRepository() {
+    public StateRepository getStateRepository(final DataSource dataSource,
+                                              @Value("${togglz.table.name}") final String tableName,
+                                              @Value("${togglz.caching.state.repository.ttl}") final Long cachingStateRepositoryTtl) {
         final StateRepository persistentStateRepository = new JDBCStateRepository(dataSource, tableName);
         return new CachingStateRepository(persistentStateRepository, cachingStateRepositoryTtl);
     }
