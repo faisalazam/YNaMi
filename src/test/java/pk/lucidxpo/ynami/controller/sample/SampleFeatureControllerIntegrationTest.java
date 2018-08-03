@@ -7,15 +7,18 @@ import org.thymeleaf.exceptions.TemplateInputException;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.TOGGLEABLE_SERVICE;
 
 public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
 
@@ -48,7 +51,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
         mockMvc.perform(get("/feature-test"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("welcome"))
-                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled."))
+                .andExpect(model().attribute("message", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled."))
                 .andReturn();
     }
 
@@ -60,7 +63,27 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
         mockMvc.perform(get("/feature-test"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("welcome"))
-                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled."))
+                .andExpect(model().attribute("message", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled."))
+                .andReturn();
+    }
+
+    @Test
+    public void shouldInvokeNewToggleableServiceWhenToggleableServiceFeatureToggleIsEnabled() throws Exception {
+        featureManager.activate(TOGGLEABLE_SERVICE);
+
+        mockMvc.perform(get("/some-service"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Value from new service implementation")))
+                .andReturn();
+    }
+
+    @Test
+    public void shouldInvokeOldToggleableServiceWhenToggleableServiceFeatureToggleIsNotEnabled() throws Exception {
+        featureManager.deactivate(TOGGLEABLE_SERVICE);
+
+        mockMvc.perform(get("/some-service"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Value from old service implementation")))
                 .andReturn();
     }
 }

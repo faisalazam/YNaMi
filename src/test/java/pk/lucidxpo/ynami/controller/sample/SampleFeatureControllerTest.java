@@ -34,24 +34,24 @@ public class SampleFeatureControllerTest {
     // =========================== Verify Feature Toggles are working as expected ===========================
 
     @Test
-    public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+    public void shouldExpectEnabledMessageWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
         given(featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)).willReturn(true);
 
         mockMvc.perform(get("/feature-test"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("welcome"))
-                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled."))
+                .andExpect(model().attribute("message", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is enabled."))
                 .andReturn();
     }
 
     @Test
-    public void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
+    public void shouldExpectDisabledMessageWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
         given(featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)).willReturn(false);
 
         mockMvc.perform(get("/feature-test"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("welcome"))
-                .andExpect(model().attribute("featureStatus", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled."))
+                .andExpect(model().attribute("message", CONDITIONAL_STATEMENTS_EXECUTION.name() + " is disabled."))
                 .andReturn();
     }
 }
