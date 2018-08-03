@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.togglz.core.manager.EnumBasedFeatureProvider;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.repository.cache.CachingStateRepository;
 import org.togglz.core.repository.jdbc.JDBCStateRepository;
-import org.togglz.core.spi.FeatureProvider;
 
 import javax.sql.DataSource;
 
@@ -23,11 +21,6 @@ public class TogglzConfiguration {
 
     @Value("${togglz.caching.state.repository.ttl}")
     private Long cachingStateRepositoryTtl;
-
-    @Bean
-    public FeatureProvider featureProvider() {
-        return new EnumBasedFeatureProvider(FeatureToggles.class);
-    }
 
     /*
      * The CachingStateRepository will act as a cache for persistentStateRepository.

@@ -7,6 +7,5 @@ public enum FeatureToggles implements Feature {
     METHOD_EXECUTION,
     CONDITIONAL_STATEMENTS_EXECUTION,
     MAKE_COFFEE,
-    MAKE_MILK,
     MAKE_TEA
 }

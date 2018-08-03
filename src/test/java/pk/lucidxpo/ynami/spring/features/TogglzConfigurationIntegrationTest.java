@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
-import org.togglz.core.manager.EnumBasedFeatureProvider;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.repository.jdbc.JDBCStateRepository;
 import org.togglz.core.spi.FeatureProvider;
@@ -37,7 +36,7 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
     @Test
     public void shouldVerifyThatFeatureProviderBeanExists() {
         final FeatureProvider featureProvider = applicationContext.getBean(FeatureProvider.class);
-        assertThat(featureProvider, instanceOf(EnumBasedFeatureProvider.class));
+        assertThat(featureProvider, instanceOf(CustomFeatureProvider.class));
     }
 
     @Test

@@ -1,0 +1,31 @@
+togglz:
+  table:
+    name: FeatureToggles
+  caching:
+    state.repository.ttl: 10000
+  console:
+    enabled: true
+    secured: false
+    path: /actuator/togglz
+    use-management-port: false
+  features:
+    CONTROLLER_EXECUTION:
+      enabled: true
+      label: Make Controller executable
+      group: Sample
+    METHOD_EXECUTION:
+      enabled: true
+      label: Make Method executable
+      group: Sample
+    CONDITIONAL_STATEMENTS_EXECUTION:
+      enabled: true
+      label: Make Statement executable
+      group: Sample
+    MAKE_COFFEE:
+      enabled: true
+      label: Making a cup of coffee
+      group: Brewing
+    MAKE_TEA:
+      enabled: true
+      label: Making a cup of tea
+      group: Brewing
