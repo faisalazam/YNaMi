@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pk.lucidxpo.ynami.service.sample.ToggleableService;
-import pk.lucidxpo.ynami.spring.features.FeatureAssociation;
+import pk.lucidxpo.ynami.spring.aspect.FeatureAssociation;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
 
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;

@@ -1,4 +1,6 @@
-package pk.lucidxpo.ynami.spring.features;
+package pk.lucidxpo.ynami.spring.aspect;
+
+import pk.lucidxpo.ynami.spring.features.FeatureToggles;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
