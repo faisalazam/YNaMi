@@ -64,6 +64,13 @@
             <artifactId>h2</artifactId>
         </dependency>
 
+        <!-- Database migrations using Flyway -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>5.1.4</version>
+        </dependency>
+
         <!-- Actuator, helps with monitoring our app, gathering metrics, understanding traffic or the state of database  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
