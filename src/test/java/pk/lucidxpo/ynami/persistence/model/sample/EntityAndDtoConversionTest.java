@@ -10,8 +10,8 @@ import static java.lang.Long.valueOf;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
-import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
+import static pk.lucidxpo.ynami.utils.Identity.randomInt;
+import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 public class EntityAndDtoConversionTest {
     private ModelMapper modelMapper = new ModelMapper();

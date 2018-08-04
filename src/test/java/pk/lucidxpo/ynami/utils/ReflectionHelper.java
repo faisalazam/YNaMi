@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.testutils;
+package pk.lucidxpo.ynami.utils;
 
 import org.slf4j.Logger;
 import org.springframework.aop.framework.Advised;

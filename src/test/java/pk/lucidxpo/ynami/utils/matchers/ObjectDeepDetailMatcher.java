@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.testutils;
+package pk.lucidxpo.ynami.utils.matchers;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.BaseMatcher;

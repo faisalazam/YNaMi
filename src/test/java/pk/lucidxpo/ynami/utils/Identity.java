@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.testutils;
+package pk.lucidxpo.ynami.utils;
 
 import java.security.SecureRandom;
 import java.util.UUID;

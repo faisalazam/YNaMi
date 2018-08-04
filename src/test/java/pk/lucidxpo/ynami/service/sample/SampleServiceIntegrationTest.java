@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
-import pk.lucidxpo.ynami.testutils.ObjectDeepDetailMatcher;
+import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import java.util.List;
 import java.util.Map;
@@ -26,8 +26,8 @@ import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
 import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
-import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
-import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
+import static pk.lucidxpo.ynami.utils.Identity.randomInt;
+import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     private static final long FROZEN_TIME = new LocalDateTime().toDateTime().getMillis();

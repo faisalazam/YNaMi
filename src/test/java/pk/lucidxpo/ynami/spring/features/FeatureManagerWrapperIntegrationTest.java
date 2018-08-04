@@ -10,7 +10,7 @@ import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.values;
-import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
+import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 public class FeatureManagerWrapperIntegrationTest extends AbstractIntegrationTest {
     @Autowired

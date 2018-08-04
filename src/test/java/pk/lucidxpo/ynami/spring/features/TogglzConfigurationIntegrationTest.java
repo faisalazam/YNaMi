@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.values;
-import static pk.lucidxpo.ynami.testutils.Randomly.chooseOneOf;
-import static pk.lucidxpo.ynami.testutils.ReflectionHelper.getField;
+import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
+import static pk.lucidxpo.ynami.utils.ReflectionHelper.getField;
 
 @TestPropertySource(properties = {
         "togglz.table.name=FeatureToggles",

@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.testutils;
+package pk.lucidxpo.ynami.utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;

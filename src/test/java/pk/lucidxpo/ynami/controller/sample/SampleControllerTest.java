@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
-import static pk.lucidxpo.ynami.testutils.Identity.randomInt;
+import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SampleControllerTest {
