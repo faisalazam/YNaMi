@@ -11,8 +11,10 @@
 	<name>YNaMi</name>
 	<description>
         YNaMi -&gt; Why Not Me: Template project to help with future projects.
-        It aims to provide a template with web layout, database, database migrations, auditing,
-        unit/integration/performance/acceptance testing, log rotation, feature toggles, security, actuator etc.
+        It aims to provide a template with web layout, database, database migrations/data patches, auditing,
+		HTTPMessagingService, unit/integration/performance/acceptance testing, log rotation, feature toggles,
+		security, http->https, controller with basic (and toggleable) http methods, DTO->Entity, actuator,
+        classes with proper profiles etc.
     </description>
 
 	<parent>
@@ -26,7 +28,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+        <jquery.version>3.3.1-1</jquery.version>
         <togglz.version>2.6.1.Final</togglz.version>
+        <commons.io.version>2.6</commons.io.version>
+        <bootstrap.version>3.3.7-1</bootstrap.version>
+        <flyway.core.version>5.1.4</flyway.core.version>
+        <modelmapper.version>1.0.0</modelmapper.version>
+        <commons.lang.version>3.7</commons.lang.version>
+        <font.awesome.version>5.1.0</font.awesome.version>
 	</properties>
 
 	<dependencies>
@@ -68,7 +77,7 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>5.1.4</version>
+            <version>${flyway.core.version}</version>
         </dependency>
 
         <!-- Actuator, helps with monitoring our app, gathering metrics, understanding traffic or the state of database  -->
@@ -102,14 +111,19 @@
         <dependency>
             <groupId>com.github.rozidan</groupId>
             <artifactId>modelmapper-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
+            <version>${modelmapper.version}</version>
         </dependency>
 
         <!-- Utilities -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.7</version>
+			<version>${commons.lang.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
 		</dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -125,17 +139,17 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>3.3.1-1</version>
+			<version>${jquery.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>3.3.7-1</version>
+			<version>${bootstrap.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
-            <version>5.1.0</version>
+            <version>${font.awesome.version}</version>
         </dependency>
 
 		<!-- Following is the dependency which will be helping us with automated testing -->
