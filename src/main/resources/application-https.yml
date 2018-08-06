@@ -1,0 +1,9 @@
+server:
+  port: ${server.secure.port}
+  ssl:
+    enabled: true
+    key-password: changeit
+    key-store-type: JKS
+    key-store-provider: SUN
+    key-alias: localhost.crt
+    key-store: classpath:private/localhost.jks
