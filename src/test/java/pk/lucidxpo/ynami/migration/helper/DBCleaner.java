@@ -1,6 +1,11 @@
 package pk.lucidxpo.ynami.migration.helper;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.util.List;
+
+import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
+import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
 
 public class DBCleaner {
     private final MultiSqlExecutor executor;
@@ -10,20 +15,14 @@ public class DBCleaner {
     }
 
     public void cleanDB() throws Exception {
-        final List<String> tableNames = executor.getTemplate().queryForList("SHOW TABLES", String.class);
-
-        executor.execute("SET FOREIGN_KEY_CHECKS = 0;");
-        for (final String tableName : tableNames) {
-            executor.execute("DROP TABLE IF EXISTS " + tableName);
-        }
-        executor.execute("SET FOREIGN_KEY_CHECKS = 1;");
+        final JdbcTemplate jdbcTemplate = (JdbcTemplate) executor.getTemplate();
+        final List<String> tableNames = jdbcTemplate.queryForList("SHOW TABLES", String.class);
+        dropTables(jdbcTemplate, tableNames.toArray(new String[]{}));
     }
 
     void cleanDBData() throws Exception {
-        final List<String> tableNames = executor.getTemplate().queryForList("SHOW TABLES", String.class);
-
-        for (final String tableName : tableNames) {
-            executor.execute("DELETE FROM " + tableName);
-        }
+        final JdbcTemplate jdbcTemplate = (JdbcTemplate) executor.getTemplate();
+        final List<String> tableNames = jdbcTemplate.queryForList("SHOW TABLES", String.class);
+        deleteFromTables(jdbcTemplate, tableNames.toArray(new String[]{}));
     }
 }

@@ -5,11 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pk.lucidxpo.ynami.migration.helper.DBCleaner;
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
+import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.jdbcTemplateForLocalMySql;
@@ -19,16 +19,14 @@ public class DBCleanerTest {
     private static final String TABLE_SELECTOR_QUERY = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "'";
 
     private JdbcTemplate jdbcTemplate;
-    private MultiSqlExecutor executor;
     private DBCleaner dbCleaner;
 
     @Before
     public void setup() throws Exception {
         jdbcTemplate = jdbcTemplateForLocalMySql();
-        executor = executorForLocalMySql();
         dropTableIfExists();
 
-        dbCleaner = new DBCleaner(executor);
+        dbCleaner = new DBCleaner(executorForLocalMySql());
     }
 
     @Test
@@ -68,10 +66,7 @@ public class DBCleanerTest {
 
     private void dropTableIfExists() {
         try {
-            jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0;");
-            jdbcTemplate.execute("DROP TABLE Sample");
-            jdbcTemplate.execute("DROP TABLE Sample2");
-            jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1;");
+            dropTables(jdbcTemplate, "Sample", "Sample2");
         } catch (Exception e) {
             // that means the table already deleted, we don't care !!
         }
