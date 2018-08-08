@@ -6,9 +6,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import static org.springframework.boot.SpringApplication.run;
-import static org.togglz.spring.util.ContextClassLoaderApplicationContextHolder.bind;
-import static org.togglz.spring.util.ContextClassLoaderApplicationContextHolder.get;
-import static org.togglz.spring.util.ContextClassLoaderApplicationContextHolder.release;
+import static pk.lucidxpo.ynami.spring.features.TogglzWrapper.bindApplicationContext;
+import static pk.lucidxpo.ynami.spring.features.TogglzWrapper.getApplicationContext;
+import static pk.lucidxpo.ynami.spring.features.TogglzWrapper.releaseApplicationContext;
 
 @SpringBootApplication
 public class YNaMiApplication implements ApplicationContextAware {
@@ -19,9 +19,9 @@ public class YNaMiApplication implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-        if (get() != null) {
-            release();
+        if (getApplicationContext() != null) {
+            releaseApplicationContext();
         }
-        bind(applicationContext);
+        bindApplicationContext(applicationContext);
     }
 }

@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toSet;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.values;
 
 @Component
-public class CustomFeatureProvider implements FeatureProvider {
+class CustomFeatureProvider implements FeatureProvider {
 
     private final Environment environment;
 

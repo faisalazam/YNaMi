@@ -13,13 +13,13 @@ import java.util.Set;
 
 import static java.util.Collections.emptyMap;
 
-public class EnvironmentFeatureMetaData implements FeatureMetaData {
+class EnvironmentFeatureMetaData implements FeatureMetaData {
     private static final String TOGGLZ_FEATURES = "togglz.features.";
 
     private Feature feature;
     private Environment environment;
 
-    public EnvironmentFeatureMetaData(final Feature feature, final Environment environment) {
+    EnvironmentFeatureMetaData(final Feature feature, final Environment environment) {
         this.feature = feature;
         this.environment = environment;
     }
