@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami.spring.features;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 import org.togglz.core.Feature;
 import org.togglz.core.manager.FeatureManager;
 import org.togglz.core.repository.FeatureState;
@@ -12,7 +13,10 @@ import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.values;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
-public class FeatureManagerWrapperIntegrationTest extends AbstractIntegrationTest {
+@TestPropertySource(properties = {
+        "config.togglz.enabled=true"
+})
+public class FeatureManagerWrapperTogglzEnabledIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private FeatureManager featureManager;
 
@@ -31,11 +35,7 @@ public class FeatureManagerWrapperIntegrationTest extends AbstractIntegrationTes
 
         assertThat(featureManager.isActive(feature), is(true));
 
-        if (acceptsProfile("togglz")) {
-            assertThat(featureManagerWrapable.isActive(feature), is(true));
-        } else {
-            assertThat(featureManagerWrapable.isActive(feature), is(false));
-        }
+        assertThat(featureManagerWrapable.isActive(feature), is(true));
     }
 
     @Test
@@ -50,10 +50,6 @@ public class FeatureManagerWrapperIntegrationTest extends AbstractIntegrationTes
 
         assertThat(featureManager.isActive(feature), is(true));
 
-        if (acceptsProfile("togglz")) {
-            assertThat(featureManagerWrapable.isActive(feature), is(true));
-        } else {
-            assertThat(featureManagerWrapable.isActive(feature), is(false));
-        }
+        assertThat(featureManagerWrapable.isActive(feature), is(true));
     }
 }

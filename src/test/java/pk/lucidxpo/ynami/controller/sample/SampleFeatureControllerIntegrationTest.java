@@ -47,7 +47,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
         featureManager.activate(CONDITIONAL_STATEMENTS_EXECUTION);
         featureManager.activate(METHOD_EXECUTION);
-        if (acceptsProfile("togglz")) {
+        if (isConfigEnabled("config.togglz.enabled")) {
             mockMvc.perform(get("/feature-test"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("welcome"))
@@ -63,7 +63,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
         featureManager.deactivate(CONDITIONAL_STATEMENTS_EXECUTION);
         featureManager.activate(METHOD_EXECUTION);
 
-        if (acceptsProfile("togglz")) {
+        if (isConfigEnabled("config.togglz.enabled")) {
             mockMvc.perform(get("/feature-test"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("welcome"))
@@ -78,7 +78,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     public void shouldInvokeNewToggleableServiceWhenToggleableServiceFeatureToggleIsEnabled() throws Exception {
         featureManager.activate(TOGGLEABLE_SERVICE);
 
-        final String expectedString = acceptsProfile("togglz")
+        final String expectedString = isConfigEnabled("config.togglz.enabled")
                 ? "Value from new service implementation"
                 : "Value from old service implementation";
         mockMvc.perform(get("/some-service"))

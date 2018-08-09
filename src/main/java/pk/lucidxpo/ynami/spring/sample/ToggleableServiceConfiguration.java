@@ -1,6 +1,7 @@
 package pk.lucidxpo.ynami.spring.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -15,16 +16,19 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.TOGGLEABLE_SERVIC
 public class ToggleableServiceConfiguration {
 
     @Bean
+    @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
     public ToggleableService oldToggleableService() {
         return new OldToggleableServiceImpl();
     }
 
     @Bean
+    @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
     public ToggleableService newToggleableService() {
         return new NewToggleableServiceImpl();
     }
 
     @Bean
+    @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
     public FeatureProxyFactoryBeanWrapper proxiedToggleableService() {
         final FeatureProxyFactoryBeanWrapper proxyFactoryBean = new FeatureProxyFactoryBeanWrapper();
         proxyFactoryBean.setFeature(TOGGLEABLE_SERVICE.name());
@@ -36,7 +40,14 @@ public class ToggleableServiceConfiguration {
 
     @Bean
     @Primary
+    @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
     public ToggleableService someService(@Autowired FeatureProxyFactoryBeanWrapper proxiedToggleableService) throws Exception {
         return (ToggleableService) proxiedToggleableService.getObject();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "false", matchIfMissing = true)
+    public ToggleableService oldService() throws Exception {
+        return new OldToggleableServiceImpl();
     }
 }

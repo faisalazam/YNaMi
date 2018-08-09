@@ -1,13 +1,13 @@
 package pk.lucidxpo.ynami.spring.features;
 
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.togglz.core.Feature;
 
 import javax.validation.constraints.NotNull;
 
 @Component
-@Profile("!togglz")
+@ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "false", matchIfMissing = true)
 public class FeatureManagerDefaultWrapper implements FeatureManagerWrapable {
 
     @Override
