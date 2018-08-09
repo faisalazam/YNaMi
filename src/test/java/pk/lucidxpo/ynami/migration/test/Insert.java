@@ -5,7 +5,8 @@ import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
 
 import java.util.List;
 
-import static org.assertj.core.util.Lists.newArrayList;
+import static com.google.common.collect.Lists.newArrayList;
+import static org.apache.commons.lang3.StringUtils.join;
 
 public abstract class Insert {
     void insert(final MultiSqlExecutor executor,
@@ -28,10 +29,10 @@ public abstract class Insert {
         final String sqlString = stringBuilder.append("INSERT INTO ")
                 .append(tableName)
                 .append(" (")
-                .append(String.join(",", columnValues.toArray(new String[]{})))
+                .append(join(columnNames, ","))
                 .append(") ")
                 .append("VALUES (")
-                .append(String.join(",", values.toArray(new String[]{})))
+                .append(join(values, ","))
                 .append(")")
                 .toString();
 
