@@ -8,13 +8,19 @@ import org.springframework.test.context.TestPropertySource;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.repository.jdbc.JDBCStateRepository;
 import org.togglz.core.spi.FeatureProvider;
+import org.togglz.core.user.NoOpUserProvider;
+import org.togglz.core.user.UserProvider;
+import org.togglz.spring.security.SpringSecurityUserProvider;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
+
+import java.lang.reflect.InvocationTargetException;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.springframework.test.util.ReflectionTestUtils.invokeMethod;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,7 +41,7 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
     private ApplicationContext applicationContext;
 
     @Test
-    public void shouldVerifyThatFeatureProviderBeanExists() {
+    public void shouldVerifyThatFeatureProviderBeanExistsWhenTogglzProfileIsActive() {
         if (acceptsProfile("togglz")) {
             final FeatureProvider featureProvider = applicationContext.getBean(FeatureProvider.class);
             assertThat(featureProvider, instanceOf(CustomFeatureProvider.class));
@@ -45,7 +51,7 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
     }
 
     @Test
-    public void shouldVerifyThatStateRepositoryBeanExistsWhenConfigPersistableFeatureTogglesIsTrue() throws NoSuchFieldException, IllegalAccessException {
+    public void shouldVerifyThatStateRepositoryBeanExistsWhenConfigPersistableFeatureTogglesIsTrueAndTogglzProfileIsActive() throws NoSuchFieldException, IllegalAccessException {
         if (acceptsProfile("togglz")) {
             final StateRepository stateRepository = applicationContext.getBean(StateRepository.class);
             assertThat(getField(stateRepository, "ttl"), is(5000L));
@@ -59,7 +65,21 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
     }
 
     @Test
-    public void shouldVerifyThatTogglzAdminConsoleIsAccessibleWhenTogglzConsoleIsEnabled() throws Exception {
+    public void shouldVerifyThatUserProviderBeanExistsWhenTogglzProfileIsActive() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        final UserProvider userProvider = applicationContext.getBean(UserProvider.class);
+        if (acceptsProfile("togglz")) {
+            if (isSpringSecurityLoaded()) {
+                assertThat(userProvider, instanceOf(SpringSecurityUserProvider.class));
+            } else {
+                assertThat(userProvider, instanceOf(NoOpUserProvider.class));
+            }
+        } else {
+            assertThat(userProvider, nullValue());
+        }
+    }
+
+    @Test
+    public void shouldVerifyThatTogglzAdminConsoleIsAccessibleWhenTogglzConsoleIsEnabledAndTogglzProfileIsActive() throws Exception {
         if (acceptsProfile("togglz")) {
             mockMvc.perform(get(togglzConsolePath))
                     .andExpect(status().isOk())
@@ -68,5 +88,9 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
         } else {
             mockMvc.perform(get(togglzConsolePath)).andExpect(status().isNotFound());
         }
+    }
+
+    private boolean isSpringSecurityLoaded() {
+        return null != invokeMethod(getClass().getClassLoader(), "findLoadedClass", "org.springframework.security.config.annotation.web.configuration.EnableWebSecurity");
     }
 }
