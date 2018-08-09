@@ -4,7 +4,7 @@ import org.togglz.core.Feature;
 
 import javax.validation.constraints.NotNull;
 
-public interface FeatureManagerWrapable {
+public interface FeatureManagerWrappable {
     boolean isActive(@NotNull Feature feature);
 
     void activate(@NotNull Feature feature);

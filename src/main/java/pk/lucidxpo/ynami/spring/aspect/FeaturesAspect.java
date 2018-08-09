@@ -6,14 +6,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapable;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 
 @Slf4j
 @Aspect
 @Component
 public class FeaturesAspect {
     @Autowired
-    private FeatureManagerWrapable featureManager;
+    private FeatureManagerWrappable featureManager;
 
     @Around(
             "@within(featureAssociation) || @annotation(featureAssociation)"

@@ -19,7 +19,7 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 })
 public class FeatureManagerWrapperTogglzDisabledIntegrationTest extends AbstractIntegrationTest {
     @Autowired
-    private FeatureManagerWrapable featureManagerWrapable;
+    private FeatureManagerWrappable featureManagerWrappable;
 
     @Test
     public void shouldVerifyThatUserProviderBeanDoesNotExistWhenTogglzIsDisabled() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -29,12 +29,12 @@ public class FeatureManagerWrapperTogglzDisabledIntegrationTest extends Abstract
     @Test
     public void shouldVerifyActivationDeactivationOfFeatureUsingCustomFeatureManagerHasNoImpact() {
         final Feature feature = chooseOneOf(values());
-        featureManagerWrapable.deactivate(feature);
+        featureManagerWrappable.deactivate(feature);
 
-        assertThat(featureManagerWrapable.isActive(feature), is(false));
+        assertThat(featureManagerWrappable.isActive(feature), is(false));
 
-        featureManagerWrapable.activate(feature);
+        featureManagerWrappable.activate(feature);
 
-        assertThat(featureManagerWrapable.isActive(feature), is(false));
+        assertThat(featureManagerWrappable.isActive(feature), is(false));
     }
 }

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Component
 @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
-public class FeatureManagerWrapper implements FeatureManagerWrapable {
+public class FeatureManagerWrapper implements FeatureManagerWrappable {
     @Autowired
     private FeatureManager featureManager;
 

@@ -21,7 +21,7 @@ public class FeatureManagerWrapperTogglzEnabledIntegrationTest extends AbstractI
     private FeatureManager featureManager;
 
     @Autowired
-    private FeatureManagerWrapable featureManagerWrapable;
+    private FeatureManagerWrappable featureManagerWrappable;
 
     @Test
     public void shouldVerifyActivationDeactivationOfFeatureUsingFeatureManager() {
@@ -29,27 +29,27 @@ public class FeatureManagerWrapperTogglzEnabledIntegrationTest extends AbstractI
         featureManager.setFeatureState(new FeatureState(feature, false));
 
         assertThat(featureManager.isActive(feature), is(false));
-        assertThat(featureManagerWrapable.isActive(feature), is(false));
+        assertThat(featureManagerWrappable.isActive(feature), is(false));
 
         featureManager.setFeatureState(new FeatureState(feature, true));
 
         assertThat(featureManager.isActive(feature), is(true));
 
-        assertThat(featureManagerWrapable.isActive(feature), is(true));
+        assertThat(featureManagerWrappable.isActive(feature), is(true));
     }
 
     @Test
     public void shouldVerifyActivationDeactivationOfFeatureUsingCustomFeatureManager() {
         final Feature feature = chooseOneOf(values());
-        featureManagerWrapable.deactivate(feature);
+        featureManagerWrappable.deactivate(feature);
 
         assertThat(featureManager.isActive(feature), is(false));
-        assertThat(featureManagerWrapable.isActive(feature), is(false));
+        assertThat(featureManagerWrappable.isActive(feature), is(false));
 
-        featureManagerWrapable.activate(feature);
+        featureManagerWrappable.activate(feature);
 
         assertThat(featureManager.isActive(feature), is(true));
 
-        assertThat(featureManagerWrapable.isActive(feature), is(true));
+        assertThat(featureManagerWrappable.isActive(feature), is(true));
     }
 }
