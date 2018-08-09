@@ -13,6 +13,7 @@ import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -27,7 +28,7 @@ import static pk.lucidxpo.ynami.utils.ReflectionHelper.getField;
         "togglz.caching.state.repository.ttl=5000"
 })
 public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest {
-    @Value("${togglz.console.path}")
+    @Value("${togglz.console.path:NOT_APPLICABLE}")
     private String togglzConsolePath;
 
     @Autowired
@@ -35,26 +36,37 @@ public class TogglzConfigurationIntegrationTest extends AbstractIntegrationTest 
 
     @Test
     public void shouldVerifyThatFeatureProviderBeanExists() {
-        final FeatureProvider featureProvider = applicationContext.getBean(FeatureProvider.class);
-        assertThat(featureProvider, instanceOf(CustomFeatureProvider.class));
+        if (acceptsProfile("togglz")) {
+            final FeatureProvider featureProvider = applicationContext.getBean(FeatureProvider.class);
+            assertThat(featureProvider, instanceOf(CustomFeatureProvider.class));
+        } else {
+            assertThat(applicationContext.getBean(FeatureProvider.class), nullValue());
+        }
     }
 
     @Test
     public void shouldVerifyThatStateRepositoryBeanExistsWhenConfigPersistableFeatureTogglesIsTrue() throws NoSuchFieldException, IllegalAccessException {
-        final StateRepository stateRepository = applicationContext.getBean(StateRepository.class);
-        assertThat(getField(stateRepository, "ttl"), is(5000L));
+        if (acceptsProfile("togglz")) {
+            final StateRepository stateRepository = applicationContext.getBean(StateRepository.class);
+            assertThat(getField(stateRepository, "ttl"), is(5000L));
 
-        final JDBCStateRepository jdbcStateRepository = (JDBCStateRepository) getField(stateRepository, "delegate");
-        assertThat(jdbcStateRepository, instanceOf(JDBCStateRepository.class));
-        assertThat(getField(jdbcStateRepository, "tableName"), is("FeatureToggles"));
+            final JDBCStateRepository jdbcStateRepository = (JDBCStateRepository) getField(stateRepository, "delegate");
+            assertThat(jdbcStateRepository, instanceOf(JDBCStateRepository.class));
+            assertThat(getField(jdbcStateRepository, "tableName"), is("FeatureToggles"));
+        } else {
+            assertThat(applicationContext.getBean(StateRepository.class), nullValue());
+        }
     }
 
     @Test
     public void shouldVerifyThatTogglzAdminConsoleIsAccessibleWhenTogglzConsoleIsEnabled() throws Exception {
-        mockMvc.perform(get(togglzConsolePath))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/vnd.spring-boot.actuator.v2+json;charset=UTF-8"))
-                .andExpect(content().string(containsString(chooseOneOf(values()).name())))
-                .andReturn();
+        if (acceptsProfile("togglz")) {
+            mockMvc.perform(get(togglzConsolePath))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType("application/vnd.spring-boot.actuator.v2+json;charset=UTF-8"))
+                    .andExpect(content().string(containsString(chooseOneOf(values()).name())));
+        } else {
+            mockMvc.perform(get(togglzConsolePath)).andExpect(status().isNotFound());
+        }
     }
 }

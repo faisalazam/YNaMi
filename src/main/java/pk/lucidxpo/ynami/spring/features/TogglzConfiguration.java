@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.repository.cache.CachingStateRepository;
 
@@ -12,6 +13,7 @@ import javax.sql.DataSource;
 import static org.togglz.core.repository.jdbc.JDBCStateRepository.newBuilder;
 
 @Configuration
+@Profile("togglz")
 public class TogglzConfiguration {
     /*
      * The CachingStateRepository will act as a cache for persistentStateRepository.

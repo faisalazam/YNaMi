@@ -1,5 +1,6 @@
 package pk.lucidxpo.ynami.spring.features;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.togglz.core.Feature;
@@ -13,6 +14,7 @@ import static java.util.stream.Collectors.toSet;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.values;
 
 @Component
+@Profile("togglz")
 class CustomFeatureProvider implements FeatureProvider {
 
     private final Environment environment;

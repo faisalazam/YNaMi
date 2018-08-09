@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapable;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,7 +22,7 @@ public class SampleFeatureControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private FeatureManagerWrapper featureManager;
+    private FeatureManagerWrapable featureManager;
 
     @InjectMocks
     private SampleFeatureController sampleFeatureController;

@@ -17,7 +17,7 @@ public class FeatureManagerWrapperIntegrationTest extends AbstractIntegrationTes
     private FeatureManager featureManager;
 
     @Autowired
-    private FeatureManagerWrapper featureManagerWrapper;
+    private FeatureManagerWrapable featureManagerWrapable;
 
     @Test
     public void shouldVerifyActivationDeactivationOfFeatureUsingFeatureManager() {
@@ -25,25 +25,35 @@ public class FeatureManagerWrapperIntegrationTest extends AbstractIntegrationTes
         featureManager.setFeatureState(new FeatureState(feature, false));
 
         assertThat(featureManager.isActive(feature), is(false));
-        assertThat(featureManagerWrapper.isActive(feature), is(false));
+        assertThat(featureManagerWrapable.isActive(feature), is(false));
 
         featureManager.setFeatureState(new FeatureState(feature, true));
 
         assertThat(featureManager.isActive(feature), is(true));
-        assertThat(featureManagerWrapper.isActive(feature), is(true));
+
+        if (acceptsProfile("togglz")) {
+            assertThat(featureManagerWrapable.isActive(feature), is(true));
+        } else {
+            assertThat(featureManagerWrapable.isActive(feature), is(false));
+        }
     }
 
     @Test
     public void shouldVerifyActivationDeactivationOfFeatureUsingCustomFeatureManager() {
         final Feature feature = chooseOneOf(values());
-        featureManagerWrapper.deactivate(feature);
+        featureManagerWrapable.deactivate(feature);
 
         assertThat(featureManager.isActive(feature), is(false));
-        assertThat(featureManagerWrapper.isActive(feature), is(false));
+        assertThat(featureManagerWrapable.isActive(feature), is(false));
 
-        featureManagerWrapper.activate(feature);
+        featureManagerWrapable.activate(feature);
 
         assertThat(featureManager.isActive(feature), is(true));
-        assertThat(featureManagerWrapper.isActive(feature), is(true));
+
+        if (acceptsProfile("togglz")) {
+            assertThat(featureManagerWrapable.isActive(feature), is(true));
+        } else {
+            assertThat(featureManagerWrapable.isActive(feature), is(false));
+        }
     }
 }

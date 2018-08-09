@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pk.lucidxpo.ynami.service.sample.ToggleableService;
 import pk.lucidxpo.ynami.spring.aspect.FeatureAssociation;
-import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapper;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrapable;
 
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
@@ -19,7 +19,7 @@ public class SampleFeatureController {
     private ToggleableService toggleableService;
 
     @Autowired
-    private FeatureManagerWrapper featureManager;
+    private FeatureManagerWrapable featureManager;
 
     @RequestMapping("/feature-test")
     @FeatureAssociation(value = METHOD_EXECUTION)
