@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.springframework.boot.SpringApplication.run;
 import static pk.lucidxpo.ynami.spring.features.TogglzWrapper.bindApplicationContext;
 import static pk.lucidxpo.ynami.spring.features.TogglzWrapper.getApplicationContext;
@@ -19,9 +20,11 @@ public class YNaMiApplication implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-        if (getApplicationContext() != null) {
-            releaseApplicationContext();
+        if (toBoolean(applicationContext.getEnvironment().getProperty("config.togglz.enabled"))) {
+            if (getApplicationContext() != null) {
+                releaseApplicationContext();
+            }
+            bindApplicationContext(applicationContext);
         }
-        bindApplicationContext(applicationContext);
     }
 }
