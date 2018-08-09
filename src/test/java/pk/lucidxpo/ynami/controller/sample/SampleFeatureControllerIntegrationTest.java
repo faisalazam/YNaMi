@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami.controller.sample;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.util.NestedServletException;
 import org.thymeleaf.exceptions.TemplateInputException;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -20,6 +21,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATE
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.TOGGLEABLE_SERVICE;
 
+@WithMockUser
 public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
@@ -22,6 +23,7 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 import static org.junit.Assert.assertThat;
 import static org.springframework.data.domain.Example.of;
 import static org.springframework.data.domain.ExampleMatcher.matching;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -36,6 +38,7 @@ import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
+@WithMockUser
 public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private ModelMapper modelMapper;
@@ -134,7 +137,11 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .active(chooseOneOf(true, false))
                 .build();
 
-        mockMvc.perform(post("/samples").flashAttr("sample", sampleCreationDTO))
+        mockMvc.perform(
+                post("/samples")
+                        .with(csrf())
+                        .flashAttr("sample", sampleCreationDTO)
+        )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"))
                 .andReturn();
@@ -161,7 +168,11 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .firstName(firstName)
                 .build();
 
-        mockMvc.perform(post("/samples").flashAttr("sample", sampleCreationDTO))
+        mockMvc.perform(
+                post("/samples")
+                        .with(csrf())
+                        .flashAttr("sample", sampleCreationDTO)
+        )
                 .andExpect(status().isConflict())
                 .andExpect(view().name("sample/createSample"));
     }
@@ -214,7 +225,11 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .lastName(randomAlphabetic(5, 50))
                 .build();
 
-        mockMvc.perform(put("/samples/{id}", sample.getId()).flashAttr("sample", sampleUpdationDTO))
+        mockMvc.perform(
+                put("/samples/{id}", sample.getId())
+                        .with(csrf())
+                        .flashAttr("sample", sampleUpdationDTO)
+        )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
 
@@ -231,6 +246,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
         mockMvc.perform(
                 put("/samples/{id}", valueOf(randomInt()))
+                        .with(csrf())
                         .flashAttr("sample", sampleUpdationDTO)
         )
                 .andExpect(status().isNotFound())
@@ -253,7 +269,11 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .active(false)
                 .build();
 
-        mockMvc.perform(patch("/samples/{id}", sample.getId()).flashAttr("sample", sampleUpdateStatusDTO))
+        mockMvc.perform(
+                patch("/samples/{id}", sample.getId())
+                        .with(csrf())
+                        .flashAttr("sample", sampleUpdateStatusDTO)
+        )
                 .andExpect(status().isOk())
                 .andExpect(content().string("Sample state has been updated successfully"));
 
@@ -269,7 +289,11 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
         final Long id = valueOf(randomInt());
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
-        mockMvc.perform(patch("/samples/{id}", id).flashAttr("sample", sampleUpdateStatusDTO))
+        mockMvc.perform(
+                patch("/samples/{id}", id)
+                        .with(csrf())
+                        .flashAttr("sample", sampleUpdateStatusDTO)
+        )
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Sample not found"));
     }
@@ -287,7 +311,9 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
         sample = sampleRepository.saveAndFlush(sample);
 
         mockMvc.perform(
-                delete("/samples/{id}", sample.getId()))
+                delete("/samples/{id}", sample.getId())
+                        .with(csrf())
+        )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
     }
@@ -295,7 +321,9 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         mockMvc.perform(
-                delete("/samples/{id}", valueOf(randomInt())))
+                delete("/samples/{id}", valueOf(randomInt()))
+                        .with(csrf())
+        )
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("sample/deleteSample"));
     }

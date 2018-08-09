@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami.spring.features;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.spi.FeatureProvider;
@@ -36,6 +37,7 @@ public class TogglzDisabledConfigurationIntegrationTest extends AbstractIntegrat
     }
 
     @Test
+    @WithMockUser
     public void shouldVerifyThatTogglzAdminConsoleIsNotAccessibleWhenTogglzConsoleIsEnabledAndTogglzIsDisabled() throws Exception {
         mockMvc.perform(get(togglzConsolePath)).andExpect(status().isNotFound());
     }

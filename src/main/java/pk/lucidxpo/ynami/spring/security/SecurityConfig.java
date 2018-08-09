@@ -25,6 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests().anyRequest().permitAll();
             return;
         }
+        http
+                .authorizeRequests().anyRequest().authenticated();
     }
 
     @Bean
