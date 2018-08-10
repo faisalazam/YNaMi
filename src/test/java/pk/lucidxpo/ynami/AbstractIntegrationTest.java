@@ -12,11 +12,23 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
+import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
+import pk.lucidxpo.ynami.persistence.model.security.Role;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newHashSet;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -55,5 +67,23 @@ public class AbstractIntegrationTest {
         } catch (Exception e) {
             assertThat(e, instanceOf(NoSuchBeanDefinitionException.class));
         }
+    }
+
+    /*
+     * This method will return a collection of 'Set<Role>', where each 'Set<Role>' will have different size.
+     */
+    protected Collection<Set<Role>> getRolesCollection(final RoleRepository roleRepository) {
+        final List<Role> allRoles = stream(values())
+                .map(roleName -> roleRepository.findByName(roleName).get())
+                .collect(toList());
+        assertThat(allRoles.size(), is(values().length));
+
+        final List<Set<Role>> associatedRolesList = newArrayList();
+        for (int i = 1; i <= allRoles.size(); i++) {
+            associatedRolesList.add(newHashSet(allRoles.subList(0, i)));
+        }
+        assertThat(associatedRolesList.size(), is(values().length));
+
+        return associatedRolesList;
     }
 }

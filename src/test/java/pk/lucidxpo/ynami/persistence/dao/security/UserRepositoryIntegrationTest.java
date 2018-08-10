@@ -9,21 +9,14 @@ import pk.lucidxpo.ynami.persistence.model.security.User;
 import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 import static pk.lucidxpo.ynami.persistence.model.security.User.UserBuilder;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
@@ -38,7 +31,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void shouldVerifyThatUserIsPersistedWithAuditInfoAndMultipleRoles() {
-        for (Set<Role> associatedRoles : getRolesCollection()) {
+        for (Set<Role> associatedRoles : getRolesCollection(roleRepository)) {
             final String username = randomAlphanumeric(5, 35);
             final String email = randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3);
             final User userWithSpecifiedUserName = builder()
@@ -141,26 +134,8 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
                 .name(randomAlphanumeric(5, 35))
                 .password(randomAlphanumeric(5, 35))
                 .build();
-        user.setRoles(chooseOneOf(getRolesCollection()));
+        user.setRoles(chooseOneOf(getRolesCollection(roleRepository)));
 
         return userRepository.saveAndFlush(user);
-    }
-
-    /*
-     * This method will return a collection of 'Set<Role>', where each 'Set<Role>' will have different size.
-     */
-    private Collection<Set<Role>> getRolesCollection() {
-        final List<Role> allRoles = stream(values())
-                .map(roleName -> roleRepository.findByName(roleName).get())
-                .collect(toList());
-        assertThat(allRoles.size(), is(values().length));
-
-        final List<Set<Role>> associatedRolesList = newArrayList();
-        for (int i = 1; i <= allRoles.size(); i++) {
-            associatedRolesList.add(newHashSet(allRoles.subList(0, i)));
-        }
-        assertThat(associatedRolesList.size(), is(values().length));
-
-        return associatedRolesList;
     }
 }
