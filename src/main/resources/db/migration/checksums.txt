@@ -1,3 +1,4 @@
 V001__create_baseline.sql, a16041aa767cf7491b00b58f49818c36
 V002__create_samples_table.sql, 905d57f37e464f48ec9ffe91093d4821
 V003__alter_samples_table_add_audit_columns.sql, cea723008630a9eeb86c75af0ff771f3
+V004__create_user_and_role_tables.sql, e78fc4a55669f370a70f9ecdb02d2514

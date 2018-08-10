@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.columnExists;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.constraintExistsFor;
+import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.constraintExistsForTable;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.dataSourceForLocalMySql;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.hasColumnWith;
@@ -63,7 +64,7 @@ public class DBMigrationScriptTest {
             assertThat(hibernateSequenceRows.size(), is(1));
 
             assertTrue(tableExists("FeatureToggles", executor));
-            assertTrue(constraintExistsFor(executor, "FeatureToggles", "PRIMARY KEY"));
+            assertTrue(constraintExistsForTable(executor, "FeatureToggles", "PRIMARY KEY", "PRIMARY"));
             assertTrue(constraintExistsFor(executor, "FeatureToggles", "FEATURE_NAME", "PRI"));
             assertTrue(hasColumnWith(executor, "FeatureToggles", "FEATURE_NAME", DATA_TYPE_VARCHAR, NOT_NULLABLE, 100));
             assertTrue(hasColumnWith(executor, "FeatureToggles", "FEATURE_ENABLED", DATA_TYPE_INTEGER, IS_NULLABLE));
@@ -80,7 +81,7 @@ public class DBMigrationScriptTest {
 
         final Operation postOperation = executor -> {
             assertTrue(tableExists("Sample", executor));
-            assertTrue(constraintExistsFor(executor, "Sample", "PRIMARY KEY"));
+            assertTrue(constraintExistsForTable(executor, "Sample", "PRIMARY KEY", "PRIMARY"));
             assertTrue(constraintExistsFor(executor, "Sample", "id", "PRI"));
             assertTrue(hasColumnWith(executor, "Sample", "id", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
             assertTrue(hasColumnWith(executor, "Sample", "active", DATA_TYPE_BIT, IS_NULLABLE, 1));
@@ -102,12 +103,66 @@ public class DBMigrationScriptTest {
         };
 
         final Operation postOperation = executor -> {
-            assertTrue(hasColumnWith(executor, "Sample", "createdBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, "Sample", "createdDate", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
-            assertTrue(hasColumnWith(executor, "Sample", "lastModifiedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, "Sample", "lastModifiedDate", DATA_TYPE_TIMESTAMP, IS_NULLABLE, 6));
+            assertAuditColumns(executor, "Sample");
         };
 
         migrationCheck.testDbMigrationWithScriptNumber(3, preOperation, postOperation);
+    }
+
+    @Test
+    public void shouldCreateUsersAndRolesAndUserRolesTables() throws Exception {
+        final Operation preOperation = executor -> {
+            assertFalse(tableExists("Users", executor));
+            assertFalse(tableExists("Roles", executor));
+            assertFalse(tableExists("UserRoles", executor));
+        };
+
+        final Operation postOperation = executor -> {
+            final String usersTableName = "Users";
+            assertTrue(tableExists(usersTableName, executor));
+            assertTrue(constraintExistsForTable(executor, usersTableName, "PRIMARY KEY", "PRIMARY"));
+            assertTrue(constraintExistsForTable(executor, usersTableName, "UNIQUE", "UK_USERS_EMAIL"));
+            assertTrue(constraintExistsForTable(executor, usersTableName, "UNIQUE", "UK_USERS_USERNAME"));
+            assertTrue(constraintExistsFor(executor, usersTableName, "id", "PRI"));
+            assertTrue(constraintExistsFor(executor, usersTableName, "email", "UNI"));
+            assertTrue(constraintExistsFor(executor, usersTableName, "username", "UNI"));
+            assertTrue(hasColumnWith(executor, usersTableName, "id", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
+            assertTrue(hasColumnWith(executor, usersTableName, "name", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40));
+            assertTrue(hasColumnWith(executor, usersTableName, "username", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40));
+            assertTrue(hasColumnWith(executor, usersTableName, "email", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40));
+            assertTrue(hasColumnWith(executor, usersTableName, "password", DATA_TYPE_VARCHAR, NOT_NULLABLE, 100));
+            assertAuditColumns(executor, usersTableName);
+
+            final String rolesTableName = "Roles";
+            assertTrue(tableExists(rolesTableName, executor));
+            assertTrue(constraintExistsForTable(executor, rolesTableName, "PRIMARY KEY", "PRIMARY"));
+            assertTrue(constraintExistsForTable(executor, rolesTableName, "UNIQUE", "UK_ROLES_NAME"));
+            assertTrue(constraintExistsFor(executor, rolesTableName, "id", "PRI"));
+            assertTrue(constraintExistsFor(executor, rolesTableName, "name", "UNI"));
+            assertTrue(hasColumnWith(executor, rolesTableName, "id", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
+            assertTrue(hasColumnWith(executor, rolesTableName, "name", DATA_TYPE_VARCHAR, NOT_NULLABLE, 60));
+            assertAuditColumns(executor, rolesTableName);
+
+            assertThat(executor.getRowExtractor(rolesTableName).getRowsWithSpecifiedField("name", "ROLE_USER").size(), is(1));
+            assertThat(executor.getRowExtractor(rolesTableName).getRowsWithSpecifiedField("name", "ROLE_ADMIN").size(), is(1));
+            assertThat(executor.getRowExtractor(rolesTableName).getRowsWithSpecifiedField("name", "ROLE_SUPPORT").size(), is(1));
+
+            final String userRolesTableName = "UserRoles";
+            assertTrue(tableExists(userRolesTableName, executor));
+            assertTrue(constraintExistsForTable(executor, userRolesTableName, "PRIMARY KEY", "PRIMARY"));
+            assertTrue(constraintExistsForTable(executor, userRolesTableName, "FOREIGN KEY", "FK_USER_ROLES_ROLE_ID"));
+            assertTrue(constraintExistsForTable(executor, userRolesTableName, "FOREIGN KEY", "FK_USER_ROLES_USER_ID"));
+            assertTrue(hasColumnWith(executor, userRolesTableName, "userId", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
+            assertTrue(hasColumnWith(executor, userRolesTableName, "roleId", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
+        };
+
+        migrationCheck.testDbMigrationWithScriptNumber(4, preOperation, postOperation);
+    }
+
+    private void assertAuditColumns(MultiSqlExecutor executor, String usersTableName) {
+        assertTrue(hasColumnWith(executor, usersTableName, "createdBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+        assertTrue(hasColumnWith(executor, usersTableName, "createdDate", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
+        assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+        assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedDate", DATA_TYPE_TIMESTAMP, IS_NULLABLE, 6));
     }
 }

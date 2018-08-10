@@ -95,12 +95,16 @@ public class MigrationTestHelper {
         }
     }
 
-    public static boolean constraintExistsFor(final MultiSqlExecutor executor, final String tableName, final String constrainType) {
+    public static boolean constraintExistsForTable(final MultiSqlExecutor executor,
+                                                   final String tableName,
+                                                   final String constrainType,
+                                                   final String constraintName) {
         return executor.getTemplate().queryForObject(
                 "SELECT count(*) FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS "
                         + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
                         + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
                         + "AND upper(CONSTRAINT_TYPE) = '" + constrainType.toUpperCase() + "' "
+                        + "AND upper(CONSTRAINT_NAME) = '" + constraintName.toUpperCase() + "' "
                 , Integer.class
         ) > 0;
     }
