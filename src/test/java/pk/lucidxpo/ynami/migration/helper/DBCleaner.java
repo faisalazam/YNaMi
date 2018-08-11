@@ -1,11 +1,11 @@
 package pk.lucidxpo.ynami.migration.helper;
 
+import org.flywaydb.core.Flyway;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
-import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
 
 public class DBCleaner {
     private final MultiSqlExecutor executor;
@@ -14,13 +14,13 @@ public class DBCleaner {
         this.executor = executor;
     }
 
-    public void cleanDB() throws Exception {
-        final JdbcTemplate jdbcTemplate = (JdbcTemplate) executor.getTemplate();
-        final List<String> tableNames = jdbcTemplate.queryForList("SHOW TABLES", String.class);
-        dropTables(jdbcTemplate, tableNames.toArray(new String[]{}));
+    public void cleanDB() {
+        final Flyway flyway = new Flyway();
+        flyway.setDataSource(((JdbcTemplate) executor.getTemplate()).getDataSource());
+        flyway.clean();
     }
 
-    void cleanDBData() throws Exception {
+    void cleanDBData() {
         final JdbcTemplate jdbcTemplate = (JdbcTemplate) executor.getTemplate();
         final List<String> tableNames = jdbcTemplate.queryForList("SHOW TABLES", String.class);
         deleteFromTables(jdbcTemplate, tableNames.toArray(new String[]{}));

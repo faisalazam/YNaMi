@@ -2,12 +2,12 @@ package pk.lucidxpo.ynami.spring.security;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
 import pk.lucidxpo.ynami.persistence.dao.security.UserRepository;
@@ -24,12 +24,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 @TestPropertySource(properties = {
         "config.web.security.enabled=true"
 })
+@Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "classpath:insert-roles.sql")
 public class UserDetailsServiceImplIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;

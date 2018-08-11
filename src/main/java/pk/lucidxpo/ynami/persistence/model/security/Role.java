@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
-@Table(name = "roles")
+@Table(name = "Roles")
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Role extends Auditable<String> {

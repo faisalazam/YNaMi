@@ -1,0 +1,3 @@
+INSERT INTO roles(name, createdBy, createdDate, lastModifiedBy, lastModifiedDate) VALUES('ROLE_USER', 'Test', now(), 'Test', now());
+INSERT INTO roles(name, createdBy, createdDate, lastModifiedBy, lastModifiedDate) VALUES('ROLE_ADMIN', 'Test', now(), 'Test', now());
+INSERT INTO roles(name, createdBy, createdDate, lastModifiedBy, lastModifiedDate) VALUES('ROLE_SUPPORT', 'Test', now(), 'Test', now());
