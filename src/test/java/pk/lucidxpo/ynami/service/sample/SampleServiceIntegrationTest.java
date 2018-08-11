@@ -1,7 +1,5 @@
 package pk.lucidxpo.ynami.service.sample;
 
-import org.joda.time.LocalDateTime;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.common.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.common.DatabaseExecutionListener;
+import pk.lucidxpo.ynami.common.TimeFreezeExecutionListener;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
@@ -25,8 +24,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hibernate.validator.internal.util.CollectionHelper.newHashMap;
-import static org.joda.time.DateTimeUtils.setCurrentMillisFixed;
-import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
 import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
@@ -41,10 +38,13 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
                 "classpath:insert-users.sql"
         }
 )
-@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
+@TestExecutionListeners(mergeMode = MERGE_WITH_DEFAULTS,
+        value = {
+                DatabaseExecutionListener.class,
+                TimeFreezeExecutionListener.class
+        }
+)
 public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
-    private static final long FROZEN_TIME = new LocalDateTime().toDateTime().getMillis();
-
     @Autowired
     private SampleService sampleService;
 
@@ -91,16 +91,6 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
-    }
-
-    @Before
-    public void freezeTime() {
-        setCurrentMillisFixed(FROZEN_TIME);
-    }
-
-    @After
-    public void unFreezeTime() {
-        setCurrentMillisSystem();
     }
 
     @Test
