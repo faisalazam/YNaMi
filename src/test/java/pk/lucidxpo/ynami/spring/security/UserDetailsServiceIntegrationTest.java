@@ -7,9 +7,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
+import pk.lucidxpo.ynami.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
 import pk.lucidxpo.ynami.persistence.dao.security.UserRepository;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
@@ -25,6 +27,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
 import static pk.lucidxpo.ynami.spring.security.UserDetailsServiceIntegrationTest.ADMIN_USER;
@@ -40,6 +43,7 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
                 "classpath:insert-users.sql"
         }
 )
+@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;

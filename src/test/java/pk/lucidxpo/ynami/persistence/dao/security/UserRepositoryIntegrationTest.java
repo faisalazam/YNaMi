@@ -3,8 +3,10 @@ package pk.lucidxpo.ynami.persistence.dao.security;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
+import pk.lucidxpo.ynami.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 import pk.lucidxpo.ynami.persistence.model.security.User;
 import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
@@ -18,6 +20,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.User.UserBuilder;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
@@ -30,6 +33,7 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
                 "classpath:insert-users.sql"
         }
 )
+@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;

@@ -1,6 +1,5 @@
 package pk.lucidxpo.ynami;
 
-import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,18 +9,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.DatabaseMetaDataCallback;
-import org.springframework.jdbc.support.MetaDataAccessException;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +28,6 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 
 @SpringBootTest
@@ -47,13 +39,7 @@ public class AbstractIntegrationTest {
     protected MockMvc mockMvc;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
     protected Environment environment;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     protected ApplicationContext applicationContext;
@@ -66,23 +52,6 @@ public class AbstractIntegrationTest {
 
     @Test
     public void contextLoads() {
-    }
-
-    @After
-    public void cleanup() throws SQLException, MetaDataAccessException {
-        final List<String> dropStatements = newArrayList();
-        final DatabaseMetaDataCallback action = databaseMetaData -> databaseMetaData.getTables(null, null, null, new String[]{"TABLE"});
-        final ResultSet rs = (ResultSet) extractDatabaseMetaData(dataSource, action);
-        while (rs.next()) {
-            final String tableName = rs.getString("TABLE_NAME");
-            if (!("flyway_schema_history".equalsIgnoreCase(tableName) || "hibernate_sequence".equalsIgnoreCase(tableName))) {
-                dropStatements.add("DELETE FROM " + tableName);
-            }
-        }
-        final List<String> statements = newArrayList("SET FOREIGN_KEY_CHECKS = 0;");
-        statements.addAll(dropStatements);
-        statements.add("SET FOREIGN_KEY_CHECKS = 1;");
-        jdbcTemplate.batchUpdate(statements.toArray(new String[]{}));
     }
 
     protected boolean acceptsProfile(final String... profiles) {
