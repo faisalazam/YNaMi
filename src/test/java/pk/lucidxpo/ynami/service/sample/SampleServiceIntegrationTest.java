@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
-import pk.lucidxpo.ynami.common.AbstractIntegrationTest;
-import pk.lucidxpo.ynami.common.DatabaseExecutionListener;
-import pk.lucidxpo.ynami.common.TimeFreezeExecutionListener;
+import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
+import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
+import pk.lucidxpo.ynami.utils.executionlisteners.TimeFreezeExecutionListener;
 import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import java.util.List;

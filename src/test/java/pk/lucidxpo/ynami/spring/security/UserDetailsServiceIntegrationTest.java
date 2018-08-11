@@ -11,11 +11,11 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
-import pk.lucidxpo.ynami.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
 import pk.lucidxpo.ynami.persistence.dao.security.UserRepository;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 import pk.lucidxpo.ynami.persistence.model.security.User;
+import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.util.List;
 import java.util.Set;

@@ -7,9 +7,9 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
-import pk.lucidxpo.ynami.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 import pk.lucidxpo.ynami.persistence.model.security.User;
+import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import javax.transaction.Transactional;

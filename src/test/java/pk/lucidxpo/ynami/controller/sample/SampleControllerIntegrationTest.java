@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
-import pk.lucidxpo.ynami.common.AbstractIntegrationTest;
-import pk.lucidxpo.ynami.common.DatabaseExecutionListener;
+import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
+import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static pk.lucidxpo.ynami.common.AbstractIntegrationTest.ADMIN_USER;
+import static pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
