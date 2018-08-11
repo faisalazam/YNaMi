@@ -3,6 +3,7 @@ package pk.lucidxpo.ynami.persistence.dao.security;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -42,6 +43,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     private UserRepository userRepository;
 
     @Test
+    @WithUserDetails(value = SUPPORT_USER)
     public void shouldVerifyThatUserIsPersistedWithAuditInfoAndMultipleRoles() {
         for (Set<Role> associatedRoles : getRolesCollection(roleRepository)) {
             final String username = randomAlphanumeric(5, 35);
@@ -60,8 +62,13 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
             assertThat(savedUser.getUsername(), is(userWithSpecifiedUserName.getUsername()));
             assertThat(savedUser.getEmail(), is(userWithSpecifiedUserName.getEmail()));
             assertThat(savedUser.getPassword(), is(userWithSpecifiedUserName.getPassword()));
-            assertThat(savedUser.getCreatedBy(), is("Anonymous"));
-            assertThat(savedUser.getLastModifiedBy(), is("Anonymous"));
+            if (isConfigEnabled("config.web.security.enabled")) {
+                assertThat(savedUser.getCreatedBy(), is(SUPPORT_USER));
+                assertThat(savedUser.getLastModifiedBy(), is(SUPPORT_USER));
+            } else {
+                assertThat(savedUser.getCreatedBy(), is("Anonymous"));
+                assertThat(savedUser.getLastModifiedBy(), is("Anonymous"));
+            }
             assertThat(savedUser.getCreatedDate(), notNullValue());
             assertThat(savedUser.getLastModifiedDate(), notNullValue());
 

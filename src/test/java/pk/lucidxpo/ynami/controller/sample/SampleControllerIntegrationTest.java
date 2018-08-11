@@ -4,8 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-import pk.lucidxpo.ynami.AbstractIntegrationTest;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.Sql;
+import pk.lucidxpo.ynami.common.AbstractIntegrationTest;
+import pk.lucidxpo.ynami.common.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleDTO;
@@ -24,6 +27,8 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.data.domain.Example.of;
 import static org.springframework.data.domain.ExampleMatcher.matching;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -34,11 +39,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static pk.lucidxpo.ynami.common.AbstractIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
-@WithMockUser
+@WithUserDetails(value = ADMIN_USER)
+@Sql(executionPhase = BEFORE_TEST_METHOD,
+        scripts = {
+                "classpath:insert-roles.sql",
+                "classpath:insert-users.sql"
+        }
+)
+@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private ModelMapper modelMapper;

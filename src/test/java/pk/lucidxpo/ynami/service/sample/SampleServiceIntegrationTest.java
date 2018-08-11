@@ -5,7 +5,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import pk.lucidxpo.ynami.AbstractIntegrationTest;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.Sql;
+import pk.lucidxpo.ynami.common.AbstractIntegrationTest;
+import pk.lucidxpo.ynami.common.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
@@ -25,10 +29,19 @@ import static org.joda.time.DateTimeUtils.setCurrentMillisFixed;
 import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
 import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
+@Sql(executionPhase = BEFORE_TEST_METHOD,
+        scripts = {
+                "classpath:insert-roles.sql",
+                "classpath:insert-users.sql"
+        }
+)
+@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     private static final long FROZEN_TIME = new LocalDateTime().toDateTime().getMillis();
 
@@ -91,7 +104,8 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatAuditInfoIsStored() throws Exception {
+    @WithUserDetails(value = ADMIN_USER)
+    public void shouldVerifyThatAuditInfoIsStored() {
         assertThat(sample1.getCreatedDate(), nullValue());
         assertThat(sample1.getLastModifiedDate(), nullValue());
         assertThat(sample1.getLastModifiedBy(), nullValue());
@@ -101,11 +115,17 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
         assertThat(savedSample.getCreatedDate().toString(), containsString(now().toString()));
         assertThat(savedSample.getLastModifiedDate().toString(), containsString(now().toString()));
-        assertThat(savedSample.getLastModifiedBy(), is("Anonymous"));
-        assertThat(savedSample.getCreatedBy(), is("Anonymous"));
+        if (isConfigEnabled("config.web.security.enabled")) {
+            assertThat(savedSample.getLastModifiedBy(), is(ADMIN_USER));
+            assertThat(savedSample.getCreatedBy(), is(ADMIN_USER));
+        } else {
+            assertThat(savedSample.getLastModifiedBy(), is("Anonymous"));
+            assertThat(savedSample.getCreatedBy(), is("Anonymous"));
+        }
     }
 
     @Test
+    @WithUserDetails(value = ADMIN_USER)
     public void shouldVerifyThatAllElementsAreReturnedOnGetAll() throws Exception {
         final List<Sample> expectedSamples = asList(
                 sampleRepository.save(sample1),
@@ -129,6 +149,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithUserDetails(value = ADMIN_USER)
     public void shouldVerifyTheRetrievalOfElementById() throws Exception {
         sample1 = builder()
                 .active(chooseOneOf(true, false))
@@ -158,7 +179,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void shouldVerifyThatSampleIsCreatedSuccessfullyOnCreate() throws Exception {
         sample1 = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -175,7 +196,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void shouldVerifyThatSampleIsUpdatedSuccessfullyOnUpdate() throws Exception {
         sample1 = builder()
                 .active(true)
                 .address(randomAlphabetic(5, 50))
