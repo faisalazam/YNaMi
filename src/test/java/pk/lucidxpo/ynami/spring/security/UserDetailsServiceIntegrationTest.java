@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -26,13 +27,20 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
+import static pk.lucidxpo.ynami.spring.security.UserDetailsServiceIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
+@WithUserDetails(value = ADMIN_USER)
 @TestPropertySource(properties = {
         "config.web.security.enabled=true"
 })
-@Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "classpath:insert-roles.sql")
-public class UserDetailsServiceImplIntegrationTest extends AbstractIntegrationTest {
+@Sql(executionPhase = BEFORE_TEST_METHOD,
+        scripts = {
+                "classpath:insert-roles.sql",
+                "classpath:insert-users.sql"
+        }
+)
+public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;
 
@@ -84,8 +92,13 @@ public class UserDetailsServiceImplIntegrationTest extends AbstractIntegrationTe
         user.setRoles(roles);
 
         final User savedUser = userRepository.save(user);
-        assertThat(savedUser.getCreatedBy(), is("Crazy"));
-        assertThat(savedUser.getLastModifiedBy(), is("Crazy"));
+        if (isConfigEnabled("config.web.security.enabled")) {
+            assertThat(savedUser.getCreatedBy(), is(ADMIN_USER));
+            assertThat(savedUser.getLastModifiedBy(), is(ADMIN_USER));
+        } else {
+            assertThat(savedUser.getCreatedBy(), is("Anonymous"));
+            assertThat(savedUser.getLastModifiedBy(), is("Anonymous"));
+        }
         assertThat(savedUser.getCreatedDate(), notNullValue());
         assertThat(savedUser.getLastModifiedDate(), notNullValue());
 

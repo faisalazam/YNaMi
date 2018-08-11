@@ -41,6 +41,8 @@ import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AbstractIntegrationTest {
+    public static final String ADMIN_USER = "admin";
+
     @Autowired
     protected MockMvc mockMvc;
 

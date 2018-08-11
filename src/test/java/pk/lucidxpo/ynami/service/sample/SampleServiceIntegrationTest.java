@@ -101,8 +101,8 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
         assertThat(savedSample.getCreatedDate().toString(), containsString(now().toString()));
         assertThat(savedSample.getLastModifiedDate().toString(), containsString(now().toString()));
-        assertThat(savedSample.getLastModifiedBy(), is("Crazy"));
-        assertThat(savedSample.getCreatedBy(), is("Crazy"));
+        assertThat(savedSample.getLastModifiedBy(), is("Anonymous"));
+        assertThat(savedSample.getCreatedBy(), is("Anonymous"));
     }
 
     @Test

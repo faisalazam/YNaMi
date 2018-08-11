@@ -24,7 +24,12 @@ import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 @Transactional
-@Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "classpath:insert-roles.sql")
+@Sql(executionPhase = BEFORE_TEST_METHOD,
+        scripts = {
+                "classpath:insert-roles.sql",
+                "classpath:insert-users.sql"
+        }
+)
 public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;
@@ -51,8 +56,8 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
             assertThat(savedUser.getUsername(), is(userWithSpecifiedUserName.getUsername()));
             assertThat(savedUser.getEmail(), is(userWithSpecifiedUserName.getEmail()));
             assertThat(savedUser.getPassword(), is(userWithSpecifiedUserName.getPassword()));
-            assertThat(savedUser.getCreatedBy(), is("Crazy"));
-            assertThat(savedUser.getLastModifiedBy(), is("Crazy"));
+            assertThat(savedUser.getCreatedBy(), is("Anonymous"));
+            assertThat(savedUser.getLastModifiedBy(), is("Anonymous"));
             assertThat(savedUser.getCreatedDate(), notNullValue());
             assertThat(savedUser.getLastModifiedDate(), notNullValue());
 
