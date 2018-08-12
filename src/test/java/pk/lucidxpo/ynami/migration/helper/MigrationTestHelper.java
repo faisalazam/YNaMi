@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.List;
 
 public class MigrationTestHelper {
@@ -18,22 +19,21 @@ public class MigrationTestHelper {
     }
 
     public static DataSource dataSourceForLocalMySql() {
-        return new DriverManagerDataSource("jdbc:mysql://localhost:3306/"+SCHEMA_NAME+"?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true", "root", "root");
+        return new DriverManagerDataSource("jdbc:mysql://localhost:3306/" + SCHEMA_NAME + "?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true", "root", "root");
     }
 
     public static MultiSqlExecutor executorForLocalMySql() {
         return new MultiSqlExecutor(jdbcTemplateForLocalMySql());
     }
 
+    public static void evolveDatabase(final MigrationScriptFetcher fetcher, final MultiSqlExecutor template) throws IOException {
+        final List<MigrationScript> migrationScripts = fetcher.allMigrationScripts(SCRIPT_NUMBERS_TO_IGNORE);
+        executeScripts(template, migrationScripts);
+    }
+
     static void evolveDatabaseToPenultimatePoint(final int scriptNumber, final MigrationScriptFetcher fetcher, final MultiSqlExecutor template) throws Exception {
         final List<MigrationScript> migrationScripts = fetcher.allMigrationScriptsBefore(scriptNumber, SCRIPT_NUMBERS_TO_IGNORE);
-
-        for (final MigrationScript migrationScript : migrationScripts) {
-            System.out.println("==============  Executing migration script " + migrationScript.getFileName() + " ============");
-            final String sqlQuery = migrationScript.getContent();
-            template.execute(sqlQuery);
-            System.out.println("==============  Finished Executing migration script " + migrationScript.getFileName() + " ============");
-        }
+        executeScripts(template, migrationScripts);
     }
 
     public static boolean tableExists(final String tableName, final MultiSqlExecutor executor) {
@@ -118,5 +118,14 @@ public class MigrationTestHelper {
                         + "AND COLUMN_KEY = '" + columnKey.toUpperCase() + "' "
                 , Integer.class
         ) > 0;
+    }
+
+    private static void executeScripts(MultiSqlExecutor template, List<MigrationScript> migrationScripts) {
+        for (final MigrationScript migrationScript : migrationScripts) {
+            System.out.println("==============  Executing migration script " + migrationScript.getFileName() + " ============");
+            final String sqlQuery = migrationScript.getContent();
+            template.execute(sqlQuery);
+            System.out.println("==============  Finished Executing migration script " + migrationScript.getFileName() + " ============");
+        }
     }
 }

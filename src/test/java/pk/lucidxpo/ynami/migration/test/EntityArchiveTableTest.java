@@ -1,14 +1,16 @@
 package pk.lucidxpo.ynami.migration.test;
 
 import com.google.common.reflect.ClassPath;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
 
 import javax.persistence.Entity;
+import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -22,6 +24,8 @@ import static org.junit.Assert.fail;
 import static org.springframework.data.util.Pair.of;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME;
+import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.evolveDatabase;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
 
 /**
@@ -39,8 +43,10 @@ public class EntityArchiveTableTest {
 
     private MultiSqlExecutor executor = executorForLocalMySql();
 
-    @Value("${databaseType}")
-    private String databaseType;
+    @BeforeClass
+    public static void setup() throws IOException {
+        evolveDatabase(new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH), executorForLocalMySql());
+    }
 
     @Test
     public void shouldHaveSameDBStructureBetweenEntityTableAndRelatedArchiveTable() throws Exception {
@@ -98,56 +104,54 @@ public class EntityArchiveTableTest {
         DBTableColumnMetaData columnMetaData, archiveColumnMetaData;
         for (DBTableColumnMetaData aTableColumnMetaData : tableColumnMetaData) {
             columnMetaData = aTableColumnMetaData;
-            archiveColumnMetaData = findColumnMetaData(archiveTableColumnMetaData, columnMetaData.columnName);
+            archiveColumnMetaData = findColumnMetaData(archiveTableColumnMetaData, columnMetaData.getColumnName());
 
             if (archiveColumnMetaData == null) {
-                fail("Could not find the archive column for [" + columnMetaData.columnName + "] on table [" + archiveTableColumnMetaData.get(0).tableName + "]");
+                fail("Could not find the archive column for [" + columnMetaData.getColumnName() + "] on table [" + archiveTableColumnMetaData.get(0).getTableName() + "]");
                 return;
             }
 
-            assertEquals("The column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] should have corresponding column on archive table [" + archiveColumnMetaData.tableName + "]",
-                    columnMetaData.columnName, archiveColumnMetaData.columnName);
-            assertEquals("The data type of column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] should be the same on archive table [" + archiveColumnMetaData.tableName + "]",
-                    columnMetaData.dataType, archiveColumnMetaData.dataType);
+            assertEquals("The column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should have corresponding column on archive table [" + archiveColumnMetaData.getTableName() + "]",
+                    columnMetaData.getColumnName(), archiveColumnMetaData.getColumnName());
+            assertEquals("The data type of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]",
+                    columnMetaData.getDataType(), archiveColumnMetaData.getDataType());
+            assertEquals("The data length of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] is [" + columnMetaData.getCharacterMaxLength()
+                            + "] and it should not be greater than the data length [" + archiveColumnMetaData.getCharacterMaxLength() + "] on archive table [" + archiveColumnMetaData.getTableName() + "]",
+                    columnMetaData.getCharacterMaxLength(), archiveColumnMetaData.getCharacterMaxLength());
 
-            if (columnMetaData.characterMaxLength > archiveColumnMetaData.characterMaxLength) {
-                fail("The data length of column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] is [" + columnMetaData.characterMaxLength
-                        + "] and it should not be greater than the data length [" + archiveColumnMetaData.characterMaxLength + "] on archive table [" + archiveColumnMetaData.tableName + "]");
+            if (columnMetaData.getNumericPrecision() > archiveColumnMetaData.getNumericPrecision()) {
+                fail("The numeric precision of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] is [" + columnMetaData.getNumericPrecision()
+                        + "] and it should not be greater than the numeric precision [" + archiveColumnMetaData.getNumericPrecision() + "] on archive table [" + archiveColumnMetaData.getTableName() + "]");
             }
 
-            if (columnMetaData.numericPrecision > archiveColumnMetaData.numericPrecision) {
-                fail("The numeric precision of column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] is [" + columnMetaData.numericPrecision
-                        + "] and it should not be greater than the numeric precision [" + archiveColumnMetaData.numericPrecision + "] on archive table [" + archiveColumnMetaData.tableName + "]");
-            }
-
-            if (columnMetaData.datetimePrecision > archiveColumnMetaData.datetimePrecision) {
-                fail("The datetime precision of column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] is [" + columnMetaData.datetimePrecision
-                        + "] and it should not be greater than the datetime precision [" + archiveColumnMetaData.datetimePrecision + "] on archive table [" + archiveColumnMetaData.tableName + "]");
+            if (columnMetaData.getDatetimePrecision() > archiveColumnMetaData.getDatetimePrecision()) {
+                fail("The datetime precision of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] is [" + columnMetaData.getDatetimePrecision()
+                        + "] and it should not be greater than the datetime precision [" + archiveColumnMetaData.getDatetimePrecision() + "] on archive table [" + archiveColumnMetaData.getTableName() + "]");
             }
 
             if (!ignoreNullable) {
-                assertEquals("The nullable of column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] should be the same on archive table [" + archiveColumnMetaData.tableName + "]",
-                        columnMetaData.nullable, archiveColumnMetaData.nullable);
+                assertEquals("The nullable of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]",
+                        columnMetaData.isNullable(), archiveColumnMetaData.isNullable());
             }
             if (!ignoreDataDefault) {
-                assertEquals("The data default value of column[" + columnMetaData.columnName + "] on table [" + columnMetaData.tableName + "] should be the same on archive table [" + archiveColumnMetaData.tableName + "]",
-                        columnMetaData.dataDefault, archiveColumnMetaData.dataDefault);
+                assertEquals("The data default value of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]",
+                        columnMetaData.getDataDefault(), archiveColumnMetaData.getDataDefault());
             }
         }
     }
 
     private void assertColumnExists(final List<DBTableColumnMetaData> tableColumnMetaData, final String columnName, final String dataType) {
         for (final DBTableColumnMetaData columnMetaData : tableColumnMetaData) {
-            if (columnName.equalsIgnoreCase(columnMetaData.columnName) && dataType.equalsIgnoreCase(columnMetaData.dataType)) {
+            if (columnName.equalsIgnoreCase(columnMetaData.getColumnName()) && dataType.equalsIgnoreCase(columnMetaData.getDataType())) {
                 return;
             }
         }
-        fail("The table [" + tableColumnMetaData.get(0).tableName + "] should have column [" + columnName + "] with dataType [" + dataType + "]");
+        fail("The table [" + tableColumnMetaData.get(0).getTableName() + "] should have column [" + columnName + "] with dataType [" + dataType + "]");
     }
 
     private DBTableColumnMetaData findColumnMetaData(final List<DBTableColumnMetaData> archiveTableColumnMetaData, final String columnName) {
         for (final DBTableColumnMetaData columnMetaData : archiveTableColumnMetaData) {
-            if (columnName.equals(columnMetaData.columnName)) {
+            if (columnName.equals(columnMetaData.getColumnName())) {
                 return columnMetaData;
             }
         }
@@ -233,7 +237,7 @@ public class EntityArchiveTableTest {
                 rs.getString("TABLE_NAME"),
                 rs.getString("COLUMN_NAME"),
                 rs.getString("DATA_TYPE"),
-                rs.getInt("CHARACTER_MAXIMUM_LENGTH"),
+                rs.getBigDecimal("CHARACTER_MAXIMUM_LENGTH"),
                 rs.getInt("NUMERIC_PRECISION"),
                 rs.getInt("DATETIME_PRECISION"),
                 toBoolean(rs.getString("IS_NULLABLE")),

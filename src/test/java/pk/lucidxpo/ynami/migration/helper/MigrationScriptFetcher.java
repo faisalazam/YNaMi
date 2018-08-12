@@ -43,6 +43,22 @@ public class MigrationScriptFetcher {
         throw new RuntimeException("Can't find migration script for script name " + scriptName);
     }
 
+    List<MigrationScript> allMigrationScripts(final int... scriptNumbersToIgnore) throws IOException {
+        final List<MigrationScript> migrationScripts = new ArrayList<>();
+        final List<Integer> ignoredScriptsList = arrayToList(scriptNumbersToIgnore);
+
+        for (final File file : files) {
+            final int index = indexOf(file);
+
+            if (!ignoredScriptsList.contains(index)) {
+                migrationScripts.add(new MigrationScript(file.getName(), readFileToString(file, forName("UTF8"))));
+            } else if (ignoredScriptsList.contains(index)) {
+                System.out.println("script index ignored = " + index);
+            }
+        }
+        return migrationScripts;
+    }
+
     public List<MigrationScript> allMigrationScriptsBefore(final int scriptNumber, final int... scriptNumbersToIgnore) throws IOException {
         final List<MigrationScript> migrationScripts = new ArrayList<>();
         final List<Integer> ignoredScriptsList = arrayToList(scriptNumbersToIgnore);
@@ -55,7 +71,6 @@ public class MigrationScriptFetcher {
             } else if (ignoredScriptsList.contains(index)) {
                 System.out.println("script index ignored = " + index);
             }
-
         }
         return migrationScripts;
     }
