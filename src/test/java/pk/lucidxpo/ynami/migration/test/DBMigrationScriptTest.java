@@ -34,6 +34,7 @@ public class DBMigrationScriptTest {
     private static final String DATA_TYPE_INTEGER = "INT";
     private static final String DATA_TYPE_BIGINT = "BIGINT";
     private static final String DATA_TYPE_VARCHAR = "VARCHAR";
+    private static final String DATA_TYPE_LONGTEXT = "LONGTEXT";
     private static final String DATA_TYPE_TIMESTAMP = "TIMESTAMP";
 
     private DBMigrationCheck migrationCheck;
@@ -157,6 +158,44 @@ public class DBMigrationScriptTest {
         };
 
         migrationCheck.testDbMigrationWithScriptNumber(4, preOperation, postOperation);
+    }
+
+    @Test
+    public void shouldCreateAuditEntryAndAuditEntryArchiveTables() throws Exception {
+        final String auditEntryTableName = "AuditEntry";
+        final String auditEntryArchiveTableName = "AuditEntryArchive";
+        final Operation preOperation = executor -> {
+            assertFalse(tableExists(auditEntryTableName, executor));
+            assertFalse(tableExists(auditEntryArchiveTableName, executor));
+        };
+
+        final Operation postOperation = executor -> {
+            assertTrue(tableExists(auditEntryTableName, executor));
+            assertTrue(constraintExistsForTable(executor, auditEntryTableName, "PRIMARY KEY", "PRIMARY"));
+            assertTrue(constraintExistsFor(executor, auditEntryTableName, "id", "PRI"));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "id", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "fieldChanged", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "fromValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "toValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
+
+            assertTrue(tableExists(auditEntryArchiveTableName, executor));
+            assertTrue(constraintExistsForTable(executor, auditEntryArchiveTableName, "PRIMARY KEY", "PRIMARY"));
+            assertTrue(constraintExistsFor(executor, auditEntryArchiveTableName, "id", "PRI"));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "id", DATA_TYPE_BIGINT, NOT_NULLABLE, 19));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "fieldChanged", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "fromValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "toValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
+        };
+
+        migrationCheck.testDbMigrationWithScriptNumber(5, preOperation, postOperation);
     }
 
     private void assertAuditColumns(MultiSqlExecutor executor, String usersTableName) {
