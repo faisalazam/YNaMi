@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.data.util.Pair;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pk.lucidxpo.ynami.migration.helper.DBCleaner;
 import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
 
@@ -14,8 +15,10 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.reflect.ClassPath.from;
 import static java.lang.Thread.currentThread;
 import static java.lang.reflect.Modifier.isAbstract;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.junit.Assert.assertEquals;
@@ -23,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.springframework.data.util.Pair.of;
 import static org.springframework.util.CollectionUtils.isEmpty;
+import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.evolveDatabase;
@@ -45,7 +49,10 @@ public class EntityArchiveTableTest {
 
     @BeforeClass
     public static void setup() throws IOException {
-        evolveDatabase(new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH), executorForLocalMySql());
+        final MultiSqlExecutor multiSqlExecutor = executorForLocalMySql();
+        final DBCleaner dbCleaner = new DBCleaner(multiSqlExecutor);
+        dbCleaner.cleanDB();
+        evolveDatabase(new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH), multiSqlExecutor);
     }
 
     @Test
@@ -213,18 +220,17 @@ public class EntityArchiveTableTest {
     }
 
     private List<Class> getEntityClassList() throws Exception {
-        final List<Class> entityClasses = newArrayList();
+        final List<Class> entityClasses;
 
         final ClassLoader loader = currentThread().getContextClassLoader();
-        ClassPath.from(loader).getTopLevelClasses()
+        entityClasses = from(loader).getTopLevelClassesRecursive(BASE_PACKAGE)
                 .stream()
-                .filter(info -> info.getName().startsWith("pk.lucidxpo.ynami"))
-                .forEach(info -> {
-                    final Class entityClass = info.load();
-                    if (entityClass.isAnnotationPresent(Entity.class) && !isAbstract(entityClass.getModifiers()) && !IGNORE_ENTITY_CLASSES.contains(entityClass)) {
-                        entityClasses.add(entityClass);
-                    }
-                });
+                .map(ClassPath.ClassInfo::load)
+                .filter(entityClass -> entityClass.isAnnotationPresent(Entity.class)
+                        && !isAbstract(entityClass.getModifiers())
+                        && !IGNORE_ENTITY_CLASSES.contains(entityClass)
+                )
+                .collect(toList());
         return entityClasses;
     }
 

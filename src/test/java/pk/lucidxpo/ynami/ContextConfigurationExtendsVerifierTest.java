@@ -13,6 +13,7 @@ import static java.util.regex.Pattern.compile;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
 public class ContextConfigurationExtendsVerifierTest {
 
@@ -21,7 +22,7 @@ public class ContextConfigurationExtendsVerifierTest {
 
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new RegexPatternTypeFilter(compile(".*IntegrationTest$")));
-        final Set<BeanDefinition> classes = provider.findCandidateComponents("pk.lucidxpo.ynami");
+        final Set<BeanDefinition> classes = provider.findCandidateComponents(BASE_PACKAGE);
 
         //The integrations test classes that don't require application context, should not be extended from "AbstractIntegrationTest".
         final Set<String> excludedClassNames = newHashSet(

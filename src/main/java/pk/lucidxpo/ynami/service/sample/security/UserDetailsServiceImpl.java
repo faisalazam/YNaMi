@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.spring.security;
+package pk.lucidxpo.ynami.service.sample.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

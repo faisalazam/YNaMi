@@ -117,14 +117,6 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldsdsVerifyTheRetrievalOfUserByEmailOnFindByUsernameOrEmail() {
-        final User savedUser = saveUser();
-
-        final User retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), savedUser.getEmail()).get();
-        assertThat(retrievedUser, new ObjectDeepDetailMatcher(savedUser));
-    }
-
-    @Test
     public void shouldVerifyThatNoUserIsReturnedOnFindByUsernameOrEmailWhenUserDoesNotExistWithBothSpecifiedUsernameAndEmail() {
         final Optional<User> retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), randomAlphanumeric(5, 35));
         assertThat(retrievedUser.isPresent(), is(false));
