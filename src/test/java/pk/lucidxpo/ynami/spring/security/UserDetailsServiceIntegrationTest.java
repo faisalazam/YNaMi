@@ -1,7 +1,8 @@
 package pk.lucidxpo.ynami.spring.security;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,8 +26,11 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
@@ -44,7 +48,7 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
         }
 )
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
-public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
+class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;
 
@@ -52,10 +56,11 @@ public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     private UserRepository userRepository;
 
     @Autowired
+    @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
     @Test
-    public void shouldThrowUsernameNotFoundExceptionOnLoadUserByUsernameWhenUserWithSpecifiedUsernameOrEmailDoesNotExist() {
+    void shouldThrowUsernameNotFoundExceptionOnLoadUserByUsernameWhenUserWithSpecifiedUsernameOrEmailDoesNotExist() {
         final String usernameOrEmail = randomAlphanumeric(5, 35);
         try {
             userDetailsService.loadUserByUsername(usernameOrEmail);
@@ -66,7 +71,7 @@ public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldGetUserDetailsOnLoadUserByUsernameWhenUserWithSpecifiedUsernameDoesExist() {
+    void shouldGetUserDetailsOnLoadUserByUsernameWhenUserWithSpecifiedUsernameDoesExist() {
         final String username = randomAlphanumeric(5, 35);
         final User user = builder()
                 .name(randomAlphanumeric(5, 35))
@@ -79,7 +84,7 @@ public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldGetUserDetailsOnLoadUserByUsernameWhenUserWithSpecifiedEmailDoesExist() {
+    void shouldGetUserDetailsOnLoadUserByUsernameWhenUserWithSpecifiedEmailDoesExist() {
         final String email = randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3);
         final User user = builder()
                 .name(randomAlphanumeric(5, 35))
@@ -116,15 +121,17 @@ public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     private void assertUserDetails(final User expectedUserDetails,
                                    final UserPrincipal actualUserDetails,
                                    final List<? extends GrantedAuthority> expectedAuthorities) {
-        assertThat(actualUserDetails.getId(), is(expectedUserDetails.getId()));
-        assertThat(actualUserDetails.getName(), is(expectedUserDetails.getName()));
-        assertThat(actualUserDetails.getUsername(), is(expectedUserDetails.getUsername()));
-        assertThat(actualUserDetails.getEmail(), is(expectedUserDetails.getEmail()));
-        assertThat(actualUserDetails.getPassword(), is(expectedUserDetails.getPassword()));
-        assertThat(actualUserDetails.isAccountNonExpired(), is(true));
-        assertThat(actualUserDetails.isAccountNonLocked(), is(true));
-        assertThat(actualUserDetails.isCredentialsNonExpired(), is(true));
-        assertThat(actualUserDetails.isEnabled(), is(true));
-        assertThat(actualUserDetails.getAuthorities().containsAll(expectedAuthorities), is(true));
+        assertAll(
+                () -> assertEquals(expectedUserDetails.getId(), actualUserDetails.getId()),
+                () -> assertEquals(expectedUserDetails.getName(), actualUserDetails.getName()),
+                () -> assertEquals(expectedUserDetails.getUsername(), actualUserDetails.getUsername()),
+                () -> assertEquals(expectedUserDetails.getEmail(), actualUserDetails.getEmail()),
+                () -> assertEquals(expectedUserDetails.getPassword(), actualUserDetails.getPassword()),
+                () -> assertTrue(actualUserDetails.isAccountNonExpired()),
+                () -> assertTrue(actualUserDetails.isAccountNonLocked()),
+                () -> assertTrue(actualUserDetails.isCredentialsNonExpired()),
+                () -> assertTrue(actualUserDetails.isEnabled()),
+                () -> assertTrue(actualUserDetails.getAuthorities().containsAll(expectedAuthorities))
+        );
     }
 }

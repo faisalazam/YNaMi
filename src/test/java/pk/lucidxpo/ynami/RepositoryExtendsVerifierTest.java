@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami;
 
 import com.google.common.reflect.ClassPath;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,10 +17,11 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
-public class RepositoryExtendsVerifierTest {
+class RepositoryExtendsVerifierTest {
 
+    @SuppressWarnings("UnstableApiUsage")
     @Test
-    public void shouldVerifyThatAllTheRepositoriesAreExtendedFromJpaRepository() throws Exception {
+    void shouldVerifyThatAllTheRepositoriesAreExtendedFromJpaRepository() throws Exception {
 
         final ClassLoader loader = currentThread().getContextClassLoader();
         final List<Class> repositoryClasses = from(loader).getTopLevelClassesRecursive(BASE_PACKAGE + ".persistence.dao")

@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.persistence.model.sample;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
@@ -9,15 +9,16 @@ import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 import static java.lang.Long.valueOf;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
-public class EntityAndDtoConversionTest {
-    private ModelMapper modelMapper = new ModelMapper();
+class EntityAndDtoConversionTest {
+    private final ModelMapper modelMapper = new ModelMapper();
 
     @Test
-    public void shouldConvertSampleEntityToSampleCreationDtoCorrectly() {
+    void shouldConvertSampleEntityToSampleCreationDtoCorrectly() {
         Sample sample = Sample.builder()
                 .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
@@ -26,15 +27,15 @@ public class EntityAndDtoConversionTest {
                 .lastName(randomAlphabetic(10))
                 .build();
 
-        SampleCreationDTO convertedSampleCreationDto = modelMapper.map(sample, SampleCreationDTO.class);
-        assertThat(convertedSampleCreationDto.isActive(), is(sample.isActive()));
-        assertThat(convertedSampleCreationDto.getAddress(), is(sample.getAddress()));
-        assertThat(convertedSampleCreationDto.getFirstName(), is(sample.getFirstName()));
-        assertThat(convertedSampleCreationDto.getLastName(), is(sample.getLastName()));
+        final SampleCreationDTO convertedSampleCreationDto = modelMapper.map(sample, SampleCreationDTO.class);
+        assertEquals(sample.isActive(), convertedSampleCreationDto.isActive());
+        assertEquals(sample.getAddress(), convertedSampleCreationDto.getAddress());
+        assertEquals(sample.getFirstName(), convertedSampleCreationDto.getFirstName());
+        assertEquals(sample.getLastName(), convertedSampleCreationDto.getLastName());
     }
 
     @Test
-    public void shouldVerifyConversionsBetweenEntityAndDtos() {
+    void shouldVerifyConversionsBetweenEntityAndDtos() {
         SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(50))
@@ -55,10 +56,10 @@ public class EntityAndDtoConversionTest {
                 .build();
 
         modelMapper.map(sampleUpdationDto, convertedSample);
-        assertThat(convertedSample.isActive(), is(sampleUpdationDto.isActive()));
-        assertThat(convertedSample.getAddress(), is(sampleCreationDTO.getAddress()));
-        assertThat(convertedSample.getFirstName(), is(sampleUpdationDto.getFirstName()));
-        assertThat(convertedSample.getLastName(), is(sampleUpdationDto.getLastName()));
+        assertEquals(sampleUpdationDto.isActive(), convertedSample.isActive());
+        assertEquals(sampleCreationDTO.getAddress(), convertedSample.getAddress());
+        assertEquals(sampleUpdationDto.getFirstName(), convertedSample.getFirstName());
+        assertEquals(sampleUpdationDto.getLastName(), convertedSample.getLastName());
 
         convertedSample.setActive(false);
 
@@ -67,9 +68,9 @@ public class EntityAndDtoConversionTest {
                 .build();
 
         modelMapper.map(sampleUpdateStatusDTO, convertedSample);
-        assertThat(convertedSample.isActive(), is(sampleUpdateStatusDTO.isActive()));
-        assertThat(convertedSample.getAddress(), is(sampleCreationDTO.getAddress()));
-        assertThat(convertedSample.getFirstName(), is(sampleUpdationDto.getFirstName()));
-        assertThat(convertedSample.getLastName(), is(sampleUpdationDto.getLastName()));
+        assertEquals(sampleUpdateStatusDTO.isActive(), convertedSample.isActive());
+        assertEquals(sampleCreationDTO.getAddress(), convertedSample.getAddress());
+        assertEquals(sampleUpdationDto.getFirstName(), convertedSample.getFirstName());
+        assertEquals(sampleUpdationDto.getLastName(), convertedSample.getLastName());
     }
 }

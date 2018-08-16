@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.migration.test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,11 +18,11 @@ import static org.junit.Assert.fail;
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 
-public class DBMigrationScriptsChecksumTest {
+class DBMigrationScriptsChecksumTest {
     private static final String SEPARATOR = ", ";
 
     @Test
-    public void shouldVerifyThatAllMigrationScriptsHaveProperChecksum() throws IOException {
+    void shouldVerifyThatAllMigrationScriptsHaveProperChecksum() throws IOException {
         final Map<String, String> existingChecksumsMap = newHashMap();
 
         final String[] checksums = readFileToString(new File(SCRIPT_DIRECTORY_PATH + "/checksums.txt"), "UTF8").split("\n");
@@ -56,9 +56,9 @@ public class DBMigrationScriptsChecksumTest {
         }
 
         if (newChecksums.size() > 0) {
-            String missedChecksums = EMPTY;
+            StringBuilder missedChecksums = new StringBuilder(EMPTY);
             for (Map.Entry<String, String> newChecksum : newChecksums.entrySet()) {
-                missedChecksums += newChecksum.getKey() + SEPARATOR + newChecksum.getValue() + "\n";
+                missedChecksums.append(newChecksum.getKey()).append(SEPARATOR).append(newChecksum.getValue()).append("\n");
             }
             fail(
                     "\n*****************************************************************************************\n"

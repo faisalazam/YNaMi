@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami;
 
 import com.google.common.reflect.ClassPath;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -28,7 +28,7 @@ public class PackageVerifierTest {
     public static final String BASE_PACKAGE = "pk.lucidxpo.ynami";
 
     @Test
-    public void shouldVerifyThatAllTheControllersAreDefinedInsideControllerPackage() {
+    void shouldVerifyThatAllTheControllersAreDefinedInsideControllerPackage() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(Controller.class));
         final Set<BeanDefinition> allControllerClasses = provider.findCandidateComponents(BASE_PACKAGE);
@@ -38,8 +38,9 @@ public class PackageVerifierTest {
         assertThat(controllerClassesInControllerPackage.size(), is(allControllerClasses.size()));
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Test
-    public void shouldVerifyThatAllTheRepositoriesAreDefinedInsideDaoPackage() throws IOException {
+    void shouldVerifyThatAllTheRepositoriesAreDefinedInsideDaoPackage() throws IOException {
         final ClassLoader loader = currentThread().getContextClassLoader();
         final List<Class> allRepositoryClasses = from(loader).getTopLevelClassesRecursive(BASE_PACKAGE)
                 .stream()
@@ -57,7 +58,7 @@ public class PackageVerifierTest {
     }
 
     @Test
-    public void shouldVerifyThatAllTheDtosAreDefinedInsideDtoPackage() {
+    void shouldVerifyThatAllTheDtosAreDefinedInsideDtoPackage() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new RegexPatternTypeFilter(compile(".*DTO$")));
         final Set<BeanDefinition> allDtoClasses = provider.findCandidateComponents(BASE_PACKAGE);
@@ -68,7 +69,7 @@ public class PackageVerifierTest {
     }
 
     @Test
-    public void shouldVerifyThatAllTheServicesAreDefinedInsideServicePackage() {
+    void shouldVerifyThatAllTheServicesAreDefinedInsideServicePackage() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(Service.class));
         final Set<BeanDefinition> allServiceClasses = provider.findCandidateComponents(BASE_PACKAGE);
@@ -79,7 +80,7 @@ public class PackageVerifierTest {
     }
 
     @Test
-    public void shouldVerifyThatAllTheEntitiesAreDefinedInsideModelPackage() {
+    void shouldVerifyThatAllTheEntitiesAreDefinedInsideModelPackage() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
         final Set<BeanDefinition> allEntityClasses = provider.findCandidateComponents(BASE_PACKAGE);
@@ -90,7 +91,7 @@ public class PackageVerifierTest {
     }
 
     @Test
-    public void shouldVerifyThatAllTheConfigurationsAreDefinedInsideSpringPackage() {
+    void shouldVerifyThatAllTheConfigurationsAreDefinedInsideSpringPackage() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(Configuration.class));
         provider.addExcludeFilter(new AnnotationTypeFilter(SpringBootApplication.class));

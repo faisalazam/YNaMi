@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami.migration.test;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -27,7 +27,7 @@ import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorFor
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.hasColumnWith;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.tableExists;
 
-public class DBMigrationScriptTest {
+class DBMigrationScriptTest {
     private static final boolean IS_NULLABLE = true;
     private static final boolean NOT_NULLABLE = false;
     private static final String DATA_TYPE_BIT = "BIT";
@@ -39,8 +39,8 @@ public class DBMigrationScriptTest {
 
     private DBMigrationCheck migrationCheck;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
         final MigrationScriptFetcher fetcher = new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH);
@@ -50,7 +50,7 @@ public class DBMigrationScriptTest {
     }
 
     @Test
-    public void shouldCreateHibernateSequenceAndFeatureTogglesTables() throws Exception {
+    void shouldCreateHibernateSequenceAndFeatureTogglesTables() throws Exception {
         final Operation preOperation = executor -> {
             assertFalse(tableExists("hibernate_sequence", executor));
             assertFalse(tableExists("FeatureToggles", executor));
@@ -77,7 +77,7 @@ public class DBMigrationScriptTest {
     }
 
     @Test
-    public void shouldCreateSampleTable() throws Exception {
+    void shouldCreateSampleTable() throws Exception {
         final Operation preOperation = executor -> assertFalse(tableExists("Sample", executor));
 
         final Operation postOperation = executor -> {
@@ -95,7 +95,7 @@ public class DBMigrationScriptTest {
     }
 
     @Test
-    public void shouldAddAuditColumnsToSampleTable() throws Exception {
+    void shouldAddAuditColumnsToSampleTable() throws Exception {
         final Operation preOperation = executor -> {
             assertFalse(columnExists("Sample", "createdBy", executor));
             assertFalse(columnExists("Sample", "createdDate", executor));
@@ -103,15 +103,13 @@ public class DBMigrationScriptTest {
             assertFalse(columnExists("Sample", "lastModifiedDate", executor));
         };
 
-        final Operation postOperation = executor -> {
-            assertAuditColumns(executor, "Sample");
-        };
+        final Operation postOperation = executor -> assertAuditColumns(executor, "Sample");
 
         migrationCheck.testDbMigrationWithScriptNumber(3, preOperation, postOperation);
     }
 
     @Test
-    public void shouldCreateUsersAndRolesAndUserRolesTables() throws Exception {
+    void shouldCreateUsersAndRolesAndUserRolesTables() throws Exception {
         final Operation preOperation = executor -> {
             assertFalse(tableExists("Users", executor));
             assertFalse(tableExists("Roles", executor));
@@ -161,7 +159,7 @@ public class DBMigrationScriptTest {
     }
 
     @Test
-    public void shouldCreateAuditEntryAndAuditEntryArchiveTables() throws Exception {
+    void shouldCreateAuditEntryAndAuditEntryArchiveTables() throws Exception {
         final String auditEntryTableName = "AuditEntry";
         final String auditEntryArchiveTableName = "AuditEntryArchive";
         final Operation preOperation = executor -> {

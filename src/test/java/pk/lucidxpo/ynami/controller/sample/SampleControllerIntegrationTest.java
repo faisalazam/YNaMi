@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami.controller.sample;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -21,9 +21,10 @@ import java.util.List;
 import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.data.domain.Example.of;
 import static org.springframework.data.domain.ExampleMatcher.matching;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -44,6 +45,7 @@ import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @WithUserDetails(value = ADMIN_USER)
 @Sql(executionPhase = BEFORE_TEST_METHOD,
         scripts = {
@@ -52,22 +54,22 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
         }
 )
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
-public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
+class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
     private SampleRepository sampleRepository;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         sampleRepository.deleteAll();
     }
 
     // =========================================== Get All Samples ==========================================
 
     @Test
-    public void shouldGetAllSamples() throws Exception {
+    void shouldGetAllSamples() throws Exception {
         Sample sample1 = builder()
                 .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
@@ -100,7 +102,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Get Sample By ID =========================================
 
     @Test
-    public void shouldGetSampleById() throws Exception {
+    void shouldGetSampleById() throws Exception {
         Sample sample = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -119,7 +121,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldReturn404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldReturn404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         mockMvc.perform(get("/samples/{id}/view", valueOf(randomInt())))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("sample/viewSample"))
@@ -129,7 +131,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Prepare New Sample Creation ==============================
 
     @Test
-    public void shouldPrepareNewSampleCreation() throws Exception {
+    void shouldPrepareNewSampleCreation() throws Exception {
         final SampleCreationDTO expectedSample = SampleCreationDTO.builder().build();
 
         mockMvc.perform(get("/samples/new"))
@@ -142,7 +144,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Create New Sample ========================================
 
     @Test
-    public void shouldCreateNewSampleSuccessfully() throws Exception {
+    void shouldCreateNewSampleSuccessfully() throws Exception {
         final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
@@ -159,16 +161,18 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(redirectedUrl("/samples"))
                 .andReturn();
         final Sample createdSample = sampleRepository.findOne(of(modelMapper.map(sampleCreationDTO, Sample.class), matching().withIgnoreNullValues())).get();
-        assertThat(createdSample.isActive(), is(sampleCreationDTO.isActive()));
-        assertThat(createdSample.getAddress(), is(sampleCreationDTO.getAddress()));
-        assertThat(createdSample.getFirstName(), is(sampleCreationDTO.getFirstName()));
-        assertThat(createdSample.getLastName(), is(sampleCreationDTO.getLastName()));
+        assertAll(
+                () -> assertEquals(sampleCreationDTO.isActive(), createdSample.isActive()),
+                () -> assertEquals(sampleCreationDTO.getAddress(), createdSample.getAddress()),
+                () -> assertEquals(sampleCreationDTO.getFirstName(), createdSample.getFirstName()),
+                () -> assertEquals(sampleCreationDTO.getLastName(), createdSample.getLastName())
+        );
     }
 
     @Test
-    public void shouldNotCreateNewSampleWhenSampleAlreadyExistsAndReturnWith409ConflictStatus() throws Exception {
+    void shouldNotCreateNewSampleWhenSampleAlreadyExistsAndReturnWith409ConflictStatus() throws Exception {
         final String firstName = randomAlphabetic(5, 50);
-        Sample sample = builder()
+        final Sample sample = builder()
                 .firstName(firstName)
                 .id(valueOf(randomInt()))
                 .active(chooseOneOf(true, false))
@@ -193,7 +197,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Prepare Existing Sample Updation =========================
 
     @Test
-    public void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
+    void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
         Sample sample = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -212,7 +216,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         mockMvc.perform(get("/samples/{id}", valueOf(randomInt())))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("sample/editSample"))
@@ -223,14 +227,14 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Update Existing Sample ===================================
 
     @Test
-    public void shouldUpdateSampleSuccessfully() throws Exception {
-        Sample sample = builder()
+    void shouldUpdateSampleSuccessfully() throws Exception {
+        final Sample sample = builder()
                 .active(false)
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
-        sample = sampleRepository.saveAndFlush(sample);
+        final Sample savedSample = sampleRepository.saveAndFlush(sample);
 
         final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder()
                 .active(true)
@@ -239,22 +243,24 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .build();
 
         mockMvc.perform(
-                put("/samples/{id}", sample.getId())
+                put("/samples/{id}", savedSample.getId())
                         .with(csrf())
                         .flashAttr("sample", sampleUpdationDTO)
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
 
-        final Sample updatedSample = sampleRepository.findById(sample.getId()).get();
-        assertThat(updatedSample.isActive(), is(sampleUpdationDTO.isActive()));
-        assertThat(updatedSample.getAddress(), is(sample.getAddress()));
-        assertThat(updatedSample.getFirstName(), is(sampleUpdationDTO.getFirstName()));
-        assertThat(updatedSample.getLastName(), is(sampleUpdationDTO.getLastName()));
+        final Sample updatedSample = sampleRepository.findById(savedSample.getId()).get();
+        assertAll(
+                () -> assertEquals(sampleUpdationDTO.isActive(), updatedSample.isActive()),
+                () -> assertEquals(savedSample.getAddress(), updatedSample.getAddress()),
+                () -> assertEquals(sampleUpdationDTO.getFirstName(), updatedSample.getFirstName()),
+                () -> assertEquals(sampleUpdationDTO.getLastName(), updatedSample.getLastName())
+        );
     }
 
     @Test
-    public void shouldNotUpdateAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotUpdateAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder().build();
 
         mockMvc.perform(
@@ -269,36 +275,38 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Patch Sample ============================================
 
     @Test
-    public void shouldUpdateSamplePartiallySuccessfully() throws Exception {
+    void shouldUpdateSamplePartiallySuccessfully() throws Exception {
         Sample sample = builder()
                 .active(true)
                 .address(randomAlphabetic(5, 50))
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .build();
-        sample = sampleRepository.saveAndFlush(sample);
+        final Sample savedSample = sampleRepository.saveAndFlush(sample);
 
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder()
                 .active(false)
                 .build();
 
         mockMvc.perform(
-                patch("/samples/{id}", sample.getId())
+                patch("/samples/{id}", savedSample.getId())
                         .with(csrf())
                         .flashAttr("sample", sampleUpdateStatusDTO)
         )
                 .andExpect(status().isOk())
                 .andExpect(content().string("Sample state has been updated successfully"));
 
-        final Sample updatedSample = sampleRepository.findById(sample.getId()).get();
-        assertThat(updatedSample.isActive(), is(false));
-        assertThat(updatedSample.getAddress(), is(sample.getAddress()));
-        assertThat(updatedSample.getFirstName(), is(sample.getFirstName()));
-        assertThat(updatedSample.getLastName(), is(sample.getLastName()));
+        final Sample updatedSample = sampleRepository.findById(savedSample.getId()).get();
+        assertAll(
+                () -> assertFalse(updatedSample.isActive()),
+                () -> assertEquals(savedSample.getAddress(), updatedSample.getAddress()),
+                () -> assertEquals(savedSample.getFirstName(), updatedSample.getFirstName()),
+                () -> assertEquals(savedSample.getLastName(), updatedSample.getLastName())
+        );
     }
 
     @Test
-    public void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final Long id = valueOf(randomInt());
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
@@ -314,7 +322,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     // =========================================== Delete Sample ============================================
 
     @Test
-    public void shouldDeleteSampleSuccessfully() throws Exception {
+    void shouldDeleteSampleSuccessfully() throws Exception {
         Sample sample = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -332,7 +340,7 @@ public class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         mockMvc.perform(
                 delete("/samples/{id}", valueOf(randomInt()))
                         .with(csrf())

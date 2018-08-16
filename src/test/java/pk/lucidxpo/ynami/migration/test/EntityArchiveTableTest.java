@@ -1,14 +1,14 @@
 package pk.lucidxpo.ynami.migration.test;
 
 import com.google.common.reflect.ClassPath;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.data.util.Pair;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pk.lucidxpo.ynami.migration.helper.DBCleaner;
 import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
+import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import javax.persistence.Entity;
 import java.io.IOException;
@@ -35,8 +35,8 @@ import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorFor
 /**
  * If the Java archive entity name follows the pattern "EntityName" + "Archive", you don't need to write testcase manually
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-public class EntityArchiveTableTest {
+@ExtendWith(MockitoExtension.class)
+class EntityArchiveTableTest {
 
     private static final String ARCHIVE_SUFFIX = "Archive";
     /*
@@ -45,10 +45,10 @@ public class EntityArchiveTableTest {
      */
     private static final List<Class> IGNORE_ENTITY_CLASSES = newArrayList();
 
-    private MultiSqlExecutor executor = executorForLocalMySql();
+    private final MultiSqlExecutor executor = executorForLocalMySql();
 
-    @BeforeClass
-    public static void setup() throws IOException {
+    @BeforeAll
+    static void setup() throws IOException {
         final MultiSqlExecutor multiSqlExecutor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(multiSqlExecutor);
         dbCleaner.cleanDB();
@@ -56,7 +56,7 @@ public class EntityArchiveTableTest {
     }
 
     @Test
-    public void shouldHaveSameDBStructureBetweenEntityTableAndRelatedArchiveTable() throws Exception {
+    void shouldHaveSameDBStructureBetweenEntityTableAndRelatedArchiveTable() throws Exception {
         final List<Pair<Class, Class>> archivableEntityClassList = getArchivableEntityPairs();
 
         for (final Pair<Class, Class> entry : archivableEntityClassList) {
@@ -67,7 +67,7 @@ public class EntityArchiveTableTest {
     }
 
     @Test
-    public void shouldGetExceptionWhenCheckStructureForTableInIgnoredList() {
+    void shouldGetExceptionWhenCheckStructureForTableInIgnoredList() {
         for (final Pair<Class, Class> entry : getPairsFromEntityList(IGNORE_ENTITY_CLASSES)) {
             System.out.println("Checking the table structure between [" + entry.getFirst().getSimpleName() + "] and [" + entry.getSecond().getSimpleName() + "]");
             Exception expectedException = null;

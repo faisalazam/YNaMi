@@ -1,32 +1,32 @@
 package pk.lucidxpo.ynami.migration.test;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.internal.verification.Times;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
+import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MultiSqlExecutorTest {
+@ExtendWith(MockitoExtension.class)
+class MultiSqlExecutorTest {
 
     @Mock
     private JdbcTemplate jdbcTemplate;
 
     private MultiSqlExecutor executor;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         executor = new MultiSqlExecutor(jdbcTemplate);
     }
 
     @Test
-    public void shouldSplitSqlStatementBySemicolonAndExecute() throws Exception {
+    void shouldSplitSqlStatementBySemicolonAndExecute() {
         executor.execute("sql1;sql2;sql3;sql4,blah;sql5(blah)");
 
         verify(jdbcTemplate).execute("sql1");
@@ -37,7 +37,7 @@ public class MultiSqlExecutorTest {
     }
 
     @Test
-    public void shouldNotExecuteEmptySqlStatement() throws Exception {
+    void shouldNotExecuteEmptySqlStatement() {
         executor.execute("sql1;   ;sql2;;sql3;\n\n");
 
         verify(jdbcTemplate, new Times(3)).execute(any(String.class));
@@ -48,7 +48,7 @@ public class MultiSqlExecutorTest {
     }
 
     @Test
-    public void shouldNotExecuteAnySqlStatementAfterUndoComment() throws Exception {
+    void shouldNotExecuteAnySqlStatementAfterUndoComment() {
         executor.execute("sql1;sql2;sql3;--//@UNDO sql4;sql5\n\n");
 
         verify(jdbcTemplate, new Times(3)).execute(any(String.class));

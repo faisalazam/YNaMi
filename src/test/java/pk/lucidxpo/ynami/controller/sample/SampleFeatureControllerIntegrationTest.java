@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.controller.sample;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.util.NestedServletException;
@@ -22,7 +22,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.TOGGLEABLE_SERVICE;
 
 @WithMockUser
-public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
+class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private FeatureManagerWrappable featureManager;
@@ -30,7 +30,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     // =========================== Verify Feature Toggles are working as expected ===========================
 
     @Test
-    public void shouldNotExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+    void shouldNotExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() {
         featureManager.deactivate(METHOD_EXECUTION);
         featureManager.activate(CONDITIONAL_STATEMENTS_EXECUTION);
 
@@ -46,7 +46,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     }
 
     @Test
-    public void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+    void shouldExpectFeatureStatusToBeEnabledWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
         featureManager.activate(CONDITIONAL_STATEMENTS_EXECUTION);
         featureManager.activate(METHOD_EXECUTION);
         if (isConfigEnabled("config.togglz.enabled")) {
@@ -61,7 +61,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     }
 
     @Test
-    public void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
+    void shouldExpectFeatureStatusToBeDisabledWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
         featureManager.deactivate(CONDITIONAL_STATEMENTS_EXECUTION);
         featureManager.activate(METHOD_EXECUTION);
 
@@ -77,7 +77,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     }
 
     @Test
-    public void shouldInvokeNewToggleableServiceWhenToggleableServiceFeatureToggleIsEnabled() throws Exception {
+    void shouldInvokeNewToggleableServiceWhenToggleableServiceFeatureToggleIsEnabled() throws Exception {
         featureManager.activate(TOGGLEABLE_SERVICE);
 
         final String expectedString = isConfigEnabled("config.togglz.enabled")
@@ -90,7 +90,7 @@ public class SampleFeatureControllerIntegrationTest extends AbstractIntegrationT
     }
 
     @Test
-    public void shouldInvokeOldToggleableServiceWhenToggleableServiceFeatureToggleIsNotEnabled() throws Exception {
+    void shouldInvokeOldToggleableServiceWhenToggleableServiceFeatureToggleIsNotEnabled() throws Exception {
         featureManager.deactivate(TOGGLEABLE_SERVICE);
 
         mockMvc.perform(get("/some-service"))

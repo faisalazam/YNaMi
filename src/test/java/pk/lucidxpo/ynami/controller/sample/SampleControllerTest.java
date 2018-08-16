@@ -1,12 +1,11 @@
 package pk.lucidxpo.ynami.controller.sample;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.web.servlet.MockMvc;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
@@ -15,6 +14,7 @@ import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.service.sample.SampleService;
+import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import java.util.List;
 
@@ -49,8 +49,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SampleControllerTest {
+@ExtendWith(MockitoExtension.class)
+class SampleControllerTest {
     private MockMvc mockMvc;
 
     @Mock
@@ -62,13 +62,13 @@ public class SampleControllerTest {
     @InjectMocks
     private SampleController sampleController;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         mockMvc = standaloneSetup(sampleController).build();
     }
 
     @Test
-    public void shouldReturnDefaultMessage() throws Exception {
+    void shouldReturnDefaultMessage() throws Exception {
         setField(sampleController, "message", "Welcome Crazy");
 
         mockMvc.perform(get("/"))
@@ -82,7 +82,7 @@ public class SampleControllerTest {
     // =========================================== Get All Samples ==========================================
 
     @Test
-    public void shouldGetAllSamples() throws Exception {
+    void shouldGetAllSamples() throws Exception {
         final Sample sample1 = builder().build();
         final Sample sample2 = builder().build();
         final List<Sample> sampleList = asList(sample1, sample2);
@@ -111,7 +111,7 @@ public class SampleControllerTest {
     // =========================================== Get Sample By ID =========================================
 
     @Test
-    public void shouldGetSampleById() throws Exception {
+    void shouldGetSampleById() throws Exception {
         final Long id = valueOf(randomInt());
         final Sample sample = builder().build();
 
@@ -132,7 +132,7 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void shouldReturn404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldReturn404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final long id = valueOf(randomInt());
         given(sampleService.findById(id)).willReturn(empty());
 
@@ -149,7 +149,7 @@ public class SampleControllerTest {
     // =========================================== Prepare New Sample Creation ==============================
 
     @Test
-    public void shouldPrepareNewSampleCreation() throws Exception {
+    void shouldPrepareNewSampleCreation() throws Exception {
         final SampleCreationDTO expectedSample = SampleCreationDTO.builder().build();
 
         mockMvc.perform(get("/samples/new"))
@@ -164,7 +164,7 @@ public class SampleControllerTest {
     // =========================================== Create New Sample ========================================
 
     @Test
-    public void shouldCreateNewSampleSuccessfully() throws Exception {
+    void shouldCreateNewSampleSuccessfully() throws Exception {
         final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
                 .firstName(randomAlphabetic(5, 50))
                 .build();
@@ -185,7 +185,7 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void shouldNotCreateNewSampleWhenSampleAlreadyExistsAndReturnWith409ConflictStatus() throws Exception {
+    void shouldNotCreateNewSampleWhenSampleAlreadyExistsAndReturnWith409ConflictStatus() throws Exception {
         final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
                 .firstName(randomAlphabetic(5, 50))
                 .build();
@@ -205,7 +205,7 @@ public class SampleControllerTest {
     // =========================================== Prepare Existing Sample Updation =========================
 
     @Test
-    public void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
+    void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
 
         final Long id = valueOf(randomInt());
         final Sample sample = Sample.builder().id(id).build();
@@ -225,7 +225,7 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final Long id = valueOf(randomInt());
         given(sampleService.findById(id)).willReturn(empty());
 
@@ -242,7 +242,7 @@ public class SampleControllerTest {
     // =========================================== Update Existing Sample ===================================
 
     @Test
-    public void shouldUpdateSampleSuccessfully() throws Exception {
+    void shouldUpdateSampleSuccessfully() throws Exception {
         final Long id = valueOf(randomInt());
         final Sample sample = builder().build();
         given(sampleService.findById(id)).willReturn(of(sample));
@@ -262,7 +262,7 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void shouldNotUpdateAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotUpdateAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final Long id = valueOf(randomInt());
         given(sampleService.findById(id)).willReturn(empty());
 
@@ -281,7 +281,7 @@ public class SampleControllerTest {
     // =========================================== Patch Sample ============================================
 
     @Test
-    public void shouldUpdateSamplePartiallySuccessfully() throws Exception {
+    void shouldUpdateSamplePartiallySuccessfully() throws Exception {
         final Long id = valueOf(randomInt());
         final Sample sample = builder().build();
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
@@ -299,7 +299,7 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final Long id = valueOf(randomInt());
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
@@ -318,7 +318,7 @@ public class SampleControllerTest {
     // =========================================== Delete Sample ============================================
 
     @Test
-    public void shouldDeleteSampleSuccessfully() throws Exception {
+    void shouldDeleteSampleSuccessfully() throws Exception {
         final Long id = valueOf(randomInt());
         Sample sample = builder().build();
 
@@ -336,7 +336,7 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
+    void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         final Long id = valueOf(randomInt());
         given(sampleService.findById(id)).willReturn(empty());
 
@@ -351,7 +351,7 @@ public class SampleControllerTest {
         verifyZeroInteractions(modelMapper);
     }
 
-    public static String asJsonString(final Object obj) {
+    static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {

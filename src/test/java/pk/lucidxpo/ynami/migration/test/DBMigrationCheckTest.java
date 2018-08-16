@@ -1,10 +1,9 @@
 package pk.lucidxpo.ynami.migration.test;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
@@ -13,16 +12,18 @@ import pk.lucidxpo.ynami.migration.helper.DBMigrationCheck;
 import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
 import pk.lucidxpo.ynami.migration.helper.Operation;
+import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DBMigrationCheckTest {
+@ExtendWith(MockitoExtension.class)
+class DBMigrationCheckTest {
 
     @Mock
     private DBCleaner dbCleaner;
@@ -38,14 +39,14 @@ public class DBMigrationCheckTest {
     private StubTransaction transaction;
     private DBMigrationCheck migrationCheck;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         transaction = new StubTransaction();
         migrationCheck = new DBMigrationCheck(dbCleaner, fetcher, executor, transaction);
     }
 
     @Test
-    public void shouldCleanDatabaseDoPrecheckExecuteScriptUnderTestDoPostCheckAndCleanTheDatabaseUnderTransaction() throws Exception {
+    void shouldCleanDatabaseDoPrecheckExecuteScriptUnderTestDoPostCheckAndCleanTheDatabaseUnderTransaction() throws Exception {
         final String scriptContent = "some sql script";
 
         given(fetcher.migrationScriptContentForIndex(eq(2))).willReturn(scriptContent);
@@ -61,7 +62,7 @@ public class DBMigrationCheckTest {
     }
 
     @Test
-    public void shouldExecuteTheCompleteScriptIncludingTheRollback() throws Exception {
+    void shouldExecuteTheCompleteScriptIncludingTheRollback() throws Exception {
         final String scriptContent = "some sql script --//@UNDO roll back script";
         final String scriptContentsToExecute = "some sql script  roll back script";
 
@@ -78,7 +79,7 @@ public class DBMigrationCheckTest {
     }
 
     @Test
-    public void shouldExecuteTheCompleteScriptExcludingTheRollback() throws Exception {
+    void shouldExecuteTheCompleteScriptExcludingTheRollback() throws Exception {
         final String scriptContent = "some sql script --//@UNDO roll back script";
 
         given(fetcher.migrationScriptContentForIndex(eq(2))).willReturn(scriptContent);
@@ -93,18 +94,20 @@ public class DBMigrationCheckTest {
         assertTrue(transaction.isExecuted());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void shouldNotFetchAndExecuteMigrationScriptWhenPrecheckThrowsException() throws Exception {
-        final int scriptNumber = 2;
+    @Test
+    void shouldNotFetchAndExecuteMigrationScriptWhenPrecheckThrowsException() {
+        assertThrows(RuntimeException.class, () -> {
+            final int scriptNumber = 2;
 
-        doThrow(new RuntimeException()).when(preOperation).execute(executor);
+            doThrow(new RuntimeException()).when(preOperation).execute(executor);
 
-        try {
-            migrationCheck.testDbMigrationWithScriptNumber(scriptNumber, preOperation, postOperation);
-        } finally {
-            verifyZeroInteractions(executor);
-            verifyZeroInteractions(postOperation);
-        }
+            try {
+                migrationCheck.testDbMigrationWithScriptNumber(scriptNumber, preOperation, postOperation);
+            } finally {
+                verifyZeroInteractions(executor);
+                verifyZeroInteractions(postOperation);
+            }
+        });
     }
 
     private class StubTransaction implements TransactionOperations {

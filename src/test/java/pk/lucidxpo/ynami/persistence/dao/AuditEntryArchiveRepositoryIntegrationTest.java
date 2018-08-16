@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.persistence.dao;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
@@ -8,18 +8,18 @@ import pk.lucidxpo.ynami.persistence.model.AuditEntryArchive;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
-public class AuditEntryArchiveRepositoryIntegrationTest extends AbstractIntegrationTest {
+class AuditEntryArchiveRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private AuditEntryArchiveRepository archiveRepository;
 
     @Test
-    public void shouldRetrieveAuditEntryArchiveRecordsByEntityId() {
+    void shouldRetrieveAuditEntryArchiveRecordsByEntityId() {
 
         final String matchingEntityId = randomID();
         final String nonMatchingEntityId = randomID();
@@ -41,28 +41,29 @@ public class AuditEntryArchiveRepositoryIntegrationTest extends AbstractIntegrat
         archiveRepository.save(auditEntryArchive3);
 
         List<AuditEntryArchive> records = archiveRepository.findByChangedEntityIdOrderByChangedAtDesc(matchingEntityId);
-        assertThat(records.size(), is(2));
+        assertEquals(2, records.size());
         assertEntityAttributes(auditEntryArchive2, records.get(0));
         assertEntityAttributes(auditEntryArchive1, records.get(1));
 
         records = archiveRepository.findByChangedEntityIdOrderByChangedAtDesc(nonMatchingEntityId);
-        assertThat(records.size(), is(1));
+        assertEquals(1, records.size());
         assertEntityAttributes(auditEntryArchive3, records.get(0));
 
         records = archiveRepository.findByChangedEntityIdOrderByChangedAtDesc(randomID());
-        assertThat(records.isEmpty(), is(true));
+        assertTrue(records.isEmpty());
     }
 
     private void assertEntityAttributes(final AuditEntryArchive expectedAuditEntryArchive, final AuditEntryArchive actualAuditEntryArchive) {
+        assertAll(
+                () -> assertEquals(expectedAuditEntryArchive.getChangedEntityName(), actualAuditEntryArchive.getChangedEntityName()),
+                () -> assertEquals(expectedAuditEntryArchive.getChangedEntityId(), actualAuditEntryArchive.getChangedEntityId()),
 
-        assertThat(actualAuditEntryArchive.getChangedEntityName(), equalTo(expectedAuditEntryArchive.getChangedEntityName()));
-        assertThat(actualAuditEntryArchive.getChangedEntityId(), equalTo(expectedAuditEntryArchive.getChangedEntityId()));
+                () -> assertEquals(expectedAuditEntryArchive.getFieldChanged(), actualAuditEntryArchive.getFieldChanged()),
+                () -> assertEquals(expectedAuditEntryArchive.getFromValue(), actualAuditEntryArchive.getFromValue()),
+                () -> assertEquals(expectedAuditEntryArchive.getToValue(), actualAuditEntryArchive.getToValue()),
 
-        assertThat(actualAuditEntryArchive.getFieldChanged(), equalTo(expectedAuditEntryArchive.getFieldChanged()));
-        assertThat(actualAuditEntryArchive.getFromValue(), equalTo(expectedAuditEntryArchive.getFromValue()));
-        assertThat(actualAuditEntryArchive.getToValue(), equalTo(expectedAuditEntryArchive.getToValue()));
-
-        assertThat(actualAuditEntryArchive.getChangedBy(), equalTo(expectedAuditEntryArchive.getChangedBy()));
-        assertThat(actualAuditEntryArchive.getChangedAt(), equalTo(expectedAuditEntryArchive.getChangedAt()));
+                () -> assertEquals(expectedAuditEntryArchive.getChangedBy(), actualAuditEntryArchive.getChangedBy()),
+                () -> assertEquals(expectedAuditEntryArchive.getChangedAt(), actualAuditEntryArchive.getChangedAt())
+        );
     }
 }

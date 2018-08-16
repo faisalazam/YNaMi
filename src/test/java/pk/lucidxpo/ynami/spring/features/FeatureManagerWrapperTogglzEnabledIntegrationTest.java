@@ -1,7 +1,8 @@
 package pk.lucidxpo.ynami.spring.features;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.TestPropertySource;
 import org.togglz.core.Feature;
 import org.togglz.core.manager.FeatureManager;
@@ -16,15 +17,16 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 @TestPropertySource(properties = {
         "config.togglz.enabled=true"
 })
-public class FeatureManagerWrapperTogglzEnabledIntegrationTest extends AbstractIntegrationTest {
+class FeatureManagerWrapperTogglzEnabledIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private FeatureManager featureManager;
 
     @Autowired
+    @Qualifier("featureManagerWrapper")
     private FeatureManagerWrappable featureManagerWrappable;
 
     @Test
-    public void shouldVerifyActivationDeactivationOfFeatureUsingFeatureManager() {
+    void shouldVerifyActivationDeactivationOfFeatureUsingFeatureManager() {
         final Feature feature = chooseOneOf(values());
         featureManager.setFeatureState(new FeatureState(feature, false));
 
@@ -39,7 +41,7 @@ public class FeatureManagerWrapperTogglzEnabledIntegrationTest extends AbstractI
     }
 
     @Test
-    public void shouldVerifyActivationDeactivationOfFeatureUsingCustomFeatureManager() {
+    void shouldVerifyActivationDeactivationOfFeatureUsingCustomFeatureManager() {
         final Feature feature = chooseOneOf(values());
         featureManagerWrappable.deactivate(feature);
 

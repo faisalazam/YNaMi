@@ -1,8 +1,8 @@
 package pk.lucidxpo.ynami.migration.test;
 
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pk.lucidxpo.ynami.migration.helper.DBCleaner;
 
@@ -14,15 +14,15 @@ import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.jdbcTemplateForLocalMySql;
 
-public class DBCleanerTest {
+class DBCleanerTest {
 
     private static final String TABLE_SELECTOR_QUERY = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "'";
 
     private JdbcTemplate jdbcTemplate;
     private DBCleaner dbCleaner;
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+    void setup() {
         jdbcTemplate = jdbcTemplateForLocalMySql();
         dropTableIfExists();
 
@@ -30,7 +30,7 @@ public class DBCleanerTest {
     }
 
     @Test
-    public void shouldExecuteDBCleanScript() throws Exception {
+    void shouldExecuteDBCleanScript() {
         jdbcTemplate.execute("create table Sample (id varchar(255))");
         jdbcTemplate.execute("create table Sample2 (id varchar(255))");
 
@@ -45,7 +45,7 @@ public class DBCleanerTest {
     }
 
     @Test
-    public void shouldDropTableWithConstraints() throws Exception {
+    void shouldDropTableWithConstraints() {
         jdbcTemplate.execute("create table Sample (id varchar(255), id2 varchar(255) UNIQUE)");
         jdbcTemplate.execute("create table Sample2 (id varchar(255), primary key (id))");
         jdbcTemplate.execute("alter table Sample add constraint some_constraint foreign key (id2) references Sample2(id)");
@@ -60,7 +60,7 @@ public class DBCleanerTest {
     }
 
     @After
-    public void cleanDB() {
+    void cleanDB() {
         dropTableIfExists();
     }
 

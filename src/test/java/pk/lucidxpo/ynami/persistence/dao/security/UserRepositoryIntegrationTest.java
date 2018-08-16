@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.persistence.dao.security;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -35,7 +35,7 @@ import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalen
         }
 )
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
-public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
+class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private RoleRepository roleRepository;
 
@@ -44,7 +44,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @WithUserDetails(value = SUPPORT_USER)
-    public void shouldVerifyThatUserIsPersistedWithAuditInfoAndMultipleRoles() {
+    void shouldVerifyThatUserIsPersistedWithAuditInfoAndMultipleRoles() {
         for (Set<Role> associatedRoles : getRolesCollection(roleRepository)) {
             final String username = randomAlphanumeric(5, 35);
             final String email = randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3);
@@ -79,7 +79,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatUserWithNonUniqueUsernameDoesNotGetPersisted() {
+    void shouldVerifyThatUserWithNonUniqueUsernameDoesNotGetPersisted() {
         final User savedUser = saveUser();
 
         try {
@@ -90,7 +90,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatUserWithNonUniqueEmailDoesNotGetPersisted() {
+    void shouldVerifyThatUserWithNonUniqueEmailDoesNotGetPersisted() {
         final User savedUser = saveUser();
 
         try {
@@ -100,8 +100,9 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
         }
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
-    public void shouldVerifyTheRetrievalOfUserByUsernameOnFindByUsernameOrEmail() {
+    void shouldVerifyTheRetrievalOfUserByUsernameOnFindByUsernameOrEmail() {
         final User savedUser = saveUser();
 
         final User retrievedUser = userRepository.findByUsernameOrEmail(savedUser.getUsername(), randomAlphanumeric(5, 35)).get();
@@ -109,15 +110,15 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyTheRetrievalOfUserByEmailOnFindByUsernameOrEmail() {
+    void shouldVerifyTheRetrievalOfUserByEmailOnFindByUsernameOrEmail() {
         final User savedUser = saveUser();
 
-        final User retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), savedUser.getEmail()).get();
+        @SuppressWarnings("OptionalGetWithoutIsPresent") final User retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), savedUser.getEmail()).get();
         assertThat(retrievedUser, equivalentTo(savedUser));
     }
 
     @Test
-    public void shouldVerifyThatNoUserIsReturnedOnFindByUsernameOrEmailWhenUserDoesNotExistWithBothSpecifiedUsernameAndEmail() {
+    void shouldVerifyThatNoUserIsReturnedOnFindByUsernameOrEmailWhenUserDoesNotExistWithBothSpecifiedUsernameAndEmail() {
         final Optional<User> retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), randomAlphanumeric(5, 35));
         assertThat(retrievedUser.isPresent(), is(false));
     }
@@ -133,6 +134,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
         return saveUser(userBuilder);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     private User saveUserWithEmail(final String email) {
         final UserBuilder userBuilder = builder()
                 .username(randomAlphanumeric(5, 35))

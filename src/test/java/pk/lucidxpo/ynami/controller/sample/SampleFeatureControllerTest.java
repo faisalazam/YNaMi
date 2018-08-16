@@ -1,13 +1,13 @@
 package pk.lucidxpo.ynami.controller.sample;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
+import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,8 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SampleFeatureControllerTest {
+@ExtendWith(MockitoExtension.class)
+class SampleFeatureControllerTest {
     private MockMvc mockMvc;
 
     @Mock
@@ -27,14 +27,14 @@ public class SampleFeatureControllerTest {
     @InjectMocks
     private SampleFeatureController sampleFeatureController;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         mockMvc = standaloneSetup(sampleFeatureController).build();
     }
     // =========================== Verify Feature Toggles are working as expected ===========================
 
     @Test
-    public void shouldExpectEnabledMessageWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
+    void shouldExpectEnabledMessageWhenCorrespondingFeatureToggleIsEnabled() throws Exception {
         given(featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)).willReturn(true);
 
         mockMvc.perform(get("/feature-test"))
@@ -45,7 +45,7 @@ public class SampleFeatureControllerTest {
     }
 
     @Test
-    public void shouldExpectDisabledMessageWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
+    void shouldExpectDisabledMessageWhenCorrespondingFeatureToggleIsNotEnabled() throws Exception {
         given(featureManager.isActive(CONDITIONAL_STATEMENTS_EXECUTION)).willReturn(false);
 
         mockMvc.perform(get("/feature-test"))

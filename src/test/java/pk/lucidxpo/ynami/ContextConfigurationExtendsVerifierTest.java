@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
@@ -15,10 +15,10 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
-public class ContextConfigurationExtendsVerifierTest {
+class ContextConfigurationExtendsVerifierTest {
 
     @Test
-    public void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromAbstractIntegrationTest() throws Exception {
+    void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromAbstractIntegrationTest() throws Exception {
 
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new RegexPatternTypeFilter(compile(".*IntegrationTest$")));

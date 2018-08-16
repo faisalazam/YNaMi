@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.persistence.dao;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
@@ -10,39 +10,43 @@ import java.util.List;
 
 import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.StringUtils.repeat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
-public class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
+@SuppressWarnings("OptionalGetWithoutIsPresent")
+class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private AuditEntryRepository repository;
 
     @Test
-    public void shouldSaveAuditEntryIntoDatabase() {
+    void shouldSaveAuditEntryIntoDatabase() {
         final AuditEntry saved = new AuditEntry("TestEntity", "testId", "testField", "foo", "bar", "tester");
         repository.save(saved);
 
         final AuditEntry found = repository.findById(saved.getId()).get();
 
-        assertThat(found.getChangedEntityName(), equalTo(saved.getChangedEntityName()));
-        assertThat(found.getChangedEntityId(), equalTo(saved.getChangedEntityId()));
+        assertAll(
+                () -> assertEquals(saved.getChangedEntityName(), found.getChangedEntityName()),
+                () -> assertEquals(saved.getChangedEntityId(), found.getChangedEntityId()),
 
-        assertThat(found.getFieldChanged(), equalTo(saved.getFieldChanged()));
-        assertThat(found.getFromValue(), equalTo(saved.getFromValue()));
-        assertThat(found.getToValue(), equalTo(saved.getToValue()));
+                () -> assertEquals(saved.getFieldChanged(), found.getFieldChanged()),
+                () -> assertEquals(saved.getFromValue(), found.getFromValue()),
+                () -> assertEquals(saved.getToValue(), found.getToValue()),
 
-        assertThat(found.getChangedBy(), equalTo(saved.getChangedBy()));
-        assertThat(found.getChangedAt(), equalTo(saved.getChangedAt()));
+                () -> assertEquals(saved.getChangedBy(), found.getChangedBy()),
+                () -> assertEquals(saved.getChangedAt(), found.getChangedAt())
+        );
     }
 
     @Test
-    public void shouldRetrieveAuditEntryRecordsByEntityId() {
+    void shouldRetrieveAuditEntryRecordsByEntityId() {
 
         final String matchingEntityId = randomID();
         final String nonMatchingEntityId = randomID();
@@ -56,20 +60,20 @@ public class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest
         repository.save(auditEntry3);
 
         List<AuditEntry> records = repository.findByChangedEntityIdOrderByChangedAtDesc(matchingEntityId);
-        assertThat(records.size(), is(2));
+        assertEquals(2, records.size());
         assertThat(auditEntry2, equivalentTo(records.get(0)));
         assertThat(auditEntry1, equivalentTo(records.get(1)));
 
         records = repository.findByChangedEntityIdOrderByChangedAtDesc(nonMatchingEntityId);
-        assertThat(records.size(), is(1));
+        assertEquals(1, records.size());
         assertThat(auditEntry3, equivalentTo(records.get(0)));
 
         records = repository.findByChangedEntityIdOrderByChangedAtDesc(randomID());
-        assertThat(records.isEmpty(), is(true));
+        assertTrue(records.isEmpty());
     }
 
     @Test
-    public void shouldRetrieveAuditEntryOlderThanDate() {
+    void shouldRetrieveAuditEntryOlderThanDate() {
 
         final AuditEntry auditEntry1 = createAuditEntry();
         final AuditEntry auditEntry2 = createAuditEntry();
@@ -84,23 +88,23 @@ public class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest
         repository.save(auditEntry3);
 
         List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now().minusDays(3), of(0, 10));
-        assertThat(messages.size(), is(1));
-        assertThat(messages.get(0).getId(), is(auditEntry3.getId()));
+        assertEquals(1, messages.size());
+        assertEquals(auditEntry3.getId(), messages.get(0).getId());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now().minusDays(2), of(0, 10));
-        assertThat(messages.size(), is(2));
-        assertThat(messages.get(0).getId(), is(auditEntry3.getId()));
-        assertThat(messages.get(1).getId(), is(auditEntry2.getId()));
+        assertEquals(2, messages.size());
+        assertEquals(auditEntry3.getId(), messages.get(0).getId());
+        assertEquals(auditEntry2.getId(), messages.get(1).getId());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now().minusDays(1), of(0, 10));
-        assertThat(messages.size(), is(3));
-        assertThat(messages.get(0).getId(), is(auditEntry3.getId()));
-        assertThat(messages.get(1).getId(), is(auditEntry2.getId()));
-        assertThat(messages.get(2).getId(), is(auditEntry1.getId()));
+        assertEquals(3, messages.size());
+        assertEquals(auditEntry3.getId(), messages.get(0).getId());
+        assertEquals(auditEntry2.getId(), messages.get(1).getId());
+        assertEquals(auditEntry1.getId(), messages.get(2).getId());
     }
 
     @Test
-    public void shouldRetrieveAuditEntryByMaxResults() {
+    void shouldRetrieveAuditEntryByMaxResults() {
 
         final AuditEntry auditEntry1 = createAuditEntry();
         final AuditEntry auditEntry2 = createAuditEntry();
@@ -115,23 +119,23 @@ public class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest
         repository.save(auditEntry5);
 
         List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now(), of(0, 5));
-        assertThat(messages.size(), is(5));
+        assertEquals(5, messages.size());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now(), of(0, 4));
-        assertThat(messages.size(), is(4));
+        assertEquals(4, messages.size());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now(), of(0, 3));
-        assertThat(messages.size(), is(3));
+        assertEquals(3, messages.size());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now(), of(0, 2));
-        assertThat(messages.size(), is(2));
+        assertEquals(2, messages.size());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now(), of(0, 1));
-        assertThat(messages.size(), is(1));
+        assertEquals(1, messages.size());
     }
 
     @Test
-    public void shouldSaveLargeTextValueAuditEntryIntoDatabase() {
+    void shouldSaveLargeTextValueAuditEntryIntoDatabase() {
         final AuditEntry saved = new AuditEntry("TestEntity", "testId", "testField", repeat("A", 4000), repeat("B", 4000), "tester");
         repository.save(saved);
 

@@ -2,13 +2,15 @@ package pk.lucidxpo.ynami;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,9 +34,10 @@ import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(SpringExtension.class)
 public class AbstractIntegrationTest {
     public static final String ADMIN_USER = "admin";
-    public static final String SUPPORT_USER = "support";
+    protected static final String SUPPORT_USER = "support";
 
     @Autowired
     protected MockMvc mockMvc;
@@ -52,10 +55,10 @@ public class AbstractIntegrationTest {
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
     }
 
-    protected boolean acceptsProfile(final String... profiles) {
+    boolean acceptsProfile(final String... profiles) {
         return environment.acceptsProfiles(profiles);
     }
 
@@ -75,6 +78,7 @@ public class AbstractIntegrationTest {
     /*
      * This method will return a collection of 'Set<Role>', where each 'Set<Role>' will have different size.
      */
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     protected Collection<Set<Role>> getRolesCollection(final RoleRepository roleRepository) {
         final List<Role> allRoles = stream(values())
                 .map(roleName -> roleRepository.findByName(roleName).get())

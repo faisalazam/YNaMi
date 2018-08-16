@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami.migration.test;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -18,14 +18,14 @@ import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.dataSourceF
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
-public class DBDataPatchScriptTest {
+class DBDataPatchScriptTest {
     private static final String SAMPLE_TABLE = "Sample";
     private static final String STATUS_COLUMN = "active";
 
     private DataPatchDBMigrationCheck dataPatchMigrationCheck;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
         final DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSourceForLocalMySql());
@@ -35,7 +35,7 @@ public class DBDataPatchScriptTest {
     }
 
     @Test
-    public void shouldVerifyThatSampleHasBeenActivated() throws Exception {
+    void shouldVerifyThatSampleHasBeenActivated() throws Exception {
         final Integer id = randomInt();
 
         final Operation preOperation = executor -> new InsertSample()

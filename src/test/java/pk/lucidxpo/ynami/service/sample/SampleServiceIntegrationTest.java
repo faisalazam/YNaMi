@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami.service.sample;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
@@ -24,7 +24,11 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hibernate.validator.internal.util.CollectionHelper.newHashMap;
 import static org.joda.time.LocalDate.now;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
@@ -32,6 +36,7 @@ import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Sql(executionPhase = BEFORE_TEST_METHOD,
         scripts = {
                 "classpath:insert-roles.sql",
@@ -44,7 +49,7 @@ import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalen
                 TimeFreezeExecutionListener.class
         }
 )
-public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
+class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private SampleService sampleService;
 
@@ -57,8 +62,8 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     private Sample sample4;
     private Sample sample5;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         sampleRepository.deleteAll();
 
         sample1 = builder()
@@ -95,7 +100,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @WithUserDetails(value = ADMIN_USER)
-    public void shouldVerifyThatAuditInfoIsStored() {
+    void shouldVerifyThatAuditInfoIsStored() {
         assertThat(sample1.getCreatedDate(), nullValue());
         assertThat(sample1.getLastModifiedDate(), nullValue());
         assertThat(sample1.getLastModifiedBy(), nullValue());
@@ -116,7 +121,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @WithUserDetails(value = ADMIN_USER)
-    public void shouldVerifyThatAllElementsAreReturnedOnGetAll() throws Exception {
+    void shouldVerifyThatAllElementsAreReturnedOnGetAll() {
         final List<Sample> expectedSamples = asList(
                 sampleRepository.save(sample1),
                 sampleRepository.save(sample2),
@@ -132,7 +137,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatNoElementIsReturnedOnGetAllWhenThereIsNoElement() throws Exception {
+    void shouldVerifyThatNoElementIsReturnedOnGetAllWhenThereIsNoElement() {
         final List<Sample> actualSamples = sampleService.getAll();
 
         assertThat(actualSamples.isEmpty(), is(true));
@@ -140,7 +145,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @WithUserDetails(value = ADMIN_USER)
-    public void shouldVerifyTheRetrievalOfElementById() throws Exception {
+    void shouldVerifyTheRetrievalOfElementById() {
         sample1 = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -154,7 +159,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyTheExistenceOfElement() throws Exception {
+    void shouldVerifyTheExistenceOfElement() {
         sample1 = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -169,7 +174,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatSampleIsCreatedSuccessfullyOnCreate() throws Exception {
+    void shouldVerifyThatSampleIsCreatedSuccessfullyOnCreate() {
         sample1 = builder()
                 .active(chooseOneOf(true, false))
                 .address(randomAlphabetic(5, 50))
@@ -179,14 +184,16 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         final Sample createdSample = sampleService.create(sample1);
 
         final Sample actualSample = sampleService.findById(createdSample.getId()).get();
-        assertThat(actualSample.isActive(), is(sample1.isActive()));
-        assertThat(actualSample.getAddress(), is(sample1.getAddress()));
-        assertThat(actualSample.getFirstName(), is(sample1.getFirstName()));
-        assertThat(actualSample.getLastName(), is(sample1.getLastName()));
+        assertAll(
+                () -> assertEquals(sample1.isActive(), actualSample.isActive()),
+                () -> assertEquals(sample1.getAddress(), actualSample.getAddress()),
+                () -> assertEquals(sample1.getFirstName(), actualSample.getFirstName()),
+                () -> assertEquals(sample1.getLastName(), actualSample.getLastName())
+        );
     }
 
     @Test
-    public void shouldVerifyThatSampleIsUpdatedSuccessfullyOnUpdate() throws Exception {
+    void shouldVerifyThatSampleIsUpdatedSuccessfullyOnUpdate() {
         sample1 = builder()
                 .active(true)
                 .address(randomAlphabetic(5, 50))
@@ -196,10 +203,12 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         final Sample createdSample = sampleService.create(sample1);
 
         final Sample actualCreatedSample = sampleService.findById(createdSample.getId()).get();
-        assertThat(actualCreatedSample.isActive(), is(sample1.isActive()));
-        assertThat(actualCreatedSample.getAddress(), is(sample1.getAddress()));
-        assertThat(actualCreatedSample.getFirstName(), is(sample1.getFirstName()));
-        assertThat(actualCreatedSample.getLastName(), is(sample1.getLastName()));
+        assertAll(
+                () -> assertEquals(sample1.isActive(), actualCreatedSample.isActive()),
+                () -> assertEquals(sample1.getAddress(), actualCreatedSample.getAddress()),
+                () -> assertEquals(sample1.getFirstName(), actualCreatedSample.getFirstName()),
+                () -> assertEquals(sample1.getLastName(), actualCreatedSample.getLastName())
+        );
 
         sample1.setActive(false);
         sample1.setAddress("Dummy Address");
@@ -208,14 +217,16 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         sampleService.update(sample1);
 
         final Sample actualUpdatedSample = sampleService.findById(createdSample.getId()).get();
-        assertThat(actualUpdatedSample.isActive(), is(false));
-        assertThat(actualUpdatedSample.getAddress(), is("Dummy Address"));
-        assertThat(actualUpdatedSample.getFirstName(), is("First Name"));
-        assertThat(actualUpdatedSample.getLastName(), is("Last Name"));
+        assertAll(
+                () -> assertFalse(actualUpdatedSample.isActive()),
+                () -> assertEquals("Dummy Address", actualUpdatedSample.getAddress()),
+                () -> assertEquals("First Name", actualUpdatedSample.getFirstName()),
+                () -> assertEquals("Last Name", actualUpdatedSample.getLastName())
+        );
     }
 
     @Test
-    public void shouldVerifyTheDeletionOfElement() throws Exception {
+    void shouldVerifyTheDeletionOfElement() {
         sample1 = sampleRepository.save(sample1);
 
         assertThat(sampleService.findById(sample1.getId()).isPresent(), is(true));
@@ -226,7 +237,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldVerifyThatOnlyStatusIsUpdatedOnUpdateStatusWhenElementSpecifiedByIdIsFound() throws Exception {
+    void shouldVerifyThatOnlyStatusIsUpdatedOnUpdateStatusWhenElementSpecifiedByIdIsFound() {
         final Map<String, Object> updates = newHashMap();
         updates.put("id", "12");
         updates.put("firstName", "test first");
@@ -241,12 +252,14 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
         final Sample actualService = sampleService.updateStatus(savedSample.getId(), updates);
 
-        assertThat(actualService.isActive(), is(true));
-        assertThat(actualService.getId(), is(savedSample.getId()));
-        assertThat(actualService.getFirstName(), is(sample1.getFirstName()));
-        assertThat(actualService.getLastName(), is(sample1.getLastName()));
-        assertThat(actualService.getAddress(), is(sample1.getAddress()));
+        assertAll(
+                () -> assertTrue(actualService.isActive()),
+                () -> assertEquals(savedSample.getId(), actualService.getId()),
+                () -> assertEquals(sample1.getFirstName(), actualService.getFirstName()),
+                () -> assertEquals(sample1.getLastName(), actualService.getLastName()),
+                () -> assertEquals(sample1.getAddress(), actualService.getAddress()),
 
-        assertThat(actualService.getLastModifiedDate().isAfter(savedSample.getLastModifiedDate()), is(true));
+                () -> assertTrue(actualService.getLastModifiedDate().isAfter(savedSample.getLastModifiedDate()))
+        );
     }
 }
