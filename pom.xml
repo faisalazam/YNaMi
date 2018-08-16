@@ -27,9 +27,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
+		<java.version>10</java.version>
         <guava.version>26.0-jre</guava.version>
         <jquery.version>3.3.1-1</jquery.version>
+        <xstream.version>1.4.10</xstream.version>
         <togglz.version>2.6.1.Final</togglz.version>
         <commons.io.version>2.6</commons.io.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
@@ -182,6 +183,17 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
 			<scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

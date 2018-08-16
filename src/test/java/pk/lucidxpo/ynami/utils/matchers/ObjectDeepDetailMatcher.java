@@ -1,30 +1,23 @@
 package pk.lucidxpo.ynami.utils.matchers;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.CompactWriter;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-import java.io.ByteArrayOutputStream;
-
-import static javax.xml.bind.JAXBContext.newInstance;
-import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
+import java.io.StringWriter;
 
 public class ObjectDeepDetailMatcher extends BaseMatcher<Object> {
 
-    private final Class aClass;
     private final Object expected;
 
     public static ObjectDeepDetailMatcher equivalentTo(final Object expected) {
         return new ObjectDeepDetailMatcher(expected);
     }
 
-    public ObjectDeepDetailMatcher(final Object expected) {
+    private ObjectDeepDetailMatcher(final Object expected) {
         this.expected = expected;
-        this.aClass = expected.getClass();
     }
 
     @Override
@@ -41,14 +34,11 @@ public class ObjectDeepDetailMatcher extends BaseMatcher<Object> {
     }
 
 
-    private String toXML(final Object object) throws Exception {
-        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        final JAXBElement<?> rootElement = new JAXBElement<>(new QName(aClass.getSimpleName()), aClass, aClass.cast(object));
-        final JAXBContext jaxbContext = newInstance(aClass);
-        final Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(JAXB_FORMATTED_OUTPUT, true);
-        marshaller.marshal(rootElement, byteArrayOutputStream);
-        return byteArrayOutputStream.toString();
+    private String toXML(final Object object) {
+        final XStream xs = new XStream();
+        final StringWriter writer = new StringWriter();
+        xs.marshal(object, new CompactWriter(writer));
+        return writer.toString();
     }
 
     @Override

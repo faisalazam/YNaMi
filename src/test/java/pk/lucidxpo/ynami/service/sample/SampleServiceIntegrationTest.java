@@ -11,7 +11,6 @@ import pk.lucidxpo.ynami.persistence.dao.sample.SampleRepository;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.utils.executionlisteners.TimeFreezeExecutionListener;
-import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
+import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @Sql(executionPhase = BEFORE_TEST_METHOD,
         scripts = {
@@ -149,7 +149,7 @@ public class SampleServiceIntegrationTest extends AbstractIntegrationTest {
                 .build();
         final Sample savedSample = sampleRepository.save(sample1);
 
-        assertThat(sampleService.findById(savedSample.getId()).get(), new ObjectDeepDetailMatcher(savedSample));
+        assertThat(sampleService.findById(savedSample.getId()).get(), equivalentTo(savedSample));
         assertThat(sampleService.findById(valueOf(randomInt())).isPresent(), is(false));
     }
 

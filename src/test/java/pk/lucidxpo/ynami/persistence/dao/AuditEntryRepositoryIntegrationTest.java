@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
-import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +17,7 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
+import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 public class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
@@ -57,12 +57,12 @@ public class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest
 
         List<AuditEntry> records = repository.findByChangedEntityIdOrderByChangedAtDesc(matchingEntityId);
         assertThat(records.size(), is(2));
-        assertThat(auditEntry2, new ObjectDeepDetailMatcher(records.get(0)));
-        assertThat(auditEntry1, new ObjectDeepDetailMatcher(records.get(1)));
+        assertThat(auditEntry2, equivalentTo(records.get(0)));
+        assertThat(auditEntry1, equivalentTo(records.get(1)));
 
         records = repository.findByChangedEntityIdOrderByChangedAtDesc(nonMatchingEntityId);
         assertThat(records.size(), is(1));
-        assertThat(auditEntry3, new ObjectDeepDetailMatcher(records.get(0)));
+        assertThat(auditEntry3, equivalentTo(records.get(0)));
 
         records = repository.findByChangedEntityIdOrderByChangedAtDesc(randomID());
         assertThat(records.isEmpty(), is(true));

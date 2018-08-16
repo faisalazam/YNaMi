@@ -10,7 +10,6 @@ import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 import pk.lucidxpo.ynami.persistence.model.security.User;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
-import pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -26,6 +25,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 import static pk.lucidxpo.ynami.persistence.model.security.User.UserBuilder;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
+import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @Transactional
 @Sql(executionPhase = BEFORE_TEST_METHOD,
@@ -105,7 +105,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
         final User savedUser = saveUser();
 
         final User retrievedUser = userRepository.findByUsernameOrEmail(savedUser.getUsername(), randomAlphanumeric(5, 35)).get();
-        assertThat(retrievedUser, new ObjectDeepDetailMatcher(savedUser));
+        assertThat(retrievedUser, equivalentTo(savedUser));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
         final User savedUser = saveUser();
 
         final User retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), savedUser.getEmail()).get();
-        assertThat(retrievedUser, new ObjectDeepDetailMatcher(savedUser));
+        assertThat(retrievedUser, equivalentTo(savedUser));
     }
 
     @Test
