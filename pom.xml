@@ -31,15 +31,19 @@
         <guava.version>26.0-jre</guava.version>
         <jquery.version>3.3.1-1</jquery.version>
         <xstream.version>1.4.10</xstream.version>
+        <maven.jxr.version>2.5</maven.jxr.version>
         <togglz.version>2.6.1.Final</togglz.version>
         <commons.io.version>2.6</commons.io.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
+        <maven.site.version>3.7.1</maven.site.version>
         <flyway.core.version>5.1.4</flyway.core.version>
         <modelmapper.version>1.0.0</modelmapper.version>
         <commons.lang.version>3.7</commons.lang.version>
         <font.awesome.version>5.1.0</font.awesome.version>
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
         <jupiter.engine.version>5.2.0</jupiter.engine.version>
+        <maven.surefire.version>2.22.0</maven.surefire.version>
+        <maven.project.info.reports.version>3.0.0</maven.project.info.reports.version>
         <junit.platform.surefire.provider.version>1.2.0</junit.platform.surefire.provider.version>
 	</properties>
 
@@ -233,7 +237,7 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>${maven.surefire.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
@@ -244,12 +248,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>${maven.surefire.version}</version>
                 <configuration>
                     <includes>
                         <include>**/*IntegrationTest.java</include>
                     </includes>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven.site.version}</version>
             </plugin>
 
             <plugin>
@@ -326,4 +336,24 @@
             </plugin>
         </plugins>
 	</build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven.project.info.reports.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven.jxr.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
