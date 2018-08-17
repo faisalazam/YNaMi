@@ -15,11 +15,15 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
 
 @Controller
 public class SampleFeatureController {
-    @Autowired
-    private ToggleableService toggleableService;
+    private final ToggleableService toggleableService;
+    private final FeatureManagerWrappable featureManager;
 
     @Autowired
-    private FeatureManagerWrappable featureManager;
+    public SampleFeatureController(final ToggleableService toggleableService,
+                                   final FeatureManagerWrappable featureManager) {
+        this.featureManager = featureManager;
+        this.toggleableService = toggleableService;
+    }
 
     @RequestMapping("/feature-test")
     @FeatureAssociation(value = METHOD_EXECUTION)

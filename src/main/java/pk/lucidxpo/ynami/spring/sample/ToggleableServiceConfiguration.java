@@ -47,7 +47,7 @@ public class ToggleableServiceConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "false", matchIfMissing = true)
-    public ToggleableService oldService() throws Exception {
+    public ToggleableService oldService() {
         return new OldToggleableServiceImpl();
     }
 }

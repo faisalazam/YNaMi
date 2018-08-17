@@ -13,8 +13,12 @@ import static java.lang.Boolean.valueOf;
 
 @Service
 public class SampleServiceImpl implements SampleService {
+    private final SampleRepository sampleRepository;
+
     @Autowired
-    private SampleRepository sampleRepository;
+    public SampleServiceImpl(final SampleRepository sampleRepository) {
+        this.sampleRepository = sampleRepository;
+    }
 
     @Override
     public List<Sample> getAll() {

@@ -37,11 +37,15 @@ public class SampleController {
     @Value("${welcome.message}")
     private String message;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final SampleService sampleService;
 
     @Autowired
-    private SampleService sampleService;
+    public SampleController(final ModelMapper modelMapper,
+                            final SampleService sampleService) {
+        this.modelMapper = modelMapper;
+        this.sampleService = sampleService;
+    }
 
     @RequestMapping("/")
     public String welcome(Model model) {

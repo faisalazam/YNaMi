@@ -16,8 +16,8 @@ import static java.util.Collections.emptyMap;
 class EnvironmentFeatureMetaData implements FeatureMetaData {
     private static final String TOGGLZ_FEATURES = "togglz.features.";
 
-    private Feature feature;
-    private Environment environment;
+    private final Feature feature;
+    private final Environment environment;
 
     EnvironmentFeatureMetaData(final Feature feature, final Environment environment) {
         this.feature = feature;

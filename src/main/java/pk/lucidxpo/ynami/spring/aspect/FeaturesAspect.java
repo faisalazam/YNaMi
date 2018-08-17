@@ -12,8 +12,12 @@ import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 @Aspect
 @Component
 public class FeaturesAspect {
+    private final FeatureManagerWrappable featureManager;
+
     @Autowired
-    private FeatureManagerWrappable featureManager;
+    public FeaturesAspect(final FeatureManagerWrappable featureManager) {
+        this.featureManager = featureManager;
+    }
 
     @Around(
             "@within(featureAssociation) || @annotation(featureAssociation)"
