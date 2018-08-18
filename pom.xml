@@ -34,6 +34,7 @@
         <maven.jxr.version>2.5</maven.jxr.version>
         <togglz.version>2.6.1.Final</togglz.version>
         <commons.io.version>2.6</commons.io.version>
+        <maven.pmd.version>3.10.0</maven.pmd.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
         <maven.site.version>3.7.1</maven.site.version>
         <flyway.core.version>5.1.4</flyway.core.version>
@@ -43,6 +44,7 @@
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
         <jupiter.engine.version>5.2.0</jupiter.engine.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
+        <maven.checkstyle.version>3.0.0</maven.checkstyle.version>
         <maven.project.info.reports.version>3.0.0</maven.project.info.reports.version>
         <junit.platform.surefire.provider.version>1.2.0</junit.platform.surefire.provider.version>
 	</properties>
@@ -265,6 +267,12 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven.pmd.version}</version>
+            </plugin>
+
+            <plugin>
                 <!-- Code coverage plugin. -->
                 <!-- This sets up code coverage for the unit tests, the integration tests and the combined coverage of both. -->
                 <!-- After running a `mvn clean install`, open `target/site/jacoco-both/index.html` in a browser. -->
@@ -363,6 +371,16 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven.pmd.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
             </plugin>
@@ -374,3 +392,20 @@
         </plugins>
     </reporting>
 </project>
+
+<!-- run unit tests with report
+
+        rm -rf target/site/ target/surefire-reports/
+        mvn surefire:test
+        mvn surefire-report:report-only
+        mvn site -DgenerateReports=false
+        report will be generated in target/site/surefire-report.html
+-->
+
+<!-- run integration tests with report
+        rm -rf target/site/ target/failsafe-reports/
+        mvn failsafe:integration-test
+        mvn surefire-report:failsafe-report-only
+        mvn site -DgenerateReports=false
+        report will be generated in target/site/failsafe-report.html
+-->
