@@ -1,6 +1,7 @@
 package pk.lucidxpo.ynami.spring.sample;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,9 @@ public class ToggleableServiceConfiguration {
     @Bean
     @Primary
     @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
-    public ToggleableService someService(@Autowired FeatureProxyFactoryBeanWrapper proxiedToggleableService) throws Exception {
+    public ToggleableService toggleableService(
+            @Autowired @Qualifier("proxiedToggleableService") final FeatureProxyFactoryBeanWrapper proxiedToggleableService
+    ) throws Exception {
         return (ToggleableService) proxiedToggleableService.getObject();
     }
 

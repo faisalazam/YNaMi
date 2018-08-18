@@ -3,6 +3,7 @@ package pk.lucidxpo.ynami.spring.features;
 import org.togglz.core.Feature;
 
 public enum FeatureToggles implements Feature {
+    WEB_SECURITY,
     TOGGLEABLE_SERVICE,
     CONTROLLER_EXECUTION,
     METHOD_EXECUTION,

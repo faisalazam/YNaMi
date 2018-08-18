@@ -19,7 +19,7 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 class FeatureManagerWrapperTogglzDisabledIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     @Qualifier("featureManagerDefaultWrapper")
-    private FeatureManagerWrappable featureManagerWrappable;
+    private FeatureManagerWrappable featureManager;
 
     @Test
     void shouldVerifyThatUserProviderBeanDoesNotExistWhenTogglzIsDisabled() {
@@ -29,12 +29,12 @@ class FeatureManagerWrapperTogglzDisabledIntegrationTest extends AbstractIntegra
     @Test
     void shouldVerifyActivationDeactivationOfFeatureUsingCustomFeatureManagerHasNoImpact() {
         final Feature feature = chooseOneOf(values());
-        featureManagerWrappable.deactivate(feature);
+        featureManager.deactivate(feature);
 
-        assertThat(featureManagerWrappable.isActive(feature), is(false));
+        assertThat(featureManager.isActive(feature), is(false));
 
-        featureManagerWrappable.activate(feature);
+        featureManager.activate(feature);
 
-        assertThat(featureManagerWrappable.isActive(feature), is(false));
+        assertThat(featureManager.isActive(feature), is(false));
     }
 }

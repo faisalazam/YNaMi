@@ -110,13 +110,7 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
         assertThat(savedSample.getCreatedDate().toString(), containsString(now().toString()));
         assertThat(savedSample.getLastModifiedDate().toString(), containsString(now().toString()));
-        if (isConfigEnabled("config.web.security.enabled")) {
-            assertThat(savedSample.getLastModifiedBy(), is(ADMIN_USER));
-            assertThat(savedSample.getCreatedBy(), is(ADMIN_USER));
-        } else {
-            assertThat(savedSample.getLastModifiedBy(), is("Anonymous"));
-            assertThat(savedSample.getCreatedBy(), is("Anonymous"));
-        }
+        assertAuditUser(savedSample, ADMIN_USER);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package pk.lucidxpo.ynami.spring.security;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
@@ -24,7 +24,6 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -34,13 +33,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 import static pk.lucidxpo.ynami.spring.security.UserDetailsServiceIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 @WithUserDetails(value = ADMIN_USER)
-@TestPropertySource(properties = {
-        "config.web.security.enabled=true"
-})
 @Sql(executionPhase = BEFORE_TEST_METHOD,
         scripts = {
                 "classpath:insert-roles.sql",
@@ -58,6 +55,12 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
+
+    @BeforeEach
+    void setup() {
+        featureManager.activate(WEB_SECURITY);
+        assertTrue(featureManager.isActive(WEB_SECURITY));
+    }
 
     @Test
     void shouldThrowUsernameNotFoundExceptionOnLoadUserByUsernameWhenUserWithSpecifiedUsernameOrEmailDoesNotExist() {
@@ -101,13 +104,8 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
         user.setRoles(roles);
 
         final User savedUser = userRepository.save(user);
-        if (isConfigEnabled("config.web.security.enabled")) {
-            assertThat(savedUser.getCreatedBy(), is(ADMIN_USER));
-            assertThat(savedUser.getLastModifiedBy(), is(ADMIN_USER));
-        } else {
-            assertThat(savedUser.getCreatedBy(), is("Anonymous"));
-            assertThat(savedUser.getLastModifiedBy(), is("Anonymous"));
-        }
+        assertAuditUser(savedUser, ADMIN_USER);
+
         assertThat(savedUser.getCreatedDate(), notNullValue());
         assertThat(savedUser.getLastModifiedDate(), notNullValue());
 

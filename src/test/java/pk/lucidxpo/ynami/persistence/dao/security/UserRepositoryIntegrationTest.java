@@ -62,13 +62,9 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
             assertThat(savedUser.getUsername(), is(userWithSpecifiedUserName.getUsername()));
             assertThat(savedUser.getEmail(), is(userWithSpecifiedUserName.getEmail()));
             assertThat(savedUser.getPassword(), is(userWithSpecifiedUserName.getPassword()));
-            if (isConfigEnabled("config.web.security.enabled")) {
-                assertThat(savedUser.getCreatedBy(), is(SUPPORT_USER));
-                assertThat(savedUser.getLastModifiedBy(), is(SUPPORT_USER));
-            } else {
-                assertThat(savedUser.getCreatedBy(), is("Anonymous"));
-                assertThat(savedUser.getLastModifiedBy(), is("Anonymous"));
-            }
+
+            assertAuditUser(savedUser, SUPPORT_USER);
+
             assertThat(savedUser.getCreatedDate(), notNullValue());
             assertThat(savedUser.getLastModifiedDate(), notNullValue());
 
@@ -109,11 +105,12 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
         assertThat(retrievedUser, equivalentTo(savedUser));
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     void shouldVerifyTheRetrievalOfUserByEmailOnFindByUsernameOrEmail() {
         final User savedUser = saveUser();
 
-        @SuppressWarnings("OptionalGetWithoutIsPresent") final User retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), savedUser.getEmail()).get();
+        final User retrievedUser = userRepository.findByUsernameOrEmail(randomAlphanumeric(5, 35), savedUser.getEmail()).get();
         assertThat(retrievedUser, equivalentTo(savedUser));
     }
 

@@ -1,12 +1,10 @@
 package pk.lucidxpo.ynami.controller.sample;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.util.NestedServletException;
 import org.thymeleaf.exceptions.TemplateInputException;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
-import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -23,9 +21,6 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.TOGGLEABLE_SERVIC
 
 @WithMockUser
 class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
-
-    @Autowired
-    private FeatureManagerWrappable featureManager;
 
     // =========================== Verify Feature Toggles are working as expected ===========================
 

@@ -15,7 +15,9 @@ import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
+import pk.lucidxpo.ynami.persistence.model.Auditable;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,6 +33,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,6 +50,9 @@ public class AbstractIntegrationTest {
 
     @Autowired
     protected ApplicationContext applicationContext;
+
+    @Autowired
+    protected FeatureManagerWrappable featureManager;
 
     @ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
@@ -92,5 +98,15 @@ public class AbstractIntegrationTest {
         assertThat(associatedRolesList.size(), is(values().length));
 
         return associatedRolesList;
+    }
+
+    protected void assertAuditUser(final Auditable auditable, final String auditUser) {
+        if (featureManager.isActive(WEB_SECURITY)) {
+            assertThat(auditable.getLastModifiedBy(), is(auditUser));
+            assertThat(auditable.getCreatedBy(), is(auditUser));
+        } else {
+            assertThat(auditable.getLastModifiedBy(), is("Anonymous"));
+            assertThat(auditable.getCreatedBy(), is("Anonymous"));
+        }
     }
 }

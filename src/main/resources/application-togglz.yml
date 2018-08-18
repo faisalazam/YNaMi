@@ -10,6 +10,10 @@ togglz:
     path: /actuator/togglz
     use-management-port: false
   features:
+    WEB_SECURITY:
+      enabled: false
+      label: Enable/disable Web Security
+      group: Config
     CONTROLLER_EXECUTION:
       enabled: true
       label: Make Controller executable
