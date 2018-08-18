@@ -1,6 +1,5 @@
 package pk.lucidxpo.ynami.persistence.model.security;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -65,7 +64,6 @@ public class User extends Auditable<String> {
             inverseJoinColumns = @JoinColumn(name = "roleId"))
     private Set<Role> roles = newHashSet();
 
-    @Builder
     public User(final String name,
                 final String username,
                 final String email,

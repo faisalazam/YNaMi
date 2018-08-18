@@ -69,6 +69,18 @@ public class PackageVerifierTest {
     }
 
     @Test
+    void shouldVerifyThatAllTheEntityBuildersAreDefinedInsideBuilderPackage() {
+        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        provider.addIncludeFilter(new RegexPatternTypeFilter(compile(".*Builder$")));
+        provider.addExcludeFilter(new RegexPatternTypeFilter(compile(".*DTOBuilder$")));
+        final Set<BeanDefinition> allBuilderClasses = provider.findCandidateComponents(BASE_PACKAGE);
+        final Set<BeanDefinition> builderClassesInBuilderPackage = provider.findCandidateComponents(BASE_PACKAGE + ".persistence.model");
+
+        assertThat(builderClassesInBuilderPackage.isEmpty(), is(false));
+        assertThat(builderClassesInBuilderPackage.size(), is(allBuilderClasses.size()));
+    }
+
+    @Test
     void shouldVerifyThatAllTheServicesAreDefinedInsideServicePackage() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(Service.class));

@@ -17,6 +17,7 @@ public final class Randomly {
     private Randomly() {
     }
 
+    @SafeVarargs
     public static <T> T chooseOneOf(final T... values) {
         return chooseOneOf(asList(values));
     }

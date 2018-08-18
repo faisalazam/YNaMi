@@ -32,7 +32,7 @@ import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
-import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
+import static pk.lucidxpo.ynami.persistence.model.security.UserBuilder.anUser;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 import static pk.lucidxpo.ynami.spring.security.UserDetailsServiceIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
@@ -76,12 +76,7 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldGetUserDetailsOnLoadUserByUsernameWhenUserWithSpecifiedUsernameDoesExist() {
         final String username = randomAlphanumeric(5, 35);
-        final User user = builder()
-                .name(randomAlphanumeric(5, 35))
-                .username(username)
-                .email(randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3))
-                .password(randomAlphanumeric(5, 35))
-                .build();
+        final User user = anUser().withUsername(username).build();
 
         saveAndAssertUserDetails(username, user);
     }
@@ -89,12 +84,7 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldGetUserDetailsOnLoadUserByUsernameWhenUserWithSpecifiedEmailDoesExist() {
         final String email = randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3);
-        final User user = builder()
-                .name(randomAlphanumeric(5, 35))
-                .username(randomAlphanumeric(5, 35))
-                .email(email)
-                .password(randomAlphanumeric(5, 35))
-                .build();
+        final User user = anUser().withEmail(email).build();
 
         saveAndAssertUserDetails(email, user);
     }

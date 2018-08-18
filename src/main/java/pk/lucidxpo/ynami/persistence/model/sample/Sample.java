@@ -1,7 +1,6 @@
 package pk.lucidxpo.ynami.persistence.model.sample;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)

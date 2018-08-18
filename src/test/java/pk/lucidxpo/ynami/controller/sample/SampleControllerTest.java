@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
+import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
 @ExtendWith(MockitoExtension.class)
@@ -83,8 +83,8 @@ class SampleControllerTest {
 
     @Test
     void shouldGetAllSamples() throws Exception {
-        final Sample sample1 = builder().build();
-        final Sample sample2 = builder().build();
+        final Sample sample1 = aSample().build();
+        final Sample sample2 = aSample().build();
         final List<Sample> sampleList = asList(sample1, sample2);
         given(sampleService.getAll()).willReturn(sampleList);
 
@@ -103,8 +103,8 @@ class SampleControllerTest {
                 .andReturn();
 
         verify(sampleService, times(1)).getAll();
-        verify(modelMapper, times(2)).map(sample1, SampleDTO.class);
-        verify(modelMapper, times(2)).map(sample2, SampleDTO.class);
+        verify(modelMapper, times(1)).map(sample1, SampleDTO.class);
+        verify(modelMapper, times(1)).map(sample2, SampleDTO.class);
         verifyNoMoreInteractions(sampleService, modelMapper);
     }
 
@@ -113,7 +113,7 @@ class SampleControllerTest {
     @Test
     void shouldGetSampleById() throws Exception {
         final Long id = valueOf(randomInt());
-        final Sample sample = builder().build();
+        final Sample sample = aSample().withId(id).build();
 
         given(sampleService.findById(id)).willReturn(of(sample));
 
@@ -169,7 +169,7 @@ class SampleControllerTest {
                 .firstName(randomAlphabetic(5, 50))
                 .build();
 
-        final Sample sample = builder().build();
+        final Sample sample = aSample().build();
         given(sampleService.existsByFirstName(sampleCreationDTO.getFirstName())).willReturn(false);
         given(sampleService.create(sample)).willReturn(sample);
         given(modelMapper.map(sampleCreationDTO, Sample.class)).willReturn(sample);
@@ -208,7 +208,7 @@ class SampleControllerTest {
     void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
 
         final Long id = valueOf(randomInt());
-        final Sample sample = Sample.builder().id(id).build();
+        final Sample sample = aSample().withId(id).build();
         given(sampleService.findById(id)).willReturn(of(sample));
 
         final SampleUpdationDTO expectedSampleUpdationDTO = SampleUpdationDTO.builder().build();
@@ -244,7 +244,7 @@ class SampleControllerTest {
     @Test
     void shouldUpdateSampleSuccessfully() throws Exception {
         final Long id = valueOf(randomInt());
-        final Sample sample = builder().build();
+        final Sample sample = aSample().build();
         given(sampleService.findById(id)).willReturn(of(sample));
         given(sampleService.update(sample)).willReturn(sample);
 
@@ -283,7 +283,7 @@ class SampleControllerTest {
     @Test
     void shouldUpdateSamplePartiallySuccessfully() throws Exception {
         final Long id = valueOf(randomInt());
-        final Sample sample = builder().build();
+        final Sample sample = aSample().build();
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
         given(sampleService.findById(id)).willReturn(of(sample));
@@ -320,7 +320,7 @@ class SampleControllerTest {
     @Test
     void shouldDeleteSampleSuccessfully() throws Exception {
         final Long id = valueOf(randomInt());
-        Sample sample = builder().build();
+        Sample sample = aSample().build();
 
         given(sampleService.findById(id)).willReturn(of(sample));
         doNothing().when(sampleService).delete(id);

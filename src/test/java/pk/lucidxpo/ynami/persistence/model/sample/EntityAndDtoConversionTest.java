@@ -6,12 +6,11 @@ import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 
-import static java.lang.Long.valueOf;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static pk.lucidxpo.ynami.utils.Identity.randomInt;
+import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
 class EntityAndDtoConversionTest {
@@ -19,13 +18,7 @@ class EntityAndDtoConversionTest {
 
     @Test
     void shouldConvertSampleEntityToSampleCreationDtoCorrectly() {
-        Sample sample = Sample.builder()
-                .id(valueOf(randomInt()))
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(50))
-                .firstName(randomAlphabetic(10))
-                .lastName(randomAlphabetic(10))
-                .build();
+        Sample sample = aSample().build();
 
         final SampleCreationDTO convertedSampleCreationDto = modelMapper.map(sample, SampleCreationDTO.class);
         assertEquals(sample.isActive(), convertedSampleCreationDto.isActive());

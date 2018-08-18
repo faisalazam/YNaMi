@@ -41,7 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
-import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
+import static pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO.builder;
+import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
@@ -70,22 +71,8 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldGetAllSamples() throws Exception {
-        Sample sample1 = builder()
-                .id(valueOf(randomInt()))
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        Sample sample2 = builder()
-                .id(valueOf(randomInt()))
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample1 = sampleRepository.saveAndFlush(sample1);
-        sample2 = sampleRepository.saveAndFlush(sample2);
+        final Sample sample1 = sampleRepository.saveAndFlush(aSample().build());
+        final Sample sample2 = sampleRepository.saveAndFlush(aSample().build());
 
         final List<SampleDTO> expectedSamples = asList(
                 modelMapper.map(sample1, SampleDTO.class),
@@ -103,14 +90,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldGetSampleById() throws Exception {
-        Sample sample = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample = sampleRepository.saveAndFlush(sample);
-
+        final Sample sample = sampleRepository.saveAndFlush(aSample().build());
         final SampleDTO sampleDTO = modelMapper.map(sample, SampleDTO.class);
 
         mockMvc.perform(get("/samples/{id}/view", sample.getId()))
@@ -132,7 +112,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldPrepareNewSampleCreation() throws Exception {
-        final SampleCreationDTO expectedSample = SampleCreationDTO.builder().build();
+        final SampleCreationDTO expectedSample = builder().build();
 
         mockMvc.perform(get("/samples/new"))
                 .andExpect(status().isOk())
@@ -145,7 +125,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldCreateNewSampleSuccessfully() throws Exception {
-        final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
+        final SampleCreationDTO sampleCreationDTO = builder()
                 .firstName(randomAlphabetic(5, 50))
                 .lastName(randomAlphabetic(5, 50))
                 .address(randomAlphabetic(5, 50))
@@ -172,16 +152,12 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldNotCreateNewSampleWhenSampleAlreadyExistsAndReturnWith409ConflictStatus() throws Exception {
         final String firstName = randomAlphabetic(5, 50);
-        final Sample sample = builder()
-                .firstName(firstName)
-                .id(valueOf(randomInt()))
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
+        final Sample sample = aSample()
+                .withFirstName(firstName)
                 .build();
         sampleRepository.saveAndFlush(sample);
 
-        final SampleCreationDTO sampleCreationDTO = SampleCreationDTO.builder()
+        final SampleCreationDTO sampleCreationDTO = builder()
                 .firstName(firstName)
                 .build();
 
@@ -198,14 +174,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
-        Sample sample = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample = sampleRepository.saveAndFlush(sample);
-
+        final Sample sample = sampleRepository.saveAndFlush(aSample().build());
         final SampleUpdationDTO expectedSampleUpdationDTO = modelMapper.map(sample, SampleUpdationDTO.class);
 
         mockMvc.perform(get("/samples/{id}", sample.getId()))
@@ -228,11 +197,8 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldUpdateSampleSuccessfully() throws Exception {
-        final Sample sample = builder()
-                .active(false)
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
+        final Sample sample = aSample()
+                .withActive(false)
                 .build();
         final Sample savedSample = sampleRepository.saveAndFlush(sample);
 
@@ -276,11 +242,8 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldUpdateSamplePartiallySuccessfully() throws Exception {
-        Sample sample = builder()
-                .active(true)
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
+        Sample sample = aSample()
+                .withActive(true)
                 .build();
         final Sample savedSample = sampleRepository.saveAndFlush(sample);
 
@@ -323,13 +286,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldDeleteSampleSuccessfully() throws Exception {
-        Sample sample = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample = sampleRepository.saveAndFlush(sample);
+        final Sample sample = sampleRepository.saveAndFlush(aSample().build());
 
         mockMvc.perform(
                 delete("/samples/{id}", sample.getId())

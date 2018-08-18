@@ -17,7 +17,6 @@ import java.util.Map;
 
 import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -31,9 +30,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
-import static pk.lucidxpo.ynami.persistence.model.sample.Sample.builder;
+import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
-import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -66,36 +64,11 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     void setup() {
         sampleRepository.deleteAll();
 
-        sample1 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample2 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample3 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample4 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
-        sample5 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
+        sample1 = aSample().build();
+        sample2 = aSample().build();
+        sample3 = aSample().build();
+        sample4 = aSample().build();
+        sample5 = aSample().build();
     }
 
     @Test
@@ -140,12 +113,7 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     @WithUserDetails(value = ADMIN_USER)
     void shouldVerifyTheRetrievalOfElementById() {
-        sample1 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
+        sample1 = aSample().build();
         final Sample savedSample = sampleRepository.save(sample1);
 
         assertThat(sampleService.findById(savedSample.getId()).get(), equivalentTo(savedSample));
@@ -154,12 +122,7 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyTheExistenceOfElement() {
-        sample1 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
+        sample1 = aSample().build();
         sampleRepository.save(sample1);
 
         assertThat(sampleService.existsByFirstName(sample1.getFirstName()), is(true));
@@ -169,12 +132,7 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyThatSampleIsCreatedSuccessfullyOnCreate() {
-        sample1 = builder()
-                .active(chooseOneOf(true, false))
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
-                .build();
+        sample1 = aSample().build();
         final Sample createdSample = sampleService.create(sample1);
 
         final Sample actualSample = sampleService.findById(createdSample.getId()).get();
@@ -188,27 +146,24 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyThatSampleIsUpdatedSuccessfullyOnUpdate() {
-        sample1 = builder()
-                .active(true)
-                .address(randomAlphabetic(5, 50))
-                .firstName(randomAlphabetic(5, 50))
-                .lastName(randomAlphabetic(5, 50))
+        sample1 = aSample()
+                .withActive(true)
                 .build();
         final Sample createdSample = sampleService.create(sample1);
 
         final Sample actualCreatedSample = sampleService.findById(createdSample.getId()).get();
         assertAll(
-                () -> assertEquals(sample1.isActive(), actualCreatedSample.isActive()),
-                () -> assertEquals(sample1.getAddress(), actualCreatedSample.getAddress()),
-                () -> assertEquals(sample1.getFirstName(), actualCreatedSample.getFirstName()),
-                () -> assertEquals(sample1.getLastName(), actualCreatedSample.getLastName())
+                () -> assertEquals(createdSample.isActive(), actualCreatedSample.isActive()),
+                () -> assertEquals(createdSample.getAddress(), actualCreatedSample.getAddress()),
+                () -> assertEquals(createdSample.getFirstName(), actualCreatedSample.getFirstName()),
+                () -> assertEquals(createdSample.getLastName(), actualCreatedSample.getLastName())
         );
 
-        sample1.setActive(false);
-        sample1.setAddress("Dummy Address");
-        sample1.setFirstName("First Name");
-        sample1.setLastName("Last Name");
-        sampleService.update(sample1);
+        createdSample.setActive(false);
+        createdSample.setAddress("Dummy Address");
+        createdSample.setFirstName("First Name");
+        createdSample.setLastName("Last Name");
+        sampleService.update(createdSample);
 
         final Sample actualUpdatedSample = sampleService.findById(createdSample.getId()).get();
         assertAll(

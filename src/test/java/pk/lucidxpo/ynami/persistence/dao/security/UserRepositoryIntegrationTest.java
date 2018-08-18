@@ -9,6 +9,7 @@ import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 import pk.lucidxpo.ynami.persistence.model.security.User;
+import pk.lucidxpo.ynami.persistence.model.security.UserBuilder;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import javax.transaction.Transactional;
@@ -22,8 +23,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
-import static pk.lucidxpo.ynami.persistence.model.security.User.UserBuilder;
-import static pk.lucidxpo.ynami.persistence.model.security.User.builder;
+import static pk.lucidxpo.ynami.persistence.model.security.UserBuilder.anUser;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
@@ -48,11 +48,9 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
         for (Set<Role> associatedRoles : getRolesCollection(roleRepository)) {
             final String username = randomAlphanumeric(5, 35);
             final String email = randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3);
-            final User userWithSpecifiedUserName = builder()
-                    .name(randomAlphanumeric(5, 35))
-                    .username(username)
-                    .email(email)
-                    .password(randomAlphanumeric(5, 35))
+            final User userWithSpecifiedUserName = anUser()
+                    .withUsername(username)
+                    .withEmail(email)
                     .build();
 
             userWithSpecifiedUserName.setRoles(associatedRoles);
@@ -125,26 +123,20 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     private User saveUserWithUsername(final String username) {
-        final UserBuilder userBuilder = builder()
-                .username(username)
-                .email(randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3));
+        final UserBuilder userBuilder = anUser().withUsername(username);
         return saveUser(userBuilder);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     private User saveUserWithEmail(final String email) {
-        final UserBuilder userBuilder = builder()
-                .username(randomAlphanumeric(5, 35))
-                .email(email);
+        final UserBuilder userBuilder = anUser().withEmail(email);
         return saveUser(userBuilder);
     }
 
     private User saveUser(final UserBuilder userBuilder) {
         final User user = userBuilder
-                .name(randomAlphanumeric(5, 35))
-                .password(randomAlphanumeric(5, 35))
+                .withRoles(chooseOneOf(getRolesCollection(roleRepository)))
                 .build();
-        user.setRoles(chooseOneOf(getRolesCollection(roleRepository)));
 
         return userRepository.saveAndFlush(user);
     }
