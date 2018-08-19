@@ -1,0 +1,11 @@
+togglz:
+  enabled: ${config.togglz.enabled}
+  table:
+    name: FeatureToggles
+  caching:
+    state.repository.ttl: 0
+  console:
+    enabled: true
+    secured: false
+    path: /actuator/togglz
+    use-management-port: false
