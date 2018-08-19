@@ -30,8 +30,12 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsString;
+import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
@@ -76,7 +80,7 @@ public class AbstractIntegrationTest {
         try {
             applicationContext.getBean(beanClass);
             fail("Should have thrown 'NoSuchBeanDefinitionException' as there shouldn't exist any such bean");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             assertThat(e, instanceOf(NoSuchBeanDefinitionException.class));
         }
     }
@@ -100,13 +104,13 @@ public class AbstractIntegrationTest {
         return associatedRolesList;
     }
 
-    protected void assertAuditUser(final Auditable auditable, final String auditUser) {
-        if (featureManager.isActive(WEB_SECURITY)) {
-            assertThat(auditable.getLastModifiedBy(), is(auditUser));
-            assertThat(auditable.getCreatedBy(), is(auditUser));
-        } else {
-            assertThat(auditable.getLastModifiedBy(), is("Anonymous"));
-            assertThat(auditable.getCreatedBy(), is("Anonymous"));
-        }
+    protected void assertAuditInfo(final Auditable auditable, final String auditUser) {
+        final String evaluatedAuditUser = featureManager.isActive(WEB_SECURITY) ? auditUser : "Anonymous";
+        assertAll(
+                () -> assertEquals(evaluatedAuditUser, auditable.getCreatedBy()),
+                () -> assertEquals(evaluatedAuditUser, auditable.getLastModifiedBy()),
+                () -> assertThat(auditable.getCreatedDate().toString(), containsString(now().toString())),
+                () -> assertThat(auditable.getLastModifiedDate().toString(), containsString(now().toString()))
+        );
     }
 }

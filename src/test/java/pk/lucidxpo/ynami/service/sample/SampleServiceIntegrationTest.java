@@ -17,12 +17,9 @@ import java.util.Map;
 
 import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hibernate.validator.internal.util.CollectionHelper.newHashMap;
-import static org.joda.time.LocalDate.now;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -69,21 +66,6 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         sample3 = aSample().build();
         sample4 = aSample().build();
         sample5 = aSample().build();
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_USER)
-    void shouldVerifyThatAuditInfoIsStored() {
-        assertThat(sample1.getCreatedDate(), nullValue());
-        assertThat(sample1.getLastModifiedDate(), nullValue());
-        assertThat(sample1.getLastModifiedBy(), nullValue());
-        assertThat(sample1.getCreatedBy(), nullValue());
-
-        final Sample savedSample = sampleRepository.save(sample1);
-
-        assertThat(savedSample.getCreatedDate().toString(), containsString(now().toString()));
-        assertThat(savedSample.getLastModifiedDate().toString(), containsString(now().toString()));
-        assertAuditUser(savedSample, ADMIN_USER);
     }
 
     @Test

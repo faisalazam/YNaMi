@@ -24,7 +24,6 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -68,7 +67,7 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
         try {
             userDetailsService.loadUserByUsername(usernameOrEmail);
             fail("Should have thrown UsernameNotFoundException as there is no user with specified username or email: " + usernameOrEmail);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             assertThat(e, instanceOf(UsernameNotFoundException.class));
         }
     }
@@ -94,10 +93,7 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
         user.setRoles(roles);
 
         final User savedUser = userRepository.save(user);
-        assertAuditUser(savedUser, ADMIN_USER);
-
-        assertThat(savedUser.getCreatedDate(), notNullValue());
-        assertThat(savedUser.getLastModifiedDate(), notNullValue());
+        assertAuditInfo(savedUser, ADMIN_USER);
 
         final UserPrincipal userDetails = (UserPrincipal) userDetailsService.loadUserByUsername(usernameOrEmail);
         final List<? extends GrantedAuthority> expectedAuthorities = roles.stream()

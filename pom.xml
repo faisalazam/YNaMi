@@ -42,7 +42,6 @@
         <commons.lang.version>3.7</commons.lang.version>
         <font.awesome.version>5.1.0</font.awesome.version>
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
-        <jupiter.engine.version>5.2.0</jupiter.engine.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
         <org.reflections.version>0.9.11</org.reflections.version>
         <maven.checkstyle.version>3.0.0</maven.checkstyle.version>
@@ -205,6 +204,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
             <version>${junit.platform.surefire.provider.version}</version>
@@ -213,7 +217,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${jupiter.engine.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -231,6 +234,7 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${org.reflections.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -421,4 +425,8 @@
         mvn surefire-report:failsafe-report-only
         mvn site -DgenerateReports=false
         report will be generated in target/site/failsafe-report.html
+-->
+
+<!--
+ConfigFileApplicationListener loads property files
 -->

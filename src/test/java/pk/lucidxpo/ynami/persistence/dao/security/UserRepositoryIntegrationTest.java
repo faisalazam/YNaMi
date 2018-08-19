@@ -3,7 +3,6 @@ package pk.lucidxpo.ynami.persistence.dao.security;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -19,7 +18,6 @@ import java.util.Set;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
@@ -28,12 +26,7 @@ import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @Transactional
-@Sql(executionPhase = BEFORE_TEST_METHOD,
-        scripts = {
-                "classpath:insert-roles.sql",
-                "classpath:insert-users.sql"
-        }
-)
+@Sql(scripts = "classpath:insert-roles.sql", executionPhase = BEFORE_TEST_METHOD)
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
@@ -43,9 +36,8 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     private UserRepository userRepository;
 
     @Test
-    @WithUserDetails(value = SUPPORT_USER)
-    void shouldVerifyThatUserIsPersistedWithAuditInfoAndMultipleRoles() {
-        for (Set<Role> associatedRoles : getRolesCollection(roleRepository)) {
+    void shouldVerifyThatUserIsPersistedWithMultipleRoles() {
+        for (final Set<Role> associatedRoles : getRolesCollection(roleRepository)) {
             final String username = randomAlphanumeric(5, 35);
             final String email = randomAlphanumeric(5) + "@" + randomAlphanumeric(5) + "." + randomAlphanumeric(3);
             final User userWithSpecifiedUserName = anUser()
@@ -61,11 +53,6 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
             assertThat(savedUser.getEmail(), is(userWithSpecifiedUserName.getEmail()));
             assertThat(savedUser.getPassword(), is(userWithSpecifiedUserName.getPassword()));
 
-            assertAuditUser(savedUser, SUPPORT_USER);
-
-            assertThat(savedUser.getCreatedDate(), notNullValue());
-            assertThat(savedUser.getLastModifiedDate(), notNullValue());
-
             final Set<Role> savedUserRoles = savedUser.getRoles();
             assertThat(savedUserRoles.isEmpty(), is(false));
             assertThat(savedUserRoles.containsAll(associatedRoles), is(true));
@@ -78,7 +65,7 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
         try {
             saveUserWithUsername(savedUser.getUsername());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             assertThat(e, instanceOf(DataIntegrityViolationException.class));
         }
     }
@@ -89,7 +76,7 @@ class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
         try {
             saveUserWithEmail(savedUser.getEmail());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             assertThat(e, instanceOf(DataIntegrityViolationException.class));
         }
     }
