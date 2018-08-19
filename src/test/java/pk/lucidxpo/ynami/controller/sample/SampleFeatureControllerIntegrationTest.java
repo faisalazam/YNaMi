@@ -2,14 +2,17 @@ package pk.lucidxpo.ynami.controller.sample;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.web.util.NestedServletException;
 import org.thymeleaf.exceptions.TemplateInputException;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
+import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -20,6 +23,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.METHOD_EXECUTION;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.TOGGLEABLE_SERVICE;
 
 @WithMockUser
+@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
 
     // =========================== Verify Feature Toggles are working as expected ===========================
