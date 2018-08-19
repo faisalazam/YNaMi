@@ -9,10 +9,6 @@ import pk.lucidxpo.ynami.persistence.model.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
@@ -21,10 +17,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Sample extends Auditable<String> {
-    @Id
-    @GeneratedValue(strategy = SEQUENCE)
-    @Column(nullable = false, updatable = false)
-    private Long id;
     @Column
     private String firstName;
     @Column

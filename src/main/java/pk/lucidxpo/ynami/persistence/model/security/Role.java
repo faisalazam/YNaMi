@@ -9,12 +9,9 @@ import pk.lucidxpo.ynami.persistence.model.Auditable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
@@ -22,9 +19,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Role extends Auditable<String> {
-    @Id
-    @GeneratedValue(strategy = SEQUENCE)
-    private Long id;
 
     @NaturalId
     @Enumerated(STRING)

@@ -7,8 +7,6 @@ import org.hibernate.annotations.NaturalId;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -21,7 +19,6 @@ import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
@@ -36,9 +33,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
         })
 })
 public class User extends Auditable<String> {
-    @Id
-    @GeneratedValue(strategy = SEQUENCE)
-    private Long id;
 
     @NotBlank
     @Size(max = 40)
