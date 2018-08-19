@@ -9,12 +9,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-import static javax.persistence.GenerationType.SEQUENCE;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @Data
 @MappedSuperclass
@@ -22,9 +21,8 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public abstract class Auditable<U> implements Identifiable {
     //    TODO: consider replacing this class with org.springframework.data.jpa.domain.AbstractAuditable
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
     @Column(nullable = false, updatable = false)
-    private Long id;
+    private String id = randomID();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

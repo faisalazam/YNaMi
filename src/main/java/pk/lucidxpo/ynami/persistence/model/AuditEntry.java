@@ -6,26 +6,21 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;
-import static javax.persistence.GenerationType.SEQUENCE;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @Entity
 @Getter
 @ToString
 @NoArgsConstructor
 public class AuditEntry {
-//   TODO sequence vs randomId in all entities??
-//    @Id
-//    private final String id = randomID();
-
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
-    private Long id;
+    @Column(nullable = false, updatable = false)
+    private String id = randomID();
 
     @Column(nullable = false)
     private String changedEntityName;

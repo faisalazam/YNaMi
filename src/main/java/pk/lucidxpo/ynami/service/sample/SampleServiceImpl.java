@@ -26,7 +26,7 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public Optional<Sample> findById(Long id) {
+    public Optional<Sample> findById(String id) {
         return sampleRepository.findById(id);
     }
 
@@ -46,12 +46,12 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         sampleRepository.deleteById(id);
     }
 
     @Override
-    public Sample updateStatus(Long id, Map<String, Object> updates) {
+    public Sample updateStatus(String id, Map<String, Object> updates) {
         final Optional<Sample> sample = findById(id);
 
         //potential NullPointerException

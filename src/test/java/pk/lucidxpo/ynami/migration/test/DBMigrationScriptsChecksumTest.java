@@ -12,6 +12,7 @@ import static com.google.common.collect.Maps.newHashMap;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.substringAfter;
 import static org.apache.commons.lang3.StringUtils.substringBefore;
 import static org.junit.Assert.fail;
@@ -27,9 +28,11 @@ class DBMigrationScriptsChecksumTest {
 
         final String[] checksums = readFileToString(new File(SCRIPT_DIRECTORY_PATH + "/checksums.txt"), "UTF8").split("\n");
         for (String checksum : checksums) {
-            existingChecksumsMap.put(
-                    substringBefore(checksum, SEPARATOR), substringAfter(checksum, SEPARATOR)
-            );
+            if (isNotBlank(checksum)) {
+                existingChecksumsMap.put(
+                        substringBefore(checksum, SEPARATOR), substringAfter(checksum, SEPARATOR)
+                );
+            }
         }
 
         final Map<String, String> newChecksums = newHashMap();

@@ -4,22 +4,18 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
 
-import static javax.persistence.GenerationType.SEQUENCE;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @Data
 @Entity
 public class AuditEntryArchive {
-//    @Id
-//    private String id;
-
     @Id
-    @GeneratedValue(strategy = SEQUENCE)
-    private Long id;
+    @Column(nullable = false, updatable = false)
+    private String id = randomID();
 
     @Column(nullable = false)
     private String changedEntityName;

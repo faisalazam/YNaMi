@@ -43,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO.builder;
 import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 
@@ -140,7 +141,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"))
                 .andReturn();
-        final Sample createdSample = sampleRepository.findOne(of(modelMapper.map(sampleCreationDTO, Sample.class), matching().withIgnoreNullValues())).get();
+        final Sample createdSample = sampleRepository.findOne(of(modelMapper.map(sampleCreationDTO, Sample.class), matching().withIgnorePaths("id").withIgnoreNullValues())).get();
         assertAll(
                 () -> assertEquals(sampleCreationDTO.isActive(), createdSample.isActive()),
                 () -> assertEquals(sampleCreationDTO.getAddress(), createdSample.getAddress()),
@@ -270,7 +271,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
         mockMvc.perform(

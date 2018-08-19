@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
-import static pk.lucidxpo.ynami.utils.Identity.randomInt;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -98,7 +98,7 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
         final Sample savedSample = sampleRepository.save(sample1);
 
         assertThat(sampleService.findById(savedSample.getId()).get(), equivalentTo(savedSample));
-        assertThat(sampleService.findById(valueOf(randomInt())).isPresent(), is(false));
+        assertThat(sampleService.findById(randomID()).isPresent(), is(false));
     }
 
     @Test

@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class UserPrincipal implements UserDetails {
-    private Long id;
+    private String id;
 
     private String name;
 

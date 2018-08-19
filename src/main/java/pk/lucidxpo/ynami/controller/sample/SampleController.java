@@ -31,6 +31,7 @@ import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 public class SampleController {
 
@@ -84,7 +85,7 @@ public class SampleController {
     }
 
     @GetMapping(value = "/samples/{id}/view")
-    public String getSample(@PathVariable final Long id, final Model model, final HttpServletResponse response) {
+    public String getSample(@PathVariable final String id, final Model model, final HttpServletResponse response) {
         final Optional<Sample> sample = sampleService.findById(id);
 
         if (sample.isPresent()) {
@@ -98,7 +99,7 @@ public class SampleController {
     }
 
     @GetMapping(value = "/samples/{id}")
-    public String prepareSampleUpdation(@PathVariable final Long id, final Model model, final HttpServletResponse response) {
+    public String prepareSampleUpdation(@PathVariable final String id, final Model model, final HttpServletResponse response) {
         final Optional<Sample> optionalSample = sampleService.findById(id);
         if (optionalSample.isPresent()) {
             final SampleUpdationDTO sampleUpdationDTO = modelMapper.map(optionalSample.get(), SampleUpdationDTO.class);
@@ -111,7 +112,7 @@ public class SampleController {
     }
 
     @PutMapping(value = "/samples/{id}")
-    public String updateSample(@PathVariable final Long id,
+    public String updateSample(@PathVariable final String id,
                                @ModelAttribute("sample") final SampleUpdationDTO sampleUpdationDTO,
                                final HttpServletResponse response) {
         final Optional<Sample> optionalSample = sampleService.findById(id);
@@ -126,7 +127,7 @@ public class SampleController {
     }
 
     @DeleteMapping(value = "/samples/{id}")
-    public String deleteSample(@PathVariable final Long id,
+    public String deleteSample(@PathVariable final String id,
                                final HttpServletResponse response) {
         final Optional<Sample> optionalSample = sampleService.findById(id);
         if (optionalSample.isPresent()) {
@@ -138,7 +139,7 @@ public class SampleController {
     }
 
     @PatchMapping(value = "/samples/{id}")
-    public ResponseEntity<String> updateSampleStatus(@PathVariable final Long id,
+    public ResponseEntity<String> updateSampleStatus(@PathVariable final String id,
                                                      @ModelAttribute("sample") final SampleUpdateStatusDTO sampleUpdateStatusDTO) {
         final Optional<Sample> optionalSample = sampleService.findById(id);
         if (optionalSample.isPresent()) {

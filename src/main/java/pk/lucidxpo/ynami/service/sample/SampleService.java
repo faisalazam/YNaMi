@@ -11,13 +11,13 @@ public interface SampleService {
 
     boolean existsByFirstName(String firstName);
 
-    Optional<Sample> findById(Long id);
+    Optional<Sample> findById(String id);
 
     Sample create(Sample sample);
 
     Sample update(Sample sample);
 
-    void delete(Long id);
+    void delete(String id);
 
-    Sample updateStatus(Long id, Map<String, Object> updates);
+    Sample updateStatus(String id, Map<String, Object> updates);
 }

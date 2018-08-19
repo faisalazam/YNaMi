@@ -18,14 +18,13 @@ import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import java.util.List;
 
-import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
@@ -47,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
-import static pk.lucidxpo.ynami.utils.Identity.randomInt;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @ExtendWith(MockitoExtension.class)
 class SampleControllerTest {
@@ -112,7 +111,7 @@ class SampleControllerTest {
 
     @Test
     void shouldGetSampleById() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         final Sample sample = aSample().withId(id).build();
 
         given(sampleService.findById(id)).willReturn(of(sample));
@@ -133,7 +132,7 @@ class SampleControllerTest {
 
     @Test
     void shouldReturn404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        final long id = valueOf(randomInt());
+        final String id = randomID();
         given(sampleService.findById(id)).willReturn(empty());
 
         mockMvc.perform(get("/samples/{id}/view", id))
@@ -207,7 +206,7 @@ class SampleControllerTest {
     @Test
     void shouldPrepareExistingSampleUpdationSuccessfully() throws Exception {
 
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         final Sample sample = aSample().withId(id).build();
         given(sampleService.findById(id)).willReturn(of(sample));
 
@@ -226,7 +225,7 @@ class SampleControllerTest {
 
     @Test
     void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         given(sampleService.findById(id)).willReturn(empty());
 
         mockMvc.perform(get("/samples/{id}", id))
@@ -243,7 +242,7 @@ class SampleControllerTest {
 
     @Test
     void shouldUpdateSampleSuccessfully() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         final Sample sample = aSample().build();
         given(sampleService.findById(id)).willReturn(of(sample));
         given(sampleService.update(sample)).willReturn(sample);
@@ -263,7 +262,7 @@ class SampleControllerTest {
 
     @Test
     void shouldNotUpdateAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         given(sampleService.findById(id)).willReturn(empty());
 
         final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder().build();
@@ -282,7 +281,7 @@ class SampleControllerTest {
 
     @Test
     void shouldUpdateSamplePartiallySuccessfully() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         final Sample sample = aSample().build();
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
@@ -300,7 +299,7 @@ class SampleControllerTest {
 
     @Test
     void shouldNotUpdateSamplePartiallyAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         final SampleUpdateStatusDTO sampleUpdateStatusDTO = SampleUpdateStatusDTO.builder().build();
 
         given(sampleService.findById(id)).willReturn(empty());
@@ -310,7 +309,7 @@ class SampleControllerTest {
                 .andExpect(content().string("Sample not found"));
 
         verify(sampleService, times(1)).findById(id);
-        verify(sampleService, never()).updateStatus(anyLong(), anyMap());
+        verify(sampleService, never()).updateStatus(anyString(), anyMap());
         verifyNoMoreInteractions(sampleService);
         verifyZeroInteractions(modelMapper);
     }
@@ -319,7 +318,7 @@ class SampleControllerTest {
 
     @Test
     void shouldDeleteSampleSuccessfully() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         Sample sample = aSample().build();
 
         given(sampleService.findById(id)).willReturn(of(sample));
@@ -337,7 +336,7 @@ class SampleControllerTest {
 
     @Test
     void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        final Long id = valueOf(randomInt());
+        final String id = randomID();
         given(sampleService.findById(id)).willReturn(empty());
 
         mockMvc.perform(
@@ -346,7 +345,7 @@ class SampleControllerTest {
                 .andExpect(forwardedUrl("sample/deleteSample"));
 
         verify(sampleService, times(1)).findById(id);
-        verify(sampleService, never()).delete(anyLong());
+        verify(sampleService, never()).delete(anyString());
         verifyNoMoreInteractions(sampleService);
         verifyZeroInteractions(modelMapper);
     }

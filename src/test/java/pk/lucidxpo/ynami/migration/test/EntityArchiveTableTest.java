@@ -106,7 +106,7 @@ class EntityArchiveTableTest {
     }
 
     private void checkTableStructure(final List<DBTableColumnMetaData> tableColumnMetaData, final List<DBTableColumnMetaData> archiveTableColumnMetaData, final boolean ignoreNullable, final boolean ignoreDataDefault) {
-        assertColumnExists(tableColumnMetaData, "ID", "BIGINT");
+        assertColumnExists(tableColumnMetaData, "ID", "VARCHAR");
 
         DBTableColumnMetaData columnMetaData, archiveColumnMetaData;
         for (DBTableColumnMetaData aTableColumnMetaData : tableColumnMetaData) {

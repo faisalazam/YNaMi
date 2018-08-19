@@ -2,12 +2,11 @@ package pk.lucidxpo.ynami.persistence.model;
 
 import java.time.LocalDateTime;
 
-import static java.lang.Long.valueOf;
-import static pk.lucidxpo.ynami.utils.Identity.randomInt;
+import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @SuppressWarnings("unchecked")
 public abstract class AuditableBuilder<E, T> {
-    protected Long id = valueOf(randomInt());
+    protected String id = randomID();
     protected String createdBy;
     protected String lastModifiedBy;
     protected LocalDateTime createdDate;
@@ -18,7 +17,7 @@ public abstract class AuditableBuilder<E, T> {
 
     public abstract E build();
 
-    public T withId(final Long id) {
+    public T withId(final String id) {
         this.id = id;
         return (T) this;
     }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface AuditEntryRepository extends JpaRepository<AuditEntry, Long> {
+public interface AuditEntryRepository extends JpaRepository<AuditEntry, String> {
     List<AuditEntry> findByChangedEntityIdOrderByChangedAtDesc(String changedEntityId);
 
     List<AuditEntry> findByChangedAtLessThanEqualOrderByChangedAtAsc(LocalDateTime changedAt, Pageable pageable);

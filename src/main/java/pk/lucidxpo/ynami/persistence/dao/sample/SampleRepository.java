@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 
 @Repository
-public interface SampleRepository extends JpaRepository<Sample, Long> {
+public interface SampleRepository extends JpaRepository<Sample, String> {
     boolean existsByFirstName(String firstName);
 }

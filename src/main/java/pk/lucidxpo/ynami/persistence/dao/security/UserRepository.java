@@ -7,6 +7,6 @@ import pk.lucidxpo.ynami.persistence.model.security.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUsernameOrEmail(String username, String email);
 }
