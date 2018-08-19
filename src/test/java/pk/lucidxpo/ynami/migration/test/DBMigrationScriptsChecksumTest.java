@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.substringAfter;
 import static org.apache.commons.lang3.StringUtils.substringBefore;
-import static org.hibernate.validator.internal.util.CollectionHelper.newHashMap;
 import static org.junit.Assert.fail;
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;

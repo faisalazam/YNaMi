@@ -15,11 +15,10 @@ import pk.lucidxpo.ynami.utils.executionlisteners.TimeFreezeExecutionListener;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.Long.valueOf;
+import static com.google.common.collect.Maps.newHashMap;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.hibernate.validator.internal.util.CollectionHelper.newHashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;

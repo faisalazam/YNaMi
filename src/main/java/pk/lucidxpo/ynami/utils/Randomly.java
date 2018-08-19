@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.joda.time.DateTimeZone.UTC;
 
 public final class Randomly {
