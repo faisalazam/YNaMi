@@ -14,11 +14,11 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import static java.util.Objects.requireNonNull;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.reflections.util.ClasspathHelper.forPackage;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
@@ -31,9 +31,9 @@ class DatabaseExecutionListenerUsageVerifierTest {
 
         final Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
-                        .setUrls(forPackage(BASE_PACKAGE))
+                        .forPackages(BASE_PACKAGE)
                         .setScanners(new MemberUsageScanner())
-                        .filterInputsBy(className -> className.endsWith("IntegrationTest.class"))
+                        .filterInputsBy(className -> requireNonNull(className).endsWith("IntegrationTest.class"))
         );
         final Set<Member> usages = reflections.getMethodUsage(activatedMethod);
         usages.addAll(reflections.getMethodUsage(deactivatedMethod));
@@ -43,11 +43,11 @@ class DatabaseExecutionListenerUsageVerifierTest {
     }
 
     @Test
-    void shouldVerifyThatIntegrationTestsAnnotatedWithSqlHaveDatabaseExecutionListenerAsTheirTestExecutionListeners() throws Exception {
+    void shouldVerifyThatIntegrationTestsAnnotatedWithSqlHaveDatabaseExecutionListenerAsTheirTestExecutionListeners() {
         final Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
-                        .setUrls(forPackage(BASE_PACKAGE))
-                        .filterInputsBy(className -> className.endsWith("IntegrationTest.class"))
+                        .forPackages(BASE_PACKAGE)
+                        .filterInputsBy(className -> requireNonNull(className).endsWith("IntegrationTest.class"))
         );
         final Set<Class<?>> testClassesAnnotatedWithSql = reflections.getTypesAnnotatedWith(Sql.class);
 

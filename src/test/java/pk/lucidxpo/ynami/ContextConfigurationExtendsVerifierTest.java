@@ -1,28 +1,24 @@
 package pk.lucidxpo.ynami;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.RegexPatternTypeFilter;
+import pk.lucidxpo.ynami.utils.ReflectionHelper;
 
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.Class.forName;
-import static java.util.regex.Pattern.compile;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.reflections.ReflectionUtils.getSuperTypes;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
 class ContextConfigurationExtendsVerifierTest {
 
     @Test
     void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromAbstractIntegrationTest() throws Exception {
-
-        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-        provider.addIncludeFilter(new RegexPatternTypeFilter(compile(".*IntegrationTest$")));
-        final Set<BeanDefinition> classes = provider.findCandidateComponents(BASE_PACKAGE);
+        final Set<String> classes = ReflectionHelper.getAllTypes(".*IntegrationTest.class$", BASE_PACKAGE);
 
         //The integrations test classes that don't require application context, should not be extended from "AbstractIntegrationTest".
         final Set<String> excludedClassNames = newHashSet(
@@ -32,15 +28,15 @@ class ContextConfigurationExtendsVerifierTest {
         assertThat("The list of integration test classes having name ending with 'IntegrationTest' must not be empty", classes.isEmpty(), is(false));
         assertThat(classes.size() > excludedClassNames.size(), is(true));
 
-        for (BeanDefinition bean : classes) {
-            final Class<?> testClazz = forName(bean.getBeanClassName());
-            if (excludedClassNames.contains(bean.getBeanClassName())) {
-                assertThat(bean.getBeanClassName() + " should not be extended from " + AbstractIntegrationTest.class.getSimpleName() + ".",
-                        testClazz.getSuperclass().getName(), not(AbstractIntegrationTest.class.getName())
+        for (String className : classes) {
+            final Class<?> testClazz = forName(className);
+            if (excludedClassNames.contains(className)) {
+                assertThat(className + " should not be extended from " + AbstractIntegrationTest.class.getSimpleName() + ".",
+                        getSuperTypes(testClazz), not(hasItem(AbstractIntegrationTest.class))
                 );
             } else {
-                assertThat(bean.getBeanClassName() + " should be extended from " + AbstractIntegrationTest.class.getSimpleName() + ".",
-                        testClazz.getSuperclass().getName(), is(AbstractIntegrationTest.class.getName())
+                assertThat(className + " should be extended from " + AbstractIntegrationTest.class.getSimpleName() + ".",
+                        getSuperTypes(testClazz), hasItem(AbstractIntegrationTest.class)
                 );
             }
         }

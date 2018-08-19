@@ -1,6 +1,5 @@
 package pk.lucidxpo.ynami.migration.test;
 
-import com.google.common.reflect.ClassPath;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,13 +11,12 @@ import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import javax.persistence.Entity;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.reflect.ClassPath.from;
-import static java.lang.Thread.currentThread;
-import static java.lang.reflect.Modifier.isAbstract;
-import static java.util.stream.Collectors.toList;
+import static com.google.common.collect.Sets.newHashSet;
+import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.junit.Assert.assertEquals;
@@ -31,6 +29,7 @@ import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.evolveDatabase;
 import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
+import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
 
 /**
  * If the Java archive entity name follows the pattern "EntityName" + "Archive", you don't need to write testcase manually
@@ -43,7 +42,7 @@ class EntityArchiveTableTest {
      * add if required, i.e. if the working and archive tables need to have different structure for some reason,
      * then they need to be ignored in this test.
      */
-    private static final List<Class> IGNORE_ENTITY_CLASSES = newArrayList();
+    private static final Set<Class<?>> IGNORE_ENTITY_CLASSES = newHashSet();
 
     private final MultiSqlExecutor executor = executorForLocalMySql();
 
@@ -57,9 +56,9 @@ class EntityArchiveTableTest {
 
     @Test
     void shouldHaveSameDBStructureBetweenEntityTableAndRelatedArchiveTable() throws Exception {
-        final List<Pair<Class, Class>> archivableEntityClassList = getArchivableEntityPairs();
+        final Collection<Pair<Class, Class>> archivableEntityClasses = getArchivableEntityPairs();
 
-        for (final Pair<Class, Class> entry : archivableEntityClassList) {
+        for (final Pair<Class, Class> entry : archivableEntityClasses) {
             System.out.println("Checking the table structure between [" + entry.getFirst().getSimpleName() + "] and [" + entry.getSecond().getSimpleName() + "]");
 
             checkEntityTableAndArchiveTableDBStructure(entry.getFirst().getSimpleName(), entry.getSecond().getSimpleName(), true, true);
@@ -68,7 +67,7 @@ class EntityArchiveTableTest {
 
     @Test
     void shouldGetExceptionWhenCheckStructureForTableInIgnoredList() {
-        for (final Pair<Class, Class> entry : getPairsFromEntityList(IGNORE_ENTITY_CLASSES)) {
+        for (final Pair<Class, Class> entry : getPairsFromEntityCollection(IGNORE_ENTITY_CLASSES)) {
             System.out.println("Checking the table structure between [" + entry.getFirst().getSimpleName() + "] and [" + entry.getSecond().getSimpleName() + "]");
             Exception expectedException = null;
             try {
@@ -165,25 +164,25 @@ class EntityArchiveTableTest {
         return null;
     }
 
-    private List<Pair<Class, Class>> getArchivableEntityPairs() throws Exception {
-        final List<Class> entityClassList = getEntityClassList();
-        return getPairsFromEntityList(entityClassList);
+    private Collection<Pair<Class, Class>> getArchivableEntityPairs() {
+        final Collection<Class<?>> entityClasses = getEntityClasses();
+        return getPairsFromEntityCollection(entityClasses);
     }
 
-    private List<Pair<Class, Class>> getPairsFromEntityList(List<Class> entityClassList) {
-        final List<Pair<Class, Class>> archivableEntityClasses = newArrayList();
-        for (final Class entityClass : entityClassList) {
+    private Collection<Pair<Class, Class>> getPairsFromEntityCollection(Collection<Class<?>> entityClasses) {
+        final Set<Pair<Class, Class>> archivableEntityClasses = newHashSet();
+        for (final Class entityClass : entityClasses) {
             final String relatedClassName = getRelatedClassSimpleName(entityClass.getSimpleName());
-            final Class relatedClass = getEntityClass(relatedClassName, entityClassList);
+            final Class relatedClass = getEntityClass(relatedClassName, entityClasses);
             if (relatedClass != null) {
-                addToList(archivableEntityClasses, entityClass, relatedClass);
+                addToCollection(archivableEntityClasses, entityClass, relatedClass);
             }
         }
 
         return archivableEntityClasses;
     }
 
-    private void addToList(final List<Pair<Class, Class>> archivableEntityClasses, final Class entityClass, final Class relatedClass) {
+    private void addToCollection(final Collection<Pair<Class, Class>> archivableEntityClasses, final Class entityClass, final Class relatedClass) {
         final Class entity = entityClass.getSimpleName().endsWith(ARCHIVE_SUFFIX) ? relatedClass : entityClass;
         final Class archiveEntity = entityClass.getSimpleName().endsWith(ARCHIVE_SUFFIX) ? entity : relatedClass;
 
@@ -192,7 +191,7 @@ class EntityArchiveTableTest {
         }
     }
 
-    private boolean containEntry(final List<Pair<Class, Class>> archivableEntityClasses, final Class entity) {
+    private boolean containEntry(final Collection<Pair<Class, Class>> archivableEntityClasses, final Class entity) {
         for (final Pair<Class, Class> entry : archivableEntityClasses) {
             if (entry.getFirst().equals(entity)) {
                 return true;
@@ -201,8 +200,8 @@ class EntityArchiveTableTest {
         return false;
     }
 
-    private Class getEntityClass(final String relatedClassName, final List<Class> entityClassList) {
-        for (final Class entity : entityClassList) {
+    private Class getEntityClass(final String relatedClassName, final Collection<Class<?>> entityClasses) {
+        for (final Class entity : entityClasses) {
             if (entity.getSimpleName().equals(relatedClassName)) {
                 return entity;
             }
@@ -219,21 +218,14 @@ class EntityArchiveTableTest {
         }
     }
 
-    private List<Class> getEntityClassList() throws Exception {
-        final List<Class> entityClasses;
-
-        final ClassLoader loader = currentThread().getContextClassLoader();
-        entityClasses = from(loader).getTopLevelClassesRecursive(BASE_PACKAGE)
+    private Collection<Class<?>> getEntityClasses() {
+        return getTypesAnnotatedWith(BASE_PACKAGE, Entity.class)
                 .stream()
-                .map(ClassPath.ClassInfo::load)
-                .filter(entityClass -> entityClass.isAnnotationPresent(Entity.class)
-                        && !isAbstract(entityClass.getModifiers())
-                        && !IGNORE_ENTITY_CLASSES.contains(entityClass)
-                )
-                .collect(toList());
-        return entityClasses;
+                .filter(entityClass -> !IGNORE_ENTITY_CLASSES.contains(entityClass))
+                .collect(toSet());
     }
 
+    @SuppressWarnings("ConstantConditions")
     private List<DBTableColumnMetaData> getColumnMetaData(final MultiSqlExecutor executor, final String tableName) {
         final String querySQL = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, DATETIME_PRECISION, IS_NULLABLE, COLUMN_DEFAULT "
                 + "FROM INFORMATION_SCHEMA.COLUMNS "

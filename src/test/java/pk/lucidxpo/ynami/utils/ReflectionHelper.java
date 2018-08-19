@@ -1,14 +1,22 @@
 package pk.lucidxpo.ynami.utils;
 
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.Advised;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Set;
 
 import static org.apache.commons.lang3.ArrayUtils.removeElement;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.mockito.Mockito.mock;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -96,7 +104,7 @@ public class ReflectionHelper {
         field.set(object, fieldValue);
     }
 
-    public static Field[] getFields(final Class clazz, final Class requiredClass) throws Exception {
+    public static Field[] getFields(final Class clazz, final Class requiredClass) {
         Field[] allFields = clazz.getDeclaredFields();
         for (final Field field : allFields) {
             if (!field.getType().equals(requiredClass)) {
@@ -199,5 +207,26 @@ public class ReflectionHelper {
 
     public static void restoreLoggerInClass(Class clazz) throws Exception {
         setStaticFinalField(clazz, "LOGGER", getLogger(clazz));
+    }
+
+    public static Set<Class<?>> getTypesAnnotatedWith(final String basePackage, final Class<? extends Annotation> annotation) {
+        return new Reflections(basePackage).getTypesAnnotatedWith(annotation);
+    }
+
+    public static Set<String> getAllTypes(String includeRegex, String basePackage) {
+        return getAllTypes(includeRegex, EMPTY, basePackage);
+    }
+
+    public static Set<String> getAllTypes(String includeRegex, String excludeRegex, String basePackage) {
+        final FilterBuilder filterBuilder = new FilterBuilder().include(includeRegex);
+        if (isNotBlank(excludeRegex)) {
+            filterBuilder.exclude(excludeRegex);
+        }
+        final Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .forPackages(basePackage)
+                .setScanners(new SubTypesScanner(false))
+                .filterInputsBy(filterBuilder)
+        );
+        return reflections.getAllTypes();
     }
 }
