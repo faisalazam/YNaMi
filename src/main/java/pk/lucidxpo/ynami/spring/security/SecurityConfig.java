@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.featureManager = featureManager;
     }
 
+    @Autowired
+    @FeatureAssociation(value = WEB_SECURITY)
+    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("john123").password(passwordEncoder().encode("password")).roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (!featureManager.isActive(WEB_SECURITY)) {
@@ -35,21 +48,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated();
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     @FeatureAssociation(value = WEB_SECURITY)
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().passwordEncoder(passwordEncoder());
     }
 
-    @Autowired
+    @Override
     @FeatureAssociation(value = WEB_SECURITY)
-    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("john123").password(passwordEncoder().encode("password")).roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+    public void configure(final WebSecurity web) {
+        web
+                .ignoring()
+                .antMatchers(
+                        "/css/**",
+                        "/js/**",
+                        "/img/**",
+                        "/webjars/**"
+                );
     }
 }
