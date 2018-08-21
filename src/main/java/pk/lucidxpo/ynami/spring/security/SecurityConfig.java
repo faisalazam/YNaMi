@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pk.lucidxpo.ynami.spring.aspect.FeatureAssociation;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
@@ -15,8 +16,12 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final FeatureManagerWrappable featureManager;
+
     @Autowired
-    private FeatureManagerWrappable featureManager;
+    public SecurityConfig(final FeatureManagerWrappable featureManager) {
+        this.featureManager = featureManager;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,17 +41,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @FeatureAssociation(value = WEB_SECURITY)
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        if (featureManager.isActive(WEB_SECURITY)) {
-            auth.inMemoryAuthentication().passwordEncoder(passwordEncoder());
-        }
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder());
     }
 
     @Autowired
+    @FeatureAssociation(value = WEB_SECURITY)
     public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        if (featureManager.isActive(WEB_SECURITY)) {
-            auth.inMemoryAuthentication().withUser("john123").password(passwordEncoder().encode("password")).roles("USER");
-            auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
-        }
+        auth.inMemoryAuthentication().withUser("john123").password(passwordEncoder().encode("password")).roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
     }
 }
