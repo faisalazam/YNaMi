@@ -22,6 +22,7 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
@@ -70,15 +71,15 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifySuccessfulLogoutWithHttpPostMethod() throws Exception {
-        mockMvc.perform(logout("/logout"))
-                .andExpect(redirectedUrl("/login"))
+        mockMvc.perform(logout("/perform_logout"))
+                .andExpect(redirectedUrl("/login?logout"))
                 .andExpect(status().is3xxRedirection());
     }
 
     @Test
     void shouldVerifyLogoutWithHttpGetMethodRedirectsToLoginPage() throws Exception {
-        mockMvc.perform(get("/logout").with(csrf()))
-                .andExpect(redirectedUrl("/login?logout"))
+        mockMvc.perform(get("/perform_logout").with(csrf()))
+                .andExpect(redirectedUrlPattern("**/login"))
                 .andExpect(status().is3xxRedirection());
     }
 }
