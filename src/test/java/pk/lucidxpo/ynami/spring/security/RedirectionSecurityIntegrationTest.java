@@ -12,6 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
 @Sql(executionPhase = BEFORE_TEST_METHOD,
         scripts = {
@@ -44,6 +46,8 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyThatAuthenticationIsRequiredWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
+        assumeTrue(featureManager.isActive(WEB_SECURITY));
+
         mockMvc.perform(get("/samples"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -58,6 +62,8 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyRedirectedBackToSecuredResourceAfterAuthenticationWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
+        assumeTrue(featureManager.isActive(WEB_SECURITY));
+
         final MockHttpServletRequestBuilder securedResourceAccess = get("/samples");
         final MvcResult unauthenticatedResult = mockMvc.perform(securedResourceAccess)
                 .andExpect(status().is3xxRedirection())
