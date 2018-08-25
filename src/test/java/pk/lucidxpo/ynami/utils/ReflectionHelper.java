@@ -6,6 +6,8 @@ import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.Advised;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -26,6 +28,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ReflectionHelper {
     private static final Logger logger = getLogger(ReflectionHelper.class);
     private static final String MODIFIERS = "modifiers";
+    private static final PodamFactory PODAM_FACTORY = new PodamFactoryImpl();
 
     /**
      * @param clazz     Class of target object
@@ -207,6 +210,10 @@ public class ReflectionHelper {
 
     public static void restoreLoggerInClass(Class clazz) throws Exception {
         setStaticFinalField(clazz, "LOGGER", getLogger(clazz));
+    }
+
+    public static Object createRandomlyFilledObject(final Class clazz) {
+        return PODAM_FACTORY.manufacturePojo(clazz);
     }
 
     public static Set<Class<?>> getTypesAnnotatedWith(final String basePackage, final Class<? extends Annotation> annotation) {
