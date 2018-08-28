@@ -2,13 +2,11 @@ package pk.lucidxpo.ynami.spring.security;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
-import org.springframework.web.context.WebApplicationContext;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.spring.security.helper.DynamicTestsGenerator;
 import pk.lucidxpo.ynami.spring.security.helper.EndPointMappingsLister;
@@ -18,15 +16,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
-import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.security.test.context.TestSecurityContextHolder.clearContext;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_DISABLED_AUTHENTICATED_WITHOUT_CSRF;
 import static pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_DISABLED_AUTHENTICATED_WITH_INVALID_CSRF;
 import static pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_DISABLED_AUTHENTICATED_WITH_VALID_CSRF;
@@ -43,9 +39,6 @@ import static pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECU
 class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest implements InitializingBean {
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @Autowired
     private WebMvcEndpointHandlerMapping actuatorEndpointHandlerMapping;
 
     private static DynamicTestsGenerator DYNAMIC_TESTS_GENERATOR;
@@ -55,7 +48,7 @@ class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest i
     private static final Map<String, RequestMappingCustomizer> CUSTOMIZED_REQUEST_MAPPINGS_MAP = newHashMap();
 
     private static final EndPointMappingsLister END_POINT_MAPPINGS_LISTER = new EndPointMappingsLister(
-            emptyList(), CUSTOMIZED_REQUEST_MAPPINGS_MAP
+            newArrayList("[GET] /actuator/heapdump"), CUSTOMIZED_REQUEST_MAPPINGS_MAP
     );
 
     @Override
@@ -67,13 +60,6 @@ class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest i
         END_POINT_MAPPINGS_STREAM = END_POINT_MAPPINGS_LISTER.endPointMappingsCollection(actuatorEndpointHandlerMapping);
 
         DYNAMIC_TESTS_GENERATOR = new DynamicTestsGenerator(applicationContext, featureManager, END_POINT_MAPPINGS_STREAM);
-    }
-
-    @BeforeEach
-    void before() {
-        mockMvc = webAppContextSetup(webApplicationContext)
-                .apply(springSecurity())
-                .build();
     }
 
     @AfterEach

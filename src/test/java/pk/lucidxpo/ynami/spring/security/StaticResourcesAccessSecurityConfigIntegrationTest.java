@@ -1,10 +1,7 @@
 package pk.lucidxpo.ynami.spring.security;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.context.WebApplicationContext;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 
 import java.io.File;
@@ -19,22 +16,10 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.mock.web.MockHttpServletResponse.SC_OK;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 class StaticResourcesAccessSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     private static final String STATIC_RESOURCES_PATH = "src/main/resources/static";
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @BeforeEach
-    void before() {
-        mockMvc = webAppContextSetup(webApplicationContext)
-                .apply(springSecurity())
-                .build();
-    }
 
     @Test
     void shouldVerifyThatAllStaticResourcesAreAccessibleRegardlessOfWebSecurity() throws Exception {

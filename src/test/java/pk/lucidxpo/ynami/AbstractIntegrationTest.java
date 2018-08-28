@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
@@ -36,6 +38,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
@@ -58,11 +62,23 @@ public class AbstractIntegrationTest {
     @Autowired
     protected FeatureManagerWrappable featureManager;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
     @ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
 
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
+    @BeforeEach
+    void before() {
+        if (featureManager.isActive(WEB_SECURITY)) {
+            mockMvc = webAppContextSetup(webApplicationContext)
+                    .apply(springSecurity())
+                    .build();
+        }
+    }
 
     @Test
     void contextLoads() {
