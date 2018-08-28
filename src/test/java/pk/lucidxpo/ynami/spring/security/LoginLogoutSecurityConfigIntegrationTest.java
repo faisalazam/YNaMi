@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -36,6 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PROCESSING_URL;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGOUT_SUCCESS_URL;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGOUT_URL;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @Sql(executionPhase = BEFORE_TEST_METHOD,
@@ -81,7 +85,10 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
                     .andExpect(unauthenticated())
                     .andExpect(redirectedUrl("/login?error"))
                     .andReturn();
-            final Object securityLastException = mvcResult.getRequest().getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+            final HttpSession session = mvcResult.getRequest().getSession();
+            assertNotNull(session);
+
+            final Object securityLastException = session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
             assertThat(securityLastException, instanceOf(BadCredentialsException.class));
         }
 
@@ -92,7 +99,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyThatLoginAttemptedWithCorrectCredentialButWithIncorrectHttpMethodIsFailedRegardlessOfCsrfValidity() throws Exception {
-        final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders("/login");
+        final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders(LOGIN_PROCESSING_URL);
         for (final MockHttpServletRequestBuilder requestBuilder : requestBuilders) {
             mockMvc.perform(requestBuilder
                     .param("username", "admin")
@@ -108,7 +115,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
         final List<LogoutRequestBuilder> requestBuilders = getLogoutRequestBuilderWithValidCsrf();
         for (final LogoutRequestBuilder requestBuilder : requestBuilders) {
             mockMvc.perform(requestBuilder)
-                    .andExpect(redirectedUrl("/login?logout"))
+                    .andExpect(redirectedUrl(LOGOUT_SUCCESS_URL))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(unauthenticated());
         }
@@ -128,7 +135,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     void shouldVerifyLogoutAttemptedWithHttpGetMethodRedirectsToLoginPageRegardlessOfCsrfValidity() throws Exception {
         assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders("/perform_logout");
+        final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders(LOGOUT_URL);
         for (final MockHttpServletRequestBuilder requestBuilder : requestBuilders) {
             mockMvc.perform(requestBuilder)
                     .andExpect(redirectedUrlPattern("**/login"))
@@ -141,7 +148,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     void shouldVerifyAuthenticatedAndSecuredResourcesAreAccessibleWhenLogoutAttemptedAfterSuccessfulAuthenticationWithHttpPostMethodAndInvalidCsrf() throws Exception {
         assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final MvcResult authenticatedResult = mockMvc.perform(formLogin().user("admin").password("admin"))
+        final MvcResult authenticatedResult = mockMvc.perform(formLogin(LOGIN_PROCESSING_URL).user("admin").password("admin"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(authenticated())
                 .andReturn();
@@ -149,7 +156,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
         assertNotNull(authenticatedSession);
 
         //Shouldn't allow logout when attempted with invalid csrf and should stay authenticated
-        final MockHttpServletRequestBuilder requestBuilder = post("/perform_logout");
+        final MockHttpServletRequestBuilder requestBuilder = post(LOGOUT_URL);
         mockMvc.perform(requestBuilder.session(authenticatedSession).with(csrf().useInvalidToken()))
                 .andExpect(status().isForbidden())
                 .andExpect(authenticated());
@@ -175,10 +182,9 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     }
 
     private List<LogoutRequestBuilder> getLogoutRequestBuilderWithValidCsrf() {
-        final String url = "/perform_logout";
-        final LogoutRequestBuilder defaultRequestBuilder = logout(url);
+        final LogoutRequestBuilder defaultRequestBuilder = logout(LOGOUT_URL);
 
-        final LogoutRequestBuilder headerRequestBuilder = logout(url);
+        final LogoutRequestBuilder headerRequestBuilder = logout(LOGOUT_URL);
         setField(headerRequestBuilder, "postProcessor", csrf().asHeader());
 
         return newArrayList(
@@ -187,10 +193,9 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     }
 
     private List<LogoutRequestBuilder> getLogoutRequestBuilderWithInvalidCsrf() {
-        final String url = "/perform_logout";
         return of(csrf().useInvalidToken(), csrf().asHeader().useInvalidToken())
                 .map(postProcessor -> {
-                    final LogoutRequestBuilder requestBuilder = logout(url);
+                    final LogoutRequestBuilder requestBuilder = logout(LOGOUT_URL);
                     setField(requestBuilder, "postProcessor", postProcessor);
                     return requestBuilder;
                 })
@@ -200,10 +205,9 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     }
 
     private List<FormLoginRequestBuilder> getLoginRequestBuilderWithValidCsrf(final String username, final String password) {
-        final String url = "/login";
-        final FormLoginRequestBuilder defaultRequestBuilder = formLogin(url).user(username).password(password);
+        final FormLoginRequestBuilder defaultRequestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
 
-        final FormLoginRequestBuilder headerRequestBuilder = formLogin(url).user(username).password(password);
+        final FormLoginRequestBuilder headerRequestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
         setField(headerRequestBuilder, "postProcessor", csrf().asHeader());
 
         return newArrayList(
@@ -212,10 +216,9 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     }
 
     private List<FormLoginRequestBuilder> getLoginRequestBuilderWithInvalidCsrf(final String username, final String password) {
-        final String url = "/login";
         return of(csrf().useInvalidToken(), csrf().asHeader().useInvalidToken())
                 .map(postProcessor -> {
-                    final FormLoginRequestBuilder requestBuilder = formLogin(url).user(username).password(password);
+                    final FormLoginRequestBuilder requestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
                     setField(requestBuilder, "postProcessor", postProcessor);
                     return requestBuilder;
                 })

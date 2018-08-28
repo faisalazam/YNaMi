@@ -19,6 +19,10 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    static final String LOGOUT_URL = "/perform_logout";
+    static final String LOGOUT_SUCCESS_URL = "/login?logout";
+    static final String LOGIN_PROCESSING_URL = "/perform_login";
+
     private final UserDetailsService userDetailsService;
     private final FeatureManagerWrappable featureManager;
 
@@ -35,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         if (!featureManager.isActive(WEB_SECURITY)) {
             http
                     .csrf().disable()
@@ -47,11 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
+                .loginProcessingUrl(LOGIN_PROCESSING_URL)
 
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
-                .logoutSuccessUrl("/login?logout")
+                .logoutUrl(LOGOUT_URL)
+                .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
         ;
     }
 
