@@ -46,7 +46,7 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyThatAuthenticationIsRequiredWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         mockMvc.perform(get("/samples"))
                 .andExpect(status().is3xxRedirection())
@@ -62,7 +62,7 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyRedirectedBackToSecuredResourceAfterAuthenticationWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final MockHttpServletRequestBuilder securedResourceAccess = get("/samples");
         final MvcResult unauthenticatedResult = mockMvc.perform(securedResourceAccess)

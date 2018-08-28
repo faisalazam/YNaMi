@@ -64,7 +64,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyLoginAttemptedWithCorrectCredentialAndHttpPostMethodAndValidCsrfIsSuccessful() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final List<FormLoginRequestBuilder> requestBuilders = getLoginRequestBuilderWithValidCsrf("admin", "admin");
         for (final FormLoginRequestBuilder requestBuilder : requestBuilders) {
@@ -77,7 +77,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyLoginAttemptedWithCorrectCredentialAndHttpPostMethodIsFailedWhenCsrfIsInvalid() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final List<FormLoginRequestBuilder> requestBuilders = getLoginRequestBuilderWithInvalidCsrf("admin", "admin");
         for (final FormLoginRequestBuilder requestBuilder : requestBuilders) {
@@ -87,7 +87,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyThatLoginAttemptedWithIncorrectCredentialsIsFailedRegardlessOfCsrfValidity() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final String username = randomID();
         final String password = randomID();
@@ -118,7 +118,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyLogoutAttemptedWithHttpPostMethodAndValidCsrfIsSuccessful() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final List<LogoutRequestBuilder> requestBuilders = getLogoutRequestBuilderWithValidCsrf();
         for (final LogoutRequestBuilder requestBuilder : requestBuilders) {
@@ -131,7 +131,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyLogoutAttemptedWithHttpPostMethodAndInvalidCsrfResultsInForbiddenError() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final List<LogoutRequestBuilder> requestBuilders = getLogoutRequestBuilderWithInvalidCsrf();
         for (final LogoutRequestBuilder requestBuilder : requestBuilders) {
@@ -141,7 +141,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyLogoutAttemptedWithHttpGetMethodRedirectsToLoginPageRegardlessOfCsrfValidity() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders("/perform_logout");
         for (final MockHttpServletRequestBuilder requestBuilder : requestBuilders) {
@@ -154,7 +154,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldVerifyAuthenticatedAndSecuredResourcesAreAccessibleWhenLogoutAttemptedAfterSuccessfulAuthenticationWithHttpPostMethodAndInvalidCsrf() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY));
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
         final MvcResult authenticatedResult = mockMvc.perform(formLogin().user("admin").password("admin"))
                 .andExpect(status().is3xxRedirection())

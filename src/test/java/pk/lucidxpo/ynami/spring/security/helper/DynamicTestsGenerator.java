@@ -33,7 +33,7 @@ public class DynamicTestsGenerator {
                                                                            final EndPointTestScenario endPointTestScenario) {
         return endPointMappingsStream.stream()
                 .map(requestBuilderPair -> dynamicTest(requestBuilderPair.getKey(), () -> {
-                    assumeTrue(featureManager.isActive(WEB_SECURITY));
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), requestBuilderPair.getKey() + " test is ignored as Web Security is disabled");
                     performAndAssertExpectations(mockMvc, applicationContext, requestBuilderPair.getValue(), endPointTestScenario);
                 }))
                 .collect(toList());
@@ -43,7 +43,7 @@ public class DynamicTestsGenerator {
                                                                             final EndPointTestScenario endPointTestScenario) {
         return endPointMappingsStream.stream()
                 .map(requestBuilderPair -> dynamicTest(requestBuilderPair.getKey(), () -> {
-                    assumeFalse(featureManager.isActive(WEB_SECURITY));
+                    assumeFalse(featureManager.isActive(WEB_SECURITY), requestBuilderPair.getKey() + " test is ignored as Web Security is enabled");
                     performAndAssertExpectations(mockMvc, applicationContext, requestBuilderPair.getValue(), endPointTestScenario);
                 }))
                 .collect(toList());
