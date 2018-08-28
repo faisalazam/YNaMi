@@ -1,0 +1,103 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}"
+>
+    <head>
+        <title>Login Demo</title>
+    </head>
+    <body>
+        <div layout:fragment="content" th:remove="tag">
+            <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <div class="panel panel-info" style=" background-color: rgb(228,241,240);">
+                    <div class="panel-heading" style=" background-color: rgb(228,241,240);">
+                        <div class="panel-title">Sign In</div>
+                        <!--<div style="float:right; font-size: 80%; position: relative; top:-10px">-->
+                            <!--<a href="#">Forgot password?</a>-->
+                        <!--</div>-->
+                    </div>
+
+                    <div style="padding-top:30px" class="panel-body">
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                        <form autocomplete="off" th:action="@{/perform_login}" th:method="post" role="form" data-toggle="validator">
+                            <div th:if="${param.error}">
+                                <div class="alert alert-danger">
+                                    Invalid username or password.
+                                </div>
+                            </div>
+                            <div th:if="${param.logout}">
+                                <div class="alert alert-info">
+                                    You have been logged out.
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <section>
+                                    <div class="form-group input-group has-feedback">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username"
+                                               type="text"
+                                               th:name="username"
+                                               class="form-control"
+                                               placeholder="Username Or Email"
+                                               required/>
+                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input type="text" style="display:none;"/>
+                                        <input id="login-password"
+                                               type="password"
+                                               th:name="password"
+                                               class="form-control"
+                                               autocomplete="false"
+                                               th:placeholder="Password"
+                                               required/>
+                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                    </div>
+                                </section>
+
+                                <!--<div class="input-group">-->
+                                    <!--<div class="checkbox">-->
+                                        <!--<label>-->
+                                            <!--<input id="login-remember" type="checkbox" name="remember-me" value="1"/> Remember me-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div class="col-sm-12 controls">
+                                        <button th:text="Login" type="submit" class="btn btn-primary btn-block">Login</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-md-12 control">-->
+                                    <!--<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">-->
+                                        <!--Don't have an account!-->
+                                        <!--<a th:href="@{/support/users/new}">-->
+                                            <!--Sign Up Here-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        </form>
+                    </div>
+                </div>
+                <p><a href="/" th:href="@{/}">Back to home page</a></p>
+            </div>
+
+        </div>
+        <th:block layout:fragment="scripts">
+            <!--<script type="text/javascript" th:src="@{/webjars/bootstrap-validator/0.11.9/js/validator.min.js}"></script>-->
+            <!--<script type="text/javascript" th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+        </th:block>
+    </body>
+</html>

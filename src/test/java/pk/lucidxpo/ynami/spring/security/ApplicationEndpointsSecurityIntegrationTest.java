@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -44,7 +45,8 @@ import static pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECU
 class ApplicationEndpointsSecurityIntegrationTest extends AbstractIntegrationTest implements InitializingBean {
 
     @Autowired
-    private RequestMappingHandlerMapping appEndpointHandlerMapping;
+    @Qualifier("requestMappingHandlerMapping")
+    private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     private static DynamicTestsGenerator DYNAMIC_TESTS_GENERATOR;
 
@@ -70,7 +72,7 @@ class ApplicationEndpointsSecurityIntegrationTest extends AbstractIntegrationTes
         CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[PATCH] /samples/{id}", new RequestMappingCustomizer("PATCH", "/samples/{id}", Sample.class));
         CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[DELETE] /samples/{id}", new RequestMappingCustomizer("DELETE", "/samples/{id}", Sample.class, status().is3xxRedirection(), redirectedUrl("/samples")));
 
-        END_POINT_MAPPINGS_STREAM = END_POINT_MAPPINGS_LISTER.endPointMappingsCollection(appEndpointHandlerMapping);
+        END_POINT_MAPPINGS_STREAM = END_POINT_MAPPINGS_LISTER.endPointMappingsCollection(requestMappingHandlerMapping);
 
         DYNAMIC_TESTS_GENERATOR = new DynamicTestsGenerator(applicationContext, featureManager, END_POINT_MAPPINGS_STREAM);
 //  appEndpointHandlerMapping.getHandlerMethods().keySet().stream().map(t -> (t.getMethodsCondition().getMethods().size() == 0 ? "GET" : t.getMethodsCondition().getMethods().toArray()[0]) + " " + t.getPatternsCondition().getPatterns().toArray()[0]).toArray()
