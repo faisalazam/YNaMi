@@ -1,6 +1,9 @@
 package pk.lucidxpo.ynami.spring.security;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
@@ -13,6 +16,7 @@ import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -22,6 +26,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.LogoutRequestBuilder;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.logout;
@@ -51,97 +56,110 @@ import static pk.lucidxpo.ynami.utils.Identity.randomID;
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
-    @Test
-    void shouldVerifyLoginAttemptedWithCorrectCredentialAndHttpPostMethodAndValidCsrfIsSuccessful() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyLoginAttemptedWithCorrectCredentialAndHttpPostMethodAndValidCsrfIsSuccessful() {
+        return getLoginRequestBuilderWithValidCsrf("admin", "admin").stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final List<FormLoginRequestBuilder> requestBuilders = getLoginRequestBuilderWithValidCsrf("admin", "admin");
-        for (final FormLoginRequestBuilder requestBuilder : requestBuilders) {
-            mockMvc.perform(requestBuilder)
-                    .andExpect(status().isFound())
-                    .andExpect(redirectedUrl("/"))
-                    .andExpect(authenticated().withUsername("admin").withRoles("ADMIN"));
-        }
+                    mockMvc.perform(requestBuilder.getValue())
+                            .andExpect(status().isFound())
+                            .andExpect(redirectedUrl("/"))
+                            .andExpect(authenticated().withUsername("admin").withRoles("ADMIN"));
+                }))
+                .collect(toList());
     }
 
-    @Test
-    void shouldVerifyLoginAttemptedWithCorrectCredentialAndHttpPostMethodIsFailedWhenCsrfIsInvalid() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyLoginAttemptedWithCorrectCredentialAndHttpPostMethodIsFailedWhenCsrfIsInvalid() {
+        return getLoginRequestBuilderWithInvalidCsrf("admin", "admin").stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final List<FormLoginRequestBuilder> requestBuilders = getLoginRequestBuilderWithInvalidCsrf("admin", "admin");
-        for (final FormLoginRequestBuilder requestBuilder : requestBuilders) {
-            performAndVerifyUnauthenticatedAndForbidden(requestBuilder);
-        }
+                    performAndVerifyUnauthenticatedAndForbidden(requestBuilder.getValue());
+                }))
+                .collect(toList());
     }
 
-    @Test
-    void shouldVerifyThatLoginAttemptedWithIncorrectCredentialsIsFailedRegardlessOfCsrfValidity() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyThatLoginAttemptedWithIncorrectCredentialsIsFailedWhenCsrfIsValid() {
+        return getLoginRequestBuilderWithValidCsrf(randomID(), randomID()).stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final String username = randomID();
-        final String password = randomID();
-        for (final FormLoginRequestBuilder requestBuilder : getLoginRequestBuilderWithValidCsrf(username, password)) {
-            final MvcResult mvcResult = mockMvc.perform(requestBuilder)
-                    .andExpect(unauthenticated())
-                    .andExpect(redirectedUrl("/login?error"))
-                    .andReturn();
-            final HttpSession session = mvcResult.getRequest().getSession();
-            assertNotNull(session);
+                    final MvcResult mvcResult = mockMvc.perform(requestBuilder.getValue())
+                            .andExpect(unauthenticated())
+                            .andExpect(redirectedUrl("/login?error"))
+                            .andReturn();
+                    final HttpSession session = mvcResult.getRequest().getSession();
+                    assertNotNull(session);
 
-            final Object securityLastException = session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
-            assertThat(securityLastException, instanceOf(BadCredentialsException.class));
-        }
-
-        for (final RequestBuilder requestBuilder : getLoginRequestBuilderWithInvalidCsrf(username, password)) {
-            performAndVerifyUnauthenticatedAndForbidden(requestBuilder);
-        }
+                    final Object securityLastException = session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+                    assertThat(securityLastException, instanceOf(BadCredentialsException.class));
+                }))
+                .collect(toList());
     }
 
-    @Test
-    void shouldVerifyThatLoginAttemptedWithCorrectCredentialButWithIncorrectHttpMethodIsFailedRegardlessOfCsrfValidity() throws Exception {
-        final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders(LOGIN_PROCESSING_URL);
-        for (final MockHttpServletRequestBuilder requestBuilder : requestBuilders) {
-            mockMvc.perform(requestBuilder
-                    .param("username", "admin")
-                    .param("password", "admin")
-            ).andExpect(unauthenticated());
-        }
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyThatLoginAttemptedWithIncorrectCredentialsIsFailedWhenCsrfIsInvalid() {
+        return getLoginRequestBuilderWithInvalidCsrf(randomID(), randomID()).stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+
+                    performAndVerifyUnauthenticatedAndForbidden(requestBuilder.getValue());
+                }))
+                .collect(toList());
     }
 
-    @Test
-    void shouldVerifyLogoutAttemptedWithHttpPostMethodAndValidCsrfIsSuccessful() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
-
-        final List<LogoutRequestBuilder> requestBuilders = getLogoutRequestBuilderWithValidCsrf();
-        for (final LogoutRequestBuilder requestBuilder : requestBuilders) {
-            mockMvc.perform(requestBuilder)
-                    .andExpect(redirectedUrl(LOGOUT_SUCCESS_URL))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(unauthenticated());
-        }
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyThatLoginAttemptedWithCorrectCredentialButWithIncorrectHttpMethodIsFailedRegardlessOfCsrfValidity() {
+        return getMockHttpServletRequestBuilders(LOGIN_PROCESSING_URL).stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    mockMvc.perform(requestBuilder.getValue()
+                            .param("username", "admin")
+                            .param("password", "admin")
+                    ).andExpect(unauthenticated());
+                }))
+                .collect(toList());
     }
 
-    @Test
-    void shouldVerifyLogoutAttemptedWithHttpPostMethodAndInvalidCsrfResultsInForbiddenError() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyLogoutAttemptedWithHttpPostMethodAndValidCsrfIsSuccessful() {
+        return getLogoutRequestBuilderWithValidCsrf().stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final List<LogoutRequestBuilder> requestBuilders = getLogoutRequestBuilderWithInvalidCsrf();
-        for (final LogoutRequestBuilder requestBuilder : requestBuilders) {
-            performAndVerifyUnauthenticatedAndForbidden(requestBuilder);
-        }
+                    mockMvc.perform(requestBuilder.getValue())
+                            .andExpect(redirectedUrl(LOGOUT_SUCCESS_URL))
+                            .andExpect(status().is3xxRedirection())
+                            .andExpect(unauthenticated());
+                }))
+                .collect(toList());
     }
 
-    @Test
-    void shouldVerifyLogoutAttemptedWithHttpGetMethodRedirectsToLoginPageRegardlessOfCsrfValidity() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyLogoutAttemptedWithHttpPostMethodAndInvalidCsrfResultsInForbiddenError() {
+        return getLogoutRequestBuilderWithInvalidCsrf().stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final List<MockHttpServletRequestBuilder> requestBuilders = getMockHttpServletRequestBuilders(LOGOUT_URL);
-        for (final MockHttpServletRequestBuilder requestBuilder : requestBuilders) {
-            mockMvc.perform(requestBuilder)
-                    .andExpect(redirectedUrlPattern("**/login"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(unauthenticated());
-        }
+                    performAndVerifyUnauthenticatedAndForbidden(requestBuilder.getValue());
+                }))
+                .collect(toList());
+    }
+
+    @TestFactory
+    Collection<DynamicTest> shouldVerifyLogoutAttemptedWithHttpGetMethodResultsInUnauthorizedErrorRegardlessOfCsrfValidity() {
+        return getMockHttpServletRequestBuilders(LOGOUT_URL).stream()
+                .map(requestBuilder -> dynamicTest(requestBuilder.getKey(), () -> {
+                    assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+
+                    mockMvc.perform(requestBuilder.getValue())
+                            .andExpect(unauthenticated())
+                            .andExpect(status().is3xxRedirection())
+                            .andExpect(redirectedUrlPattern("**/login"));
+                }))
+                .collect(toList());
     }
 
     @Test
@@ -181,57 +199,59 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(unauthenticated());
     }
 
-    private List<LogoutRequestBuilder> getLogoutRequestBuilderWithValidCsrf() {
+    private List<Pair<String, LogoutRequestBuilder>> getLogoutRequestBuilderWithValidCsrf() {
         final LogoutRequestBuilder defaultRequestBuilder = logout(LOGOUT_URL);
 
         final LogoutRequestBuilder headerRequestBuilder = logout(LOGOUT_URL);
         setField(headerRequestBuilder, "postProcessor", csrf().asHeader());
 
         return newArrayList(
-                defaultRequestBuilder, headerRequestBuilder
+                Pair.of("Valid Csrf Token", defaultRequestBuilder),
+                Pair.of("Valid Csrf Token as Header", headerRequestBuilder)
         );
     }
 
-    private List<LogoutRequestBuilder> getLogoutRequestBuilderWithInvalidCsrf() {
-        return of(csrf().useInvalidToken(), csrf().asHeader().useInvalidToken())
-                .map(postProcessor -> {
-                    final LogoutRequestBuilder requestBuilder = logout(LOGOUT_URL);
-                    setField(requestBuilder, "postProcessor", postProcessor);
-                    return requestBuilder;
-                })
-                .collect(toList());
-
-
+    private List<Pair<String, LogoutRequestBuilder>> getLogoutRequestBuilderWithInvalidCsrf() {
+        return of(
+                Pair.of("Invalid Csrf Token", csrf().useInvalidToken()),
+                Pair.of("Invalid Csrf Token as Header", csrf().asHeader().useInvalidToken())
+        ).map(postProcessor -> {
+            final LogoutRequestBuilder requestBuilder = logout(LOGOUT_URL);
+            setField(requestBuilder, "postProcessor", postProcessor.getValue());
+            return Pair.of(postProcessor.getKey(), requestBuilder);
+        }).collect(toList());
     }
 
-    private List<FormLoginRequestBuilder> getLoginRequestBuilderWithValidCsrf(final String username, final String password) {
+    private List<Pair<String, FormLoginRequestBuilder>> getLoginRequestBuilderWithValidCsrf(final String username, final String password) {
         final FormLoginRequestBuilder defaultRequestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
 
         final FormLoginRequestBuilder headerRequestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
         setField(headerRequestBuilder, "postProcessor", csrf().asHeader());
 
         return newArrayList(
-                defaultRequestBuilder, headerRequestBuilder
+                Pair.of("Valid Csrf Token", defaultRequestBuilder),
+                Pair.of("Valid Csrf Token as Header", headerRequestBuilder)
         );
     }
 
-    private List<FormLoginRequestBuilder> getLoginRequestBuilderWithInvalidCsrf(final String username, final String password) {
-        return of(csrf().useInvalidToken(), csrf().asHeader().useInvalidToken())
-                .map(postProcessor -> {
-                    final FormLoginRequestBuilder requestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
-                    setField(requestBuilder, "postProcessor", postProcessor);
-                    return requestBuilder;
-                })
-                .collect(toList());
+    private List<Pair<String, FormLoginRequestBuilder>> getLoginRequestBuilderWithInvalidCsrf(final String username, final String password) {
+        return of(
+                Pair.of("Invalid Csrf Token", csrf().useInvalidToken()),
+                Pair.of("Invalid Csrf Token as Header", csrf().asHeader().useInvalidToken())
+        ).map(postProcessor -> {
+            final FormLoginRequestBuilder requestBuilder = formLogin(LOGIN_PROCESSING_URL).user(username).password(password);
+            setField(requestBuilder, "postProcessor", postProcessor.getValue());
+            return Pair.of(postProcessor.getKey(), requestBuilder);
+        }).collect(toList());
     }
 
-    private List<MockHttpServletRequestBuilder> getMockHttpServletRequestBuilders(final String urlTemplate) {
+    private List<Pair<String, MockHttpServletRequestBuilder>> getMockHttpServletRequestBuilders(final String urlTemplate) {
         return newArrayList(
-                get(urlTemplate),
-                get(urlTemplate).with(csrf()),
-                get(urlTemplate).with(csrf().asHeader()),
-                get(urlTemplate).with(csrf().useInvalidToken()),
-                get(urlTemplate).with(csrf().asHeader().useInvalidToken())
+                Pair.of("Default Csrf Token", get(urlTemplate)),
+                Pair.of("Valid Csrf Token", get(urlTemplate).with(csrf())),
+                Pair.of("Valid Csrf Token as Header", get(urlTemplate).with(csrf().asHeader())),
+                Pair.of("Invalid Csrf Token", get(urlTemplate).with(csrf().useInvalidToken())),
+                Pair.of("Invalid Csrf Token as Header", get(urlTemplate).with(csrf().asHeader().useInvalidToken()))
         );
     }
 }
