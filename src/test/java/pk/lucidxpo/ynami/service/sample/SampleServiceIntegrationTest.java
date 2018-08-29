@@ -26,11 +26,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
+import static pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
+@WithUserDetails(value = ADMIN_USER)
 @Sql(executionPhase = BEFORE_TEST_METHOD,
         scripts = {
                 "classpath:insert-roles.sql",
@@ -68,7 +70,6 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @WithUserDetails(value = ADMIN_USER)
     void shouldVerifyThatAllElementsAreReturnedOnGetAll() {
         final List<Sample> expectedSamples = asList(
                 sampleRepository.save(sample1),
@@ -92,7 +93,6 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @WithUserDetails(value = ADMIN_USER)
     void shouldVerifyTheRetrievalOfElementById() {
         sample1 = aSample().build();
         final Sample savedSample = sampleRepository.save(sample1);

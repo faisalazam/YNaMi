@@ -14,11 +14,12 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
@@ -57,7 +58,7 @@ class DatabaseExecutionListenerUsageVerifierTest {
 
     private void assertDatabaseExecutionListenerUsage(final Class<?> testClazz) {
         final TestExecutionListeners testExecutionListeners = findAnnotation(testClazz, TestExecutionListeners.class);
-        assertNotNull(testClazz.getSimpleName() + " should be annotated with " + TestExecutionListeners.class.getSimpleName(), testExecutionListeners);
+        assertNotNull(testExecutionListeners, format("%s should be annotated with %s with value %s", testClazz.getSimpleName(), TestExecutionListeners.class.getSimpleName(), DatabaseExecutionListener.class.getSimpleName()));
         assertThat(testExecutionListeners.listeners(), hasItemInArray(DatabaseExecutionListener.class));
     }
 }

@@ -3,6 +3,7 @@ package pk.lucidxpo.ynami.persistence.dao.security;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -21,12 +22,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
+import static pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
 import static pk.lucidxpo.ynami.persistence.model.security.UserBuilder.anUser;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @Transactional
-@Sql(scripts = "classpath:insert-roles.sql", executionPhase = BEFORE_TEST_METHOD)
+@WithUserDetails(value = ADMIN_USER)
+@Sql(executionPhase = BEFORE_TEST_METHOD,
+        scripts = {
+                "classpath:insert-roles.sql",
+                "classpath:insert-users.sql"
+        }
+)
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired

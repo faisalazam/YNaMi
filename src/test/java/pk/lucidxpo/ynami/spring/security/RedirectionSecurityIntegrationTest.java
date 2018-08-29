@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -19,6 +20,7 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
@@ -40,6 +42,15 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/samples"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
+    }
+
+    @Test
+    void shouldVerifyDefaultHeaders() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(header().string("X-Content-Type-Options", notNullValue()))
+                .andExpect(header().string("X-XSS-Protection", notNullValue()))
+                .andExpect(header().string("Cache-Control", notNullValue()))
+                .andExpect(header().string("X-Frame-Options", notNullValue()));
     }
 
     @Test
