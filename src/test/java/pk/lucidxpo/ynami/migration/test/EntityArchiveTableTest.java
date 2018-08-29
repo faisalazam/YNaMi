@@ -3,11 +3,11 @@ package pk.lucidxpo.ynami.migration.test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
 import pk.lucidxpo.ynami.migration.helper.DBCleaner;
 import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
-import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import javax.persistence.Entity;
 import java.io.IOException;
@@ -55,7 +55,7 @@ class EntityArchiveTableTest {
     }
 
     @Test
-    void shouldHaveSameDBStructureBetweenEntityTableAndRelatedArchiveTable() throws Exception {
+    void shouldHaveSameDBStructureBetweenEntityTableAndRelatedArchiveTable() {
         final Collection<Pair<Class, Class>> archivableEntityClasses = getArchivableEntityPairs();
 
         for (final Pair<Class, Class> entry : archivableEntityClasses) {

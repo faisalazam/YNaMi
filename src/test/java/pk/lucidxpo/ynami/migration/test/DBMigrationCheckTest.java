@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
@@ -12,12 +13,11 @@ import pk.lucidxpo.ynami.migration.helper.DBMigrationCheck;
 import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
 import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
 import pk.lucidxpo.ynami.migration.helper.Operation;
-import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -113,6 +113,7 @@ class DBMigrationCheckTest {
     private class StubTransaction implements TransactionOperations {
         private boolean isExecuted;
 
+        @SuppressWarnings({"NullableProblems", "ConstantConditions"})
         @Override
         public <T> T execute(final TransactionCallback<T> callback) throws TransactionException {
             isExecuted = true;

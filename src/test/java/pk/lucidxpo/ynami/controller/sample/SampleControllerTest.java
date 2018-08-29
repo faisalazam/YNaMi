@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.web.servlet.MockMvc;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
@@ -14,7 +16,6 @@ import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.service.sample.SampleService;
-import pk.lucidxpo.ynami.utils.MockitoExtension;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.quality.Strictness.LENIENT;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,6 +51,7 @@ import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = LENIENT)
 class SampleControllerTest {
     private MockMvc mockMvc;
 
