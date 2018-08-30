@@ -41,14 +41,14 @@
         <flyway.core.version>5.1.4</flyway.core.version>
         <modelmapper.version>1.0.0</modelmapper.version>
         <commons.lang.version>3.7</commons.lang.version>
-        <font.awesome.version>5.1.0</font.awesome.version>
+        <font.awesome.version>5.2.0</font.awesome.version>
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
         <org.reflections.version>0.9.11</org.reflections.version>
         <maven.checkstyle.version>3.0.0</maven.checkstyle.version>
         <mockito.junit.jupiter.version>2.21.0</mockito.junit.jupiter.version>
         <maven.project.info.reports.version>3.0.0</maven.project.info.reports.version>
-        <junit.platform.surefire.provider.version>1.2.0</junit.platform.surefire.provider.version>
+        <junit.platform.surefire.provider.version>1.3.0-RC1</junit.platform.surefire.provider.version>
 	</properties>
 
 	<dependencies>
