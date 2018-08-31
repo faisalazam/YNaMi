@@ -8,7 +8,7 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
  * This listener has two responsibilities: resetting the test scope before each test
  * and closing the Selenium driver, i.e. the browser, after each test.
  */
-class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
+public class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
 
     @Override
     public void prepareTestInstance(final TestContext testContext) {
