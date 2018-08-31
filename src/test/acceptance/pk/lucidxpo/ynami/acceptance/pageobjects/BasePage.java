@@ -19,13 +19,18 @@ import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.PageFactory.initElements;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
-import static pk.lucidxpo.ynami.acceptance.config.WebDriverFactory.getDriver;
 
 abstract class BasePage<T extends BasePage> {
 
     private static final int REFRESH_RATE = 2;
     private static final int LOAD_TIMEOUT = 30;
     private static final String BASE_URL = "https://localhost:%s/ynami";
+
+    private final WebDriver webDriver;
+
+    public BasePage(final WebDriver webDriver) {
+        this.webDriver = webDriver;
+    }
 
     /**
      * Provides condition when page can be considered as fully loaded.
@@ -39,8 +44,8 @@ abstract class BasePage<T extends BasePage> {
 
     @SuppressWarnings("unchecked")
     public T openPage(final int port) {
-        initElements(getDriver(), this);
-        getDriver().get(getBaseUrl(port) + getPageUrl());
+        initElements(webDriver, this);
+        webDriver.get(getBaseUrl(port) + getPageUrl());
         final ExpectedCondition pageLoadCondition = getPageLoadCondition();
         waitForPageToLoad(pageLoadCondition);
         return (T) this;
@@ -51,11 +56,11 @@ abstract class BasePage<T extends BasePage> {
     }
 
     String pageTitle() {
-        return getDriver().getTitle();
+        return webDriver.getTitle();
     }
 
     void editText(final String id, final String value) {
-        final FluentWait<WebDriver> fluentWait = new FluentWait<>(getDriver());
+        final FluentWait<WebDriver> fluentWait = new FluentWait<>(webDriver);
         final WebElement element = fluentWait
                 .withTimeout(ofSeconds(10))
                 .pollingEvery(ofMillis(10))
@@ -65,14 +70,14 @@ abstract class BasePage<T extends BasePage> {
     }
 
     void clickId(final String id) {
-        final WebElement button = getDriver().findElement(id(id));
-        final JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        final WebElement button = webDriver.findElement(id(id));
+        final JavascriptExecutor executor = (JavascriptExecutor) webDriver;
         executor.executeScript("arguments[0].click();", button);
     }
 
     @SuppressWarnings("unchecked")
     void waitForPageToLoad(final ExpectedCondition pageLoadCondition) {
-        final Wait wait = new FluentWait(getDriver())
+        final Wait wait = new FluentWait(webDriver)
                 .withTimeout(ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(ofSeconds(REFRESH_RATE));
 
@@ -80,42 +85,42 @@ abstract class BasePage<T extends BasePage> {
     }
 
     void navigate(final String value) {
-        getDriver().navigate().to(value);
+        webDriver.navigate().to(value);
     }
 
     void acceptAlert() {
-        final FluentWait<WebDriver> fluentWait = new FluentWait<>(getDriver());
+        final FluentWait<WebDriver> fluentWait = new FluentWait<>(webDriver);
         fluentWait.withTimeout(ofSeconds(10))
                 .pollingEvery(ofMillis(10))
                 .ignoring(NoSuchElementException.class)
                 .until(alertIsPresent());
-        getDriver().switchTo().alert().accept();
+        webDriver.switchTo().alert().accept();
     }
 
     boolean isThere(final String name) {
-        final List<WebElement> listTitles = getDriver()
+        final List<WebElement> listTitles = webDriver
                 .findElements(xpath("//h2[contains(text(), ' " + name + " ')]"));
         return listTitles.size() == 1;
     }
 
     void clickXpathJs(final String value) {
-        final WebElement button = getDriver()
+        final WebElement button = webDriver
                 .findElement(xpath("//a[contains(text(), '" + value + "')]"));
-        final JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        final JavascriptExecutor executor = (JavascriptExecutor) webDriver;
         executor.executeScript("arguments[0].click();", button);
     }
 
     protected void clickXpath(final String value) {
-        getDriver().findElement(xpath("//*[contains(text(), '" + value + "')]")).click();
+        webDriver.findElement(xpath("//*[contains(text(), '" + value + "')]")).click();
     }
 
     boolean hasErrors() {
-        final List<WebElement> errors = getDriver()
+        final List<WebElement> errors = webDriver
                 .findElements(className("error"));
         return (errors.size() > 0) && errors.get(0).isDisplayed();
     }
 
     public void quit() {
-        getDriver().quit();
+        webDriver.quit();
     }
 }

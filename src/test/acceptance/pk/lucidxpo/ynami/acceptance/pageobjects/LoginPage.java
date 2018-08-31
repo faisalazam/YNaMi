@@ -1,5 +1,6 @@
 package pk.lucidxpo.ynami.acceptance.pageobjects;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -16,6 +17,10 @@ public class LoginPage extends BasePage<LoginPage> {
 
     @FindBy(id = "login-btn")
     private WebElement submitButton;
+
+    public LoginPage(final WebDriver webDriver) {
+        super(webDriver);
+    }
 
     public LoginPage username(final String text) {
         username.clear();

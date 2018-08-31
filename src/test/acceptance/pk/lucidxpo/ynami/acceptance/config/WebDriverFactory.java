@@ -5,15 +5,11 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class WebDriverFactory {
+class WebDriverFactory {
 
-    private static WebDriver driver;
-
-    public static WebDriver getDriver() {
-        if (driver == null) {
-            driver = new HtmlUnitDriver(true);
-            driver.manage().timeouts().implicitlyWait(2, SECONDS);
-        }
+    static WebDriver getDriver() {
+        final WebDriver driver = new HtmlUnitDriver(true);
+        driver.manage().timeouts().implicitlyWait(2, SECONDS);
         return driver;
     }
 

@@ -1,10 +1,14 @@
 package pk.lucidxpo.ynami.acceptance.config;
 
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import static pk.lucidxpo.ynami.acceptance.config.WebDriverFactory.getDriver;
 
 @Configuration
 public class SeleniumTestCaseContext implements BeanFactoryPostProcessor {
@@ -14,6 +18,17 @@ public class SeleniumTestCaseContext implements BeanFactoryPostProcessor {
     @Bean
     public TestScope testScope() {
         return new TestScope();
+    }
+
+    /*
+     * Creating a Selenium web driver bean which will be injected into page objects.
+     * Web drivers can’t be reused between tests so will create a custom scope for the driver bean called “test”.
+     * This scope will create a new bean before each test.
+     */
+    @Bean
+    @Scope(TEST_SCOPE_NAME)
+    public WebDriver webDriver() {
+        return getDriver();
     }
 
     @SuppressWarnings("NullableProblems")
