@@ -1,6 +1,7 @@
 package pk.lucidxpo.ynami.acceptance.selenium.test;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import pk.lucidxpo.ynami.acceptance.config.selenium.AbstractSeleniumTest;
@@ -20,19 +21,27 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 )
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class LoginSeleniumTest extends AbstractSeleniumTest {
+    @Autowired
+    private LoginPage loginPage;
+
     @Test
     void shouldVerifySuccessfulLoginWithCorrectCredentialsForAdminUser() {
         assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final LoginPage loginPage = new LoginPage(webDriver).openPage(port);
-        loginPage.username("admin").password("admin").submit();
+        loginPage.openPage(port).username("admin").password("admin").submit();
     }
 
     @Test
     void shouldVerifySuccessfulLoginWithCorrectCredentialsForSupportUser() {
         assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
 
-        final LoginPage loginPage = new LoginPage(webDriver).openPage(port);
-        loginPage.doLogin("support", "support");
+        loginPage.openPage(port).doLogin("support", "support");
+    }
+
+    @Test
+    void shouldVerifySuccessfulLoginWithCorrectCredentialsForUser() {
+        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
+
+        loginPage.openPage(port).doLogin("user", "user");
     }
 }

@@ -44,7 +44,6 @@ abstract class BasePage<T extends BasePage> {
 
     @SuppressWarnings("unchecked")
     public T openPage(final int port) {
-        initElements(webDriver, this);
         webDriver.get(getBaseUrl(port) + getPageUrl());
         final ExpectedCondition pageLoadCondition = getPageLoadCondition();
         waitForPageToLoad(pageLoadCondition);
@@ -118,9 +117,5 @@ abstract class BasePage<T extends BasePage> {
         final List<WebElement> errors = webDriver
                 .findElements(className("error"));
         return (errors.size() > 0) && errors.get(0).isDisplayed();
-    }
-
-    public void quit() {
-        webDriver.quit();
     }
 }

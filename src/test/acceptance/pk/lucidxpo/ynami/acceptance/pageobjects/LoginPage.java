@@ -4,10 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
+@PageObject
 public class LoginPage extends BasePage<LoginPage> {
 
     @FindBy(id = "login-username")
@@ -18,6 +20,7 @@ public class LoginPage extends BasePage<LoginPage> {
     @FindBy(id = "login-btn")
     private WebElement submitButton;
 
+    @Autowired
     public LoginPage(final WebDriver webDriver) {
         super(webDriver);
     }
