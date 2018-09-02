@@ -25,17 +25,17 @@ class LoginSeleniumTest extends AbstractSeleniumTest {
     private LoginPage loginPage;
 
     @Test
-    void shouldVerifySuccessfulLoginWithCorrectCredentialsForAdminUser() {
-        loginPage.openPage(port).username("admin").password("admin").submit();
+    void shouldVerifySuccessfulLoginAndLogoutWithCorrectCredentialsForAdminUser() {
+        loginPage.openPage(port).username("admin").password("admin").submit().logout();
     }
 
     @Test
-    void shouldVerifySuccessfulLoginWithCorrectCredentialsForSupportUser() {
-        loginPage.openPage(port).doLogin("support", "support");
+    void shouldVerifySuccessfulLoginAndLogoutWithCorrectCredentialsForSupportUser() {
+        loginPage.openPage(port).doLogin("support", "support").logout();
     }
 
     @Test
-    void shouldVerifySuccessfulLoginWithCorrectCredentialsForUser() {
-        loginPage.openPage(port).doLogin("user", "user");
+    void shouldVerifySuccessfulLoginAndLogoutWithCorrectCredentialsForUser() {
+        loginPage.openPage(port).doLogin("user", "user").logout();
     }
 }

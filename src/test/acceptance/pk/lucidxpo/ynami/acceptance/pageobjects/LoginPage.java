@@ -6,11 +6,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 @PageObject
 public class LoginPage extends BasePage<LoginPage> {
+    @Autowired
+    private HomePage homePage;
 
     @FindBy(id = "login-username")
     private WebElement username;
@@ -37,18 +38,19 @@ public class LoginPage extends BasePage<LoginPage> {
         return this;
     }
 
-    public LoginPage submit() {
+    public HomePage submit() {
         submitButton.click();
-        assertEquals("Why Not Me!!! - Admin Demo", pageTitle());
-        return this;
+        waitForPageToLoad(homePage.getPageLoadCondition());
+        return homePage;
     }
 
-    public void doLogin(final String testUser, final String testPass) {
+    public HomePage doLogin(final String testUser, final String testPass) {
         editText("login-username", testUser);
         editText("login-password", testPass);
         clickId("login-btn");
 //        assertThat(hasErrors(), is(false));
-        assertEquals("Why Not Me!!! - Admin Demo", pageTitle());
+        waitForPageToLoad(homePage.getPageLoadCondition());
+        return homePage;
     }
 
     @Override
