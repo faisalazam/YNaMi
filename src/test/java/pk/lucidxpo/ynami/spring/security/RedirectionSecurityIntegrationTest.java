@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import pk.lucidxpo.ynami.AbstractIntegrationTest;
@@ -11,7 +12,6 @@ import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
@@ -23,7 +23,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PROCESSING_URL;
 
 @Sql(executionPhase = BEFORE_TEST_METHOD,
@@ -36,9 +35,8 @@ import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PROCESSING_
 class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
 
     @Test
+    @EnabledIf(value = "${togglz.features.WEB_SECURITY.enabled:false}", loadContext = true)
     void shouldVerifyThatAuthenticationIsRequiredWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
-
         mockMvc.perform(get("/samples"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -60,9 +58,8 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @EnabledIf(value = "${togglz.features.WEB_SECURITY.enabled:false}", loadContext = true)
     void shouldVerifyRedirectedBackToSecuredResourceAfterAuthenticationWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
-
         final MockHttpServletRequestBuilder securedResourceAccess = get("/samples");
         final MvcResult unauthenticatedResult = mockMvc.perform(securedResourceAccess)
                 .andExpect(status().is3xxRedirection())

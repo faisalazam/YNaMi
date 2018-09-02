@@ -9,6 +9,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -163,9 +164,8 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @EnabledIf(value = "${togglz.features.WEB_SECURITY.enabled:false}", loadContext = true)
     void shouldVerifyAuthenticatedAndSecuredResourcesAreAccessibleWhenLogoutAttemptedAfterSuccessfulAuthenticationWithHttpPostMethodAndInvalidCsrf() throws Exception {
-        assumeTrue(featureManager.isActive(WEB_SECURITY), "Test is ignored as Web Security is disabled");
-
         final MvcResult authenticatedResult = mockMvc.perform(formLogin(LOGIN_PROCESSING_URL).user("admin").password("admin"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(authenticated())
