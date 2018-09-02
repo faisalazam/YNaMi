@@ -30,6 +30,10 @@ class TestScope implements Scope {
         return cache.get(name);
     }
 
+    public boolean contains(final String beanName) {
+        return cache.containsKey(beanName);
+    }
+
     @Override
     public Object remove(final String name) {
         return cache.remove(name);
