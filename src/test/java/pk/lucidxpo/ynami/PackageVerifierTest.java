@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import pk.lucidxpo.ynami.acceptance.config.selenium.SeleniumTestCaseContext;
 import pk.lucidxpo.ynami.acceptance.pageobjects.PageObject;
 
 import javax.persistence.Entity;
@@ -77,8 +76,6 @@ public class PackageVerifierTest {
     @Test
     void shouldVerifyThatAllTheConfigurationsAreDefinedInsideSpringPackage() {
         final Set<Class<?>> allConfigurationClasses = getTypesAnnotatedWith(BASE_PACKAGE, Configuration.class);
-        allConfigurationClasses.remove(SeleniumTestCaseContext.class);
-
         final Set<Class<?>> configurationClassesInSpringPackage = getTypesAnnotatedWith(BASE_PACKAGE + ".spring", Configuration.class);
 
         assertThat(configurationClassesInSpringPackage.isEmpty(), is(false));

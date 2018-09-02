@@ -4,13 +4,13 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 import static pk.lucidxpo.ynami.acceptance.config.common.WebDriverFactory.getDriver;
 
-@Configuration
+@TestConfiguration
 public class SeleniumTestCaseContext implements BeanFactoryPostProcessor {
 
     private static final String TEST_SCOPE_NAME = "test";

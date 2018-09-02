@@ -13,7 +13,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = DEFINED_PORT)
+@SpringBootTest(classes = SeleniumTestCaseContext.class, webEnvironment = DEFINED_PORT)
 @TestExecutionListeners(value = SeleniumTestExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public abstract class AbstractSeleniumTest {
     @LocalServerPort

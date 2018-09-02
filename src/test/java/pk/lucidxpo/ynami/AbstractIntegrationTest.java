@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
@@ -38,6 +39,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.context.annotation.ComponentScan.Filter;
+import static org.springframework.context.annotation.FilterType.REGEX;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
@@ -46,6 +49,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
+@ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
 public class AbstractIntegrationTest {
     public static final String ADMIN_USER = "admin";
     protected static final String SUPPORT_USER = "support";
