@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.config;
+package pk.lucidxpo.ynami.acceptance.config.selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.BeansException;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import static pk.lucidxpo.ynami.acceptance.config.WebDriverFactory.getDriver;
+import static pk.lucidxpo.ynami.acceptance.config.common.WebDriverFactory.getDriver;
 
 @Configuration
 public class SeleniumTestCaseContext implements BeanFactoryPostProcessor {

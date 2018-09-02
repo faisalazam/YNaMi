@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.config;
+package pk.lucidxpo.ynami.acceptance.config.selenium;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
@@ -13,10 +13,10 @@ import static java.util.Collections.synchronizedMap;
  * ensuring that only one instance is created. It also has a reset method for clearing the cache before each test run.
  */
 @SuppressWarnings("NullableProblems")
-public class TestScope implements Scope {
+class TestScope implements Scope {
 
-    private Map<String, Object> cache = synchronizedMap(newHashMap());
-    private Map<String, Runnable> destructionCallbacks = synchronizedMap(newHashMap());
+    private final Map<String, Object> cache = synchronizedMap(newHashMap());
+    private final Map<String, Runnable> destructionCallbacks = synchronizedMap(newHashMap());
 
     void reset() {
         cache.clear();

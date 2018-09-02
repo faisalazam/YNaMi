@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.config;
+package pk.lucidxpo.ynami.acceptance.config.selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.test.context.TestContext;
@@ -8,7 +8,7 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
  * This listener has two responsibilities: resetting the test scope before each test
  * and closing the Selenium driver, i.e. the browser, after each test.
  */
-public class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
+class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
 
     @Override
     public void prepareTestInstance(final TestContext testContext) {

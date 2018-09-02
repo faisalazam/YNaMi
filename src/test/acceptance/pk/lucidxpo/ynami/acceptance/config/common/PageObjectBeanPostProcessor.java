@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.config;
+package pk.lucidxpo.ynami.acceptance.config.common;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.BeansException;
