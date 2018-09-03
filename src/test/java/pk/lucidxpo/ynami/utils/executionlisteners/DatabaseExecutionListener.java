@@ -19,7 +19,16 @@ public class DatabaseExecutionListener implements TestExecutionListener {
     private static final String FLYWAY_SCHEMA_HISTORY = "flyway_schema_history";
 
     @Override
+    public void beforeTestClass(final TestContext testContext) throws Exception {
+        cleanDBData(testContext);
+    }
+
+    @Override
     public void afterTestMethod(final TestContext testContext) throws MetaDataAccessException, SQLException {
+        cleanDBData(testContext);
+    }
+
+    private void cleanDBData(final TestContext testContext) throws MetaDataAccessException, SQLException {
         final DataSource dataSource = testContext.getApplicationContext().getBean(DataSource.class);
         final JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
         cleanDBData(dataSource, jdbcTemplate);
