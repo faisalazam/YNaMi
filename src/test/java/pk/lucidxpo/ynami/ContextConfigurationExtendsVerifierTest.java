@@ -1,12 +1,15 @@
 package pk.lucidxpo.ynami;
 
+import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.Test;
+import org.reflections.Reflections;
 import pk.lucidxpo.ynami.acceptance.config.selenium.AbstractSeleniumTest;
 
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.Class.forName;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -44,18 +47,23 @@ class ContextConfigurationExtendsVerifierTest {
     }
 
     @Test
-    void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromAbstractSeleniumTest() throws Exception {
-        final Set<String> classes = getAllTypes(".*SeleniumTest.class$", BASE_PACKAGE);
+    void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromFluentTest() throws Exception {
+        final Set<Class<? extends FluentTest>> allFluentTests = new Reflections(BASE_PACKAGE).getSubTypesOf(FluentTest.class);
+        final Set<Class<? extends FluentTest>> fluentTestsInSeleniumTestPackage = new Reflections(BASE_PACKAGE + ".acceptance.selenium.test").getSubTypesOf(FluentTest.class);
 
         //The selenium test classes that don't require application context, should not be extended from "AbstractSeleniumTest".
         final Set<String> excludedClassNames = newHashSet(
                 AbstractSeleniumTest.class.getName()
         );
 
-        assertThat("The list of selenium test classes having name ending with 'SeleniumTest' must not be empty", classes.isEmpty(), is(false));
-        assertThat(classes.size() > excludedClassNames.size(), is(true));
+        assertThat("The list of selenium test classes having name ending with 'SeleniumTest' must not be empty", allFluentTests.isEmpty(), is(false));
+        assertThat(allFluentTests.size(), is(fluentTestsInSeleniumTestPackage.size()));
+        assertThat(allFluentTests.size() > excludedClassNames.size(), is(true));
 
-        for (String className : classes) {
+        for (final Class<? extends FluentTest> clazz : allFluentTests) {
+            final String className = clazz.getName();
+            assertThat(className, endsWith("SeleniumTest"));
+
             final Class<?> testClazz = forName(className);
             if (excludedClassNames.contains(className)) {
                 assertThat(className + " should not be extended from " + AbstractSeleniumTest.class.getSimpleName() + ".",

@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami.acceptance.selenium.test;
 
+import org.fluentlenium.core.annotation.Page;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
@@ -21,7 +21,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 )
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class LoginSeleniumTest extends AbstractSeleniumTest {
-    @Autowired
+    @Page
     private LoginPage loginPage;
 
     @Test

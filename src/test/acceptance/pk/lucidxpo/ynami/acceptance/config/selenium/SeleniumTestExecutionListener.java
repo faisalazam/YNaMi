@@ -4,29 +4,25 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 
-import static java.lang.Boolean.TRUE;
 import static java.util.Objects.requireNonNull;
-import static org.springframework.test.annotation.DirtiesContext.HierarchyMode.EXHAUSTIVE;
-import static org.springframework.test.context.support.DependencyInjectionTestExecutionListener.REINJECT_DEPENDENCIES_ATTRIBUTE;
 
 /*
  * This listener has two responsibilities: resetting the test scope before each test
  * and closing the Selenium driver, i.e. the browser, after each test.
  */
 class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
+    private static final String WEB_DRIVER_BEAN_NAME = "webDriver";
 
     @Override
-    public void prepareTestInstance(final TestContext testContext) {
+    public void beforeTestClass(final TestContext testContext) {
         reset(testContext);
-        testContext.markApplicationContextDirty(EXHAUSTIVE);
-        testContext.setAttribute(REINJECT_DEPENDENCIES_ATTRIBUTE, TRUE);
     }
 
     @Override
     public void afterTestMethod(final TestContext testContext) {
         final TestScope testScope = getTestScopeBean(testContext);
-        if (testScope.contains("webDriver")) {
-            ((WebDriver) requireNonNull(testScope.remove("webDriver"))).quit();
+        if (testScope.contains(WEB_DRIVER_BEAN_NAME)) {
+            ((WebDriver) requireNonNull(testScope.remove(WEB_DRIVER_BEAN_NAME))).quit();
         }
     }
 

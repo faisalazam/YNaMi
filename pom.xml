@@ -43,6 +43,7 @@
         <modelmapper.version>1.0.0</modelmapper.version>
         <commons.lang.version>3.7</commons.lang.version>
         <font.awesome.version>5.2.0</font.awesome.version>
+        <fluentlenium.version>3.6.1</fluentlenium.version>
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
         <org.reflections.version>0.9.11</org.reflections.version>
@@ -251,16 +252,28 @@
             <version>${podam.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.seleniumhq.selenium</groupId>-->
+            <!--<artifactId>selenium-java</artifactId>-->
+            <!--<version>${selenium.version}</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.seleniumhq.selenium</groupId>-->
+            <!--<artifactId>selenium-server</artifactId>-->
+            <!--<version>${selenium.version}</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.fluentlenium</groupId>-->
+            <!--<artifactId>fluentlenium-core</artifactId>-->
+            <!--<version>${fluentlenium.version}</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-server</artifactId>
-            <version>${selenium.version}</version>
+            <groupId>org.fluentlenium</groupId>
+            <artifactId>fluentlenium-junit-jupiter</artifactId>
+            <version>${fluentlenium.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

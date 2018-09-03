@@ -1,40 +1,32 @@
 package pk.lucidxpo.ynami.acceptance.pageobjects;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.fluentlenium.core.annotation.Page;
+import org.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
-@PageObject
 public class LoginPage extends BasePage<LoginPage> {
-    @Autowired
+    @Page
     private HomePage homePage;
 
     @FindBy(id = "login-username")
-    private WebElement username;
+    private FluentWebElement username;
     @FindBy(id = "login-password")
-    private WebElement password;
-
+    private FluentWebElement password;
     @FindBy(id = "login-btn")
-    private WebElement submitButton;
-
-    @Autowired
-    public LoginPage(final WebDriver webDriver) {
-        super(webDriver);
-    }
+    private FluentWebElement submitButton;
 
     public LoginPage username(final String text) {
         username.clear();
-        username.sendKeys(text);
+        username.fill().with(text);
         return this;
     }
 
     public LoginPage password(final String text) {
         password.clear();
-        password.sendKeys(text);
+        password.fill().with(text);
         return this;
     }
 

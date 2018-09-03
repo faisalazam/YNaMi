@@ -1,18 +1,18 @@
 package pk.lucidxpo.ynami;
 
+import org.fluentlenium.core.FluentPage;
 import org.junit.jupiter.api.Test;
+import org.reflections.Reflections;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import pk.lucidxpo.ynami.acceptance.pageobjects.PageObject;
 
 import javax.persistence.Entity;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypes;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
 
@@ -84,25 +84,10 @@ public class PackageVerifierTest {
 
     @Test
     void shouldVerifyThatAllThePageObjectsAreDefinedInsidePageObjectsPackage() {
-        final Set<Class<?>> allPageObjectClasses = getTypesAnnotatedWith(BASE_PACKAGE, PageObject.class);
-        final Set<Class<?>> pageObjectClasses = getTypesAnnotatedWith(BASE_PACKAGE + ".acceptance.pageobjects", PageObject.class);
+        final Set<Class<? extends FluentPage>> allFluentPages = new Reflections(BASE_PACKAGE).getSubTypesOf(FluentPage.class);
+        final Set<Class<? extends FluentPage>> fluentPagesInPageObjectPackage = new Reflections(BASE_PACKAGE + ".acceptance.pageobjects").getSubTypesOf(FluentPage.class);
 
-
-        assertThat(pageObjectClasses.isEmpty(), is(false));
-        assertThat(pageObjectClasses.size(), is(allPageObjectClasses.size()));
-    }
-
-    @Test
-    void shouldVerifyThatAllThePageObjectsAreAnnotatedWithPageObject() {
-        final Set<Class<?>> allPageObjectClasses = getTypesAnnotatedWith(BASE_PACKAGE, PageObject.class);
-        final Set<String> classes = getAllTypes(".*Page.class$", BASE_PACKAGE);
-        classes.remove("pk.lucidxpo.ynami.acceptance.pageobjects.BasePage");
-
-        assertThat(classes.isEmpty(), is(false));
-        assertThat(classes.size(), is(allPageObjectClasses.size()));
-
-        for (final Class<?> pageObjectClass : allPageObjectClasses) {
-            assertTrue(classes.contains(pageObjectClass.getName()));
-        }
+        assertThat(fluentPagesInPageObjectPackage.isEmpty(), is(false));
+        assertThat(fluentPagesInPageObjectPackage.size(), is(allFluentPages.size()));
     }
 }

@@ -1,5 +1,6 @@
 package pk.lucidxpo.ynami.acceptance.config.selenium;
 
+import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,17 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SeleniumTestCaseContext.class, webEnvironment = DEFINED_PORT)
 @TestExecutionListeners(value = SeleniumTestExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
-public abstract class AbstractSeleniumTest {
+public abstract class AbstractSeleniumTest extends FluentTest {
     @LocalServerPort
     protected int port;
 
     @Autowired
-    protected WebDriver webDriver;
+    private WebDriver webDriver;
+
+    @Override
+    public WebDriver newWebDriver() {
+        return webDriver;
+    }
 
     @Autowired
     protected FeatureManagerWrappable featureManager;
