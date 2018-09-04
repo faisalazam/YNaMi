@@ -21,9 +21,12 @@ import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
 public class PackageVerifierTest {
     public static final String BASE_PACKAGE = "pk.lucidxpo.ynami";
     private static final String UNIT_TEST_BASE_PACKAGE = "ut." + BASE_PACKAGE;
+    private static final String INTEGRATION_TEST_BASE_PACKAGE = "it." + BASE_PACKAGE;
     private static final String MIGRATION_BASE_PACKAGE = "migration." + BASE_PACKAGE;
     static final String ACCEPTANCE_BASE_PACKAGE = "acceptance." + BASE_PACKAGE;
-    static final String[] BASE_PACKAGES = new String[]{BASE_PACKAGE, ACCEPTANCE_BASE_PACKAGE, MIGRATION_BASE_PACKAGE, UNIT_TEST_BASE_PACKAGE};
+    static final String[] BASE_PACKAGES = new String[]{
+            BASE_PACKAGE, ACCEPTANCE_BASE_PACKAGE, MIGRATION_BASE_PACKAGE, UNIT_TEST_BASE_PACKAGE, INTEGRATION_TEST_BASE_PACKAGE
+    };
 
     @Test
     void shouldVerifyThatAllTheControllersAreDefinedInsideControllerPackage() {

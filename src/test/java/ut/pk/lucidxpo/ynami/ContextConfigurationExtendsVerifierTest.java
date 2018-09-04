@@ -5,7 +5,7 @@ import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
-import pk.lucidxpo.ynami.AbstractIntegrationTest;
+import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 
 import java.util.Set;
 
