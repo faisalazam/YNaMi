@@ -32,6 +32,7 @@
         <jquery.version>3.3.1-1</jquery.version>
         <xstream.version>1.4.10</xstream.version>
         <maven.jxr.version>2.5</maven.jxr.version>
+        <cucumber.version>2.3.1</cucumber.version>
         <selenium.version>3.14.0</selenium.version>
         <podam.version>7.2.0.RELEASE</podam.version>
         <togglz.version>2.6.1.Final</togglz.version>
@@ -252,29 +253,28 @@
             <version>${podam.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.seleniumhq.selenium</groupId>-->
-            <!--<artifactId>selenium-java</artifactId>-->
-            <!--<version>${selenium.version}</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.seleniumhq.selenium</groupId>-->
-            <!--<artifactId>selenium-server</artifactId>-->
-            <!--<version>${selenium.version}</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.fluentlenium</groupId>-->
-            <!--<artifactId>fluentlenium-core</artifactId>-->
-            <!--<version>${fluentlenium.version}</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-junit-jupiter</artifactId>
             <version>${fluentlenium.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fluentlenium</groupId>
+            <artifactId>fluentlenium-cucumber</artifactId>
+            <version>${fluentlenium.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-picocontainer</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
         </dependency>
     </dependencies>
 
