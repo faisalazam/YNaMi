@@ -1,13 +1,13 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
+import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
-import pk.lucidxpo.ynami.migration.helper.DBCleaner;
-import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 
 import javax.persistence.Entity;
 import java.io.IOException;
@@ -25,10 +25,10 @@ import static org.junit.Assert.fail;
 import static org.springframework.data.util.Pair.of;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.evolveDatabase;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabase;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
 
 /**

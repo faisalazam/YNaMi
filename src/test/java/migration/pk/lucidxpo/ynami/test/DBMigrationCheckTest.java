@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,11 +8,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
-import pk.lucidxpo.ynami.migration.helper.DBCleaner;
-import pk.lucidxpo.ynami.migration.helper.DBMigrationCheck;
-import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
-import pk.lucidxpo.ynami.migration.helper.Operation;
+import migration.pk.lucidxpo.ynami.helper.DBCleaner;
+import migration.pk.lucidxpo.ynami.helper.DBMigrationCheck;
+import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.Operation;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.migration.helper;
+package migration.pk.lucidxpo.ynami.helper;
 
 import java.io.File;
 import java.io.FileFilter;

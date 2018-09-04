@@ -1,6 +1,6 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 
 import java.util.LinkedHashMap;
 import java.util.List;

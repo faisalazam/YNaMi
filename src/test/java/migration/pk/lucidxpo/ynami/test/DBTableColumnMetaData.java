@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

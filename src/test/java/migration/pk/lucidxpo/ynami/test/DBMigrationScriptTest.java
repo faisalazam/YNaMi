@@ -1,15 +1,15 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
+import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
-import pk.lucidxpo.ynami.migration.helper.DBCleaner;
-import pk.lucidxpo.ynami.migration.helper.DBMigrationCheck;
-import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
-import pk.lucidxpo.ynami.migration.helper.Operation;
+import migration.pk.lucidxpo.ynami.helper.DBMigrationCheck;
+import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.Operation;
 
 import java.util.List;
 import java.util.Map;
@@ -18,14 +18,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.columnExists;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.constraintExistsFor;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.constraintExistsForTable;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.dataSourceForLocalMySql;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.hasColumnWith;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.tableExists;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.columnExists;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsFor;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsForTable;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.dataSourceForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.hasColumnWith;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.tableExists;
 
 class DBMigrationScriptTest {
     private static final boolean IS_NULLABLE = true;

@@ -1,9 +1,9 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pk.lucidxpo.ynami.migration.helper.MigrationScript;
-import pk.lucidxpo.ynami.migration.helper.MigrationScriptFetcher;
+import migration.pk.lucidxpo.ynami.helper.MigrationScript;
+import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 
 class MigrationScriptFetcherTest {
     private MigrationScriptFetcher fetcher;

@@ -1,12 +1,12 @@
-package pk.lucidxpo.ynami.migration.helper;
+package migration.pk.lucidxpo.ynami.helper;
 
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionOperations;
 
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.PATCH_DIRECTORY_PATH;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.evolveDatabaseToPenultimatePoint;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.PATCH_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabaseToPenultimatePoint;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
 public class DataPatchDBMigrationCheck {

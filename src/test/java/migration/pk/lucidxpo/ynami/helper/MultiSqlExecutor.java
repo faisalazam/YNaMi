@@ -1,12 +1,12 @@
-package pk.lucidxpo.ynami.migration.helper;
+package migration.pk.lucidxpo.ynami.helper;
 
+import migration.pk.lucidxpo.ynami.test.Insert;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static pk.lucidxpo.ynami.migration.test.Insert.strVal;
 
 public class MultiSqlExecutor {
     private static final String DELIMITER = ";";
@@ -51,7 +51,7 @@ public class MultiSqlExecutor {
         }
 
         public List<Map<String, Object>> getRowsWithSpecifiedField(final String fieldName, final String fieldValue) {
-            final String sqlQuery = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = " + strVal(fieldValue);
+            final String sqlQuery = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = " + Insert.strVal(fieldValue);
             return template.queryForList(sqlQuery);
         }
     }

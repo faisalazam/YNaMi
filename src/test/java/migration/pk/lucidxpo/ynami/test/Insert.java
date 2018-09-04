@@ -1,7 +1,7 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
 import org.joda.time.DateTime;
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 
 import java.util.List;
 

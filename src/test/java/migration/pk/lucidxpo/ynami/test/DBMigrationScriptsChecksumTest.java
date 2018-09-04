@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.StringUtils.substringAfter;
 import static org.apache.commons.lang3.StringUtils.substringBefore;
 import static org.junit.Assert.fail;
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 
 class DBMigrationScriptsChecksumTest {
     private static final String SEPARATOR = ", ";

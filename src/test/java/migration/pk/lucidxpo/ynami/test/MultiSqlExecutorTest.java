@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.internal.verification.Times;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pk.lucidxpo.ynami.migration.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;

@@ -1,10 +1,10 @@
-package pk.lucidxpo.ynami.migration.helper;
+package migration.pk.lucidxpo.ynami.helper;
 
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionOperations;
 
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.evolveDatabaseToPenultimatePoint;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabaseToPenultimatePoint;
 
 public class DBMigrationCheck {
 

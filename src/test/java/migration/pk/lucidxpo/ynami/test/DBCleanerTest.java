@@ -1,18 +1,18 @@
-package pk.lucidxpo.ynami.migration.test;
+package migration.pk.lucidxpo.ynami.test;
 
+import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import org.junit.After;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pk.lucidxpo.ynami.migration.helper.DBCleaner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.SCHEMA_NAME;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.executorForLocalMySql;
-import static pk.lucidxpo.ynami.migration.helper.MigrationTestHelper.jdbcTemplateForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.jdbcTemplateForLocalMySql;
 
 class DBCleanerTest {
 
