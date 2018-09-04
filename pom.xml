@@ -32,7 +32,7 @@
         <jquery.version>3.3.1-1</jquery.version>
         <xstream.version>1.4.10</xstream.version>
         <maven.jxr.version>2.5</maven.jxr.version>
-        <cucumber.version>2.3.1</cucumber.version>
+        <cucumber.version>1.2.5</cucumber.version>
         <selenium.version>3.14.0</selenium.version>
         <podam.version>7.2.0.RELEASE</podam.version>
         <togglz.version>2.6.1.Final</togglz.version>
@@ -269,11 +269,25 @@
                     <groupId>io.cucumber</groupId>
                     <artifactId>cucumber-picocontainer</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.cucumber</groupId>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
     </dependencies>
