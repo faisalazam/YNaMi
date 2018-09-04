@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.config.common;
+package acceptance.pk.lucidxpo.ynami.config.common;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;

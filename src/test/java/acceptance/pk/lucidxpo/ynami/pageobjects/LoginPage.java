@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.pageobjects;
+package acceptance.pk.lucidxpo.ynami.pageobjects;
 
 import org.fluentlenium.core.annotation.Page;
 import org.fluentlenium.core.domain.FluentWebElement;

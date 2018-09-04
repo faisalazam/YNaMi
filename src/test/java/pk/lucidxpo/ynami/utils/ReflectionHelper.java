@@ -208,29 +208,32 @@ public class ReflectionHelper {
         }
     }
 
-    public static void restoreLoggerInClass(Class clazz) throws Exception {
+    public static void restoreLoggerInClass(final Class clazz) throws Exception {
         setStaticFinalField(clazz, "LOGGER", getLogger(clazz));
     }
 
+    @SuppressWarnings("unchecked")
     public static Object createRandomlyFilledObject(final Class clazz) {
         return PODAM_FACTORY.manufacturePojo(clazz);
     }
 
-    public static Set<Class<?>> getTypesAnnotatedWith(final String basePackage, final Class<? extends Annotation> annotation) {
-        return new Reflections(basePackage).getTypesAnnotatedWith(annotation);
+    public static Set<Class<?>> getTypesAnnotatedWith(final Class<? extends Annotation> annotation, final String... basePackages) {
+        return new Reflections(
+                new ConfigurationBuilder().forPackages(basePackages)
+        ).getTypesAnnotatedWith(annotation);
     }
 
-    public static Set<String> getAllTypes(String includeRegex, String basePackage) {
-        return getAllTypes(includeRegex, EMPTY, basePackage);
+    public static Set<String> getAllTypes(final String includeRegex, final String... basePackages) {
+        return getAllTypesWithExclusions(includeRegex, EMPTY, basePackages);
     }
 
-    public static Set<String> getAllTypes(String includeRegex, String excludeRegex, String basePackage) {
+    public static Set<String> getAllTypesWithExclusions(final String includeRegex, final String excludeRegex, final String... basePackages) {
         final FilterBuilder filterBuilder = new FilterBuilder().include(includeRegex);
         if (isNotBlank(excludeRegex)) {
             filterBuilder.exclude(excludeRegex);
         }
         final Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .forPackages(basePackage)
+                .forPackages(basePackages)
                 .setScanners(new SubTypesScanner(false))
                 .filterInputsBy(filterBuilder)
         );

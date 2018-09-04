@@ -1,12 +1,12 @@
-package pk.lucidxpo.ynami.acceptance.cucumber.steps;
+package acceptance.pk.lucidxpo.ynami.cucumber.steps;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fluentlenium.core.annotation.Page;
-import pk.lucidxpo.ynami.acceptance.config.cucumber.AbstractSteps;
-import pk.lucidxpo.ynami.acceptance.pageobjects.LoginPage;
+import acceptance.pk.lucidxpo.ynami.config.cucumber.AbstractSteps;
+import acceptance.pk.lucidxpo.ynami.pageobjects.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.config.selenium;
+package acceptance.pk.lucidxpo.ynami.config.selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.test.context.TestContext;

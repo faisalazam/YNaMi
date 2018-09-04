@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.acceptance.pageobjects;
+package acceptance.pk.lucidxpo.ynami.pageobjects;
 
 import org.fluentlenium.core.FluentPage;
 import org.openqa.selenium.JavascriptExecutor;

@@ -1,9 +1,10 @@
 package pk.lucidxpo.ynami;
 
+import acceptance.pk.lucidxpo.ynami.config.selenium.AbstractSeleniumTest;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
-import pk.lucidxpo.ynami.acceptance.config.selenium.AbstractSeleniumTest;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Set;
 
@@ -15,14 +16,15 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.reflections.ReflectionUtils.getSuperTypes;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
+import static pk.lucidxpo.ynami.PackageVerifierTest.ACCEPTANCE_BASE_PACKAGE;
+import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypes;
 
 class ContextConfigurationExtendsVerifierTest {
 
     @Test
     void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromAbstractIntegrationTest() throws Exception {
-        final Set<String> classes = getAllTypes(".*IntegrationTest.class$", BASE_PACKAGE);
+        final Set<String> classes = getAllTypes(".*IntegrationTest.class$", BASE_PACKAGES);
 
         //The integration test classes that don't require application context, should not be extended from "AbstractIntegrationTest".
         final Set<String> excludedClassNames = newHashSet(
@@ -48,8 +50,10 @@ class ContextConfigurationExtendsVerifierTest {
 
     @Test
     void shouldVerifyThatAllTheIntegrationTestsAreExtendedFromFluentTest() throws Exception {
-        final Set<Class<? extends FluentTest>> allFluentTests = new Reflections(BASE_PACKAGE).getSubTypesOf(FluentTest.class);
-        final Set<Class<? extends FluentTest>> fluentTestsInSeleniumTestPackage = new Reflections(BASE_PACKAGE + ".acceptance.selenium.test").getSubTypesOf(FluentTest.class);
+        final Set<Class<? extends FluentTest>> allFluentTests = new Reflections(
+                new ConfigurationBuilder().forPackages(BASE_PACKAGES)
+        ).getSubTypesOf(FluentTest.class);
+        final Set<Class<? extends FluentTest>> fluentTestsInSeleniumTestPackage = new Reflections(ACCEPTANCE_BASE_PACKAGE + ".selenium.test").getSubTypesOf(FluentTest.class);
 
         //The selenium test classes that don't require application context, should not be extended from "AbstractSeleniumTest".
         final Set<String> excludedClassNames = newHashSet(

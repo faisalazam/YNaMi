@@ -1,5 +1,6 @@
-package pk.lucidxpo.ynami.acceptance.config.cucumber;
+package acceptance.pk.lucidxpo.ynami.config.cucumber;
 
+import acceptance.pk.lucidxpo.ynami.TestApplication;
 import org.fluentlenium.adapter.cucumber.FluentCucumberTest;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +17,7 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = AFTER_CLASS)
-@ContextConfiguration(classes = YNaMiApplication.class)
+@ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @SpringBootTest(classes = CucumberTestCaseContext.class, webEnvironment = DEFINED_PORT)
 public abstract class AbstractSteps extends FluentCucumberTest {
     @LocalServerPort

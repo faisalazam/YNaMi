@@ -219,7 +219,7 @@ class EntityArchiveTableTest {
     }
 
     private Collection<Class<?>> getEntityClasses() {
-        return getTypesAnnotatedWith(BASE_PACKAGE, Entity.class)
+        return getTypesAnnotatedWith(Entity.class, BASE_PACKAGE)
                 .stream()
                 .filter(entityClass -> !IGNORE_ENTITY_CLASSES.contains(entityClass))
                 .collect(toSet());

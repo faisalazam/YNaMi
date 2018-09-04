@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
 import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
+import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
 
 class DatabaseExecutionListenerUsageVerifierTest {
 
@@ -32,7 +33,7 @@ class DatabaseExecutionListenerUsageVerifierTest {
 
         final Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
-                        .forPackages(BASE_PACKAGE)
+                        .forPackages(BASE_PACKAGES)
                         .setScanners(new MemberUsageScanner())
                         .filterInputsBy(className -> requireNonNull(className).endsWith("IntegrationTest.class"))
         );
@@ -47,7 +48,7 @@ class DatabaseExecutionListenerUsageVerifierTest {
     void shouldVerifyThatIntegrationTestsAnnotatedWithSqlHaveDatabaseExecutionListenerAsTheirTestExecutionListeners() {
         final Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
-                        .forPackages(BASE_PACKAGE)
+                        .forPackages(BASE_PACKAGES)
                         .filterInputsBy(className -> requireNonNull(className).endsWith("IntegrationTest.class"))
         );
         final Set<Class<?>> testClassesAnnotatedWithSql = reflections.getTypesAnnotatedWith(Sql.class);

@@ -21,7 +21,7 @@ class EntityExtendsVerifierTest {
 
     @Test
     void shouldVerifyThatAllTheEntitiesAreExtendedFromAuditable() {
-        final Set<Class<?>> entityClasses = getTypesAnnotatedWith(BASE_PACKAGE + ".persistence.model", Entity.class);
+        final Set<Class<?>> entityClasses = getTypesAnnotatedWith(Entity.class, BASE_PACKAGE + ".persistence.model");
 
         //The entity classes that don't need to be audited, should not be extended from "Auditable".
         final Set<String> excludedEntityNames = newHashSet(

@@ -1,12 +1,12 @@
-package pk.lucidxpo.ynami.acceptance.selenium.test;
+package acceptance.pk.lucidxpo.ynami.selenium.test;
 
 import org.fluentlenium.core.annotation.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
-import pk.lucidxpo.ynami.acceptance.config.selenium.AbstractSeleniumTest;
-import pk.lucidxpo.ynami.acceptance.pageobjects.LoginPage;
+import acceptance.pk.lucidxpo.ynami.config.selenium.AbstractSeleniumTest;
+import acceptance.pk.lucidxpo.ynami.pageobjects.LoginPage;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
@@ -20,7 +20,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
         }
 )
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
-class LoginSeleniumTest extends AbstractSeleniumTest {
+class Login3SeleniumTest extends AbstractSeleniumTest {
     @Page
     private LoginPage loginPage;
 

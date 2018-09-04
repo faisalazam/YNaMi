@@ -20,7 +20,7 @@ class RepositoryExtendsVerifierTest {
     @SuppressWarnings("UnstableApiUsage")
     @Test
     void shouldVerifyThatAllTheRepositoriesAreExtendedFromJpaRepository() {
-        final Set<Class<?>> repositoryClasses = getTypesAnnotatedWith(BASE_PACKAGE + ".persistence.dao", Repository.class);
+        final Set<Class<?>> repositoryClasses = getTypesAnnotatedWith(Repository.class, BASE_PACKAGE + ".persistence.dao");
 
         //The repository classes that don't need to be extended from JpaRepository, should be excluded here.
         final Set<String> excludedRepositoryNames = newHashSet();
