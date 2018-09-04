@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami;
+package ut.pk.lucidxpo.ynami;
 
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
@@ -21,8 +21,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
 
 class DatabaseExecutionListenerUsageVerifierTest {
 

@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.springframework.data.util.Pair.of;
 import static org.springframework.util.CollectionUtils.isEmpty;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabase;

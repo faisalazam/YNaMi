@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami.controller.sample;
+package ut.pk.lucidxpo.ynami.controller.sample;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.web.servlet.MockMvc;
+import pk.lucidxpo.ynami.controller.sample.SampleController;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;

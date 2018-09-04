@@ -35,7 +35,7 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 import static org.springframework.test.util.ReflectionTestUtils.invokeMethod;
 import static org.springframework.util.StringUtils.uncapitalize;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 import static pk.lucidxpo.ynami.spring.security.helper.AuthenticationSetter.setupAuthentication;
 

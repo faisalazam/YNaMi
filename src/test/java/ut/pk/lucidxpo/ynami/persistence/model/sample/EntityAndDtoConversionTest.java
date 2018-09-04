@@ -1,10 +1,11 @@
-package pk.lucidxpo.ynami.persistence.model.sample;
+package ut.pk.lucidxpo.ynami.persistence.model.sample;
 
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
 import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;

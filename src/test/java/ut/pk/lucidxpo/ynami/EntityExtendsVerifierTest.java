@@ -1,4 +1,4 @@
-package pk.lucidxpo.ynami;
+package ut.pk.lucidxpo.ynami;
 
 import org.junit.jupiter.api.Test;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.reflections.ReflectionUtils.getSuperTypes;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
 
 class EntityExtendsVerifierTest {

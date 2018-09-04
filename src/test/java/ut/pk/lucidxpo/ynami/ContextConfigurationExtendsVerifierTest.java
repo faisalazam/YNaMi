@@ -1,10 +1,11 @@
-package pk.lucidxpo.ynami;
+package ut.pk.lucidxpo.ynami;
 
 import acceptance.pk.lucidxpo.ynami.config.selenium.AbstractSeleniumTest;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
+import pk.lucidxpo.ynami.AbstractIntegrationTest;
 
 import java.util.Set;
 
@@ -16,8 +17,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.reflections.ReflectionUtils.getSuperTypes;
-import static pk.lucidxpo.ynami.PackageVerifierTest.ACCEPTANCE_BASE_PACKAGE;
-import static pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.ACCEPTANCE_BASE_PACKAGE;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypes;
 
 class ContextConfigurationExtendsVerifierTest {
