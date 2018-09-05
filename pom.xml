@@ -32,7 +32,7 @@
         <jquery.version>3.3.1-1</jquery.version>
         <xstream.version>1.4.10</xstream.version>
         <maven.jxr.version>2.5</maven.jxr.version>
-        <cucumber.version>1.2.5</cucumber.version>
+        <cucumber.version>3.0.2</cucumber.version>
         <selenium.version>3.14.0</selenium.version>
         <podam.version>7.2.0.RELEASE</podam.version>
         <togglz.version>2.6.1.Final</togglz.version>
@@ -186,7 +186,7 @@
             <version>${font.awesome.version}</version>
         </dependency>
 
-		<!-- Following is the dependency which will be helping us with automated testing -->
+		<!-- Following are the dependencies which will be helping us with automated testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -276,19 +276,22 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
             <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
