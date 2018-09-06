@@ -1,5 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.pageobjects;
 
+import org.assertj.core.api.AbstractAssert;
 import org.fluentlenium.core.FluentPage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -9,18 +10,22 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static java.lang.String.format;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
+import static org.junit.platform.commons.util.ExceptionUtils.throwAsUncheckedException;
 import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
-abstract class BasePage<T extends BasePage> extends FluentPage {
+abstract class BasePage<PageObject extends BasePage, PageAssert extends AbstractAssert<PageAssert, PageObject>> extends FluentPage {
 
     private static final int REFRESH_RATE = 2;
     private static final int LOAD_TIMEOUT = 30;
@@ -37,11 +42,11 @@ abstract class BasePage<T extends BasePage> extends FluentPage {
     protected abstract String getPageUrl();
 
     @SuppressWarnings("unchecked")
-    public T openPage(final int port) {
+    public PageObject openPage(final int port) {
         goTo(getBaseUrl(port) + getPageUrl());
         final ExpectedCondition pageLoadCondition = getPageLoadCondition();
         waitForPageToLoad(pageLoadCondition);
-        return (T) this;
+        return (PageObject) this;
     }
 
     private String getBaseUrl(final int port) {
@@ -50,6 +55,19 @@ abstract class BasePage<T extends BasePage> extends FluentPage {
 
     String pageTitle() {
         return getDriver().getTitle();
+    }
+
+    @SuppressWarnings("unchecked")
+    public PageAssert assertThat() {
+        try {
+            final Type[] actualTypeArguments = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
+            final Class<PageObject> pageObjectClass = (Class<PageObject>) actualTypeArguments[0];
+            final Class<PageAssert> pageAssertClass = (Class<PageAssert>) actualTypeArguments[1];
+            return pageAssertClass.getDeclaredConstructor(pageObjectClass).newInstance(this);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchMethodException e) {
+            throwAsUncheckedException(e);
+        }
+        return null;
     }
 
     void editText(final String id, final String value) {
@@ -69,7 +87,7 @@ abstract class BasePage<T extends BasePage> extends FluentPage {
     }
 
     @SuppressWarnings("unchecked")
-    void waitForPageToLoad(final ExpectedCondition pageLoadCondition) {
+    public void waitForPageToLoad(final ExpectedCondition pageLoadCondition) {
         final Wait wait = new FluentWait(getDriver())
                 .withTimeout(ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(ofSeconds(REFRESH_RATE));

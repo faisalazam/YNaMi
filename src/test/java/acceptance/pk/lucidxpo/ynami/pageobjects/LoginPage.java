@@ -1,5 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.pageobjects;
 
+import acceptance.pk.lucidxpo.ynami.pageasserts.LoginPageAssert;
 import org.fluentlenium.core.annotation.Page;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
-public class LoginPage extends BasePage<LoginPage> {
+public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     @Page
     private HomePage homePage;
 
@@ -46,7 +47,7 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     @Override
-    protected ExpectedCondition getPageLoadCondition() {
+    public ExpectedCondition getPageLoadCondition() {
         return titleIs("Why Not Me!!! - Login Demo");
     }
 
