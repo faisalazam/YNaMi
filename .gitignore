@@ -1,6 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
+build/
 target/
+sslyze.output
 ynami.iml
 ynami.ipr
 ynami.iws
