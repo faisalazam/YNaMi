@@ -14,6 +14,7 @@ import static java.lang.Thread.sleep;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
+import static penetration.pk.lucidxpo.ynami.web.drivers.DriverFactory.quitAll;
 import static penetration.pk.lucidxpo.ynami.zaputils.ZapInfo.builder;
 import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.startZap;
 import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
@@ -31,6 +32,7 @@ public class SecurityTest {
 
     @AfterClass
     public static void tearDown() {
+        quitAll();
         stopZap();
     }
 

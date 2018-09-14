@@ -30,7 +30,7 @@ public abstract class AbstractZapBoot implements ZapBoot {
     // If ZAP is automatically started, its log will be stored in [current working directory]/target/zap-reports, along with the generated reports
     private static final String DEFAULT_ZAP_LOG_PATH = getProperty("user.dir") + separator + "target" + separator + "zap-reports";
 
-    private static final String API_KEY = "zapapisecret";
+    public static final String API_KEY = "zapapisecret";
 
     private static Process zap;
 
