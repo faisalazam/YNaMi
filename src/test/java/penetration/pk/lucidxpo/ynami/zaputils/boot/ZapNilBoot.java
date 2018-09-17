@@ -9,6 +9,10 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
  */
 public class ZapNilBoot extends AbstractZapBoot {
 
+    ZapNilBoot(final int port, final String host) {
+        super(port, host);
+    }
+
     @Override
     String buildStartCommand(final ZapInfo zapInfo) {
         return EMPTY;

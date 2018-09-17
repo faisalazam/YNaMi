@@ -23,6 +23,10 @@ import static java.nio.file.Paths.get;
 @Slf4j
 class ZapLocalBoot extends AbstractZapBoot {
 
+    ZapLocalBoot(final int port, final String host) {
+        super(port, host);
+    }
+
     @Override
     void setupProcessBuilder(final ZapInfo zapInfo, final ProcessBuilder processBuilder) {
         processBuilder.directory(getZapWorkingDirectory(zapInfo));
@@ -45,8 +49,8 @@ class ZapLocalBoot extends AbstractZapBoot {
 
         final String options = zapInfo.getOptions();
         startCommand.append(options != null ? options : getDefaultZapOptions());
-        startCommand.append(" -host ").append(zapInfo.getHost());
-        startCommand.append(" -port ").append(zapInfo.getPort());
+        startCommand.append(" -host ").append(host);
+        startCommand.append(" -port ").append(port);
 
         return startCommand.toString();
     }

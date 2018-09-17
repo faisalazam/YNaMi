@@ -28,6 +28,10 @@ class ZapDockerBoot extends AbstractZapBoot {
     private static final String CAS_AUTH_SCRIPT_DEFAULT_DOCKER_PATH = "/zap/scripts/";
     private static final String CAS_AUTH_SCRIPT_FILE_NAME = "cas-auth.js";
 
+    ZapDockerBoot(final int port, final String host) {
+        super(port, host);
+    }
+
     @Override
     void preStart() throws IOException {
         copyCasAuthScriptFileToMappedFolder();
@@ -42,8 +46,8 @@ class ZapDockerBoot extends AbstractZapBoot {
 
         final String options = zapInfo.getOptions();
         startCommand.append(options != null ? options : getDefaultZapOptions());
-        startCommand.append(" -host ").append(zapInfo.getHost());
-        startCommand.append(" -port ").append(zapInfo.getPort());
+        startCommand.append(" -host ").append(host);
+        startCommand.append(" -port ").append(port);
 
         return startCommand.toString();
     }

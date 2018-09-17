@@ -12,12 +12,12 @@ final class ZapBootFactory {
 
     static ZapBoot makeZapBoot(final ZapInfo zapInfo) {
         if (zapInfo.shouldRunWithDocker()) {
-            return new ZapDockerBoot();
+            return new ZapDockerBoot(zapInfo.getPort(), zapInfo.getHost());
         }
         if (isNotBlank(zapInfo.getPath())) {
-            return new ZapLocalBoot();
+            return new ZapLocalBoot(zapInfo.getPort(), zapInfo.getHost());
         }
-        return new ZapNilBoot();
+        return new ZapNilBoot(zapInfo.getPort(), zapInfo.getHost());
     }
 
     private ZapBootFactory() {

@@ -1,6 +1,7 @@
 package penetration.pk.lucidxpo.ynami.zaputils.boot;
 
 import lombok.extern.slf4j.Slf4j;
+import org.zaproxy.clientapi.core.ClientApi;
 import penetration.pk.lucidxpo.ynami.zaputils.ZapInfo;
 import penetration.pk.lucidxpo.ynami.zaputils.exception.ZapInitializationTimeoutException;
 
@@ -34,11 +35,18 @@ public abstract class AbstractZapBoot implements ZapBoot {
 
     private static Process zap;
 
+    int port;
+    String host;
+
+    AbstractZapBoot(final int port, final String host) {
+        this.port = port;
+        this.host = host;
+    }
+
     abstract String buildStartCommand(final ZapInfo zapInfo);
 
     @Override
     public void startZap(final ZapInfo zapInfo) {
-        final int port = zapInfo.getPort();
         if (zap != null || isZapRunning(port)) {
             log.info("ZAP is already up and running! No attempts will be made to start ZAP.");
             return;
@@ -60,9 +68,9 @@ public abstract class AbstractZapBoot implements ZapBoot {
         }
         try {
             log.info("Stopping ZAP");
-//            final ClientApi client = new ClientApi(HOST, port, API_KEY);
-//            client.core.shutdown();
-//            sleep(2000);
+            final ClientApi client = new ClientApi(host, port, API_KEY);
+            client.core.shutdown();
+            sleep(2000);
             zap.destroy();
         } catch (final Exception e) {
             log.warn("Error shutting down ZAP.");

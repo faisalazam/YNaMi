@@ -3,6 +3,7 @@
 build/
 target/
 sslyze.output
+prodDb.*
 ynami.iml
 ynami.ipr
 ynami.iws
