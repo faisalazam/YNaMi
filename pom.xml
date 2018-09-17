@@ -28,6 +28,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>10</java.version>
+        <harlib.version>1.1.2</harlib.version>
         <guava.version>26.0-jre</guava.version>
         <jquery.version>3.3.1-1</jquery.version>
         <xstream.version>1.4.10</xstream.version>
@@ -37,6 +38,7 @@
         <podam.version>7.2.0.RELEASE</podam.version>
         <togglz.version>2.6.1.Final</togglz.version>
         <commons.io.version>2.6</commons.io.version>
+        <diffutils.version>1.2.1</diffutils.version>
         <maven.pmd.version>3.10.0</maven.pmd.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
         <maven.site.version>3.7.1</maven.site.version>
@@ -49,6 +51,8 @@
         <maven.surefire.version>2.22.0</maven.surefire.version>
         <org.reflections.version>0.9.11</org.reflections.version>
         <maven.checkstyle.version>3.0.0</maven.checkstyle.version>
+        <cucumber.reporting.version>1.4.0</cucumber.reporting.version>
+        <!--<cucumber.reporting.version>3.20.0</cucumber.reporting.version>-->
         <commons.configuration.version>1.8</commons.configuration.version>
         <mockito.junit.jupiter.version>2.21.0</mockito.junit.jupiter.version>
         <maven.project.info.reports.version>3.0.0</maven.project.info.reports.version>
@@ -255,6 +259,18 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-junit-jupiter</artifactId>
             <version>${fluentlenium.version}</version>
@@ -300,23 +316,29 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>${selenium.version}</version>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>${cucumber.reporting.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
             <version>${commons.configuration.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.umass.cs.benchlab</groupId>
+            <artifactId>harlib</artifactId>
+            <version>${harlib.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.java-diff-utils</groupId>
+            <artifactId>diffutils</artifactId>
+            <version>${diffutils.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
