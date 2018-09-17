@@ -3,12 +3,17 @@ package penetration.pk.lucidxpo.ynami.config;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.XMLConfiguration;
 import penetration.pk.lucidxpo.ynami.exceptions.ConfigurationException;
+import penetration.pk.lucidxpo.ynami.model.Credentials;
+import penetration.pk.lucidxpo.ynami.model.UserPassCredentials;
 import penetration.pk.lucidxpo.ynami.zaputils.ZapInfo;
+
+import java.util.List;
 
 import static java.io.File.separator;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.join;
 import static java.lang.System.getenv;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC_OSX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
@@ -36,6 +41,25 @@ public class Config {
     private Config() {
 //        configure("log4j.properties");
         loadConfig(PEN_TEST_CONFIG_XML_PATH);
+    }
+
+    public Credentials getDefaultCredentials() {
+        return new UserPassCredentials(
+                validateAndGetString("defaultUsername"),
+                validateAndGetString("defaultPassword"));
+    }
+
+    public String getBaseUrl() {
+        return validateAndGetString("baseUrl");
+    }
+
+    public String getDefaultDriver() {
+        String driver = "htmlunit";
+        try {
+            driver = validateAndGetString("defaultDriver");
+        } catch (final RuntimeException ignored) {
+        }
+        return driver;
     }
 
     public String getDefaultDriverPath() {
@@ -139,6 +163,10 @@ public class Config {
             return parseInt(portAsString);
         }
         return 80;
+    }
+
+    public List<String> getSessionIDs() {
+        return getXml().getList("sessionIds.name").stream().map(o -> (String) o).collect(toList());
     }
 
     private static XMLConfiguration getXml() {
