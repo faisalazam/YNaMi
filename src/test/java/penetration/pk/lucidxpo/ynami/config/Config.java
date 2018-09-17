@@ -4,16 +4,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.XMLConfiguration;
 import penetration.pk.lucidxpo.ynami.exceptions.ConfigurationException;
 import penetration.pk.lucidxpo.ynami.model.Credentials;
+import penetration.pk.lucidxpo.ynami.model.User;
 import penetration.pk.lucidxpo.ynami.model.UserPassCredentials;
+import penetration.pk.lucidxpo.ynami.web.Application;
 import penetration.pk.lucidxpo.ynami.zaputils.ZapInfo;
 
 import java.util.List;
+import java.util.Set;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.io.File.separator;
+import static java.lang.Class.forName;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.join;
 import static java.lang.System.getenv;
+import static java.lang.System.out;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC_OSX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
@@ -29,7 +37,24 @@ public class Config {
     private XMLConfiguration xml;
     private static Config config;
 
+    private static final int DEFAULT_MAX_DEPTH = 10;
+    private static final int DEFAULT_SECURE_PORT = 443;
+    private static final int DEFAULT_INSECURE_PORT = 80;
     private static final String PEN_TEST_CONFIG_XML_PATH = "src/test/java/penetration/pk/lucidxpo/ynami/config/config.xml";
+
+    @SuppressWarnings("unchecked")
+    public Application createApp() {
+        final Object app;
+        try {
+            final Class appClass = forName(getInstance().getClassName());
+            app = appClass.getDeclaredConstructor().newInstance();
+            return (Application) app;
+        } catch (final Exception e) {
+            log.warn("Error instantiating the class defined in config.xml");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
     public synchronized static Config getInstance() {
         if (config == null) {
@@ -38,9 +63,8 @@ public class Config {
         return config;
     }
 
-    private Config() {
-//        configure("log4j.properties");
-        loadConfig(PEN_TEST_CONFIG_XML_PATH);
+    public User getDefaultUser() {
+        return new User(getDefaultCredentials());
     }
 
     public Credentials getDefaultCredentials() {
@@ -49,8 +73,39 @@ public class Config {
                 validateAndGetString("defaultPassword"));
     }
 
+    public List<String> getIgnoreUrls() {
+        final List<String> ignoreUrls = newArrayList();
+        getXml().configurationsAt("scanner.ignoreUrl").forEach(ignoreUrl -> {
+            ignoreUrls.add(ignoreUrl.getRoot().getValue().toString());
+            out.println(ignoreUrl);
+        });
+        return ignoreUrls;
+    }
+
+    public List<String> getSpiderUrls() {
+        return getXml().configurationsAt("scanner.spiderUrl").stream()
+                .map(ignoreUrl -> ignoreUrl.getRoot().getValue().toString())
+                .collect(toList());
+    }
+
+    public int getMaxDepth() {
+        final String portAsString = validateAndGetString("scanner.maxDepth");
+        if (isNotBlank(portAsString)) {
+            return parseInt(portAsString);
+        }
+        return DEFAULT_MAX_DEPTH;
+    }
+
     public String getBaseUrl() {
         return validateAndGetString("baseUrl");
+    }
+
+    public String getSSLyzePath() {
+        return validateAndGetString("sslyze.path");
+    }
+
+    public String getSSLyzeOption() {
+        return validateAndGetString("sslyze.option");
     }
 
     public String getDefaultDriver() {
@@ -82,31 +137,6 @@ public class Config {
             log.info("Using driver at: " + path);
             return path;
         }
-    }
-
-    /*
-        If value is defined as a system environment variable, then return its value.
-        If not, then search for it in the config file
-    */
-    private String validateAndGetString(final String value) {
-        String ret = getenv(value);
-        if (ret != null) {
-            return ret;
-        }
-        ret = getXml().getString(value);
-        if (ret == null) {
-            throw new RuntimeException(value + " not defined in config.xml");
-        }
-        return ret;
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private String[] validateAndGetStringArray(final String value) {
-        final String[] ret = getXml().getStringArray(value);
-        if (ret == null) {
-            throw new RuntimeException(value + " not defined in config.xml");
-        }
-        return ret;
     }
 
     public String getProxyHost() {
@@ -145,10 +175,6 @@ public class Config {
         proxyApi = key;
     }
 
-    public String getZapPath() {
-        return validateAndGetString("zapPath");
-    }
-
     public String getNoProxyHosts() {
         return join(",", validateAndGetStringArray("upstreamProxy.noProxyHosts"));
     }
@@ -162,11 +188,64 @@ public class Config {
         if (portAsString != null && portAsString.length() > 0) {
             return parseInt(portAsString);
         }
-        return 80;
+        return DEFAULT_INSECURE_PORT;
     }
 
-    public List<String> getSessionIDs() {
-        return getXml().getList("sessionIds.name").stream().map(o -> (String) o).collect(toList());
+    public String getSslHost() {
+        return validateAndGetString("sslyze.targetHost");
+    }
+
+    public int getSslPort() {
+        final String portAsString = validateAndGetString("sslyze.targetPort");
+        if (portAsString != null && portAsString.length() > 0) {
+            return parseInt(portAsString);
+        }
+        return DEFAULT_SECURE_PORT;
+    }
+
+    public Set<String> getSessionIDs() {
+        return getXml().getList("sessionIds.name").stream().map(o -> (String) o).collect(toSet());
+    }
+
+    public String getIncorrectUsername() {
+        return validateAndGetString("incorrectUsername");
+    }
+
+    public String getIncorrectPassword() {
+        return validateAndGetString("incorrectPassword");
+    }
+
+    public String getNessusUsername() {
+        return validateAndGetString("nessus.username");
+    }
+
+    public String getNessusPassword() {
+        return validateAndGetString("nessus.password");
+    }
+
+    public boolean displayStackTrace() {
+        return getXml().getBoolean("displayStackTrace");
+    }
+
+    public String getLatestReportsDir() {
+        return validateAndGetString("latestReportsDir");
+    }
+
+    public String getReportsDir() {
+        return validateAndGetString("reportsDir");
+    }
+
+    private Config() {
+//        configure("log4j.properties");
+        loadConfig(PEN_TEST_CONFIG_XML_PATH);
+    }
+
+    private String getClassName() {
+        return validateAndGetString("class");
+    }
+
+    private String getZapPath() {
+        return validateAndGetString("zapPath");
     }
 
     private static XMLConfiguration getXml() {
@@ -181,5 +260,26 @@ public class Config {
         } catch (final ConfigurationException | org.apache.commons.configuration.ConfigurationException cex) {
             cex.printStackTrace();
         }
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private String[] validateAndGetStringArray(final String value) {
+        final String[] ret = getXml().getStringArray(value);
+        if (ret == null) {
+            throw new RuntimeException(value + " not defined in config.xml");
+        }
+        return ret;
+    }
+
+    private String validateAndGetString(final String value) {
+        String ret = getenv(value);
+        if (ret != null) {
+            return ret;
+        }
+        ret = getXml().getString(value);
+        if (ret == null) {
+            throw new RuntimeException(value + " not defined in config.xml");
+        }
+        return ret;
     }
 }

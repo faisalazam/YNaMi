@@ -47,10 +47,15 @@
         <commons.lang.version>3.7</commons.lang.version>
         <font.awesome.version>5.2.0</font.awesome.version>
         <fluentlenium.version>3.6.1</fluentlenium.version>
+        <zap.clientapi.version>1.2.0</zap.clientapi.version>
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
+        <glassfish.jersey.version>2.27</glassfish.jersey.version>
         <org.reflections.version>0.9.11</org.reflections.version>
         <maven.checkstyle.version>3.0.0</maven.checkstyle.version>
+        <javax.activation.version>1.1.1</javax.activation.version>
+        <persistence.moxy.version>2.7.2</persistence.moxy.version>
+        <fasterxml.jackson.version>2.9.6</fasterxml.jackson.version>
         <cucumber.reporting.version>1.4.0</cucumber.reporting.version>
         <!--<cucumber.reporting.version>3.20.0</cucumber.reporting.version>-->
         <commons.configuration.version>1.8</commons.configuration.version>
@@ -328,7 +333,12 @@
             <version>${commons.configuration.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.zaproxy</groupId>
+            <artifactId>zap-clientapi</artifactId>
+            <version>${zap.clientapi.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>edu.umass.cs.benchlab</groupId>
             <artifactId>harlib</artifactId>
@@ -340,6 +350,70 @@
             <artifactId>diffutils</artifactId>
             <version>${diffutils.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${glassfish.jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${glassfish.jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>${glassfish.jersey.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <!-- Not Java 10 compliant -->
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>org.eclipse.persistence.moxy</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>${persistence.moxy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${fasterxml.jackson.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>${javax.activation.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.continuumsecurity</groupId>
+            <artifactId>zap-java-api</artifactId>
+            <version>2.6.0</version>
+            <scope>system</scope>
+            <systemPath>${project.build.testSourceDirectory}/penetration/pk/lucidxpo/ynami/lib/zap-java-api-2.6.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.continuumsecurity</groupId>
+            <artifactId>jssylze</artifactId>
+            <version>0.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.build.testSourceDirectory}/penetration/pk/lucidxpo/ynami/lib/jssylze-0.2-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.continuumsecurity</groupId>
+            <artifactId>nessus-java-client</artifactId>
+            <version>0.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.build.testSourceDirectory}/penetration/pk/lucidxpo/ynami/lib/nessus-java-client-0.2-SNAPSHOT.jar</systemPath>
         </dependency>
     </dependencies>
 

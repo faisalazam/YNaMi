@@ -1,48 +1,47 @@
 package penetration.pk.lucidxpo.ynami.test;
 
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import penetration.pk.lucidxpo.ynami.zaputils.ZapInfo;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 
-import static java.lang.Thread.sleep;
-import static java.net.HttpURLConnection.HTTP_OK;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
+import static cucumber.api.SnippetType.CAMELCASE;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_JSON_REPORT_PATH;
+import static penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.generateReports;
 import static penetration.pk.lucidxpo.ynami.web.drivers.DriverFactory.quitAll;
-import static penetration.pk.lucidxpo.ynami.zaputils.ZapInfo.builder;
-import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.startZap;
 import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        snippets = CAMELCASE,
+        tags = {
+                "not @wip",
+                "not @slow"
+        },
+        features = {
+                "classpath:cuke/security/features/"
+        },
+        plugin = {
+                "pretty",
+                "json:" + CUCUMBER_JSON_REPORT_PATH,
+                "junit:target/reports/security/all_tests.xml"
+        },
+        glue = {
+                "penetration.pk.lucidxpo.ynami.steps.defs",
+                "penetration.pk.lucidxpo.ynami.steps.config"
+        }
+)
 public class SecurityTest {
-    private static int port;
-
-    @BeforeClass
-    public static void setup() throws Exception {
-        final ZapInfo zapInfo = builder().buildToRunZap(getInstance().getZapPath());
-        startZap(zapInfo);
-        port = zapInfo.getPort();
-    }
+    private static final String CUCUMBER_REPORTS_PATH = "target/reports/security/cucumber";
+    private static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
+    static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
 
     @AfterClass
-    public static void tearDown() {
+    public static void tearDown() throws IOException {
+        generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
         quitAll();
         stopZap();
-    }
-
-    @Test
-    public void shouldVerifyZapIsRunning() throws Exception {
-        final String url = "http://localhost:" + port;
-
-        final HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        conn.setRequestMethod("HEAD");
-        sleep(100);
-        assertEquals(HTTP_OK, conn.getResponseCode());
     }
 }
