@@ -168,6 +168,17 @@ public final class ZapInfo {
          * <p>
          * <b>Docker must be installed locally for this to work.</b>
          *
+         * @return the built {@link ZapInfo} instance.
+         */
+        public ZapInfo buildToRunZapWithDocker() throws IOException {
+            return shouldRunWithDocker(true).port(findOpenPortOnAllLocalInterfaces()).build();
+        }
+
+        /**
+         * Use this if Docker is installed and you want to use ZAP from its Docker image.
+         * <p>
+         * <b>Docker must be installed locally for this to work.</b>
+         *
          * @param port the port where ZAP will run (e.g. {@code 8080}).
          * @return the built {@link ZapInfo} instance.
          */

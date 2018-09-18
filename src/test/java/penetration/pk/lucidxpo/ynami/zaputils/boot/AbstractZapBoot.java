@@ -20,9 +20,6 @@ import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Paths.get;
 import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
 
-/**
- * Base implementation for {@link ZapBoot}, responsible for the timeout logic.
- */
 @Slf4j
 public abstract class AbstractZapBoot implements ZapBoot {
     private static final String HEAD = "HEAD";
@@ -53,7 +50,6 @@ public abstract class AbstractZapBoot implements ZapBoot {
         }
 
         try {
-            preStart();
             start(zapInfo);
             waitForZapInitialization(port, zapInfo.getInitializationTimeoutInMillis());
         } catch (final IOException e) {
@@ -97,9 +93,6 @@ public abstract class AbstractZapBoot implements ZapBoot {
             defaultZapOptions.append("-config connection.proxyChain.hostName=").append(upstreamProxyHost).append(" ");
         }
         return defaultZapOptions.toString();
-    }
-
-    void preStart() throws IOException {
     }
 
     void setupProcessBuilder(final ZapInfo zapInfo, final ProcessBuilder processBuilder) {
