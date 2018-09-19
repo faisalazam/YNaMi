@@ -1,4 +1,4 @@
-package penetration.pk.lucidxpo.ynami.web;
+package penetration.pk.lucidxpo.ynami.web.sample;
 
 import org.openqa.selenium.WebElement;
 import penetration.pk.lucidxpo.ynami.behaviours.ILogin;
@@ -6,18 +6,14 @@ import penetration.pk.lucidxpo.ynami.behaviours.ILogout;
 import penetration.pk.lucidxpo.ynami.behaviours.INavigable;
 import penetration.pk.lucidxpo.ynami.model.Credentials;
 import penetration.pk.lucidxpo.ynami.model.UserPassCredentials;
+import penetration.pk.lucidxpo.ynami.web.WebApplication;
 
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.linkText;
 import static org.openqa.selenium.By.name;
 import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
 
-public class ApplicationUnderTest extends WebApplication implements ILogin, ILogout, INavigable {
-
-    public ApplicationUnderTest() {
-        super();
-    }
-
+public class RopeyTasksAppUnderTest extends WebApplication implements ILogin, ILogout, INavigable {
     @Override
     public void navigate() {
         openLoginPage();

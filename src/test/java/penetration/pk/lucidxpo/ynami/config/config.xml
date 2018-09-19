@@ -10,10 +10,12 @@
     <defaultDriver path="src/test/resources/drivers/chromedriver-mac">Chrome</defaultDriver> -->
 
     <!-- Base URL of the application to test -->
+    <!--<baseUrl>http://localhost:8080/ynami/</baseUrl>-->
     <baseUrl>http://localhost:8080/</baseUrl>
 
     <!-- A Java class to hold the Selenium steps to test the application in depth. Optionally required for in-depth authn/z and session management testing. -->
-    <class>penetration.pk.lucidxpo.ynami.web.ApplicationUnderTest</class>
+    <!--<class>penetration.pk.lucidxpo.ynami.web.YNaMiUnderTest</class>-->
+    <class>penetration.pk.lucidxpo.ynami.web.sample.RopeyTasksAppUnderTest</class>
 
     <!-- In order to install sslyze on a Linux system, these steps must be followed
 	apt-get update
@@ -32,7 +34,10 @@
         <name>JSESSIONID</name>
     </sessionIds>
 
-    <!-- the default user to use when logging in to the app -->
+    <!-- the default user to use when logging in to the YNaMi app -->
+    <!--<defaultUsername>admin</defaultUsername>-->
+    <!--<defaultPassword>admin</defaultPassword>-->
+    <!-- the default user to use when logging in to the RopeyTasks app -->
     <defaultUsername>bob</defaultUsername>
     <defaultPassword>password</defaultPassword>
 

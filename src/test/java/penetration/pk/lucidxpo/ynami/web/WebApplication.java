@@ -25,7 +25,7 @@ public class WebApplication extends Application {
 
     protected WebDriver driver;
 
-    WebApplication() {
+    protected WebApplication() {
         setImplicitWait(3, SECONDS);
     }
 
@@ -44,7 +44,7 @@ public class WebApplication extends Application {
         }
     }
 
-    WebElement findAndWaitForElement(final By by) {
+    protected WebElement findAndWaitForElement(final By by) {
         try {
             final WebDriverWait wait = new WebDriverWait(authTokenManagerImpl.getDriver(), 10);
             wait.until(visibilityOfElementLocated(by));
