@@ -8,7 +8,12 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import static cucumber.api.SnippetType.CAMELCASE;
-import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_JSON_REPORT_PATH;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_CONTEXT_LOADER;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_STEPS_CONFIG_PACKAGE;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_STEP_DEFS_PACKAGE;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.FEATURE_FILES_LOCATION;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.PEN_TESTS_JSON_REPORT;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.PEN_TESTS_JUNIT_REPORT;
 import static penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.generateReports;
 import static penetration.pk.lucidxpo.ynami.web.drivers.DriverFactory.quitAll;
 import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
@@ -21,22 +26,30 @@ import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
                 "not @slow"
         },
         features = {
-                "classpath:cuke/security/features/"
+                FEATURE_FILES_LOCATION
         },
         plugin = {
                 "pretty",
-                "json:" + CUCUMBER_JSON_REPORT_PATH,
-                "junit:target/reports/security/all_tests.xml"
+                PEN_TESTS_JSON_REPORT,
+                PEN_TESTS_JUNIT_REPORT
         },
         glue = {
-                "penetration.pk.lucidxpo.ynami.steps.defs",
-                "penetration.pk.lucidxpo.ynami.steps.config"
+                CUCUMBER_CONTEXT_LOADER,
+                CUCUMBER_STEP_DEFS_PACKAGE,
+                CUCUMBER_STEPS_CONFIG_PACKAGE
         }
 )
 public class SecurityTest {
     private static final String CUCUMBER_REPORTS_PATH = "target/reports/security/cucumber";
     private static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
-    static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
+    private static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
+
+    static final String PEN_TESTS_JSON_REPORT = "json:" + CUCUMBER_JSON_REPORT_PATH;
+    static final String FEATURE_FILES_LOCATION = "classpath:cuke/security/features/";
+    static final String PEN_TESTS_JUNIT_REPORT = "junit:target/reports/security/pen_tests.xml";
+    static final String CUCUMBER_STEP_DEFS_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.defs";
+    static final String CUCUMBER_CONTEXT_LOADER = "penetration.pk.lucidxpo.ynami.config.cucumber";
+    static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
 
     @AfterClass
     public static void tearDown() throws IOException {
