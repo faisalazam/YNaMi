@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <web-app>
 
-    <!-- The settings in this file are for the demo ropey-tasks vulnerable web app available at: https://github.com/stephendv/RopeyTasks,
-            which is included in the bdd-security framework for demo purposes. -->
-
     <!-- The web driver to use, can be either Firefox, Chrome or HtmlUnit.  Optionally specify path to the driver (required for linux)
-         Some drivers require a path to the platform specific driver binary, for example chrome needs chromedriver.  If these values are not specified, we'll use HtmlUnit
+         Some drivers require a path to the platform specific driver binary, for example chrome needs chromedriver.
+         If these values are not specified, we'll use HtmlUnit
     <defaultDriver>firefox</defaultDriver>
     <defaultDriver path="src/test/resources/drivers/chromedriver-mac">Chrome</defaultDriver> -->
 
     <!-- Base URL of the application to test -->
-    <!--<baseUrl>http://localhost:8080/ynami/</baseUrl>-->
-    <baseUrl>http://localhost:8080/</baseUrl>
+    <baseUrl>http://localhost:8080/ynami/</baseUrl>
+    <!--<baseUrl>http://localhost:8080/</baseUrl>-->
 
     <!-- A Java class to hold the Selenium steps to test the application in depth. Optionally required for in-depth authn/z and session management testing. -->
-    <!--<class>penetration.pk.lucidxpo.ynami.web.YNaMiUnderTest</class>-->
-    <class>penetration.pk.lucidxpo.ynami.web.sample.RopeyTasksAppUnderTest</class>
+    <class>penetration.pk.lucidxpo.ynami.web.YNaMiUnderTest</class>
+
+    <!-- The following class is for the demo of ropey-tasks vulnerable web app available at: https://github.com/stephendv/RopeyTasks-->
+    <!--<class>penetration.pk.lucidxpo.ynami.web.sample.RopeyTasksAppUnderTest</class>-->
 
     <!-- In order to install sslyze on a Linux system, these steps must be followed
 	apt-get update
@@ -24,9 +24,9 @@
     -->
     <sslyze>
         <path>sslyze</path>
-	<option>--regular</option>
-        <targetHost>www.continuumsecurity.net</targetHost>
-        <targetPort>443</targetPort>
+        <option>--regular</option>
+        <targetHost>localhost</targetHost>
+        <targetPort>8443</targetPort>
     </sslyze>
 
     <!-- Optional names of the session ID cookies for session management testing. -->
@@ -35,16 +35,16 @@
     </sessionIds>
 
     <!-- the default user to use when logging in to the YNaMi app -->
-    <!--<defaultUsername>admin</defaultUsername>-->
-    <!--<defaultPassword>admin</defaultPassword>-->
+    <defaultUsername>admin</defaultUsername>
+    <defaultPassword>admin</defaultPassword>
     <!-- the default user to use when logging in to the RopeyTasks app -->
-    <defaultUsername>bob</defaultUsername>
-    <defaultPassword>password</defaultPassword>
+    <!--<defaultUsername>bob</defaultUsername>-->
+    <!--<defaultPassword>password</defaultPassword>-->
 
     <scanner>
         <ignoreUrl>.*logout.*</ignoreUrl>
-	<spiderUrl>baseUrl</spiderUrl>
-	<maxDepth>5</maxDepth>
+        <spiderUrl>baseUrl</spiderUrl>
+        <maxDepth>5</maxDepth>
     </scanner>
 
     <!-- An upstream proxy through which all HTTP traffic must pass before hitting the target application under test.
@@ -65,13 +65,20 @@
         <password>admin</password>
     </nessus>
 
-    <!-- Optional location of a running OWASP ZAP instance.  Either an external- already running ZAP instance must be specified here, or the zapPath must be specified to launch ZAP
+    <!--
+        Optional location of a running OWASP ZAP instance. Either an external- already running ZAP instance
+        must be specified here, or the zapPath must be specified to launch ZAP
+    -->
+    <!--
     <proxy>
         <host>127.0.0.1</host>
         <port>8888</port>
         <api></api>
-    </proxy>-->
+    </proxy>
+    -->
 
-    <zapPath>/Users/muhammadfaisal/projects/PersonalProjects/YNaMi/src/test/java/penetration/pk/lucidxpo/ynami/zap/zap-2.6.0.jar</zapPath>
+    <zapPath>
+        /Users/muhammadfaisal/projects/PersonalProjects/YNaMi/src/test/java/penetration/pk/lucidxpo/ynami/zap/zap-2.6.0.jar
+    </zapPath>
 
 </web-app>
