@@ -42,7 +42,8 @@
     <!--<defaultPassword>password</defaultPassword>-->
 
     <scanner>
-        <ignoreUrl>.*logout.*</ignoreUrl>
+        <!--ignore external urls i.e. which doesn't contain specified host:port-->
+        <ignoreUrl>^((?!localhost:(\d*)).)*$</ignoreUrl>
         <spiderUrl>baseUrl</spiderUrl>
         <maxDepth>5</maxDepth>
     </scanner>
