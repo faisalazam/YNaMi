@@ -51,6 +51,7 @@ class ZapLocalBoot extends AbstractZapBoot {
         startCommand.append(options != null ? options : getDefaultZapOptions());
         startCommand.append(" -host ").append(host);
         startCommand.append(" -port ").append(port);
+        startCommand.append(" -dir ").append(DEFAULT_ZAP_TMP_PATH);
 
         return startCommand.toString();
     }

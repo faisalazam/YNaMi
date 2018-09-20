@@ -25,8 +25,11 @@ public abstract class AbstractZapBoot implements ZapBoot {
     private static final String HEAD = "HEAD";
     private static final String DEFAULT_ZAP_LOG_FILE_NAME = "zap.log";
     private static final long ZAP_INITIALIZATION_POLLING_INTERVAL_IN_MILLIS = 5 * 1000;
-    // If ZAP is automatically started, its log will be stored in [current working directory]/target/zap-reports, along with the generated reports
-    private static final String DEFAULT_ZAP_LOG_PATH = getProperty("user.dir") + separator + "target" + separator + "zap-reports";
+    private static final String DEFAULT_ZAP_TARGET_PATH = getProperty("user.dir") + separator + "target" + separator + "zap" + separator;
+    // If ZAP is automatically started, its log will be stored in [current working directory]/target/zap/zap-reports, along with the generated reports
+    private static final String DEFAULT_ZAP_LOG_PATH = DEFAULT_ZAP_TARGET_PATH + "zap-reports";
+
+    static final String DEFAULT_ZAP_TMP_PATH = DEFAULT_ZAP_TARGET_PATH + "tmp";
 
     public static final String API_KEY = "zapapisecret";
 
