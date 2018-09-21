@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebSe
 import penetration.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static cucumber.api.SnippetType.CAMELCASE;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_CONTEXT_LOADER;
@@ -54,11 +55,12 @@ public class SecurityTest extends CucumberContextConfigurationLoader {
     static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
 
     @AfterClass
-    public static void tearDown() throws IOException {
+    public static void tearDown() throws IOException, SQLException {
         generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
         quitAll();
         stopZap();
 
+        connection.close();
         ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();
     }
 }

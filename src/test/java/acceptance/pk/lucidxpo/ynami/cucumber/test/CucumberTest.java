@@ -7,6 +7,8 @@ import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 
+import java.sql.SQLException;
+
 import static acceptance.pk.lucidxpo.ynami.cucumber.test.CucumberTest.CUCUMBER_CONTEXT_LOADER;
 import static acceptance.pk.lucidxpo.ynami.cucumber.test.CucumberTest.CUCUMBER_HTML_REPORTS_DIR;
 import static acceptance.pk.lucidxpo.ynami.cucumber.test.CucumberTest.CUCUMBER_JSON_REPORT;
@@ -38,7 +40,8 @@ public class CucumberTest extends CucumberContextConfigurationLoader {
     static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.config.cucumber";
 
     @AfterClass
-    public static void tearDown() {
+    public static void tearDown() throws SQLException {
+        connection.close();
         ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();
     }
 }
