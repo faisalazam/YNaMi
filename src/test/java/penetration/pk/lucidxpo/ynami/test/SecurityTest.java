@@ -4,6 +4,8 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
+import penetration.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader;
 
 import java.io.IOException;
 
@@ -39,7 +41,7 @@ import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
                 CUCUMBER_STEPS_CONFIG_PACKAGE
         }
 )
-public class SecurityTest {
+public class SecurityTest extends CucumberContextConfigurationLoader {
     private static final String CUCUMBER_REPORTS_PATH = "target/reports/security/cucumber";
     private static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
     private static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
@@ -56,5 +58,7 @@ public class SecurityTest {
         generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
         quitAll();
         stopZap();
+
+        ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();
     }
 }

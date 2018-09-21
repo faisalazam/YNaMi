@@ -1,8 +1,11 @@
 package acceptance.pk.lucidxpo.ynami.cucumber.test;
 
+import acceptance.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
+import org.junit.AfterClass;
 import org.junit.runner.RunWith;
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 
 import static acceptance.pk.lucidxpo.ynami.cucumber.test.CucumberTest.CUCUMBER_CONTEXT_LOADER;
 import static acceptance.pk.lucidxpo.ynami.cucumber.test.CucumberTest.CUCUMBER_HTML_REPORTS_DIR;
@@ -27,10 +30,15 @@ import static cucumber.api.SnippetType.CAMELCASE;
                 CUCUMBER_HTML_REPORTS_DIR
         }
 )
-public class CucumberTest {
+public class CucumberTest extends CucumberContextConfigurationLoader {
     static final String FEATURE_FILES_LOCATION = "classpath:cuke/feature/";
     static final String CUCUMBER_HTML_REPORTS_DIR = "html:target/cucumber-reports";
     static final String CUCUMBER_JSON_REPORT = "json:target/cucumber-reports/Cucumber.json";
     static final String CUCUMBER_STEPS_PACKAGE = "acceptance.pk.lucidxpo.ynami.cucumber.steps";
     static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.config.cucumber";
+
+    @AfterClass
+    public static void tearDown() {
+        ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();
+    }
 }
