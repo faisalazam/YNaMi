@@ -101,3 +101,74 @@ But don't forget to add the following to VM options if running this application 
 
 </details>
 </blockquote>
+
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of NoClassDefFoundError: javax/xml/bind/JAXBException</strong></summary>
+
+### Application run failed: BeanCreationException, NoClassDefFoundError: javax/xml/bind/JAXBException
+
+After fixing the `InaccessibleObjectException` exception,
+
+`mvn clean spring-boot:run` now failing with `Application run failed` with `BeanCreationException`,
+`NoClassDefFoundError`, `ClassNotFoundException` etc. exceptions.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for stacktrace</strong></summary>
+
+```exception
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+13-08-2023 00:36:07.144 [restartedMain] ERROR org.springframework.boot.SpringApplication.reportFailure - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' 
+defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: 
+Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1699)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:573)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:495)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+        at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+......
+Caused by: java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+        at org.hibernate.boot.spi.XmlMappingBinderAccess.<init>(XmlMappingBinderAccess.java:43)
+        at org.hibernate.boot.MetadataSources.<init>(MetadataSources.java:87)
+        at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.<init>(EntityManagerFactoryBuilderImpl.java:209)
+        at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.<init>(EntityManagerFactoryBuilderImpl.java:164)
+        at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:51)
+        at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+        at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+        at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+        at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1758)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1695)
+        ... 19 common frames omitted
+Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBException
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+        ... 30 common frames omitted
+2023-08-13 00:36:07.144 ERROR 99605 --- [  restartedMain] o.s.boot.SpringApplication               : Application run failed
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to set the latest version (i.e. `2.3.1`) for the `jaxb-api` maven
+dependency as well as changing its scope from `test` to `default`  in the [pom.xml](../pom.xml) file.
+
+```xml
+<dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+    <version>${jaxb.api.version}</version>
+</dependency>
+```
+
+So, now `mvn clean spring-boot:run` is happy and the server is up and running without any exceptions.
+
+</details>
+</blockquote>
