@@ -25,9 +25,14 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>10</java.version>
+        <!--    Setting the encodings to avoid warnings like `Input file encoding has not been set`    -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!--   Setting the versions to use Java 20   -->
+        <java.version>20</java.version>
+        <maven.compiler.release>20</maven.compiler.release>
+
         <harlib.version>1.1.2</harlib.version>
         <guava.version>26.0-jre</guava.version>
         <lombok.version>1.18.28</lombok.version>
