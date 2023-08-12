@@ -30,6 +30,7 @@
 		<java.version>10</java.version>
         <harlib.version>1.1.2</harlib.version>
         <guava.version>26.0-jre</guava.version>
+        <lombok.version>1.18.28</lombok.version>
         <jquery.version>3.3.1-1</jquery.version>
         <xstream.version>1.4.10</xstream.version>
         <maven.jxr.version>2.5</maven.jxr.version>
@@ -176,6 +177,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
