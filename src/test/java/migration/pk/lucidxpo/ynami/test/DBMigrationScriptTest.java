@@ -5,9 +5,8 @@ import migration.pk.lucidxpo.ynami.helper.DBMigrationCheck;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 import migration.pk.lucidxpo.ynami.helper.Operation;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -28,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class DBMigrationScriptTest implements BeforeEachCallback {
+class DBMigrationScriptTest {
     private static final boolean IS_NULLABLE = true;
     private static final boolean NOT_NULLABLE = false;
     private static final String DATA_TYPE_BIT = "BIT";
@@ -40,8 +39,8 @@ class DBMigrationScriptTest implements BeforeEachCallback {
 
     private DBMigrationCheck migrationCheck;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setup() {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
         final MigrationScriptFetcher fetcher = new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH);

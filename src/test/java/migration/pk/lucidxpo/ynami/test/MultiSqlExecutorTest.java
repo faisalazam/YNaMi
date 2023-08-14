@@ -1,10 +1,9 @@
 package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.Mock;
 import org.mockito.internal.verification.Times;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -14,15 +13,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class MultiSqlExecutorTest implements BeforeEachCallback {
+class MultiSqlExecutorTest {
 
     @Mock
     private JdbcTemplate jdbcTemplate;
 
     private MultiSqlExecutor executor;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setUp() {
         executor = new MultiSqlExecutor(jdbcTemplate);
     }
 

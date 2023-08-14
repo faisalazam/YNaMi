@@ -1,10 +1,10 @@
 package it.pk.lucidxpo.ynami.persistence;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.reflections.Reflections;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,19 +48,19 @@ import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
                 TimeFreezeExecutionListener.class
         }
 )
-class AuditableIntegrationTest extends AbstractIntegrationTest implements BeforeAllCallback {
+class AuditableIntegrationTest extends AbstractIntegrationTest {
 
     private static final Set<Class<? extends Auditable>> AUDITABLE_ENTITY_CLASSES = newHashSet();
 
-    @Override
-    public void beforeAll(ExtensionContext extensionContext) {
+    @BeforeAll
+    static void setup() {
         final Reflections reflections = new Reflections(BASE_PACKAGE + ".persistence.model");
         AUDITABLE_ENTITY_CLASSES.addAll(reflections.getSubTypesOf(Auditable.class));
         assertThat("The list of entity classes must not be empty", AUDITABLE_ENTITY_CLASSES.isEmpty(), is(false));
     }
 
-    @Override
-    public void afterEach(ExtensionContext extensionContext) {
+    @AfterEach
+    void close() {
         clearContext();
     }
 

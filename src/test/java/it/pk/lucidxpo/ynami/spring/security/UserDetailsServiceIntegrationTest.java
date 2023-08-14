@@ -1,8 +1,8 @@
 package it.pk.lucidxpo.ynami.spring.security;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,9 +56,8 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
-        super.beforeEach(extensionContext);
+    @BeforeEach
+    void setup() {
         featureManager.activate(WEB_SECURITY);
         assertTrue(featureManager.isActive(WEB_SECURITY));
     }

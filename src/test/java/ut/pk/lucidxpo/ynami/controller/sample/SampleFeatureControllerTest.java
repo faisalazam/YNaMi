@@ -1,9 +1,8 @@
 package ut.pk.lucidxpo.ynami.controller.sample;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.CONDITIONAL_STATEMENTS_EXECUTION;
 
 @ExtendWith(MockitoExtension.class)
-class SampleFeatureControllerTest implements BeforeEachCallback {
+class SampleFeatureControllerTest {
     private MockMvc mockMvc;
 
     @Mock
@@ -29,8 +28,8 @@ class SampleFeatureControllerTest implements BeforeEachCallback {
     @InjectMocks
     private SampleFeatureController sampleFeatureController;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setup() {
         mockMvc = standaloneSetup(sampleFeatureController).build();
     }
     // =========================== Verify Feature Toggles are working as expected ===========================

@@ -4,16 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
 
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
 @Builder
-@FieldDefaults(makeFinal = true)
+@NoArgsConstructor(access = PACKAGE)
 @AllArgsConstructor(access = PRIVATE)
-@NoArgsConstructor(access = PACKAGE, force = true)
 public class SampleUpdationDTO {
     private String firstName;
     private String lastName;

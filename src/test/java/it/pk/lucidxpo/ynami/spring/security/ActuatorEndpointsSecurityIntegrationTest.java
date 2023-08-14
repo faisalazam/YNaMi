@@ -5,9 +5,9 @@ import it.pk.lucidxpo.ynami.spring.security.helper.DynamicTestsGenerator;
 import it.pk.lucidxpo.ynami.spring.security.helper.EndPointMappingsLister;
 import it.pk.lucidxpo.ynami.spring.security.helper.RequestMappingCustomizer;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
@@ -62,8 +62,8 @@ class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest i
         DYNAMIC_TESTS_GENERATOR = new DynamicTestsGenerator(applicationContext, featureManager, END_POINT_MAPPINGS_STREAM);
     }
 
-    @Override
-    public void afterEach(ExtensionContext extensionContext) {
+    @AfterEach
+    void close() {
         clearContext();
     }
 

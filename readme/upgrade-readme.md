@@ -172,3 +172,137 @@ So, now `mvn clean spring-boot:run` is happy and the server is up and running wi
 
 </details>
 </blockquote>
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of UnsupportedOperationException</strong></summary>
+
+### UnfinishedMockingSessionException, UnsupportedOperationException, IllegalStateException: Could not find sun.misc.Unsafe
+
+After fixing the server startup problems,
+
+now running the unit tests from IDE, are failing with `Could not find sun.misc.Unsafe` with `IllegalStateException`,
+`UnsupportedOperationException`, `UnfinishedMockingSessionException` etc. exceptions.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for stacktrace</strong></summary>
+
+```exception
+org.mockito.exceptions.base.MockitoException: 
+Mockito cannot mock this class: class org.modelmapper.ModelMapper.
+
+Mockito can only mock non-private & non-final classes.
+If you're not sure why you're getting this error, please report to the mailing list.
+
+
+Java               : 20
+JVM vendor name    : Oracle Corporation
+JVM vendor version : 20.0.1+9-29
+JVM name           : Java HotSpot(TM) 64-Bit Server VM
+JVM version        : 20.0.1+9-29
+JVM info           : mixed mode, sharing
+OS name            : Mac OS X
+OS version         : 13.4.1
+
+
+Underlying exception : java.lang.UnsupportedOperationException: Cannot define class using reflection
+
+	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:165)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$0(TestMethodTestDescriptor.java:129)
+	at org.junit.jupiter.engine.execution.ThrowableCollector.execute(ThrowableCollector.java:40)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:155)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:128)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:107)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:58)
+	Suppressed: java.lang.NullPointerException: Cannot invoke "org.mockito.MockitoSession.finishMocking()" 
+	because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
+		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:211)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeAfterEachCallbacks$11(TestMethodTestDescriptor.java:217)
+		at org.junit.jupiter.engine.execution.ThrowableCollector.execute(ThrowableCollector.java:40)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeAllAfterMethodsOrCallbacks$13(TestMethodTestDescriptor.java:229)
+		at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeAllAfterMethodsOrCallbacks(TestMethodTestDescriptor.java:227)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeAfterEachCallbacks(TestMethodTestDescriptor.java:216)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:119)
+		... 48 more
+Caused by: java.lang.IllegalStateException: Could not find sun.misc.Unsafe
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$Disabled.initialize(ClassInjector.java:1366)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe.inject(ClassInjector.java:1202)
+Caused by: java.lang.NoSuchMethodException: sun.misc.Unsafe.defineClass(java.lang.String,[B,int,int,java.lang.ClassLoader,java.security.ProtectionDomain)
+	at java.base/java.lang.Class.getMethod(Class.java:2321)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction.run(ClassInjector.java:1269)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction.run(ClassInjector.java:1257)
+
+org.mockito.exceptions.misusing.UnfinishedMockingSessionException: 
+Unfinished mocking session detected.
+Previous MockitoSession was not concluded with 'finishMocking()'.
+For examples of correct usage see javadoc for MockitoSession class.
+
+	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:165)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$0(TestMethodTestDescriptor.java:129)
+	at org.junit.jupiter.engine.execution.ThrowableCollector.execute(ThrowableCollector.java:40)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:155)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:128)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:107)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:58)
+	Suppressed: java.lang.NullPointerException: Cannot invoke "org.mockito.MockitoSession.finishMocking()" 
+	because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
+		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:211)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeAfterEachCallbacks$11(TestMethodTestDescriptor.java:217)
+		at org.junit.jupiter.engine.execution.ThrowableCollector.execute(ThrowableCollector.java:40)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeAllAfterMethodsOrCallbacks$13(TestMethodTestDescriptor.java:229)
+		at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeAllAfterMethodsOrCallbacks(TestMethodTestDescriptor.java:227)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeAfterEachCallbacks(TestMethodTestDescriptor.java:216)
+		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:119)
+		... 48 more
+
+18:57:09.684 [main] DEBUG org.reflections.Reflections - could not scan file banner.txt in url 
+file:/Users/muhammadfaisal/Documents/projects/YNaMi/target/classes/ with scanner TypeAnnotationsScanner
+org.reflections.ReflectionsException: could not create class object from file banner.txt
+	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:32)
+	at org.reflections.Reflections.scan(Reflections.java:253)
+	at org.reflections.Reflections.scan(Reflections.java:202)
+	at org.reflections.Reflections.<init>(Reflections.java:123)
+	at pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith(ReflectionHelper.java:222)
+	at ut.pk.lucidxpo.ynami.RepositoryExtendsVerifierTest.shouldVerifyThatAllTheRepositoriesAreExtendedFromJpaRepository(RepositoryExtendsVerifierTest.java:23)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:436)
+Caused by: org.reflections.ReflectionsException: could not create class file from banner.txt
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:102)
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:24)
+	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:30)
+	... 61 common frames omitted
+Caused by: java.io.IOException: bad magic number: a205f20
+	at javassist.bytecode.ClassFile.read(ClassFile.java:825)
+	at javassist.bytecode.ClassFile.<init>(ClassFile.java:154)
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:100)
+	... 63 common frames omitted
+
+
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to add the `net.bytebuddy:byte-buddy` maven
+dependency in `test` scope in the [pom.xml](../pom.xml) file.
+
+```xml
+
+<dependency>
+    <groupId>net.bytebuddy</groupId>
+    <artifactId>byte-buddy</artifactId>
+    <version>1.14.5</version>
+    <scope>test</scope>
+</dependency>
+```
+
+So, now all the unit tests are running and passing without any exceptions.
+
+</details>
+</blockquote>

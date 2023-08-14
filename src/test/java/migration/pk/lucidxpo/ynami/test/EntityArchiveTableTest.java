@@ -3,10 +3,9 @@ package migration.pk.lucidxpo.ynami.test;
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
 
@@ -36,7 +35,7 @@ import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
  * If the Java archive entity name follows the pattern "EntityName" + "Archive", you don't need to write testcase manually
  */
 @ExtendWith(MockitoExtension.class)
-class EntityArchiveTableTest implements BeforeAllCallback {
+class EntityArchiveTableTest {
 
     private static final String ARCHIVE_SUFFIX = "Archive";
     /*
@@ -47,8 +46,8 @@ class EntityArchiveTableTest implements BeforeAllCallback {
 
     private final MultiSqlExecutor executor = executorForLocalMySql();
 
-    @Override
-    public void beforeAll(ExtensionContext extensionContext) throws IOException {
+    @BeforeAll
+    static void setup() throws IOException {
         final MultiSqlExecutor multiSqlExecutor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(multiSqlExecutor);
         dbCleaner.cleanDB();

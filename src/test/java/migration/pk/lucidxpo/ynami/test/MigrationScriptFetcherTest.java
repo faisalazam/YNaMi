@@ -2,9 +2,8 @@ package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.MigrationScript;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +19,11 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MigrationScriptFetcherTest implements BeforeEachCallback {
+class MigrationScriptFetcherTest {
     private MigrationScriptFetcher fetcher;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setUp() {
         fetcher = new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH);
     }
 

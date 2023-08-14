@@ -4,9 +4,8 @@ import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import migration.pk.lucidxpo.ynami.helper.DataPatchDBMigrationCheck;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 import migration.pk.lucidxpo.ynami.helper.Operation;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -19,14 +18,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
-class DBDataPatchScriptTest implements BeforeEachCallback {
+class DBDataPatchScriptTest {
     private static final String SAMPLE_TABLE = "Sample";
     private static final String STATUS_COLUMN = "active";
 
     private DataPatchDBMigrationCheck dataPatchMigrationCheck;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setup() {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
         final DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSourceForLocalMySql());

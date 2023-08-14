@@ -1,10 +1,9 @@
 package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
@@ -15,15 +14,15 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
 
-class DBCleanerTest implements BeforeEachCallback, AfterEachCallback {
+class DBCleanerTest {
 
     private static final String TABLE_SELECTOR_QUERY = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "'";
 
     private JdbcTemplate jdbcTemplate;
     private DBCleaner dbCleaner;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setup() {
         jdbcTemplate = jdbcTemplateForLocalMySql();
         dropTableIfExists();
 
@@ -60,8 +59,8 @@ class DBCleanerTest implements BeforeEachCallback, AfterEachCallback {
         assertFalse(jdbcTemplate.queryForList(TABLE_SELECTOR_QUERY, String.class).contains("Sample2"));
     }
 
-    @Override
-    public void afterEach(ExtensionContext extensionContext) {
+    @AfterEach
+    void cleanDB() {
         dropTableIfExists();
     }
 

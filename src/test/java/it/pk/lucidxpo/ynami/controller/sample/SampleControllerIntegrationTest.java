@@ -1,8 +1,8 @@
 package it.pk.lucidxpo.ynami.controller.sample;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -63,9 +63,8 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private SampleRepository sampleRepository;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
-        super.beforeEach(extensionContext);
+    @BeforeEach
+    void setup() {
         sampleRepository.deleteAll();
     }
 

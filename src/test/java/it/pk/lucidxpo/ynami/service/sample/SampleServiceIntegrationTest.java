@@ -1,8 +1,8 @@
 package it.pk.lucidxpo.ynami.service.sample;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
@@ -59,9 +59,8 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     private Sample sample4;
     private Sample sample5;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
-        super.beforeEach(extensionContext);
+    @BeforeEach
+    void setup() {
         sampleRepository.deleteAll();
 
         sample1 = aSample().build();

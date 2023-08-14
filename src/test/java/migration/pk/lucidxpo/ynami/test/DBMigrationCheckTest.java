@@ -5,10 +5,9 @@ import migration.pk.lucidxpo.ynami.helper.DBMigrationCheck;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 import migration.pk.lucidxpo.ynami.helper.Operation;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.TransactionException;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 @ExtendWith(MockitoExtension.class)
-class DBMigrationCheckTest implements BeforeEachCallback {
+class DBMigrationCheckTest {
 
     @Mock
     private DBCleaner dbCleaner;
@@ -40,8 +39,8 @@ class DBMigrationCheckTest implements BeforeEachCallback {
     private StubTransaction transaction;
     private DBMigrationCheck migrationCheck;
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void setUp() {
         transaction = new StubTransaction();
         migrationCheck = new DBMigrationCheck(dbCleaner, fetcher, executor, transaction);
     }

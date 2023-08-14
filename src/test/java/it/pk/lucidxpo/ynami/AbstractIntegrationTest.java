@@ -2,11 +2,9 @@ package it.pk.lucidxpo.ynami;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -55,7 +53,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
-public class AbstractIntegrationTest implements BeforeEachCallback, AfterEachCallback {
+public class AbstractIntegrationTest {
     public static final String ADMIN_USER = "admin";
     protected static final String SUPPORT_USER = "support";
 
@@ -80,17 +78,13 @@ public class AbstractIntegrationTest implements BeforeEachCallback, AfterEachCal
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-    @Override
-    public void beforeEach(ExtensionContext extensionContext) {
+    @BeforeEach
+    void before() {
         if (featureManager.isActive(WEB_SECURITY)) {
             mockMvc = webAppContextSetup(webApplicationContext)
                     .apply(springSecurity())
                     .build();
         }
-    }
-
-    @Override
-    public void afterEach(ExtensionContext extensionContext) {
     }
 
     @Test
