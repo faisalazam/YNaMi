@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami.persistence.model.security;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PACKAGE;
 
 @Data
 @Entity
@@ -32,6 +34,8 @@ import static javax.persistence.FetchType.LAZY;
                 "email"
         })
 })
+// TODO: Spring Upgrade - added to fix the IT, but do I really need to add?
+@NoArgsConstructor(access = PACKAGE)
 public class User extends Auditable<String> {
 
     @NotBlank
