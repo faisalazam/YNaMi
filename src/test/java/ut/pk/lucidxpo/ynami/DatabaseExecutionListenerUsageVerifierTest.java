@@ -12,6 +12,7 @@ import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Set;
 
 import static java.lang.String.format;
@@ -36,10 +37,12 @@ class DatabaseExecutionListenerUsageVerifierTest {
                         .setScanners(new MemberUsageScanner())
                         .filterInputsBy(className -> requireNonNull(className).endsWith("IntegrationTest.class"))
         );
-        final Set<Member> usages = reflections.getMethodUsage(activatedMethod);
-        usages.addAll(reflections.getMethodUsage(deactivatedMethod));
+        final Collection<Member> usages = reflections.getMemberUsage(activatedMethod);
+        usages.addAll(reflections.getMemberUsage(deactivatedMethod));
 
-        assertThat("The list of integration test classes changing the feature toggles' state must not be empty", usages.isEmpty(), is(false));
+        assertThat("The list of integration test classes changing the feature toggles' state must not be empty",
+                usages.isEmpty(), is(false)
+        );
         usages.stream().map(Member::getDeclaringClass).forEach(this::assertDatabaseExecutionListenerUsage);
     }
 
@@ -52,13 +55,21 @@ class DatabaseExecutionListenerUsageVerifierTest {
         );
         final Set<Class<?>> testClassesAnnotatedWithSql = reflections.getTypesAnnotatedWith(Sql.class);
 
-        assertThat("The list of integration test classes annotated with @Sql must not be empty", testClassesAnnotatedWithSql.isEmpty(), is(false));
+        assertThat("The list of integration test classes annotated with @Sql must not be empty",
+                testClassesAnnotatedWithSql.isEmpty(), is(false)
+        );
         testClassesAnnotatedWithSql.forEach(this::assertDatabaseExecutionListenerUsage);
     }
 
     private void assertDatabaseExecutionListenerUsage(final Class<?> testClazz) {
         final TestExecutionListeners testExecutionListeners = findAnnotation(testClazz, TestExecutionListeners.class);
-        assertNotNull(testExecutionListeners, format("%s should be annotated with %s with value %s", testClazz.getSimpleName(), TestExecutionListeners.class.getSimpleName(), DatabaseExecutionListener.class.getSimpleName()));
+        assertNotNull(testExecutionListeners,
+                format("%s should be annotated with %s with value %s",
+                        testClazz.getSimpleName(),
+                        TestExecutionListeners.class.getSimpleName(),
+                        DatabaseExecutionListener.class.getSimpleName()
+                )
+        );
         assertThat(testExecutionListeners.listeners(), hasItemInArray(DatabaseExecutionListener.class));
     }
 }

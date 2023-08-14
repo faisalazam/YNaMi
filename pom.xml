@@ -59,7 +59,7 @@
         <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
         <glassfish.jersey.version>2.27</glassfish.jersey.version>
-        <org.reflections.version>0.9.11</org.reflections.version>
+        <org.reflections.version>0.10.2</org.reflections.version>
         <maven.checkstyle.version>3.0.0</maven.checkstyle.version>
         <javax.activation.version>1.1.1</javax.activation.version>
         <persistence.moxy.version>2.7.2</persistence.moxy.version>

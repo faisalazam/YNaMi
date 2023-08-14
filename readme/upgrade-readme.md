@@ -44,7 +44,7 @@ plugin in the [pom.xml](../pom.xml) file.
 
 ### Application run failed: java.lang.reflect.InaccessibleObjectException
 
-Right after fixing the issues with compiling the project, 
+Right after fixing the issues with compiling the project,
 
 `mvn clean spring-boot:run` started failing with `Application run failed` with `InaccessibleObjectException` exception.
 
@@ -78,10 +78,11 @@ throws java.lang.ClassFormatError accessible: module java.base does not "opens j
 
 I guess, since Java 17, we need to add the following `add-opens` to VM options in order to use reflection.
 
-So fix for this problem in my setup/environment was just to set the `jvmArguments` with `add-opens` in the 
+So fix for this problem in my setup/environment was just to set the `jvmArguments` with `add-opens` in the
 `spring-boot-maven-plugin` maven plugin in the [pom.xml](../pom.xml) file.
 
 ```xml
+
 <plugin>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -161,6 +162,7 @@ Fix for this problem in my setup/environment was just to set the latest version 
 dependency as well as changing its scope from `test` to `default`  in the [pom.xml](../pom.xml) file.
 
 ```xml
+
 <dependency>
     <groupId>javax.xml.bind</groupId>
     <artifactId>jaxb-api</artifactId>
@@ -173,13 +175,86 @@ So, now `mvn clean spring-boot:run` is happy and the server is up and running wi
 </details>
 </blockquote>
 
+
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of ReflectionsException</strong></summary>
+
+### ReflectionsException: could not create class file
+
+After fixing the server startup problems,
+
+now running the unit tests from IDE, are failing with `could not create class file` with `ReflectionsException`,
+`IOException`, `bad magic number` etc. exceptions.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for stacktrace</strong></summary>
+
+```exception
+Caused by: org.reflections.ReflectionsException: could not create class file from Base.css
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:102)
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:24)
+	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:30)
+	... 61 common frames omitted
+Caused by: java.io.IOException: bad magic number: 68746d6c
+	at javassist.bytecode.ClassFile.read(ClassFile.java:825)
+	at javassist.bytecode.ClassFile.<init>(ClassFile.java:154)
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:100)
+	... 63 common frames omitted
+21:14:18.761 [main] DEBUG org.reflections.Reflections - could not scan file static/css/Base.css in url 
+file:/Users/muhammadfaisal/Documents/projects/YNaMi/target/classes/ with scanner SubTypesScanner
+org.reflections.ReflectionsException: could not create class object from file static/css/Base.css
+	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:32)
+	at org.reflections.Reflections.scan(Reflections.java:253)
+	at org.reflections.Reflections.scan(Reflections.java:202)
+	at org.reflections.Reflections.<init>(Reflections.java:123)
+	at pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith(ReflectionHelper.java:222)
+	at ut.pk.lucidxpo.ynami.EntityExtendsVerifierTest.shouldVerifyThatAllTheEntitiesAreExtendedFromAuditable(EntityExtendsVerifierTest.java:24)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:436)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+Caused by: org.reflections.ReflectionsException: could not create class file from Base.css
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:102)
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:24)
+	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:30)
+	... 61 common frames omitted
+Caused by: java.io.IOException: bad magic number: 68746d6c
+	at javassist.bytecode.ClassFile.read(ClassFile.java:825)
+	at javassist.bytecode.ClassFile.<init>(ClassFile.java:154)
+	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:100)
+	... 63 common frames omitted
+21:14:18.761 [main] DEBUG org.reflections.Reflections - could not scan file static/css/main.css in url 
+file:/Users/muhammadfaisal/Documents/projects/YNaMi/target/classes/ with scanner TypeAnnotationsScanner
+org.reflections.ReflectionsException: could not create class object from file static/css/main.css
+	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:32)
+	at org.reflections.Reflections.scan(Reflections.java:253)
+	at org.reflections.Reflections.scan(Reflections.java:202)
+	at org.reflections.Reflections.<init>(Reflections.java:123)
+	at pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith(ReflectionHelper.java:222)
+
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to set the latest version (i.e. `0.10.2`) for the
+`org.reflections` maven plugin in the [pom.xml](../pom.xml) file.
+
+</details>
+</blockquote>
+
 <blockquote>
 <details>
     <summary><strong>Click to see details of UnsupportedOperationException</strong></summary>
 
 ### UnfinishedMockingSessionException, UnsupportedOperationException, IllegalStateException: Could not find sun.misc.Unsafe
 
-After fixing the server startup problems,
+After fixing the reflection problems faced in tests,
 
 now running the unit tests from IDE, are failing with `Could not find sun.misc.Unsafe` with `IllegalStateException`,
 `UnsupportedOperationException`, `UnfinishedMockingSessionException` etc. exceptions.
@@ -226,9 +301,26 @@ Underlying exception : java.lang.UnsupportedOperationException: Cannot define cl
 		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeAfterEachCallbacks(TestMethodTestDescriptor.java:216)
 		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:119)
 		... 48 more
+Caused by: java.lang.UnsupportedOperationException: Cannot define class using reflection
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingReflection$Dispatcher$Unavailable.defineClass(ClassInjector.java:821)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingReflection.inject(ClassInjector.java:185)
+	at net.bytebuddy.dynamic.loading.ClassLoadingStrategy$Default$InjectionDispatcher.load(ClassLoadingStrategy.java:187)
+	at net.bytebuddy.dynamic.TypeResolutionStrategy$Passive.initialize(TypeResolutionStrategy.java:79)
+	at net.bytebuddy.dynamic.DynamicType$Default$Unloaded.load(DynamicType.java:4457)
+	... 54 more
 Caused by: java.lang.IllegalStateException: Could not find sun.misc.Unsafe
 	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$Disabled.initialize(ClassInjector.java:1366)
 	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe.inject(ClassInjector.java:1202)
+	at net.bytebuddy.dynamic.loading.ClassLoadingStrategy$ForUnsafeInjection.load(ClassLoadingStrategy.java:458)
+	at net.bytebuddy.dynamic.TypeResolutionStrategy$Passive.initialize(TypeResolutionStrategy.java:79)
+	at net.bytebuddy.dynamic.DynamicType$Default$Unloaded.load(DynamicType.java:4457)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingReflection$Dispatcher$Indirect.make(ClassInjector.java:684)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingReflection$Dispatcher$CreationAction.run(ClassInjector.java:302)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingReflection$Dispatcher$CreationAction.run(ClassInjector.java:290)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:319)
+	at net.bytebuddy.dynamic.loading.ClassInjector$UsingReflection.<clinit>(ClassInjector.java:70)
+	at net.bytebuddy.dynamic.loading.ClassLoadingStrategy$Default$InjectionDispatcher.load(ClassLoadingStrategy.java:184)
+	... 79 more
 Caused by: java.lang.NoSuchMethodException: sun.misc.Unsafe.defineClass(java.lang.String,[B,int,int,java.lang.ClassLoader,java.security.ProtectionDomain)
 	at java.base/java.lang.Class.getMethod(Class.java:2321)
 	at net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction.run(ClassInjector.java:1269)
@@ -258,30 +350,6 @@ For examples of correct usage see javadoc for MockitoSession class.
 		at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:119)
 		... 48 more
 
-18:57:09.684 [main] DEBUG org.reflections.Reflections - could not scan file banner.txt in url 
-file:/Users/muhammadfaisal/Documents/projects/YNaMi/target/classes/ with scanner TypeAnnotationsScanner
-org.reflections.ReflectionsException: could not create class object from file banner.txt
-	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:32)
-	at org.reflections.Reflections.scan(Reflections.java:253)
-	at org.reflections.Reflections.scan(Reflections.java:202)
-	at org.reflections.Reflections.<init>(Reflections.java:123)
-	at pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith(ReflectionHelper.java:222)
-	at ut.pk.lucidxpo.ynami.RepositoryExtendsVerifierTest.shouldVerifyThatAllTheRepositoriesAreExtendedFromJpaRepository(RepositoryExtendsVerifierTest.java:23)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:436)
-Caused by: org.reflections.ReflectionsException: could not create class file from banner.txt
-	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:102)
-	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:24)
-	at org.reflections.scanners.AbstractScanner.scan(AbstractScanner.java:30)
-	... 61 common frames omitted
-Caused by: java.io.IOException: bad magic number: a205f20
-	at javassist.bytecode.ClassFile.read(ClassFile.java:825)
-	at javassist.bytecode.ClassFile.<init>(ClassFile.java:154)
-	at org.reflections.adapters.JavassistAdapter.getOfCreateClassObject(JavassistAdapter.java:100)
-	... 63 common frames omitted
-
-
 ```
 
 </details>
@@ -302,7 +370,7 @@ dependency in `test` scope in the [pom.xml](../pom.xml) file.
 </dependency>
 ```
 
-So, now all the unit tests are running and passing without any exceptions.
+So, now all the unit as well as integration tests are running and passing without any exceptions.
 
 </details>
 </blockquote>
