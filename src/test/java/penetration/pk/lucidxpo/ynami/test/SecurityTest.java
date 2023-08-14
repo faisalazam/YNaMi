@@ -2,7 +2,7 @@ package penetration.pk.lucidxpo.ynami.test;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 import penetration.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader;
@@ -54,7 +54,7 @@ public class SecurityTest extends CucumberContextConfigurationLoader {
     static final String CUCUMBER_CONTEXT_LOADER = "penetration.pk.lucidxpo.ynami.config.cucumber";
     static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException, SQLException {
         generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
         quitAll();

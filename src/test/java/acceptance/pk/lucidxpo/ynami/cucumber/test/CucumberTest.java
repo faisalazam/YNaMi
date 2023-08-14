@@ -3,7 +3,7 @@ package acceptance.pk.lucidxpo.ynami.cucumber.test;
 import acceptance.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 
@@ -39,7 +39,7 @@ public class CucumberTest extends CucumberContextConfigurationLoader {
     static final String CUCUMBER_STEPS_PACKAGE = "acceptance.pk.lucidxpo.ynami.cucumber.steps";
     static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.config.cucumber";
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws SQLException {
         connection.close();
         ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();

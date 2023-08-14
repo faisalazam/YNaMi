@@ -1,7 +1,7 @@
 package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -59,7 +59,7 @@ class DBCleanerTest {
         assertFalse(jdbcTemplate.queryForList(TABLE_SELECTOR_QUERY, String.class).contains("Sample2"));
     }
 
-    @After
+    @AfterEach
     void cleanDB() {
         dropTableIfExists();
     }
