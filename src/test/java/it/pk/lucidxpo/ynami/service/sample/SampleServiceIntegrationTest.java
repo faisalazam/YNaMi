@@ -1,8 +1,8 @@
 package it.pk.lucidxpo.ynami.service.sample;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestExecutionListeners;
@@ -20,12 +20,12 @@ import static com.google.common.collect.Maps.newHashMap;
 import static it.pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
@@ -59,8 +59,9 @@ class SampleServiceIntegrationTest extends AbstractIntegrationTest {
     private Sample sample4;
     private Sample sample5;
 
-    @BeforeEach
-    void setup() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
+        super.beforeEach(extensionContext);
         sampleRepository.deleteAll();
 
         sample1 = aSample().build();

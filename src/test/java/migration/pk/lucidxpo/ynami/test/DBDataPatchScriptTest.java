@@ -2,30 +2,31 @@ package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import migration.pk.lucidxpo.ynami.helper.DataPatchDBMigrationCheck;
-import org.junit.jupiter.api.BeforeEach;
+import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
+import migration.pk.lucidxpo.ynami.helper.Operation;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
-import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
-import migration.pk.lucidxpo.ynami.helper.Operation;
 
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.dataSourceForLocalMySql;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
 
-class DBDataPatchScriptTest {
+class DBDataPatchScriptTest implements BeforeEachCallback {
     private static final String SAMPLE_TABLE = "Sample";
     private static final String STATUS_COLUMN = "active";
 
     private DataPatchDBMigrationCheck dataPatchMigrationCheck;
 
-    @BeforeEach
-    void setup() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
         final DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSourceForLocalMySql());

@@ -1,9 +1,10 @@
 package migration.pk.lucidxpo.ynami.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import migration.pk.lucidxpo.ynami.helper.MigrationScript;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,19 +12,19 @@ import java.util.List;
 
 import static java.lang.Integer.parseInt;
 import static java.nio.charset.Charset.forName;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 
-class MigrationScriptFetcherTest {
+class MigrationScriptFetcherTest implements BeforeEachCallback {
     private MigrationScriptFetcher fetcher;
 
-    @BeforeEach
-    void setUp() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         fetcher = new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH);
     }
 

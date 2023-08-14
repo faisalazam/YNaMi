@@ -1,16 +1,16 @@
 package it.pk.lucidxpo.ynami.spring.security;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.TestFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import it.pk.lucidxpo.ynami.spring.security.helper.DynamicTestsGenerator;
 import it.pk.lucidxpo.ynami.spring.security.helper.EndPointMappingsLister;
 import it.pk.lucidxpo.ynami.spring.security.helper.RequestMappingCustomizer;
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,11 +18,6 @@ import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.security.test.context.TestSecurityContextHolder.clearContext;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_DISABLED_AUTHENTICATED_WITHOUT_CSRF;
 import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_DISABLED_AUTHENTICATED_WITH_INVALID_CSRF;
 import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_DISABLED_AUTHENTICATED_WITH_VALID_CSRF;
@@ -35,6 +30,11 @@ import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.S
 import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_ENABLED_UNAUTHENTICATED_WITHOUT_CSRF;
 import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_ENABLED_UNAUTHENTICATED_WITH_INVALID_CSRF;
 import static it.pk.lucidxpo.ynami.spring.security.helper.EndPointTestScenario.SECURITY_ENABLED_UNAUTHENTICATED_WITH_VALID_CSRF;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.springframework.security.test.context.TestSecurityContextHolder.clearContext;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest implements InitializingBean {
 
@@ -62,8 +62,8 @@ class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest i
         DYNAMIC_TESTS_GENERATOR = new DynamicTestsGenerator(applicationContext, featureManager, END_POINT_MAPPINGS_STREAM);
     }
 
-    @AfterEach
-    void close() {
+    @Override
+    public void afterEach(ExtensionContext extensionContext) {
         clearContext();
     }
 

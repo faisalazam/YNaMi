@@ -2,9 +2,11 @@ package it.pk.lucidxpo.ynami;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,12 +37,12 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.joda.time.LocalDate.now;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.context.annotation.ComponentScan.Filter;
 import static org.springframework.context.annotation.FilterType.REGEX;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -53,7 +55,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
-public class AbstractIntegrationTest {
+public class AbstractIntegrationTest implements BeforeEachCallback, AfterEachCallback {
     public static final String ADMIN_USER = "admin";
     protected static final String SUPPORT_USER = "support";
 
@@ -78,13 +80,17 @@ public class AbstractIntegrationTest {
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-    @BeforeEach
-    void before() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         if (featureManager.isActive(WEB_SECURITY)) {
             mockMvc = webAppContextSetup(webApplicationContext)
                     .apply(springSecurity())
                     .build();
         }
+    }
+
+    @Override
+    public void afterEach(ExtensionContext extensionContext) {
     }
 
     @Test

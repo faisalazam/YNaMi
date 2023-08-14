@@ -18,8 +18,8 @@ import static java.util.stream.Collectors.toList;
 import static net.continuumsecurity.ClientFactory.createReportClient;
 import static net.continuumsecurity.ClientFactory.createScanClient;
 import static org.apache.commons.lang3.StringUtils.join;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.junit.Assert.assertThat;
 import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
 
 public class NessusScanningSteps implements En {

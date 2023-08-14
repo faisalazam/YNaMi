@@ -1,23 +1,20 @@
 package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.support.TransactionOperations;
-import org.springframework.transaction.support.TransactionTemplate;
 import migration.pk.lucidxpo.ynami.helper.DBMigrationCheck;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 import migration.pk.lucidxpo.ynami.helper.Operation;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.support.TransactionOperations;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.columnExists;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsFor;
@@ -26,8 +23,12 @@ import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.dataSourceF
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.hasColumnWith;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.tableExists;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class DBMigrationScriptTest {
+class DBMigrationScriptTest implements BeforeEachCallback {
     private static final boolean IS_NULLABLE = true;
     private static final boolean NOT_NULLABLE = false;
     private static final String DATA_TYPE_BIT = "BIT";
@@ -39,8 +40,8 @@ class DBMigrationScriptTest {
 
     private DBMigrationCheck migrationCheck;
 
-    @BeforeEach
-    void setup() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
         final MigrationScriptFetcher fetcher = new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH);

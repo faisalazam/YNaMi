@@ -1,13 +1,13 @@
 package it.pk.lucidxpo.ynami.spring.features;
 
+import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestPropertySource;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.repository.mem.InMemoryStateRepository;
-import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @TestPropertySource(properties = {
         "config.togglz.enabled=true",

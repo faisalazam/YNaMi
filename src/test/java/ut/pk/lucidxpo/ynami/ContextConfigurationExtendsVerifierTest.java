@@ -1,25 +1,25 @@
 package ut.pk.lucidxpo.ynami;
 
 import acceptance.pk.lucidxpo.ynami.config.selenium.AbstractSeleniumTest;
+import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
-import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.Class.forName;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 import static org.reflections.ReflectionUtils.getSuperTypes;
+import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypes;
 import static ut.pk.lucidxpo.ynami.PackageVerifierTest.ACCEPTANCE_BASE_PACKAGE;
 import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;
-import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypes;
 
 class ContextConfigurationExtendsVerifierTest {
 

@@ -16,9 +16,9 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
 import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGES;

@@ -9,13 +9,13 @@ import javax.persistence.Entity;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 import static org.reflections.ReflectionUtils.getSuperTypes;
-import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
 class EntityExtendsVerifierTest {
 

@@ -5,9 +5,9 @@ import it.pk.lucidxpo.ynami.spring.security.helper.DynamicTestsGenerator;
 import it.pk.lucidxpo.ynami.spring.security.helper.EndPointMappingsLister;
 import it.pk.lucidxpo.ynami.spring.security.helper.RequestMappingCustomizer;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -78,8 +78,8 @@ class ApplicationEndpointsSecurityIntegrationTest extends AbstractIntegrationTes
 //  appEndpointHandlerMapping.getHandlerMethods().keySet().stream().map(t -> (t.getMethodsCondition().getMethods().size() == 0 ? "GET" : t.getMethodsCondition().getMethods().toArray()[0]) + " " + t.getPatternsCondition().getPatterns().toArray()[0]).toArray()
     }
 
-    @AfterEach
-    void close() {
+    @Override
+    public void afterEach(ExtensionContext extensionContext) {
         clearContext();
     }
 

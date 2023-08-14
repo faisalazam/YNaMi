@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.Entity;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypes;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getAllTypesWithExclusions;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;

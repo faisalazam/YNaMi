@@ -1,9 +1,10 @@
 package ut.pk.lucidxpo.ynami.controller.sample;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -53,7 +54,7 @@ import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = LENIENT)
-class SampleControllerTest {
+class SampleControllerTest implements BeforeEachCallback {
     private MockMvc mockMvc;
 
     @Mock
@@ -65,8 +66,8 @@ class SampleControllerTest {
     @InjectMocks
     private SampleController sampleController;
 
-    @BeforeEach
-    void setup() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         mockMvc = standaloneSetup(sampleController).build();
     }
 
@@ -329,7 +330,7 @@ class SampleControllerTest {
         doNothing().when(sampleService).delete(id);
 
         mockMvc.perform(
-                delete("/samples/{id}", id))
+                        delete("/samples/{id}", id))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"));
 
@@ -344,7 +345,7 @@ class SampleControllerTest {
         given(sampleService.findById(id)).willReturn(empty());
 
         mockMvc.perform(
-                delete("/samples/{id}", id))
+                        delete("/samples/{id}", id))
                 .andExpect(status().isNotFound())
                 .andExpect(forwardedUrl("sample/deleteSample"));
 

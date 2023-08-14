@@ -1,9 +1,9 @@
 package pk.lucidxpo.ynami.utils.matchers;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
@@ -22,7 +22,7 @@ public class EquivalenceMatcher<T> extends BaseMatcher<T> {
     }
 
     public EquivalenceMatcher<T> ignoringFields(final String... fieldNames) {
-        return new EquivalenceMatcher(expected, fieldNames);
+        return new EquivalenceMatcher<>(expected, fieldNames);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class EquivalenceMatcher<T> extends BaseMatcher<T> {
             return true;
         }
         this.actual = (T) actual;
-        return EqualsBuilder.reflectionEquals(expected, this.actual, ignoredFields);
+        return reflectionEquals(expected, this.actual, ignoredFields);
     }
 
     @Override

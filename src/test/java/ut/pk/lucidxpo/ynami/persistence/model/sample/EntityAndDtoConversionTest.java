@@ -9,8 +9,8 @@ import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pk.lucidxpo.ynami.persistence.model.sample.SampleBuilder.aSample;
 import static pk.lucidxpo.ynami.utils.Randomly.chooseOneOf;
 

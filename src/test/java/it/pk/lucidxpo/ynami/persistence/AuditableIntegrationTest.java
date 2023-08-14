@@ -1,15 +1,15 @@
 package it.pk.lucidxpo.ynami.persistence;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.reflections.Reflections;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
-import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.utils.executionlisteners.TimeFreezeExecutionListener;
@@ -19,10 +19,11 @@ import java.util.Collection;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static it.pk.lucidxpo.ynami.spring.security.helper.AuthenticationSetter.setupAuthentication;
 import static java.lang.Class.forName;
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,9 +36,8 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 import static org.springframework.test.util.ReflectionTestUtils.invokeMethod;
 import static org.springframework.util.StringUtils.uncapitalize;
-import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
-import static it.pk.lucidxpo.ynami.spring.security.helper.AuthenticationSetter.setupAuthentication;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @Transactional
@@ -48,19 +48,19 @@ import static it.pk.lucidxpo.ynami.spring.security.helper.AuthenticationSetter.s
                 TimeFreezeExecutionListener.class
         }
 )
-class AuditableIntegrationTest extends AbstractIntegrationTest {
+class AuditableIntegrationTest extends AbstractIntegrationTest implements BeforeAllCallback {
 
     private static final Set<Class<? extends Auditable>> AUDITABLE_ENTITY_CLASSES = newHashSet();
 
-    @BeforeAll
-    static void setup() {
+    @Override
+    public void beforeAll(ExtensionContext extensionContext) {
         final Reflections reflections = new Reflections(BASE_PACKAGE + ".persistence.model");
         AUDITABLE_ENTITY_CLASSES.addAll(reflections.getSubTypesOf(Auditable.class));
         assertThat("The list of entity classes must not be empty", AUDITABLE_ENTITY_CLASSES.isEmpty(), is(false));
     }
 
-    @AfterEach
-    void close() {
+    @Override
+    public void afterEach(ExtensionContext extensionContext) {
         clearContext();
     }
 

@@ -1,28 +1,29 @@
 package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertFalse;
-import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.jdbcTemplateForLocalMySql;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.springframework.test.jdbc.JdbcTestUtils.dropTables;
 
-class DBCleanerTest {
+class DBCleanerTest implements BeforeEachCallback, AfterEachCallback {
 
     private static final String TABLE_SELECTOR_QUERY = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "'";
 
     private JdbcTemplate jdbcTemplate;
     private DBCleaner dbCleaner;
 
-    @BeforeEach
-    void setup() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         jdbcTemplate = jdbcTemplateForLocalMySql();
         dropTableIfExists();
 
@@ -59,8 +60,8 @@ class DBCleanerTest {
         assertFalse(jdbcTemplate.queryForList(TABLE_SELECTOR_QUERY, String.class).contains("Sample2"));
     }
 
-    @AfterEach
-    void cleanDB() {
+    @Override
+    public void afterEach(ExtensionContext extensionContext) {
         dropTableIfExists();
     }
 

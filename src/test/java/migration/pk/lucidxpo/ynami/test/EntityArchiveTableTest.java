@@ -1,13 +1,14 @@
 package migration.pk.lucidxpo.ynami.test;
 
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.util.Pair;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.util.Pair;
 
 import javax.persistence.Entity;
 import java.io.IOException;
@@ -17,25 +18,25 @@ import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.stream.Collectors.toSet;
-import static org.apache.commons.lang3.BooleanUtils.toBoolean;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.springframework.data.util.Pair.of;
-import static org.springframework.util.CollectionUtils.isEmpty;
-import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabase;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
+import static org.apache.commons.lang3.BooleanUtils.toBoolean;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.springframework.data.util.Pair.of;
+import static org.springframework.util.CollectionUtils.isEmpty;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
+import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
 /**
  * If the Java archive entity name follows the pattern "EntityName" + "Archive", you don't need to write testcase manually
  */
 @ExtendWith(MockitoExtension.class)
-class EntityArchiveTableTest {
+class EntityArchiveTableTest implements BeforeAllCallback {
 
     private static final String ARCHIVE_SUFFIX = "Archive";
     /*
@@ -46,8 +47,8 @@ class EntityArchiveTableTest {
 
     private final MultiSqlExecutor executor = executorForLocalMySql();
 
-    @BeforeAll
-    static void setup() throws IOException {
+    @Override
+    public void beforeAll(ExtensionContext extensionContext) throws IOException {
         final MultiSqlExecutor multiSqlExecutor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(multiSqlExecutor);
         dbCleaner.cleanDB();
@@ -79,7 +80,11 @@ class EntityArchiveTableTest {
         }
     }
 
-    private void checkEntityTableAndArchiveTableDBStructure(final String entityTable, final String secondaryTable, final String archiveTable, final boolean ignoreNullable, final boolean ignoreDataDefault) {
+    private void checkEntityTableAndArchiveTableDBStructure(final String entityTable,
+                                                            final String secondaryTable,
+                                                            final String archiveTable,
+                                                            final boolean ignoreNullable,
+                                                            final boolean ignoreDataDefault) {
         final List<DBTableColumnMetaData> tableColumnMetaData = getColumnMetaData(executor, entityTable);
         final List<DBTableColumnMetaData> archiveTableColumnMetaData = getColumnMetaData(executor, archiveTable);
         assertMetaDataNotEmpty(tableColumnMetaData, entityTable);
@@ -100,11 +105,17 @@ class EntityArchiveTableTest {
         }
     }
 
-    private void checkEntityTableAndArchiveTableDBStructure(final String entityTable, final String archiveTable, final boolean ignoreNullable, final boolean ignoreDataDefault) {
+    private void checkEntityTableAndArchiveTableDBStructure(final String entityTable,
+                                                            final String archiveTable,
+                                                            final boolean ignoreNullable,
+                                                            final boolean ignoreDataDefault) {
         checkEntityTableAndArchiveTableDBStructure(entityTable, null, archiveTable, ignoreNullable, ignoreDataDefault);
     }
 
-    private void checkTableStructure(final List<DBTableColumnMetaData> tableColumnMetaData, final List<DBTableColumnMetaData> archiveTableColumnMetaData, final boolean ignoreNullable, final boolean ignoreDataDefault) {
+    private void checkTableStructure(final List<DBTableColumnMetaData> tableColumnMetaData,
+                                     final List<DBTableColumnMetaData> archiveTableColumnMetaData,
+                                     final boolean ignoreNullable,
+                                     final boolean ignoreDataDefault) {
         assertColumnExists(tableColumnMetaData, "ID", "VARCHAR");
 
         DBTableColumnMetaData columnMetaData, archiveColumnMetaData;
@@ -117,13 +128,22 @@ class EntityArchiveTableTest {
                 return;
             }
 
-            assertEquals("The column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should have corresponding column on archive table [" + archiveColumnMetaData.getTableName() + "]",
-                    columnMetaData.getColumnName(), archiveColumnMetaData.getColumnName());
-            assertEquals("The data type of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]",
-                    columnMetaData.getDataType(), archiveColumnMetaData.getDataType());
-            assertEquals("The data length of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] is [" + columnMetaData.getCharacterMaxLength()
-                            + "] and it should not be greater than the data length [" + archiveColumnMetaData.getCharacterMaxLength() + "] on archive table [" + archiveColumnMetaData.getTableName() + "]",
-                    columnMetaData.getCharacterMaxLength(), archiveColumnMetaData.getCharacterMaxLength());
+            assertEquals(
+                    columnMetaData.getColumnName(),
+                    archiveColumnMetaData.getColumnName(),
+                    "The column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should have corresponding column on archive table [" + archiveColumnMetaData.getTableName() + "]"
+            );
+            assertEquals(
+                    columnMetaData.getDataType(),
+                    archiveColumnMetaData.getDataType(),
+                    "The data type of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]"
+            );
+            assertEquals(
+                    columnMetaData.getCharacterMaxLength(),
+                    archiveColumnMetaData.getCharacterMaxLength(),
+                    "The data length of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] is [" + columnMetaData.getCharacterMaxLength()
+                            + "] and it should not be greater than the data length [" + archiveColumnMetaData.getCharacterMaxLength() + "] on archive table [" + archiveColumnMetaData.getTableName() + "]"
+            );
 
             if (columnMetaData.getNumericPrecision() > archiveColumnMetaData.getNumericPrecision()) {
                 fail("The numeric precision of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] is [" + columnMetaData.getNumericPrecision()
@@ -136,17 +156,25 @@ class EntityArchiveTableTest {
             }
 
             if (!ignoreNullable) {
-                assertEquals("The nullable of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]",
-                        columnMetaData.isNullable(), archiveColumnMetaData.isNullable());
+                assertEquals(
+                        columnMetaData.isNullable(),
+                        archiveColumnMetaData.isNullable(),
+                        "The nullable of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]"
+                );
             }
             if (!ignoreDataDefault) {
-                assertEquals("The data default value of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]",
-                        columnMetaData.getDataDefault(), archiveColumnMetaData.getDataDefault());
+                assertEquals(
+                        columnMetaData.getDataDefault(),
+                        archiveColumnMetaData.getDataDefault(),
+                        "The data default value of column[" + columnMetaData.getColumnName() + "] on table [" + columnMetaData.getTableName() + "] should be the same on archive table [" + archiveColumnMetaData.getTableName() + "]"
+                );
             }
         }
     }
 
-    private void assertColumnExists(final List<DBTableColumnMetaData> tableColumnMetaData, final String columnName, final String dataType) {
+    private void assertColumnExists(final List<DBTableColumnMetaData> tableColumnMetaData,
+                                    final String columnName,
+                                    final String dataType) {
         for (final DBTableColumnMetaData columnMetaData : tableColumnMetaData) {
             if (columnName.equalsIgnoreCase(columnMetaData.getColumnName()) && dataType.equalsIgnoreCase(columnMetaData.getDataType())) {
                 return;
@@ -155,7 +183,8 @@ class EntityArchiveTableTest {
         fail("The table [" + tableColumnMetaData.get(0).getTableName() + "] should have column [" + columnName + "] with dataType [" + dataType + "]");
     }
 
-    private DBTableColumnMetaData findColumnMetaData(final List<DBTableColumnMetaData> archiveTableColumnMetaData, final String columnName) {
+    private DBTableColumnMetaData findColumnMetaData(final List<DBTableColumnMetaData> archiveTableColumnMetaData,
+                                                     final String columnName) {
         for (final DBTableColumnMetaData columnMetaData : archiveTableColumnMetaData) {
             if (columnName.equals(columnMetaData.getColumnName())) {
                 return columnMetaData;
@@ -182,7 +211,9 @@ class EntityArchiveTableTest {
         return archivableEntityClasses;
     }
 
-    private void addToCollection(final Collection<Pair<Class, Class>> archivableEntityClasses, final Class entityClass, final Class relatedClass) {
+    private void addToCollection(final Collection<Pair<Class, Class>> archivableEntityClasses,
+                                 final Class entityClass,
+                                 final Class relatedClass) {
         final Class entity = entityClass.getSimpleName().endsWith(ARCHIVE_SUFFIX) ? relatedClass : entityClass;
         final Class archiveEntity = entityClass.getSimpleName().endsWith(ARCHIVE_SUFFIX) ? entity : relatedClass;
 

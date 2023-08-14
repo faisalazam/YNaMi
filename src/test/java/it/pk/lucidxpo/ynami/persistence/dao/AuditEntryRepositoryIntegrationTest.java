@@ -11,10 +11,10 @@ import java.util.List;
 
 import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.StringUtils.repeat;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.test.util.ReflectionTestUtils.setField;

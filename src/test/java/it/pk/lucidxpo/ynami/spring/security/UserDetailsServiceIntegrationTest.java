@@ -1,8 +1,8 @@
 package it.pk.lucidxpo.ynami.spring.security;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,11 +26,11 @@ import static it.pk.lucidxpo.ynami.spring.security.UserDetailsServiceIntegration
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static pk.lucidxpo.ynami.persistence.model.security.UserBuilder.anUser;
@@ -56,8 +56,9 @@ class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
-    @BeforeEach
-    void setup() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
+        super.beforeEach(extensionContext);
         featureManager.activate(WEB_SECURITY);
         assertTrue(featureManager.isActive(WEB_SECURITY));
     }

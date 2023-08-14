@@ -9,15 +9,15 @@ import java.util.Collection;
 import java.util.Map;
 
 import static com.google.common.collect.Maps.newHashMap;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.substringAfter;
 import static org.apache.commons.lang3.StringUtils.substringBefore;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 
 class DBMigrationScriptsChecksumTest {
     private static final String SEPARATOR = ", ";

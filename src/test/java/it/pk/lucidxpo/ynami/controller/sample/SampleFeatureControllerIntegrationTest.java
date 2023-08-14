@@ -1,17 +1,17 @@
 package it.pk.lucidxpo.ynami.controller.sample;
 
+import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.web.util.NestedServletException;
 import org.thymeleaf.exceptions.TemplateInputException;
-import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

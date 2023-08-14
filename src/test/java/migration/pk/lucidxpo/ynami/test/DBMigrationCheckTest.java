@@ -1,21 +1,22 @@
 package migration.pk.lucidxpo.ynami.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.transaction.TransactionException;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionOperations;
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import migration.pk.lucidxpo.ynami.helper.DBMigrationCheck;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 import migration.pk.lucidxpo.ynami.helper.Operation;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionOperations;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 @ExtendWith(MockitoExtension.class)
-class DBMigrationCheckTest {
+class DBMigrationCheckTest implements BeforeEachCallback {
 
     @Mock
     private DBCleaner dbCleaner;
@@ -39,8 +40,8 @@ class DBMigrationCheckTest {
     private StubTransaction transaction;
     private DBMigrationCheck migrationCheck;
 
-    @BeforeEach
-    void setUp() {
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) {
         transaction = new StubTransaction();
         migrationCheck = new DBMigrationCheck(dbCleaner, fetcher, executor, transaction);
     }

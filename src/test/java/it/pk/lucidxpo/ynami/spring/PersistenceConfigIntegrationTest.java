@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationHandler;
 
 import static java.lang.reflect.Proxy.getInvocationHandler;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getField;
 
 @TestPropertySource(properties = "config.togglz.enabled=true")
