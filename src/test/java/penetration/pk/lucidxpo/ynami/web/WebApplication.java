@@ -14,6 +14,7 @@ import penetration.pk.lucidxpo.ynami.exceptions.UnexpectedContentException;
 
 import java.util.concurrent.TimeUnit;
 
+import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static penetration.pk.lucidxpo.ynami.web.drivers.DriverFactory.getDriver;
@@ -46,7 +47,7 @@ public class WebApplication extends Application {
 
     protected WebElement findAndWaitForElement(final By by) {
         try {
-            final WebDriverWait wait = new WebDriverWait(authTokenManagerImpl.getDriver(), 10);
+            final WebDriverWait wait = new WebDriverWait(authTokenManagerImpl.getDriver(), ofSeconds(10));
             wait.until(visibilityOfElementLocated(by));
         } catch (final TimeoutException e) {
             throw new NoSuchElementException(e.getMessage());
