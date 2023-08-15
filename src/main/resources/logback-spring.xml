@@ -3,6 +3,11 @@
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <property name="LOG_PATH" value="logs"/>
 
+    <!-- Stop output INFO at start -->
+    <!-- As it won't show any start up logs, so consider commenting it out in case things are not working as expected
+    in order to see if there are any issues during start up of logback -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
