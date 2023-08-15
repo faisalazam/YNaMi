@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MigrationTestHelper {
     public static final String SCHEMA_NAME = "Test_Schema";
+    public static final String SCHEMA_NAME_PLACEHOLDER_REGEX = "\\$\\{schema_name\\}";
     public static final String PATCH_DIRECTORY_PATH = "src/main/resources/db/datapatch";
     public static final String SCRIPT_DIRECTORY_PATH = "src/main/resources/db/migration";
 

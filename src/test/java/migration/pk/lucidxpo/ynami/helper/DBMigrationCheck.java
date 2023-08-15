@@ -4,7 +4,10 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionOperations;
 
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME_PLACEHOLDER_REGEX;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabaseToPenultimatePoint;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public class DBMigrationCheck {
 
@@ -41,9 +44,10 @@ public class DBMigrationCheck {
                     evolveDatabaseToPenultimatePoint(migrationScriptNumber, fetcher, executor);
                     preOperation.execute(executor);
 
-                    String sqlQuery = fetcher.migrationScriptContentForIndex(migrationScriptNumber);
+                    String sqlQuery = fetcher.migrationScriptContentForIndex(migrationScriptNumber)
+                            .replaceAll(SCHEMA_NAME_PLACEHOLDER_REGEX, SCHEMA_NAME);
                     if (includeRollbackScript) {
-                        sqlQuery = sqlQuery.replace("--//@UNDO", "");
+                        sqlQuery = sqlQuery.replace("--//@UNDO", EMPTY);
                     }
 
                     executor.execute(sqlQuery);
