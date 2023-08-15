@@ -1,10 +1,9 @@
 package pk.lucidxpo.ynami.spring.features;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.togglz.core.Feature;
-
-import javax.validation.constraints.NotNull;
 
 @Component
 @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "false", matchIfMissing = true)

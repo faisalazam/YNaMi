@@ -1,5 +1,6 @@
 package migration.pk.lucidxpo.ynami.test;
 
+import jakarta.persistence.Entity;
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
 
-import javax.persistence.Entity;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;

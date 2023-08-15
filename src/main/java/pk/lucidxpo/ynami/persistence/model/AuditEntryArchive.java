@@ -1,11 +1,11 @@
 package pk.lucidxpo.ynami.persistence.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import java.time.LocalDateTime;
 
 import static pk.lucidxpo.ynami.utils.Identity.randomID;

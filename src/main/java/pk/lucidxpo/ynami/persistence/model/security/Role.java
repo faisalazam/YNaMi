@@ -1,5 +1,9 @@
 package pk.lucidxpo.ynami.persistence.model.security;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -7,12 +11,7 @@ import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-
-import static javax.persistence.EnumType.STRING;
+import static jakarta.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PACKAGE;
 
 @Data

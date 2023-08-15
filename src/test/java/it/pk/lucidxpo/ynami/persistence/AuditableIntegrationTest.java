@@ -1,6 +1,7 @@
 package it.pk.lucidxpo.ynami.persistence;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DynamicTest;
@@ -14,7 +15,6 @@ import pk.lucidxpo.ynami.persistence.model.Auditable;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 import pk.lucidxpo.ynami.utils.executionlisteners.TimeFreezeExecutionListener;
 
-import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Set;
 

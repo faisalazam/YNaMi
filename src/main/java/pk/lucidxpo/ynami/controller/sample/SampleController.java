@@ -1,5 +1,6 @@
 package pk.lucidxpo.ynami.controller.sample;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,6 @@ import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
 import pk.lucidxpo.ynami.persistence.model.sample.Sample;
 import pk.lucidxpo.ynami.service.sample.SampleService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 

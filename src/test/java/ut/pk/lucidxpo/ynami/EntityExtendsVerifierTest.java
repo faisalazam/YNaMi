@@ -1,11 +1,11 @@
 package ut.pk.lucidxpo.ynami;
 
+import jakarta.persistence.Entity;
 import org.junit.jupiter.api.Test;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
 import pk.lucidxpo.ynami.persistence.model.AuditEntryArchive;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
 
-import javax.persistence.Entity;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;

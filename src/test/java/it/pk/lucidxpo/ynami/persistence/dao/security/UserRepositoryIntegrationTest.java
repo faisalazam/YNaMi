@@ -1,6 +1,7 @@
 package it.pk.lucidxpo.ynami.persistence.dao.security;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,7 +15,6 @@ import pk.lucidxpo.ynami.persistence.model.security.User;
 import pk.lucidxpo.ynami.persistence.model.security.UserBuilder;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
 

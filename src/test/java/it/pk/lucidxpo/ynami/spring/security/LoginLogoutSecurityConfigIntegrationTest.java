@@ -1,6 +1,7 @@
 package it.pk.lucidxpo.ynami.spring.security;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import pk.lucidxpo.ynami.spring.security.SecurityConfig;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
-import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
 

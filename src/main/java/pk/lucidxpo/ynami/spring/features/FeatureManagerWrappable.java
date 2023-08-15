@@ -1,8 +1,7 @@
 package pk.lucidxpo.ynami.spring.features;
 
+import jakarta.validation.constraints.NotNull;
 import org.togglz.core.Feature;
-
-import javax.validation.constraints.NotNull;
 
 public interface FeatureManagerWrappable {
     boolean isActive(@NotNull Feature feature);

@@ -70,6 +70,7 @@
         <commons.configuration.version>1.8</commons.configuration.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <mockito.junit.jupiter.version>2.21.0</mockito.junit.jupiter.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <junit.platform.surefire.provider.version>1.3.0-RC1</junit.platform.surefire.provider.version>
@@ -163,6 +164,14 @@
             <groupId>com.github.rozidan</groupId>
             <artifactId>modelmapper-spring-boot-starter</artifactId>
             <version>${modelmapper.version}</version>
+        </dependency>
+
+        <!-- JavaBeans Validation (Bean Validation) is a validation model that can add constraints to the beans
+        with annotations placed on fields, methods, or classes. -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation-api.version}</version>
         </dependency>
 
         <!-- Utilities -->

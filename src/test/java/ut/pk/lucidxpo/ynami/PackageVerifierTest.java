@@ -1,5 +1,6 @@
 package ut.pk.lucidxpo.ynami;
 
+import jakarta.persistence.Entity;
 import org.fluentlenium.core.FluentPage;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Entity;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;

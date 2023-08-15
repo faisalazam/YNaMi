@@ -108,4 +108,46 @@ maven plugins in the [pom.xml](../pom.xml) file.
 
 
 
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `package does not exist`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean compile` started failing with errors such as `package does not exist`.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```errors
+java: package javax.persistence does not exist
+java: package javax.servlet.http does not exist
+java: package javax.validation.constraints does not exist
+
+java: cannot find symbol
+  symbol:   class HttpServletResponse
+  
+java: cannot find symbol
+  symbol: class Entity
+  
+java: cannot find symbol
+  symbol:   class Column
+  
+etc.
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was to add the latest `jakarta.validation-api` dependency
+in the [pom.xml](../pom.xml) file and migrating the `javax` imports to `jakarta` imports.
+
+</details>
+</blockquote>
+
+
+
 [Go Back](../README.md)
