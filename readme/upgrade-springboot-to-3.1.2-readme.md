@@ -150,4 +150,34 @@ in the [pom.xml](../pom.xml) file and migrating the `javax` imports to `jakarta`
 
 
 
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `cannot find symbol WebSecurityConfigurerAdapter`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean compile` started failing with errors such as `cannot find symbol: WebSecurityConfigurerAdapter`.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```errors
+java: cannot find symbol
+  symbol:   class WebSecurityConfigurerAdapter
+  location: package org.springframework.security.config.annotation.web.configuration
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was to .... WIP
+
+</details>
+</blockquote>
+
+
+
 [Go Back](../README.md)
