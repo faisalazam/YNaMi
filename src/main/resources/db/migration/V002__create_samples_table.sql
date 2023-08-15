@@ -1,8 +1,10 @@
-CREATE TABLE IF NOT EXISTS `Sample` (
-  `id` varchar(50) NOT NULL,
-  `active` bit(1) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `firstName` varchar(255) DEFAULT NULL,
-  `lastName` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+CREATE TABLE IF NOT EXISTS ${schema_name}.`Sample`
+(
+    `id`        VARCHAR(50) NOT NULL,
+    `active`    BIT(1)       DEFAULT NULL,
+    `address`   VARCHAR(255) DEFAULT NULL,
+    `firstName` VARCHAR(255) DEFAULT NULL,
+    `lastName`  VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = UTF8MB4;
