@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class DBMigrationCheckTest {
@@ -104,8 +104,8 @@ class DBMigrationCheckTest {
             try {
                 migrationCheck.testDbMigrationWithScriptNumber(scriptNumber, preOperation, postOperation);
             } finally {
-                verifyZeroInteractions(executor);
-                verifyZeroInteractions(postOperation);
+                verifyNoInteractions(executor);
+                verifyNoInteractions(postOperation);
             }
         });
     }

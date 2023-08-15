@@ -32,8 +32,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.quality.Strictness.LENIENT;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -146,7 +146,7 @@ class SampleControllerTest {
 
         verify(sampleService, times(1)).findById(id);
         verifyNoMoreInteractions(sampleService);
-        verifyZeroInteractions(modelMapper);
+        verifyNoInteractions(modelMapper);
     }
 
     // =========================================== Prepare New Sample Creation ==============================
@@ -161,7 +161,7 @@ class SampleControllerTest {
                 .andExpect(model().attribute("sample", expectedSample))
                 .andReturn();
 
-        verifyZeroInteractions(modelMapper, sampleService);
+        verifyNoInteractions(modelMapper, sampleService);
     }
 
     // =========================================== Create New Sample ========================================
@@ -201,7 +201,7 @@ class SampleControllerTest {
 
         verify(sampleService, times(1)).existsByFirstName(sampleCreationDTO.getFirstName());
         verify(sampleService, never()).create(any(Sample.class));
-        verifyZeroInteractions(modelMapper);
+        verifyNoInteractions(modelMapper);
         verifyNoMoreInteractions(sampleService);
     }
 
@@ -239,7 +239,7 @@ class SampleControllerTest {
                 .andReturn();
         verify(sampleService, times(1)).findById(id);
         verifyNoMoreInteractions(sampleService);
-        verifyZeroInteractions(modelMapper);
+        verifyNoInteractions(modelMapper);
     }
 
     // =========================================== Update Existing Sample ===================================
@@ -278,7 +278,7 @@ class SampleControllerTest {
         verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).update(any(Sample.class));
         verifyNoMoreInteractions(sampleService);
-        verifyZeroInteractions(modelMapper);
+        verifyNoInteractions(modelMapper);
     }
 
     // =========================================== Patch Sample ============================================
@@ -315,7 +315,7 @@ class SampleControllerTest {
         verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).updateStatus(anyString(), anyMap());
         verifyNoMoreInteractions(sampleService);
-        verifyZeroInteractions(modelMapper);
+        verifyNoInteractions(modelMapper);
     }
 
     // =========================================== Delete Sample ============================================
@@ -351,7 +351,7 @@ class SampleControllerTest {
         verify(sampleService, times(1)).findById(id);
         verify(sampleService, never()).delete(anyString());
         verifyNoMoreInteractions(sampleService);
-        verifyZeroInteractions(modelMapper);
+        verifyNoInteractions(modelMapper);
     }
 
     static String asJsonString(final Object obj) {
