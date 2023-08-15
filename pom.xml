@@ -56,7 +56,7 @@
         <font.awesome.version>5.2.0</font.awesome.version>
         <fluentlenium.version>3.6.1</fluentlenium.version>
         <zap.clientapi.version>1.2.0</zap.clientapi.version>
-        <jacoco.plugin.version>0.8.1</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
         <glassfish.jersey.version>2.27</glassfish.jersey.version>
         <org.reflections.version>0.10.2</org.reflections.version>
