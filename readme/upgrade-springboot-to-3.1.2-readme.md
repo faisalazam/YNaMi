@@ -16,7 +16,7 @@ Following are the details of the issues encountered during the upgrade process
 
 ### Fatal error compiling: java.lang.ExceptionInInitializerError
 
-`mvn clean compile` started failing with Non-resolvable import POM after the upgrade.
+[pom.xml](../pom.xml) file started showing errors such as Non-resolvable import POM after the upgrade.
 
 <blockquote>
 <details>
@@ -50,7 +50,7 @@ Fix for this problem in my setup/environment was just to update the latest `4.11
 
 ### Unresolved dependency
 
-`mvn clean compile` started failing with Unresolved dependency.
+[pom.xml](../pom.xml) file started showing errors such as Unresolved dependency.
 
 <blockquote>
 <details>
@@ -71,6 +71,37 @@ Unresolved dependency: 'joda-time:joda-time:jar:unknown'
 Fix for this problem in my setup/environment was to add the latest `2.12.5` version for the
 `joda-time` maven dependency, and to change the `mysql-connector-java` dependency to `mysql-connector-j`
 with the latest `8.1.0` version in the [pom.xml](../pom.xml) file.
+
+</details>
+</blockquote>
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of Plugin not found</strong></summary>
+
+### Unresolved dependency
+
+[pom.xml](../pom.xml) file started showing errors such as `Plugin not found`.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```errors
+Plugin 'maven-surefire-plugin:2.22.0' not found
+Plugin 'org.apache.maven.plugins:maven-project-info-reports-plugin:3.0.0' not found
+Plugin 'org.apache.maven.plugins:maven-jxr-plugin:2.5' not found
+Plugin 'org.apache.maven.plugins:maven-checkstyle-plugin:3.0.0' not found
+Plugin 'org.apache.maven.plugins:maven-surefire-report-plugin:2.22.0' not found
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to add the latest versions for the above mentioned
+maven plugins in the [pom.xml](../pom.xml) file.
 
 </details>
 </blockquote>
