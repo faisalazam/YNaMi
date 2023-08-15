@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
+import static org.flywaydb.core.Flyway.configure;
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
 public class DBCleaner {
@@ -15,8 +16,9 @@ public class DBCleaner {
     }
 
     public void cleanDB() {
-        final Flyway flyway = new Flyway();
-        flyway.setDataSource(((JdbcTemplate) executor.getTemplate()).getDataSource());
+        final Flyway flyway = configure()
+                .dataSource(((JdbcTemplate) executor.getTemplate()).getDataSource())
+                .load();
         flyway.clean();
     }
 
