@@ -310,5 +310,48 @@ Fix for this problem in my setup/environment was to .... WIP
 </blockquote>
 
 
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `BeanCreationException: entityManagerFactory`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean compile` started failing with errors such as `Error creating bean with name 'entityManagerFactory'`.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```exception
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' 
+defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: 
+net/bytebuddy/NamingStrategy$SuffixingRandom$BaseNameResolver
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1770)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: java.lang.NoClassDefFoundError: net/bytebuddy/NamingStrategy$SuffixingRandom$BaseNameResolver
+	at org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildBytecodeProvider(BytecodeProviderInitiator.java:59)
+	at org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildDefaultBytecodeProvider(BytecodeProviderInitiator.java:46)
+	... 19 common frames omitted
+Caused by: java.lang.ClassNotFoundException: net.bytebuddy.NamingStrategy$SuffixingRandom$BaseNameResolver
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+`net.bytebuddy:byte-buddy` maven dependency was added for the test scope in the [pom.xml](../pom.xml) file as part of 
+the Java 20 upgrade, but that's causing problem after Springboot's upgrade, so solution is just to remove it from the
+[pom.xml](../pom.xml) as it'll be loaded by few other dependencies.
+
+</details>
+</blockquote>
+
+
 
 [Go Back](../README.md)

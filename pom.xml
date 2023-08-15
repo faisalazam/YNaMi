@@ -50,7 +50,6 @@
         <maven.pmd.version>3.10.0</maven.pmd.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
         <maven.site.version>3.7.1</maven.site.version>
-        <byte-buddy.version>1.14.5</byte-buddy.version>
         <modelmapper.version>2.3.1</modelmapper.version>
         <commons.lang.version>3.7</commons.lang.version>
         <flyway-core.version>9.21.0</flyway-core.version>
@@ -278,12 +277,6 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${org.reflections.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>${byte-buddy.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
