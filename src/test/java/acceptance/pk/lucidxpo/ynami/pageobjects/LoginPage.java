@@ -47,7 +47,7 @@ public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     }
 
     @Override
-    public ExpectedCondition getPageLoadCondition() {
+    public ExpectedCondition<?> getPageLoadCondition() {
         return titleIs("Why Not Me!!! - Login Demo");
     }
 

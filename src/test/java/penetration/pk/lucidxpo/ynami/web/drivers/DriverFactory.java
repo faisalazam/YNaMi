@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import penetration.pk.lucidxpo.ynami.config.Config;
@@ -19,11 +19,11 @@ import static java.io.File.separator;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
 import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
-import static org.openqa.selenium.firefox.FirefoxDriver.PROFILE;
-import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
-import static org.openqa.selenium.remote.DesiredCapabilities.chrome;
-import static org.openqa.selenium.remote.DesiredCapabilities.firefox;
-import static org.openqa.selenium.remote.DesiredCapabilities.htmlUnit;
+//import static org.openqa.selenium.firefox.FirefoxDriver.PROFILE;
+//import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
+//import static org.openqa.selenium.remote.DesiredCapabilities.chrome;
+//import static org.openqa.selenium.remote.DesiredCapabilities.firefox;
+//import static org.openqa.selenium.remote.DesiredCapabilities.htmlUnit;
 
 @Slf4j
 public class DriverFactory {
@@ -40,6 +40,8 @@ public class DriverFactory {
         if (dm == null) {
             dm = new DriverFactory();
         }
+        // TODO: Spring Upgrade - add the following for automatic driver management instead of downloading binaries
+//        WebDriverManager.chromedriver().setup();
         return dm;
     }
 
@@ -126,11 +128,12 @@ public class DriverFactory {
     private WebDriver createChromeDriver(final DesiredCapabilities capabilities) {
         setProperty("webdriver.chrome.driver", Config.getInstance().getDefaultDriverPath());
         if (capabilities != null) {
-            capabilities.setCapability(ACCEPT_SSL_CERTS, true);
             final ChromeOptions options = new ChromeOptions();
             options.addArguments("--test-type");
+            options.setAcceptInsecureCerts(true);
             capabilities.setCapability(CAPABILITY, options);
-            return new ChromeDriver(capabilities);
+            options.merge(capabilities);
+            return new ChromeDriver(options);
         } else {
             return new ChromeDriver();
         }
@@ -143,7 +146,7 @@ public class DriverFactory {
         }
         capabilities = new DesiredCapabilities();
         capabilities.setBrowserName("htmlunit");
-        capabilities.setCapability(ACCEPT_SSL_CERTS, true);
+        capabilities.setAcceptInsecureCerts(true);
         return new HtmlUnitDriver(capabilities);
     }
 
@@ -168,30 +171,27 @@ public class DriverFactory {
         if (capabilities == null) {
             capabilities = new DesiredCapabilities();
         }
-        capabilities.setCapability(PROFILE, myProfile);
+        capabilities.setCapability("profile", myProfile);
+//        capabilities.setCapability(PROFILE, myProfile);
         setProperty("webdriver.gecko.driver", Config.getInstance().getDefaultDriverPath());
         return new FirefoxDriver(new FirefoxOptions(capabilities));
     }
 
     private DesiredCapabilities createProxyCapabilities(final String type) {
         DesiredCapabilities capabilities = null;
-        switch (type) {
-            case CHROME:
-                capabilities = chrome();
-                break;
-            case FIREFOX:
-                capabilities = firefox();
-                break;
-            case HTMLUNIT:
-                capabilities = htmlUnit();
-                break;
-            default:
-                break;
-        }
+        // TODO: Spring Upgrade - uncomment me
+//        switch (type) {
+//            case CHROME -> capabilities = chrome();
+//            case FIREFOX -> capabilities = firefox();
+//            case HTMLUNIT -> capabilities = htmlUnit();
+//            default -> {
+//            }
+//        }
         final Proxy proxy = new Proxy();
         final Config instance = Config.getInstance();
         proxy.setHttpProxy(instance.getProxyHost() + ":" + instance.getProxyPort());
         proxy.setSslProxy(instance.getProxyHost() + ":" + instance.getProxyPort());
+        assert capabilities != null;
         capabilities.setCapability("proxy", proxy);
         return capabilities;
     }
