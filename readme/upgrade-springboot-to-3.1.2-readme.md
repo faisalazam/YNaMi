@@ -44,5 +44,37 @@ Fix for this problem in my setup/environment was just to update the latest `4.11
 </blockquote>
 
 
+<blockquote>
+<details>
+    <summary><strong>Click to see details of Unresolved dependency</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean compile` started failing with Unresolved dependency.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```errors
+'dependencies.dependency.version' for mysql:mysql-connector-java:jar is missing.
+'dependencies.dependency.version' for joda-time:joda-time:jar is missing.
+Unresolved dependency: 'mysql:mysql-connector-java:jar:unknown'
+Unresolved dependency: 'joda-time:joda-time:jar:unknown'
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was to add the latest `2.12.5` version for the
+`joda-time` maven dependency, and to change the `mysql-connector-java` dependency to `mysql-connector-j`
+with the latest `8.1.0` version in the [pom.xml](../pom.xml) file.
+
+</details>
+</blockquote>
+
+
 
 [Go Back](../README.md)
