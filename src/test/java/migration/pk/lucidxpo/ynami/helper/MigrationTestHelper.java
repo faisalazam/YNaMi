@@ -20,7 +20,9 @@ public class MigrationTestHelper {
     }
 
     public static DataSource dataSourceForLocalMySql() {
-        return new DriverManagerDataSource("jdbc:mysql://localhost:3306/" + SCHEMA_NAME + "?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true", "root", "root");
+// TODO Spring Upgrade: make this method return h2 or mysql dataSource based on value from properties file
+        return new DriverManagerDataSource("jdbc:h2:mem:" + SCHEMA_NAME + ";MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;", "sa", "");
+//        return new DriverManagerDataSource("jdbc:mysql://localhost:3306/" + SCHEMA_NAME + "?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true", "root", "root");
     }
 
     public static MultiSqlExecutor executorForLocalMySql() {
