@@ -4,8 +4,8 @@
 
 #### Issues faced during the upgrade
 
-Right after changing the `spring-boot-starter-parent` version from `2.0.5.RELEASE` to `3.1.2` in 
-the [pom.xml](../pom.xml) file, we're going to face a lot of `cannot find symbol` and `cannot find import` kind of 
+Right after changing the `spring-boot-starter-parent` version from `2.0.5.RELEASE` to `3.1.2` in
+the [pom.xml](../pom.xml) file, we're going to face a lot of `cannot find symbol` and `cannot find import` kind of
 errors along-with many others.
 
 Following are the details of the issues encountered during the upgrade process
@@ -223,7 +223,8 @@ final Flyway flyway = configure()
 
 ### Unresolved dependency
 
-`mvn clean compile` started failing with errors such as `Could not load requested class : org.hibernate.dialect.MySQL5Dialect`.
+`mvn clean compile` started failing with errors such
+as `Could not load requested class : org.hibernate.dialect.MySQL5Dialect`.
 
 <blockquote>
 <details>
@@ -269,7 +270,7 @@ Caused by: java.lang.ClassNotFoundException: Could not load requested class : or
 
 ### Fix
 
-Fix for this problem in my setup/environment was use the follow ing property in the 
+Fix for this problem in my setup/environment was use the follow ing property in the
 [application.properties](../src/main/resources/application.properties) file,
 i.e. just use `org.hibernate.dialect.MySQLDialect` instead of of the missing `org.hibernate.dialect.MySQL5Dialect`
 or the `org.hibernate.dialect.MySQL57Dialect` and `org.hibernate.dialect.MySQL8Dialect`, the deprecated ones:
@@ -345,9 +346,48 @@ Caused by: java.lang.ClassNotFoundException: net.bytebuddy.NamingStrategy$Suffix
 
 ### Fix
 
-`net.bytebuddy:byte-buddy` maven dependency was added for the test scope in the [pom.xml](../pom.xml) file as part of 
+`net.bytebuddy:byte-buddy` maven dependency was added for the test scope in the [pom.xml](../pom.xml) file as part of
 the Java 20 upgrade, but that's causing problem after Springboot's upgrade, so solution is just to remove it from the
 [pom.xml](../pom.xml) as it'll be loaded by few other dependencies.
+
+</details>
+</blockquote>
+
+
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `cannot access WrapsElement`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean compile` started failing with errors such as `cannot access org.openqa.selenium.internal.WrapsElement`.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```error
+java: cannot access org.openqa.selenium.internal.WrapsElement
+  class file for org.openqa.selenium.internal.WrapsElement not found
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to add the `selenium-common` maven dependencies with
+latest `2.0b1` version in the [pom.xml](../pom.xml) file.
+
+```xml
+
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-common</artifactId>
+    <version>2.0b1</version>
+</dependency>
+```
 
 </details>
 </blockquote>

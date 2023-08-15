@@ -49,14 +49,15 @@
         <joda-time.version>2.12.5</joda-time.version>
         <maven.pmd.version>3.10.0</maven.pmd.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
-        <maven.site.version>3.7.1</maven.site.version>
         <modelmapper.version>2.3.1</modelmapper.version>
         <commons.lang.version>3.7</commons.lang.version>
         <flyway-core.version>9.21.0</flyway-core.version>
+        <maven.site.version>4.0.0-M9</maven.site.version>
         <font.awesome.version>5.2.0</font.awesome.version>
         <fluentlenium.version>3.6.1</fluentlenium.version>
         <zap.clientapi.version>1.2.0</zap.clientapi.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
+        <selenium-common.version>2.0b1</selenium-common.version>
         <glassfish.jersey.version>2.27</glassfish.jersey.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <javax.activation.version>1.1.1</javax.activation.version>
@@ -285,6 +286,7 @@
             <version>${podam.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- TODO: Spring Upgrade - I think the next 2 dependencies can be replaced with WebDriverManager...-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
@@ -297,6 +299,18 @@
             <version>${selenium.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- TODO: Spring Upgrade - uncomment the next one and comment the previous 2 dependencies? ...-->
+        <!-- <dependency>-->
+        <!--     <groupId>org.seleniumhq.selenium</groupId>-->
+        <!--     <artifactId>selenium-java</artifactId>-->
+        <!--     <version>${selenium.version}</version>-->
+        <!-- </dependency>-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-common</artifactId>
+            <version>${selenium-common.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-junit-jupiter</artifactId>
@@ -462,6 +476,20 @@
                     </jvmArguments>
                 </configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>9.21.1</version>
+                <configuration>
+                    <user>sa</user>
+                    <!--                    <user>databaseUser</user>-->
+                    <!--                    <password>databasePassword</password>-->
+                    <!--                    <schemas>-->
+                    <!--                        <schema>schemaName</schema>-->
+                    <!--                    </schemas>-->
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
