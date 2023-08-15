@@ -100,7 +100,7 @@ Plugin 'org.apache.maven.plugins:maven-surefire-report-plugin:2.22.0' not found
 
 ### Fix
 
-Fix for this problem in my setup/environment was just to add the latest versions for the above mentioned
+Fix for this problem in my setup/environment was just to add the latest versions for the above-mentioned
 maven plugins in the [pom.xml](../pom.xml) file.
 
 </details>
@@ -272,7 +272,7 @@ Caused by: java.lang.ClassNotFoundException: Could not load requested class : or
 
 Fix for this problem in my setup/environment was use the follow ing property in the
 [application.properties](../src/main/resources/application.properties) file,
-i.e. just use `org.hibernate.dialect.MySQLDialect` instead of of the missing `org.hibernate.dialect.MySQL5Dialect`
+i.e. just use `org.hibernate.dialect.MySQLDialect` instead of the missing `org.hibernate.dialect.MySQL5Dialect`
 or the `org.hibernate.dialect.MySQL57Dialect` and `org.hibernate.dialect.MySQL8Dialect`, the deprecated ones:
 
 `spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect`
@@ -388,6 +388,97 @@ latest `2.0b1` version in the [pom.xml](../pom.xml) file.
     <version>2.0b1</version>
 </dependency>
 ```
+
+</details>
+</blockquote>
+
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `Inaccessible H2 Console`</strong></summary>
+
+### Unresolved dependency
+
+After the upgrade, wasn't able to access the `h2-console`, even though everything was properly setup for `h2` in the
+[application-h2.properties](../src/main/resources/application-h2.properties) file and `h2` was present in the list of
+`spring.profiles.active` in the [application.properties](../src/main/resources/application.properties) file.
+
+`h2` settings configured in my application are:
+```properties
+# H2
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+
+# Datasource
+spring.datasource.url=jdbc:h2:mem:${spring.datasource.name};MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
+spring.datasource.username=sa
+spring.datasource.password=
+spring.datasource.driver-class-name=org.h2.Driver
+```
+
+<blockquote>
+<details>
+    <summary><strong>Click here for details</strong></summary>
+
+
+`h2` is supposed to be accessible at `https://localhost:8443/ynami/h2` in my setup. After hitting this URL, I was getting:
+
+![h2.png](assets/images/h2.png)
+
+
+But clicking on `connect` was giving me `Whitelabel Error Page` with `(type=Forbidden, status=403)`
+
+![h2-forbidden.png](assets/images/h2-forbidden.png)
+
+</details>
+</blockquote>
+
+### Fix
+
+So, `Spring Security` playing its role and that means that `h2` console should be allowed through `Spring Security`,
+and that's how we can fix it:
+
+```java
+package pk.lucidxpo.ynami.spring.security;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
+import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
+@Profile("h2")
+@Configuration
+@EnableWebSecurity
+public class H2ConsoleSecurityConfig {
+    final String h2ConsolePattern;
+
+    public H2ConsoleSecurityConfig(@Value("${spring.h2.console.path:h2-console}") String h2ConsolePath) {
+        this.h2ConsolePattern = h2ConsolePath + "/**";
+    }
+
+    @Bean
+    public SecurityFilterChain h2ConsoleSecurityFilterChain(final HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher(h2ConsolePattern)).permitAll())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(antMatcher(h2ConsolePattern)))
+                .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
+        ;
+        return http.build();
+    }
+}
+```
+
+The following statement will ensure that you don't see empty frames like below after logging in to `h2` console:
+
+`headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))`
+
+![h2-with-empty-frames.png](assets/images/h2-with-empty-frames.png)
 
 </details>
 </blockquote>
