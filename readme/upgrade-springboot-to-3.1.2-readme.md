@@ -277,6 +277,19 @@ or the `org.hibernate.dialect.MySQL57Dialect` and `org.hibernate.dialect.MySQL8D
 
 `spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect`
 
+### New Fix
+
+Although the above-mentioned fix is working but SpringBoot is logging a warning as below:
+
+```
+WARN 27688 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to 
+be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[restartedMain] WARN  org.hibernate.orm.deprecation.constructDialect - HHH90000025: MySQLDialect does not need to be 
+specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+```
+
+So, removing the `hibernate.dialect` from properties files.
+
 </details>
 </blockquote>
 
