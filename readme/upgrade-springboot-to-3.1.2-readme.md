@@ -288,6 +288,12 @@ be specified explicitly using 'hibernate.dialect' (remove the property setting a
 specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
 ```
 
+While prior to Hibernate 6, it was common to provide the Dialect version via the hibernate.dialect setting, 
+this is no longer the recommended strategy.
+
+Because Hibernate 6 has greatly simplified the Dialect handlers, it’s best to let Hibernate figure out what Dialect 
+instance to use based on the underlying database server and client capabilities.
+
 So, removing the `hibernate.dialect` from properties files.
 
 </details>
@@ -383,6 +389,63 @@ the Java 20 upgrade, but that's causing problem after Springboot's upgrade, so s
 ```error
 java: cannot access org.openqa.selenium.internal.WrapsElement
   class file for org.openqa.selenium.internal.WrapsElement not found
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to add the `selenium-common` maven dependencies with
+latest `2.0b1` version in the [pom.xml](../pom.xml) file.
+
+```xml
+
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-common</artifactId>
+    <version>2.0b1</version>
+</dependency>
+```
+
+</details>
+</blockquote>
+
+
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `Schema-validation: missing table`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean spring-boot:run` started failing with errors such as `Schema-validation: missing table`.
+
+It happens when the `spring.jpa.hibernate.ddl-auto` property is set to `validate` in the 
+[application.properties](../src/main/resources/application.properties) files.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```exception
+Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [AuditEntry]
+	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.validateTable(AbstractSchemaValidator.java:134)
+	at org.hibernate.tool.schema.internal.GroupedSchemaValidatorImpl.validateTables(GroupedSchemaValidatorImpl.java:46)
+```
+
+But on the other hand, the `spring.jpa.hibernate.ddl-auto` property is set to `update`, then firstly, the tables are
+created by the `flyway` migrations within the correct schema during the server startup, and then JPA/hibernate also creates
+the tables from the hibernate entities, but outside of the expected schema as shown below:
+
+![hibernate-tables.png](assets/images/hibernate-tables.png)
+
+So, in order to stop hibernate from creating tables/generating DDL commands, setting the following properties in the
+[application.properties](../src/main/resources/application.properties) file.
+
+```properties
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.properties.jakarta.persistence.schema-generation.scripts.action=none
 ```
 
 </details>
