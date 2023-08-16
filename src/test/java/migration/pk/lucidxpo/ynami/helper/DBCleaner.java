@@ -18,6 +18,7 @@ public class DBCleaner {
     public void cleanDB() {
         final Flyway flyway = configure()
                 .dataSource(((JdbcTemplate) executor.getTemplate()).getDataSource())
+                .cleanDisabled(false)
                 .load();
         flyway.clean();
     }
