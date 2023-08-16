@@ -288,10 +288,10 @@ be specified explicitly using 'hibernate.dialect' (remove the property setting a
 specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
 ```
 
-While prior to Hibernate 6, it was common to provide the Dialect version via the hibernate.dialect setting, 
+While prior to Hibernate 6, it was common to provide the Dialect version via the hibernate.dialect setting,
 this is no longer the recommended strategy.
 
-Because Hibernate 6 has greatly simplified the Dialect handlers, it’s best to let Hibernate figure out what Dialect 
+Because Hibernate 6 has greatly simplified the Dialect handlers, it’s best to let Hibernate figure out what Dialect
 instance to use based on the underlying database server and client capabilities.
 
 So, removing the `hibernate.dialect` from properties files.
@@ -421,7 +421,7 @@ latest `2.0b1` version in the [pom.xml](../pom.xml) file.
 
 `mvn clean spring-boot:run` started failing with errors such as `Schema-validation: missing table`.
 
-It happens when the `spring.jpa.hibernate.ddl-auto` property is set to `validate` in the 
+It happens when the `spring.jpa.hibernate.ddl-auto` property is set to `validate` in the
 [application.properties](../src/main/resources/application.properties) files.
 
 <blockquote>
@@ -435,7 +435,8 @@ Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-valid
 ```
 
 But on the other hand, the `spring.jpa.hibernate.ddl-auto` property is set to `update`, then firstly, the tables are
-created by the `flyway` migrations within the correct schema during the server startup, and then JPA/hibernate also creates
+created by the `flyway` migrations within the correct schema during the server startup, and then JPA/hibernate also
+creates
 the tables from the hibernate entities, but outside of the expected schema as shown below:
 
 ![hibernate-tables.png](assets/images/hibernate-tables.png)
@@ -469,6 +470,60 @@ latest `2.0b1` version in the [pom.xml](../pom.xml) file.
 </blockquote>
 
 
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `Unsupported Database: MySQL`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean spring-boot:run` started failing with errors such as `Unsupported Database: MySQL` after upgrading `flyway`
+to the latest `9.21.0` version and if the `mysql` spring profile is activated instead of `h2`.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```exception
+ERROR org.springframework.boot.SpringApplication.reportFailure - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flyway' defined in class path 
+resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: 
+Failed to instantiate [org.flywaydb.core.Flyway]: Factory method 'flyway' threw exception with message: Unsupported Database: MySQL 8.1
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:659)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:647)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.flywaydb.core.Flyway]: 
+Factory method 'flyway' threw exception with message: Unsupported Database: MySQL 8.1
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:171)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655)
+	... 24 common frames omitted
+Caused by: org.flywaydb.core.api.FlywayException: Unsupported Database: MySQL 8.1
+	at org.flywaydb.core.internal.database.DatabaseTypeRegister.getDatabaseTypeForConnection(DatabaseTypeRegister.java:105)
+	at org.flywaydb.core.api.configuration.ClassicConfiguration.setDataSource(ClassicConfiguration.java:1079)
+	at org.flywaydb.core.api.configuration.FluentConfiguration.dataSource(FluentConfiguration.java:614)
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was just to add the `flyway-mysql` maven dependencies with
+latest `9.21.0` version in the [pom.xml](../pom.xml) file.
+
+```xml
+
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-mysql</artifactId>
+    <version>${flyway-mysql.version}</version>
+</dependency>
+```
+
+</details>
+</blockquote>
+
+
 <blockquote>
 <details>
     <summary><strong>Click to see details of `Inaccessible H2 Console`</strong></summary>
@@ -480,11 +535,11 @@ After the upgrade, wasn't able to access the `h2-console`, even though everythin
 `spring.profiles.active` in the [application.properties](../src/main/resources/application.properties) file.
 
 `h2` settings configured in my application are:
+
 ```properties
 # H2
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2
-
 # Datasource
 spring.datasource.url=jdbc:h2:mem:${spring.datasource.name};MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
 spring.datasource.username=sa
@@ -497,10 +552,10 @@ spring.datasource.driver-class-name=org.h2.Driver
     <summary><strong>Click here for details</strong></summary>
 
 
-`h2` is supposed to be accessible at `https://localhost:8443/ynami/h2` in my setup. After hitting this URL, I was getting:
+`h2` is supposed to be accessible at `https://localhost:8443/ynami/h2` in my setup. After hitting this URL, I was
+getting:
 
 ![h2.png](assets/images/h2.png)
-
 
 But clicking on `connect` was giving me `Whitelabel Error Page` with `(type=Forbidden, status=403)`
 

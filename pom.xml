@@ -52,6 +52,7 @@
         <modelmapper.version>2.3.1</modelmapper.version>
         <commons.lang.version>3.7</commons.lang.version>
         <flyway-core.version>9.21.0</flyway-core.version>
+        <flyway-mysql.version>9.21.0</flyway-mysql.version>
         <maven.site.version>4.0.0-M9</maven.site.version>
         <font.awesome.version>5.2.0</font.awesome.version>
         <fluentlenium.version>3.6.1</fluentlenium.version>
@@ -123,6 +124,11 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${flyway-mysql.version}</version>
         </dependency>
 
         <!-- Actuator, helps with monitoring our app, gathering metrics, understanding traffic or the state of database  -->
@@ -483,11 +489,12 @@
                 <version>9.21.1</version>
                 <configuration>
                     <user>sa</user>
-                    <!--                    <user>databaseUser</user>-->
-                    <!--                    <password>databasePassword</password>-->
-                    <!--                    <schemas>-->
-                    <!--                        <schema>schemaName</schema>-->
-                    <!--                    </schemas>-->
+<!--                    <password></password>-->
+<!--                    <schemas>-->
+<!--                        <schema>YNaMi</schema>-->
+<!--                    </schemas>-->
+<!--                    &lt;!&ndash; use schemas or url&ndash;&gt;-->
+<!--                    <url>jdbc:h2:mem:YNaMi;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;</url>-->
                 </configuration>
             </plugin>
 
