@@ -20,17 +20,20 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.util.DigestUtils.md5DigestAsHex;
 
 class DBMigrationScriptsChecksumTest {
-    private static final String SEPARATOR = ", ";
+    private static final String SEPARATOR = ",";
 
     @Test
     void shouldVerifyThatAllMigrationScriptsHaveProperChecksum() throws IOException {
         final Map<String, String> existingChecksumsMap = newHashMap();
 
-        final String[] checksums = readFileToString(new File(SCRIPT_DIRECTORY_PATH + "/checksums.txt"), "UTF8").split("\n");
+        final String[] checksums = readFileToString(
+                new File(SCRIPT_DIRECTORY_PATH + "/checksums.txt"),
+                "UTF8"
+        ).split("\n");
         for (String checksum : checksums) {
             if (isNotBlank(checksum)) {
                 existingChecksumsMap.put(
-                        substringBefore(checksum, SEPARATOR), substringAfter(checksum, SEPARATOR)
+                        substringBefore(checksum, SEPARATOR).trim(), substringAfter(checksum, SEPARATOR).trim()
                 );
             }
         }
@@ -38,6 +41,7 @@ class DBMigrationScriptsChecksumTest {
         final Map<String, String> newChecksums = newHashMap();
         final Collection<File> files = listFiles(new File(SCRIPT_DIRECTORY_PATH), new String[]{"sql"}, true);
         for (File file : files) {
+            // 'md5DigestAsHex' will generate the new checksum for the sql file
             newChecksums.put(file.getName(), md5DigestAsHex(new FileInputStream(file)));
         }
 
@@ -45,13 +49,16 @@ class DBMigrationScriptsChecksumTest {
             final String existingChecksumKey = existingChecksum.getKey();
             if (!newChecksums.containsKey(existingChecksumKey)) {
                 fail(
-                        "Looks like there's more checksums in checksums file. Have you deleted the following files by any chance?\n" + existingChecksumKey
+                        "Looks like there's more checksums in checksums file. " +
+                                "Have you deleted the following files by any chance?\n" +
+                                existingChecksumKey
                 );
             }
 
             if (!newChecksums.get(existingChecksumKey).equals(existingChecksum.getValue())) {
                 fail(
-                        "You SHOULD NOT change DB Migrations that have already been executed! (verify checksums)\n" + existingChecksumKey
+                        "You SHOULD NOT change DB Migrations that have already been executed! (verify checksums)\n" +
+                                existingChecksumKey
                 );
             }
 
@@ -65,7 +72,8 @@ class DBMigrationScriptsChecksumTest {
             }
             fail(
                     "\n*****************************************************************************************\n"
-                            + "New DB migration/s has/ve been added. The following line/s MUST be added to checksums.txt\n" + missedChecksums
+                            + "New DB migration/s has/ve been added. The following line/s MUST be added to checksums.txt\n"
+                            + missedChecksums
                             + "*****************************************************************************************\n"
                             + "You MUST add the new checksum/s value/s to the checksums.txt file"
                             + "*****************************************************************************************\n"
