@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `${schema_name}`.`AuditEntry`
 (
     `id`                VARCHAR(50)  NOT NULL,
-    `changedAt`         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `changedAt`         TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `changedBy`         VARCHAR(255) NOT NULL,
     `changedEntityId`   VARCHAR(255) NOT NULL,
     `changedEntityName` VARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`AuditEntry`
 CREATE TABLE IF NOT EXISTS `${schema_name}`.`AuditEntryArchive`
 (
     `id`                VARCHAR(50)  NOT NULL,
-    `changedAt`         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `changedAt`         TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `changedBy`         VARCHAR(255) NOT NULL,
     `changedEntityId`   VARCHAR(255) NOT NULL,
     `changedEntityName` VARCHAR(255) NOT NULL,

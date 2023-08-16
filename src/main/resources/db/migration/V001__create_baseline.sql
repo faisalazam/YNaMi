@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Users`
     `email`            VARCHAR(40)  NOT NULL,
     `password`         VARCHAR(100) NOT NULL,
     `createdBy`        VARCHAR(255) NOT NULL,
-    `createdDate`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `createdDate`      TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `lastModifiedBy`   VARCHAR(255) NOT NULL,
-    `lastModifiedDate` TIMESTAMP             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `lastModifiedDate` TIMESTAMP(6)          DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_USERS_USERNAME` (`username`),
     UNIQUE KEY `UK_USERS_EMAIL` (`email`)
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Roles`
     `id`               VARCHAR(50)  NOT NULL,
     `name`             VARCHAR(60)  NOT NULL,
     `createdBy`        VARCHAR(255) NOT NULL,
-    `createdDate`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `createdDate`      TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `lastModifiedBy`   VARCHAR(255) NOT NULL,
-    `lastModifiedDate` TIMESTAMP             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    `lastModifiedDate` TIMESTAMP(6)          DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_ROLES_NAME` (`name`)
 ) ENGINE = InnoDB
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`UserRoles`
     `userId` VARCHAR(50) NOT NULL,
     `roleId` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`userId`, `roleId`),
-    KEY      `FK_USER_ROLES_ROLE_ID` (`roleId`),
+    KEY `FK_USER_ROLES_ROLE_ID` (`roleId`),
     CONSTRAINT `FK_USER_ROLES_ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`id`),
     CONSTRAINT `FK_USER_ROLES_USER_ID` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
 ) ENGINE = InnoDB
