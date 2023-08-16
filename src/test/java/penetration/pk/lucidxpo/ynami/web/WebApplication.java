@@ -14,6 +14,7 @@ import penetration.pk.lucidxpo.ynami.exceptions.UnexpectedContentException;
 
 import java.util.concurrent.TimeUnit;
 
+import static java.time.Duration.of;
 import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
@@ -76,7 +77,13 @@ public class WebApplication extends Application {
 
     @SuppressWarnings("SameParameterValue")
     private void setImplicitWait(final long time, final TimeUnit unit) {
-        getDriver(Config.getInstance().getDefaultDriver()).manage().timeouts().implicitlyWait(time, unit);
-        getProxyDriver(Config.getInstance().getDefaultDriver()).manage().timeouts().implicitlyWait(time, unit);
+        getDriver(Config.getInstance().getDefaultDriver())
+                .manage()
+                .timeouts()
+                .implicitlyWait(of(time, unit.toChronoUnit()));
+        getProxyDriver(Config.getInstance().getDefaultDriver())
+                .manage()
+                .timeouts()
+                .implicitlyWait(of(time, unit.toChronoUnit()));
     }
 }

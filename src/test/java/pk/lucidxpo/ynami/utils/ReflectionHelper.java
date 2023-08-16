@@ -198,7 +198,7 @@ public class ReflectionHelper {
     }
 
 
-    public static Logger createMockLoggerInClass(Class clazz) {
+    public static Logger createMockLoggerInClass(Class<?> clazz) {
         Logger mockLogger = mock(Logger.class);
         try {
             setStaticFinalField(clazz, "LOGGER", mockLogger);
@@ -208,12 +208,11 @@ public class ReflectionHelper {
         }
     }
 
-    public static void restoreLoggerInClass(final Class clazz) throws Exception {
+    public static void restoreLoggerInClass(final Class<?> clazz) throws Exception {
         setStaticFinalField(clazz, "LOGGER", getLogger(clazz));
     }
 
-    @SuppressWarnings("unchecked")
-    public static Object createRandomlyFilledObject(final Class clazz) {
+    public static Object createRandomlyFilledObject(final Class<?> clazz) {
         return PODAM_FACTORY.manufacturePojo(clazz);
     }
 
@@ -228,9 +227,9 @@ public class ReflectionHelper {
     }
 
     public static Set<String> getAllTypesWithExclusions(final String includeRegex, final String excludeRegex, final String... basePackages) {
-        final FilterBuilder filterBuilder = new FilterBuilder().include(includeRegex);
+        final FilterBuilder filterBuilder = new FilterBuilder().includePattern(includeRegex);
         if (isNotBlank(excludeRegex)) {
-            filterBuilder.exclude(excludeRegex);
+            filterBuilder.excludePattern(excludeRegex);
         }
         final Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .forPackages(basePackages)

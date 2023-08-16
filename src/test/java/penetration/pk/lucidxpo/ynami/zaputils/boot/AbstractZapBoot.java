@@ -9,7 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static java.io.File.separator;
 import static java.lang.System.currentTimeMillis;
@@ -133,13 +134,15 @@ public abstract class AbstractZapBoot implements ZapBoot {
 
         int responseCode = -1;
         try {
-            final HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            final HttpURLConnection conn = (HttpURLConnection) new URI(url).toURL().openConnection();
             conn.setRequestMethod(HEAD);
             responseCode = conn.getResponseCode();
         } catch (final ConnectException e) {
             log.debug("ZAP could not be reached at {}:{}.", host, port);
         } catch (final IOException e) {
             log.error("Error trying to get a response from ZAP.", e);
+        } catch (URISyntaxException e) {
+            log.error("Error trying to create URI.", e);
         }
         return responseCode;
     }

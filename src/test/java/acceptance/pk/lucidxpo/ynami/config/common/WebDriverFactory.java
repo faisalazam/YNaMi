@@ -3,13 +3,13 @@ package acceptance.pk.lucidxpo.ynami.config.common;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.time.Duration.ofSeconds;
 
 public class WebDriverFactory {
 
     public static WebDriver getDriver() {
         final WebDriver driver = new HtmlUnitDriver(true);
-        driver.manage().timeouts().implicitlyWait(2, SECONDS);
+        driver.manage().timeouts().implicitlyWait(ofSeconds(2));
         return driver;
     }
 

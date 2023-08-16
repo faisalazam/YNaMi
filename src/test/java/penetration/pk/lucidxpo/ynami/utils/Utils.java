@@ -11,6 +11,8 @@ import penetration.pk.lucidxpo.ynami.config.Config;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -159,13 +161,13 @@ public class Utils {
         return listMap;
     }
 
-    public static String getHostFromUrl(final String url) throws MalformedURLException {
-        final URL theUrl = new URL(url);
+    public static String getHostFromUrl(final String url) throws MalformedURLException, URISyntaxException {
+        final URL theUrl = new URI(url).toURL();
         return theUrl.getHost();
     }
 
-    public static int getPortFromUrl(final String url) throws MalformedURLException {
-        final URL theUrl = new URL(url);
+    public static int getPortFromUrl(final String url) throws MalformedURLException, URISyntaxException {
+        final URL theUrl = new URI(url).toURL();
         return theUrl.getPort();
     }
 }

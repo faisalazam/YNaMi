@@ -43,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.context.annotation.ComponentScan.Filter;
 import static org.springframework.context.annotation.FilterType.REGEX;
+import static org.springframework.core.env.Profiles.of;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
@@ -92,7 +93,7 @@ public class AbstractIntegrationTest {
     }
 
     boolean acceptsProfile(final String... profiles) {
-        return environment.acceptsProfiles(profiles);
+        return environment.acceptsProfiles(of(profiles));
     }
 
     protected boolean isConfigEnabled(final String config) {

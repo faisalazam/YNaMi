@@ -18,13 +18,14 @@ public class EquivalenceMatcher<T> extends BaseMatcher<T> {
     }
 
     public static <T> EquivalenceMatcher<T> equivalentTo(final T expected) {
-        return new EquivalenceMatcher<T>(expected);
+        return new EquivalenceMatcher<>(expected);
     }
 
     public EquivalenceMatcher<T> ignoringFields(final String... fieldNames) {
         return new EquivalenceMatcher<>(expected, fieldNames);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean matches(final Object actual) {
         if (expected == actual) {

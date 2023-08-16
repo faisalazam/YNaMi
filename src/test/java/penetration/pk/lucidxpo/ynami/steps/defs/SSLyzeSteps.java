@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsIterableContaining.hasItem;
 import static penetration.pk.lucidxpo.ynami.featureworld.ScenariosAwareWorld.getInstance;
 
 public class SSLyzeSteps implements En {
