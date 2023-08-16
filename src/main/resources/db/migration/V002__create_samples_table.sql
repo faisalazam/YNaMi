@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS ${schema_name}.`Sample`
+CREATE TABLE IF NOT EXISTS `${schema_name}`.`Sample`
 (
     `id`        VARCHAR(50) NOT NULL,
     `active`    BIT(1)       DEFAULT NULL,
