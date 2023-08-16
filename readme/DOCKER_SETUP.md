@@ -6,7 +6,7 @@ You don’t have MySQL installed to test this example? No problem, one option is
 ### Pull the MySQL Docker Image
 
 ```
-docker pull mysql:8.1.0
+docker pull mysql:8.0
 ```
 
 ### Run the MySQL Docker
@@ -18,13 +18,13 @@ docker run -d -p 3306:3306 \
     -e MYSQL_USER=crazy \
     -e MYSQL_PASSWORD=crazy \
     -e MYSQL_ROOT_PASSWORD=root \
-    mysql:8.1.0
+    mysql:8.0
 ```
 
-By the way, if you didn't pull the docker image explicitly by running the `docker pull mysql:8.1.0` command, nothing
+By the way, if you didn't pull the docker image explicitly by running the `docker pull mysql:8.0` command, nothing
 to worry about as the `docker run` command will pull the image if it's not found locally.
 
-* `docker run` command first creates a writeable container layer over the specified image i.e. `mysql:8.1.0`
+* `docker run` command first creates a writeable container layer over the specified image i.e. `mysql:8.0`
    and then starts it using the specified command.
 * `-d` prints the container ID and runs the container in the background.
 * `-p` publishes/exposes a container’s port(s) to the host.
