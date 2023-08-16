@@ -83,7 +83,7 @@ public class MigrationTestHelper {
                         + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
                         + "AND IS_NULLABLE = '" + (nullable ? "YES" : "NO") + "' "
                         + "AND upper(DATA_TYPE) = '" + dataType.toUpperCase() + "' "
-                        + "AND " + getSizeColumnName(dataType) + " = '" + Integer.toString(size) + "'"
+                        + "AND " + getSizeColumnName(dataType) + " = '" + size + "'"
                 , Integer.class
         ) > 0;
     }
@@ -126,7 +126,7 @@ public class MigrationTestHelper {
     private static void executeScripts(MultiSqlExecutor template, List<MigrationScript> migrationScripts) {
         for (final MigrationScript migrationScript : migrationScripts) {
             System.out.println("==============  Executing migration script " + migrationScript.getFileName() + " ============");
-            final String sqlQuery = migrationScript.getContent();
+            final String sqlQuery = migrationScript.getContent().replaceAll(SCHEMA_NAME_PLACEHOLDER_REGEX, SCHEMA_NAME);
             template.execute(sqlQuery);
             System.out.println("==============  Finished Executing migration script " + migrationScript.getFileName() + " ============");
         }

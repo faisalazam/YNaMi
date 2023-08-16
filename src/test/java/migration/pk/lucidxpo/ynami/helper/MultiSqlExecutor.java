@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcOperations;
 import java.util.List;
 import java.util.Map;
 
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME_PLACEHOLDER_REGEX;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class MultiSqlExecutor {
@@ -18,7 +20,8 @@ public class MultiSqlExecutor {
 
     public void execute(final String multiSql) {
         final String[] sqlStatements = multiSql.split(DELIMITER);
-        for (final String sql : sqlStatements) {
+        for (String sql : sqlStatements) {
+            sql = sql.replaceAll(SCHEMA_NAME_PLACEHOLDER_REGEX, SCHEMA_NAME);
             if (sql.contains("--//@UNDO")) break;
             if (isNotBlank(sql)) {
                 template.execute(sql);
