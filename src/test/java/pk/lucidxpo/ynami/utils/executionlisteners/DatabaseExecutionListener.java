@@ -19,12 +19,13 @@ public class DatabaseExecutionListener implements TestExecutionListener {
     private static final String FLYWAY_SCHEMA_HISTORY = "flyway_schema_history";
 
     @Override
-    public void beforeTestClass(final TestContext testContext) throws Exception {
+    public void beforeTestClass(@SuppressWarnings("NullableProblems") final TestContext testContext) throws Exception {
         cleanDBData(testContext);
     }
 
     @Override
-    public void afterTestMethod(final TestContext testContext) throws MetaDataAccessException, SQLException {
+    public void afterTestMethod(@SuppressWarnings("NullableProblems") final TestContext testContext)
+            throws MetaDataAccessException, SQLException {
         cleanDBData(testContext);
     }
 
@@ -34,9 +35,14 @@ public class DatabaseExecutionListener implements TestExecutionListener {
         cleanDBData(dataSource, jdbcTemplate);
     }
 
-    private void cleanDBData(final DataSource dataSource, final JdbcTemplate jdbcTemplate) throws MetaDataAccessException, SQLException {
-        final DatabaseMetaDataCallback action = databaseMetaData -> databaseMetaData.getTables(null, null, null, new String[]{"TABLE"});
-        final ResultSet resultSet = (ResultSet) extractDatabaseMetaData(dataSource, action);
+    private void cleanDBData(final DataSource dataSource,
+                             final JdbcTemplate jdbcTemplate) throws MetaDataAccessException, SQLException {
+        final DatabaseMetaDataCallback<ResultSet> action = databaseMetaData -> databaseMetaData.getTables(null,
+                null,
+                null,
+                new String[]{"TABLE"}
+        );
+        final ResultSet resultSet = extractDatabaseMetaData(dataSource, action);
         jdbcTemplate.batchUpdate(getStrings(resultSet).toArray(new String[]{}));
     }
 

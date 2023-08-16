@@ -19,7 +19,6 @@ import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 import java.util.List;
 
 import static it.pk.lucidxpo.ynami.AbstractIntegrationTest.ADMIN_USER;
-import static java.lang.Long.valueOf;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -103,7 +102,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturn404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        mockMvc.perform(get("/samples/{id}/view", valueOf(randomInt())))
+        mockMvc.perform(get("/samples/{id}/view", (long) randomInt()))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("sample/viewSample"))
                 .andExpect(model().attributeDoesNotExist("sample"));
@@ -141,7 +140,12 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/samples"))
                 .andReturn();
-        final Sample createdSample = sampleRepository.findOne(of(modelMapper.map(sampleCreationDTO, Sample.class), matching().withIgnorePaths("id").withIgnoreNullValues())).get();
+        final Sample createdSample = sampleRepository.findOne(
+                of(
+                        modelMapper.map(sampleCreationDTO, Sample.class),
+                        matching().withIgnorePaths("id").withIgnoreNullValues()
+                )
+        ).get();
         assertAll(
                 () -> assertEquals(sampleCreationDTO.isActive(), createdSample.isActive()),
                 () -> assertEquals(sampleCreationDTO.getAddress(), createdSample.getAddress()),
@@ -187,7 +191,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldNotPrepareExistingSampleUpdationAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
-        mockMvc.perform(get("/samples/{id}", valueOf(randomInt())))
+        mockMvc.perform(get("/samples/{id}", (long) randomInt()))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("sample/editSample"))
                 .andExpect(model().attributeDoesNotExist("sample"))
@@ -231,7 +235,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
         final SampleUpdationDTO sampleUpdationDTO = SampleUpdationDTO.builder().build();
 
         mockMvc.perform(
-                        put("/samples/{id}", valueOf(randomInt()))
+                        put("/samples/{id}", (long) randomInt())
                                 .with(csrf())
                                 .flashAttr("sample", sampleUpdationDTO)
                 )
@@ -300,7 +304,7 @@ class SampleControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldNotDeleteAndReturnWith404NotFoundWhenSampleWithProvidedIdIsNotFound() throws Exception {
         mockMvc.perform(
-                        delete("/samples/{id}", valueOf(randomInt()))
+                        delete("/samples/{id}", (long) randomInt())
                                 .with(csrf())
                 )
                 .andExpect(status().isNotFound())

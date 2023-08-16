@@ -293,7 +293,7 @@ class EntityArchiveTableTest {
                 + "FROM INFORMATION_SCHEMA.COLUMNS "
                 + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
                 + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' ";
-        return executor.getTemplate().query(querySQL, null, new int[]{}, (rs, rowNum) -> new DBTableColumnMetaData(
+        return executor.getTemplate().query(querySQL, null, null, (rs, rowNum) -> new DBTableColumnMetaData(
                 rs.getString("TABLE_NAME"),
                 rs.getString("COLUMN_NAME"),
                 rs.getString("DATA_TYPE"),
