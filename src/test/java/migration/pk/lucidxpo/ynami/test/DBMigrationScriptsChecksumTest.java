@@ -73,9 +73,9 @@ class DBMigrationScriptsChecksumTest {
             fail(
                     "\n*****************************************************************************************\n"
                             + "New DB migration/s has/ve been added. The following line/s MUST be added to checksums.txt\n"
-                            + missedChecksums
+                            + "\n" + missedChecksums + "\n"
                             + "*****************************************************************************************\n"
-                            + "You MUST add the new checksum/s value/s to the checksums.txt file"
+                            + "You MUST add the new checksum/s value/s to the checksums.txt file\n"
                             + "*****************************************************************************************\n"
             );
         }
