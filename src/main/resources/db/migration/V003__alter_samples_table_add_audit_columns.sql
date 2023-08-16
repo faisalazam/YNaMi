@@ -1,7 +1,7 @@
 ALTER TABLE `${schema_name}`.`Sample`
     ADD (
         `createdBy` VARCHAR(255) NOT NULL DEFAULT '',
-        `createdDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `createdDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         `lastModifiedBy` VARCHAR(255) NOT NULL DEFAULT '',
         `lastModifiedDate` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
         );

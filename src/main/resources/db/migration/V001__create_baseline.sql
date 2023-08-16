@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Users`
     `email`            VARCHAR(40)  NOT NULL,
     `password`         VARCHAR(100) NOT NULL,
     `createdBy`        VARCHAR(255) NOT NULL,
-    `createdDate`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `createdDate`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `lastModifiedBy`   VARCHAR(255) NOT NULL,
-    `lastModifiedDate` TIMESTAMP(6)          DEFAULT NULL,
+    `lastModifiedDate` TIMESTAMP             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_USERS_USERNAME` (`username`),
     UNIQUE KEY `UK_USERS_EMAIL` (`email`)
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Roles`
     `id`               VARCHAR(50)  NOT NULL,
     `name`             VARCHAR(60)  NOT NULL,
     `createdBy`        VARCHAR(255) NOT NULL,
-    `createdDate`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `createdDate`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `lastModifiedBy`   VARCHAR(255) NOT NULL,
-    `lastModifiedDate` TIMESTAMP(6)          DEFAULT NULL,
+    `lastModifiedDate` TIMESTAMP             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_ROLES_NAME` (`name`)
 ) ENGINE = InnoDB
