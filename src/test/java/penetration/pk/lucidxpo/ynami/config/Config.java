@@ -1,7 +1,10 @@
 package penetration.pk.lucidxpo.ynami.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration2.XMLConfiguration;
+import org.apache.commons.configuration2.builder.BasicConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.io.FileHandler;
 import penetration.pk.lucidxpo.ynami.exceptions.ConfigurationException;
 import penetration.pk.lucidxpo.ynami.model.Credentials;
 import penetration.pk.lucidxpo.ynami.model.User;
@@ -19,7 +22,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.String.join;
 import static java.lang.System.getenv;
 import static java.lang.System.out;
-import static java.util.stream.Collectors.toList;
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
@@ -42,11 +45,10 @@ public class Config {
     private static final int DEFAULT_INSECURE_PORT = 80;
     private static final String PEN_TEST_CONFIG_XML_PATH = "src/test/java/penetration/pk/lucidxpo/ynami/config/config.xml";
 
-    @SuppressWarnings("unchecked")
     public Application createApp() {
         final Object app;
         try {
-            final Class appClass = forName(getInstance().getClassName());
+            final Class<?> appClass = forName(getInstance().getClassName());
             app = appClass.getDeclaredConstructor().newInstance();
             return (Application) app;
         } catch (final Exception e) {
@@ -76,16 +78,19 @@ public class Config {
     public List<String> getIgnoreUrls() {
         final List<String> ignoreUrls = newArrayList();
         getXml().configurationsAt("scanner.ignoreUrl").forEach(ignoreUrl -> {
-            ignoreUrls.add(ignoreUrl.getRoot().getValue().toString());
+            // TODO Upgrade: fix and uncomment me
+//            ignoreUrls.add(ignoreUrl.getRoot().getValue().toString());
             out.println(ignoreUrl);
         });
         return ignoreUrls;
     }
 
     public List<String> getSpiderUrls() {
-        return getXml().configurationsAt("scanner.spiderUrl").stream()
-                .map(ignoreUrl -> ignoreUrl.getRoot().getValue().toString())
-                .collect(toList());
+        // TODO Upgrade: fix and uncomment me instead of returning emptyList()
+        return emptyList();
+//        getXml().configurationsAt("scanner.spiderUrl").stream()
+//                .map(ignoreUrl -> ignoreUrl.getRoot().getValue().toString())
+//                .collect(toList());
     }
 
     public int getMaxDepth() {
@@ -185,7 +190,7 @@ public class Config {
 
     public int getUpstreamProxyPort() {
         final String portAsString = validateAndGetString("upstreamProxy.port");
-        if (portAsString != null && portAsString.length() > 0) {
+        if (portAsString.length() > 0) {
             return parseInt(portAsString);
         }
         return DEFAULT_INSECURE_PORT;
@@ -197,7 +202,7 @@ public class Config {
 
     public int getSslPort() {
         final String portAsString = validateAndGetString("sslyze.targetPort");
-        if (portAsString != null && portAsString.length() > 0) {
+        if (portAsString.length() > 0) {
             return parseInt(portAsString);
         }
         return DEFAULT_SECURE_PORT;
@@ -255,9 +260,34 @@ public class Config {
     @SuppressWarnings("SameParameterValue")
     private void loadConfig(final String file) {
         try {
-            xml = new XMLConfiguration();
-            xml.load(file);
-        } catch (final ConfigurationException | org.apache.commons.configuration.ConfigurationException cex) {
+            // TODO Upgrade: see which of the following solutions work?
+            // This issue is coming due to the upgrade/replacement of commons-configuration » commons-configuration
+            // with org.apache.commons » commons-configuration2
+            // solution 1
+//            final URL url = this.getClass().getResource(file);
+//            xml = new XMLConfiguration();
+//            assert url != null;
+//            xml.read(url.openStream());
+
+            // solution 2
+            xml = new BasicConfigurationBuilder<>(XMLConfiguration.class)
+                    .configure(new Parameters().xml())
+//            xml = new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
+//                    .configure(new Parameters().fileBased().setFileName(file))
+                    .getConfiguration();
+            final FileHandler fileHandler = new FileHandler(xml);
+            fileHandler.load(file);
+
+
+            // solution 3
+//            Parameters params = new Parameters();
+//            FileBasedConfigurationBuilder<XMLConfiguration> fileBuilder =
+//                    new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
+//                            .configure(params.fileBased().setFileName("/tmp/dummy.xml"));`
+//
+//            XMLConfiguration xmlConfiguration = fileBuilder.getConfiguration();
+//            xmlConfiguration.read(inputStream);
+        } catch (final ConfigurationException | org.apache.commons.configuration2.ex.ConfigurationException cex) {
             cex.printStackTrace();
         }
     }

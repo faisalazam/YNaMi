@@ -53,7 +53,7 @@
         <flyway-core.version>9.21.0</flyway-core.version>
         <maven.site.version>4.0.0-M9</maven.site.version>
         <font.awesome.version>5.2.0</font.awesome.version>
-        <fluentlenium.version>3.6.1</fluentlenium.version>
+        <fluentlenium.version>5.0.4</fluentlenium.version>
         <commons.lang.version>3.12.0</commons.lang.version>
         <flyway-mysql.version>9.21.0</flyway-mysql.version>
         <zap.clientapi.version>1.2.0</zap.clientapi.version>
@@ -67,8 +67,8 @@
         <fasterxml.jackson.version>2.9.6</fasterxml.jackson.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
         <cucumber.reporting.version>5.7.6</cucumber.reporting.version>
-        <commons.configuration.version>1.8</commons.configuration.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <commons-configuration2.version>2.9.0</commons-configuration2.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
         <junit.platform.surefire.provider.version>1.3.2</junit.platform.surefire.provider.version>
@@ -302,47 +302,11 @@
             <version>${podam.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- TODO: Spring Upgrade - I think the next 2 dependencies can be replaced with WebDriverManager...-->
+        <!-- TODO: Spring Upgrade - see if anything can be replaced with WebDriverManager...-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
+            <artifactId>htmlunit-driver</artifactId>
             <version>${selenium.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- TODO: Spring Upgrade - uncomment the next one and comment the previous 2 dependencies? ...-->
-        <!-- <dependency>-->
-        <!--     <groupId>org.seleniumhq.selenium</groupId>-->
-        <!--     <artifactId>selenium-java</artifactId>-->
-        <!--     <version>${selenium.version}</version>-->
-        <!-- </dependency>-->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-common</artifactId>
-            <version>${selenium-common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fluentlenium</groupId>
-            <artifactId>fluentlenium-junit-jupiter</artifactId>
-            <version>${fluentlenium.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -352,6 +316,57 @@
                 <exclusion>
                     <groupId>commons-io</groupId>
                     <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-common</artifactId>
+            <version>${selenium-common.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fluentlenium</groupId>
+            <artifactId>fluentlenium-junit-jupiter</artifactId>
+            <version>${fluentlenium.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-text</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-utils</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -434,9 +449,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>${commons.configuration.version}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <version>${commons-configuration2.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
