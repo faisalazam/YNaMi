@@ -473,6 +473,72 @@ latest `2.0b1` version in the [pom.xml](../pom.xml) file.
 
 <blockquote>
 <details>
+    <summary><strong>Click to see details of `UnsatisfiedDependencyException: no implementation could be found`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean spring-boot:run` started failing with errors such
+as `UnsatisfiedDependencyException: no implementation could be found`.
+
+After all these different dependencies upgrades, `mvn clean spring-boot:run` started failing with errors such as
+`UnsatisfiedDependencyException: no implementation could be found` after enabling `Togglz`, i.e. setting
+the `config.togglz.enabled` property to `true` in the
+[application.properties](../src/main/resources/application.properties) file.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```exception
+17-08-2023 20:44:30.180 [restartedMain] ERROR org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup - 
+Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. 
+Message: Error creating bean with name 'org.togglz.spring.boot.actuate.autoconfigure.TogglzAutoConfiguration$TogglzConsoleConfiguration': 
+Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 
+'togglz-org.togglz.spring.boot.actuate.autoconfigure.TogglzProperties': Could not bind properties to 
+'TogglzProperties' : prefix=togglz, ignoreInvalidFields=false, ignoreUnknownFields=true
+
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Bean Validation API is on the classpath but no implementation could be found
+
+Action:
+
+Add an implementation, such as Hibernate Validator, to the classpath
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+As the Bean Validation API (i.e. `jakarta.validation-api`) dependency is available on the classpath,
+so there should be corresponding implementation for this `jakarta.validation-api`, otherwise, we'll end up with error
+like shown above.
+
+So the fix for this problem in my setup/environment was just to add the `hibernate-validator` maven dependencies with
+latest `8.0.1.Final` version in the [pom.xml](../pom.xml) file.
+
+```xml
+
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>${hibernate-validator.version}</version>
+</dependency>
+```
+
+</details>
+</blockquote>
+
+
+
+<blockquote>
+<details>
     <summary><strong>Click to see details of `Unsupported Database: MySQL`</strong></summary>
 
 ### Unresolved dependency

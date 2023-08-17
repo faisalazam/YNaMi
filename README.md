@@ -9,6 +9,18 @@ if running this application from IDE:
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
 
+### Setting up Data Sources in IntelliJ
+
+[Click here for the details](readme/datasources-readme.md)
+
+### Docker Setup (MySQL etc.)
+
+[Click here for the details](readme/DOCKER_SETUP.md)
+
+### Flyway - Database Migrations
+
+[Click here for the details](readme/FLYWAY.md)
+
 ### Issues faced during the JAVA upgrade
 
 [Click here for the details](readme/upgrade-to-java20-readme.md)
@@ -16,7 +28,6 @@ if running this application from IDE:
 ### Issues faced during the SpringBoot upgrade
 
 [Click here for the details](readme/upgrade-springboot-to-3.1.2-readme.md)
-
 
 #### Checksums for SQL files
 
@@ -37,5 +48,5 @@ You MUST add the new checksum/s value/s to the checksums.txt file
 *****************************************************************************************
 ```
 
-Copy the file name along with the checksum from that output and add it to the end of the 
+Copy the file name along with the checksum from that output and add it to the end of the
 [checksums.txt](src/main/resources/db/migration/checksums.txt) file.

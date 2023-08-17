@@ -1,4 +1,5 @@
 togglz:
+  # noinspection SpringBootApplicationYaml
   enabled: ${config.togglz.enabled}
   table:
     name: FeatureToggles
@@ -13,24 +14,24 @@ togglz:
     WEB_SECURITY:
       enabled: false
       label: Enable/disable Web Security
-      group: Config
+      groups: Config
     CONTROLLER_EXECUTION:
       enabled: true
       label: Make Controller executable
-      group: Sample
+      groups: Sample
     METHOD_EXECUTION:
       enabled: true
       label: Make Method executable
-      group: Sample
+      groups: Sample
     CONDITIONAL_STATEMENTS_EXECUTION:
       enabled: true
       label: Make Statement executable
-      group: Sample
+      groups: Sample
     MAKE_COFFEE:
       enabled: true
       label: Making a cup of coffee
-      group: Brewing
+      groups: Brewing
     MAKE_TEA:
       enabled: true
       label: Making a cup of tea
-      group: Brewing
+      groups: Brewing

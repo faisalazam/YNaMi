@@ -69,6 +69,7 @@
         <cucumber.reporting.version>5.7.6</cucumber.reporting.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <commons-configuration2.version>2.9.0</commons-configuration2.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
         <junit.platform.surefire.provider.version>1.3.2</junit.platform.surefire.provider.version>
@@ -188,6 +189,16 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation-api.version}</version>
+        </dependency>
+
+        <!-- As the Bean Validation API (i.e. 'jakarta.validation-api') dependency is available on the classpath,
+             so there should be corresponding implementation for this API, otherwise, we'll end with error like below:
+             "The Bean Validation API is on the classpath but no implementation could be found",
+              hence, adding the 'hibernate-validator' as its implementation -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <!-- Utilities -->
