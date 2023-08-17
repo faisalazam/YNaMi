@@ -23,8 +23,10 @@ public class CucumberReportsGenerator {
 
         final Configuration configuration = new Configuration(reportOutputDirectory, projectName);
         configuration.setBuildNumber(buildNumber);
-        configuration.setRunWithJenkins(runWithJenkins);
-        configuration.setParallelTesting(parallelTesting);
+        // TODO fixed dependencies conflicts -> net.masterthought:cucumber-reporting:5.7.6 got upgraded and
+        // facing below issues. Fix and Uncomment me
+//        configuration.setRunWithJenkins(runWithJenkins);
+//        configuration.setParallelTesting(parallelTesting);
 
         final List<String> jsonFiles = newArrayList(cucumberJsonReportPath);
         final ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);

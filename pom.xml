@@ -34,28 +34,28 @@
         <maven.compiler.release>20</maven.compiler.release>
 
         <harlib.version>1.1.2</harlib.version>
-        <guava.version>26.0-jre</guava.version>
         <lombok.version>1.18.28</lombok.version>
         <jquery.version>3.3.1-1</jquery.version>
+        <guava.version>32.1.2-jre</guava.version>
         <xstream.version>1.4.10</xstream.version>
         <jaxb.api.version>2.3.1</jaxb.api.version>
         <cucumber.version>7.13.0</cucumber.version>
         <selenium.version>4.11.0</selenium.version>
-        <podam.version>7.2.0.RELEASE</podam.version>
+        <podam.version>8.0.0.RELEASE</podam.version>
         <togglz.version>2.6.1.Final</togglz.version>
 <!--        <selenium-htmlunit.version>4.11.0</selenium-htmlunit.version>-->
-        <commons.io.version>2.6</commons.io.version>
         <diffutils.version>1.2.1</diffutils.version>
         <joda-time.version>2.12.5</joda-time.version>
         <maven.pmd.version>3.10.0</maven.pmd.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
+        <commons.io.version>2.13.0</commons.io.version>
         <modelmapper.version>2.3.1</modelmapper.version>
-        <commons.lang.version>3.7</commons.lang.version>
         <flyway-core.version>9.21.0</flyway-core.version>
-        <flyway-mysql.version>9.21.0</flyway-mysql.version>
         <maven.site.version>4.0.0-M9</maven.site.version>
         <font.awesome.version>5.2.0</font.awesome.version>
         <fluentlenium.version>3.6.1</fluentlenium.version>
+        <commons.lang.version>3.12.0</commons.lang.version>
+        <flyway-mysql.version>9.21.0</flyway-mysql.version>
         <zap.clientapi.version>1.2.0</zap.clientapi.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
         <selenium-common.version>2.0b1</selenium-common.version>
@@ -66,15 +66,13 @@
         <maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
         <fasterxml.jackson.version>2.9.6</fasterxml.jackson.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
-        <cucumber.reporting.version>1.4.0</cucumber.reporting.version>
-        <!--<cucumber.reporting.version>3.20.0</cucumber.reporting.version>-->
+        <cucumber.reporting.version>5.7.6</cucumber.reporting.version>
         <commons.configuration.version>1.8</commons.configuration.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <mockito.junit.jupiter.version>2.21.0</mockito.junit.jupiter.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
+        <junit.platform.surefire.provider.version>1.3.2</junit.platform.surefire.provider.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
-        <junit.platform.surefire.provider.version>1.3.0-RC1</junit.platform.surefire.provider.version>
 	</properties>
 
 	<dependencies>
@@ -129,6 +127,12 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
             <version>${flyway-mysql.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Actuator, helps with monitoring our app, gathering metrics, understanding traffic or the state of database  -->
@@ -252,16 +256,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
             <version>${junit.platform.surefire.provider.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apiguardian</groupId>
+                    <artifactId>apiguardian-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -279,6 +283,12 @@
             <artifactId>reflections</artifactId>
             <version>${org.reflections.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>uk.co.jemos.podam</groupId>
@@ -292,12 +302,24 @@
             <artifactId>selenium-chrome-driver</artifactId>
             <version>${selenium.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
             <version>${selenium.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- TODO: Spring Upgrade - uncomment the next one and comment the previous 2 dependencies? ...-->
         <!-- <dependency>-->
@@ -316,6 +338,16 @@
             <artifactId>fluentlenium-junit-jupiter</artifactId>
             <version>${fluentlenium.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.fluentlenium</groupId>
@@ -377,6 +409,22 @@
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-time</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-configuration</groupId>
+                    <artifactId>commons-configuration</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -414,6 +462,12 @@
             <artifactId>jersey-hk2</artifactId>
             <version>${glassfish.jersey.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
