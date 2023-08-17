@@ -2,6 +2,7 @@ package acceptance.pk.lucidxpo.ynami.config.cucumber;
 
 import acceptance.pk.lucidxpo.ynami.TestApplication;
 import io.cucumber.java.Before;
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
+@SuppressWarnings("NewClassNamingConvention")
+//@Profile("at")
 @ExtendWith(SpringExtension.class)
+@CucumberContextConfiguration
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @SpringBootTest(classes = CucumberTestCaseContext.class, webEnvironment = DEFINED_PORT)
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)

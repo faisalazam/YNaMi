@@ -9,6 +9,7 @@ public abstract class AbstractSteps extends FluentCucumberTest {
     @LocalServerPort
     protected int port;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     protected WebDriver webDriver;
 }
