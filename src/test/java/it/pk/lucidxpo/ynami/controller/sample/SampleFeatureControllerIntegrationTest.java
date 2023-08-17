@@ -1,10 +1,10 @@
 package it.pk.lucidxpo.ynami.controller.sample;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.web.util.NestedServletException;
 import org.thymeleaf.exceptions.TemplateInputException;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
@@ -39,7 +39,7 @@ class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
                     "as empty string for template name is returned " +
                     "because method execution is not allowed due to feature being disabled");
         } catch (Exception e) {
-            assertThat(e, instanceOf(NestedServletException.class));
+            assertThat(e, instanceOf(ServletException.class));
             assertThat(e.getCause(), instanceOf(TemplateInputException.class));
         }
     }
@@ -104,7 +104,7 @@ class SampleFeatureControllerIntegrationTest extends AbstractIntegrationTest {
             fail("TemplateInputException should have been thrown, " +
                     "because method execution is not allowed due to Togglz profile being inactive");
         } catch (Exception e) {
-            assertThat(e, instanceOf(NestedServletException.class));
+            assertThat(e, instanceOf(ServletException.class));
             assertThat(e.getCause(), instanceOf(TemplateInputException.class));
         }
     }

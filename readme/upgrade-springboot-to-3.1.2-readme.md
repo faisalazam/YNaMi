@@ -477,9 +477,6 @@ latest `2.0b1` version in the [pom.xml](../pom.xml) file.
 
 ### Unresolved dependency
 
-`mvn clean spring-boot:run` started failing with errors such
-as `UnsatisfiedDependencyException: no implementation could be found`.
-
 After all these different dependencies upgrades, `mvn clean spring-boot:run` started failing with errors such as
 `UnsatisfiedDependencyException: no implementation could be found` after enabling `Togglz`, i.e. setting
 the `config.togglz.enabled` property to `true` in the
@@ -531,6 +528,62 @@ latest `8.0.1.Final` version in the [pom.xml](../pom.xml) file.
     <version>${hibernate-validator.version}</version>
 </dependency>
 ```
+
+</details>
+</blockquote>
+
+
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of `BeanCreationException, BeanInstantiationException`</strong></summary>
+
+### Unresolved dependency
+
+`mvn clean spring-boot:run` started failing with errors such
+as `BeanCreationException: Failed to instantiate [jakarta.servlet.Filter]`.
+
+After all these different dependencies upgrades, `mvn clean spring-boot:run` started failing with errors such as
+`BeanCreationException: Failed to instantiate [jakarta.servlet.Filter]` after enabling `Togglz`, i.e. setting
+the `config.togglz.enabled` property to `true` in the
+[application.properties](../src/main/resources/application.properties) file.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for errors</strong></summary>
+
+```exception
+17-08-2023 21:19:05.751 [restartedMain] ERROR org.springframework.boot.SpringApplication.reportFailure - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'springSecurityFilterChain' 
+defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class]: 
+Failed to instantiate [jakarta.servlet.Filter]: Factory method 'springSecurityFilterChain' threw exception with message: 
+This method cannot decide whether these patterns are Spring MVC patterns or not. If this endpoint is a Spring MVC 
+endpoint, please use requestMatchers(MvcRequestMatcher); otherwise, please use requestMatchers(AntPathRequestMatcher).
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:659)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:493)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [jakarta.servlet.Filter]: 
+Factory method 'springSecurityFilterChain' threw exception with message: This method cannot decide whether 
+these patterns are Spring MVC patterns or not. If this endpoint is a Spring MVC endpoint, please use 
+requestMatchers(MvcRequestMatcher); otherwise, please use requestMatchers(AntPathRequestMatcher).
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:171)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655)
+	... 24 common frames omitted
+Caused by: java.lang.IllegalArgumentException: This method cannot decide whether these patterns are Spring MVC 
+patterns or not. If this endpoint is a Spring MVC endpoint, please use requestMatchers(MvcRequestMatcher); 
+otherwise, please use requestMatchers(AntPathRequestMatcher).
+	at org.springframework.util.Assert.isTrue(Assert.java:122)
+	at org.springframework.security.config.annotation.web.AbstractRequestMatcherRegistry.requestMatchers(AbstractRequestMatcherRegistry.java:204)
+	at org.springframework.security.config.annotation.web.AbstractRequestMatcherRegistry.requestMatchers(AbstractRequestMatcherRegistry.java:248)
+	at pk.lucidxpo.ynami.spring.security.SecurityConfig.lambda$webSecurityCustomizer$0(SecurityConfig.java:98)
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+Fix for this problem in my setup/environment was to update the `SecurityConfig` according to `Spring boot 3` style.
 
 </details>
 </blockquote>

@@ -65,11 +65,14 @@ class TogglzEnabledConfigurationIntegrationTest extends AbstractIntegrationTest 
     void shouldVerifyThatTogglzAdminConsoleIsAccessibleWhenTogglzConsoleIsEnabledAndTogglzIsEnabled() throws Exception {
         mockMvc.perform(get(togglzConsolePath))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/vnd.spring-boot.actuator.v2+json;charset=UTF-8"))
+                .andExpect(content().contentType("application/vnd.spring-boot.actuator.v3+json"))
                 .andExpect(content().string(containsString(chooseOneOf(values()).name())));
     }
 
     private boolean isSpringSecurityLoaded() {
-        return null != invokeMethod(getClass().getClassLoader(), "findLoadedClass", "org.springframework.security.config.annotation.web.configuration.EnableWebSecurity");
+        return null != invokeMethod(getClass().getClassLoader(),
+                "findLoadedClass",
+                "org.springframework.security.config.annotation.web.configuration.EnableWebSecurity"
+        );
     }
 }
