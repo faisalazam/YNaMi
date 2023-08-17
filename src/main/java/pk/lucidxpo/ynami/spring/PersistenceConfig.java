@@ -36,7 +36,7 @@ public class PersistenceConfig {
     @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
     public FeatureProxyFactoryBeanWrapper proxiedAuditorAware() {
         final FeatureProxyFactoryBeanWrapper proxyFactoryBean = new FeatureProxyFactoryBeanWrapper();
-        proxyFactoryBean.setFeature(WEB_SECURITY.name());
+        proxyFactoryBean.setFeature(WEB_SECURITY);
         proxyFactoryBean.setProxyType(AuditorAware.class);
         proxyFactoryBean.setActive(springSecurityAuditorAware());
         proxyFactoryBean.setInactive(insecureAuditorAware());

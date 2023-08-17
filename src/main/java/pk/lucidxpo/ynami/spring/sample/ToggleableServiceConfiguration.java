@@ -32,7 +32,7 @@ public class ToggleableServiceConfiguration {
     @ConditionalOnProperty(name = "config.togglz.enabled", havingValue = "true")
     public FeatureProxyFactoryBeanWrapper proxiedToggleableService() {
         final FeatureProxyFactoryBeanWrapper proxyFactoryBean = new FeatureProxyFactoryBeanWrapper();
-        proxyFactoryBean.setFeature(TOGGLEABLE_SERVICE.name());
+        proxyFactoryBean.setFeature(TOGGLEABLE_SERVICE);
         proxyFactoryBean.setProxyType(ToggleableService.class);
         proxyFactoryBean.setActive(newToggleableService());
         proxyFactoryBean.setInactive(oldToggleableService());

@@ -34,6 +34,7 @@
         <maven.compiler.release>20</maven.compiler.release>
 
         <harlib.version>1.1.2</harlib.version>
+        <togglz.version>4.0.1</togglz.version>
         <lombok.version>1.18.28</lombok.version>
         <jquery.version>3.3.1-1</jquery.version>
         <guava.version>32.1.2-jre</guava.version>
@@ -42,7 +43,6 @@
         <cucumber.version>7.13.0</cucumber.version>
         <selenium.version>4.11.0</selenium.version>
         <podam.version>8.0.0.RELEASE</podam.version>
-        <togglz.version>2.6.1.Final</togglz.version>
 <!--        <selenium-htmlunit.version>4.11.0</selenium-htmlunit.version>-->
         <diffutils.version>1.2.1</diffutils.version>
         <joda-time.version>2.12.5</joda-time.version>
@@ -160,6 +160,12 @@
             <groupId>org.togglz</groupId>
             <artifactId>togglz-console</artifactId>
             <version>${togglz.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 		<!-- hot swapping, disable cache for template, enable live reload -->
