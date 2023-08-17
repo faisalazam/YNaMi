@@ -1,6 +1,6 @@
 package penetration.pk.lucidxpo.ynami.config.cucumber;
 
-import cucumber.api.java.Before;
+import io.cucumber.java.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

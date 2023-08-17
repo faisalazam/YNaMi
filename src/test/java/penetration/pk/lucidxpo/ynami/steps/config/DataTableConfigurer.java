@@ -1,35 +1,16 @@
 package penetration.pk.lucidxpo.ynami.steps.config;
 
-import cucumber.api.TypeRegistry;
-import cucumber.api.TypeRegistryConfigurer;
-import io.cucumber.datatable.DataTableType;
+import io.cucumber.java8.En;
 import penetration.pk.lucidxpo.ynami.steps.domain.NessusFalsePositive;
 import penetration.pk.lucidxpo.ynami.steps.domain.ZAPFalsePositive;
 
-import java.util.Locale;
 import java.util.Map;
 
-import static java.util.Locale.ENGLISH;
-
-public class DataTableConfigurer implements TypeRegistryConfigurer {
-
-    @Override
-    public Locale locale() {
-        return ENGLISH;
-    }
-
-    @Override
-    public void configureTypeRegistry(final TypeRegistry registry) {
-        registry.defineDataTableType(
-                new DataTableType(
-                        ZAPFalsePositive.class, this::getZapFalsePositive
-                )
-        );
-        registry.defineDataTableType(
-                new DataTableType(
-                        NessusFalsePositive.class, this::getNessusFalsePositive
-                )
-        );
+public class DataTableConfigurer implements En {
+    // TODO Cucumber Upgrade: check if this new code works
+    public DataTableConfigurer() {
+        DataTableType(this::getZapFalsePositive);
+        DataTableType(this::getNessusFalsePositive);
     }
 
     private NessusFalsePositive getNessusFalsePositive(final Map<String, String> entry) {

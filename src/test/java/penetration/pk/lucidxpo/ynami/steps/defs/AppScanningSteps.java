@@ -1,7 +1,7 @@
 package penetration.pk.lucidxpo.ynami.steps.defs;
 
-import cucumber.api.java.en.When;
-import cucumber.api.java8.En;
+import io.cucumber.java.en.When;
+import io.cucumber.java8.En;
 import lombok.extern.slf4j.Slf4j;
 import net.continuumsecurity.proxy.ContextModifier;
 import net.continuumsecurity.proxy.Spider;

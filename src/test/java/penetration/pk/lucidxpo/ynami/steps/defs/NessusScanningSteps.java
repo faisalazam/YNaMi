@@ -1,9 +1,9 @@
 package penetration.pk.lucidxpo.ynami.steps.defs;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import cucumber.api.java8.En;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.cucumber.java8.En;
 import net.continuumsecurity.ReportClient;
 import net.continuumsecurity.ScanClient;
 import net.continuumsecurity.v5.model.Issue;

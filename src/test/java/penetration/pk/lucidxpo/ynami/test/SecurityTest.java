@@ -1,7 +1,7 @@
 package penetration.pk.lucidxpo.ynami.test;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
@@ -10,7 +10,7 @@ import penetration.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfiguratio
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static cucumber.api.SnippetType.CAMELCASE;
+import static io.cucumber.junit.CucumberOptions.SnippetType.CAMELCASE;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_CONTEXT_LOADER;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_STEPS_CONFIG_PACKAGE;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_STEP_DEFS_PACKAGE;
@@ -24,10 +24,11 @@ import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         snippets = CAMELCASE,
-        tags = {
-                "not @wip",
-                "not @slow"
-        },
+//        tags = {
+//                "not @wip",
+//                "not @slow"
+//        },
+        tags = "not @wip and not @slow",
         features = {
                 FEATURE_FILES_LOCATION
         },
