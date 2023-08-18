@@ -7,4 +7,4 @@
  \______||_| |_| \__  |  |_|   |_| \___/  \___)  |_||_||_| \____)    \__)  (___)  |_|   |_| \_||_||_||_||_||_|(__/
                 (____/
 
-                               ${Ansi.RED} :: Spring Boot${spring-boot.formatted-version} :: ${Ansi.DEFAULT}
+${AnsiStyle.BOLD} ${AnsiStyle.ITALIC} ${AnsiColor.GREEN} :: Spring Boot${spring-boot.formatted-version} :: ${Ansi.DEFAULT}

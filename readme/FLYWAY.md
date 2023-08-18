@@ -60,7 +60,7 @@ spring.flyway.locations=classpath:db/migration,classpath:db/callback
 ```
 
 Although it can be added to some existing properties file, but, we'll add it to a new 
-`application-flyway-callback.properties` and activate this new `flyway-callbacl` spring profile.
+`application-flyway-callback.properties` and activate this new `flyway-callback` spring profile.
 
 `flyway-callback` spring profile should be activated only when the `flyway` spring profile is also activated.
 

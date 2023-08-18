@@ -1,10 +1,30 @@
-# YNaMi
+<img alt="Why Not Me!!!" src="readme/assets/images/ynami-banner.png" title="YNaMi" width="100%"/>
+
+# Why Not Me!!! (YNaMi)
+
+Purpose of this awsomazing project is to have such a template which implements the best software development practices,
+and structures the software code in a manner that we can just use this template and start adding out classes in those
+locations.
+
+# Testing
+
+Talking about best practices and fear free software development, see how the test package looks like below:
+
+![test-package.png](readme/assets/images/test-package.png)
+
+It'll setup the following testing strategies:
+
+* Unit tests using [JUnit 5](https://junit.org/junit5/docs/current/user-guide/)
+* Integration tests
+* Database migration tests
+* Acceptance tests using [cucumber](https://cucumber.io/) and [Selenium](https://www.selenium.dev/)
+* Penetration tests using [Zed Attack Proxy (ZAP)](https://www.zaproxy.org/)
 
 #### Running tests from IDE
 
 I guess, since Java 17, we need to add the following to VM options in order to use reflection.
 
-[pom.xml](pom.xml) has already been updated accordingly, but don't forget to add the following to VM options
+Changes has already been accordingly in the [pom.xml](pom.xml) file, but don't forget to add the following to VM options
 if running this application from IDE:
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
