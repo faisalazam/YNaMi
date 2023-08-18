@@ -60,7 +60,8 @@ public class EndPointMappingsLister {
         final Pair<String, Object> modelAttribute = getModelAttribute(method);
 
         final PatternsRequestCondition patternsCondition = requestMappingInfo.getPatternsCondition();
-        assert patternsCondition != null;
+        assertNotNull(patternsCondition, "patternsCondition should not be null");
+
         final Set<String> patterns = patternsCondition.getPatterns();
         assertFalse(patterns.isEmpty());
 

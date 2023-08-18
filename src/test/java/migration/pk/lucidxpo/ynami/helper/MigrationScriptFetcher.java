@@ -11,6 +11,7 @@ import static java.lang.Integer.parseInt;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.sort;
 import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.util.CollectionUtils.arrayToList;
 
 public class MigrationScriptFetcher {
@@ -20,7 +21,7 @@ public class MigrationScriptFetcher {
     public MigrationScriptFetcher(final String scriptDirectoryPath) {
         final File scriptDirectory = new File(scriptDirectoryPath);
         files = scriptDirectory.listFiles(new NoChecksumFileFilter());
-        assert files != null;
+        assertNotNull(files, "files should not be null");
         sort(files, new FileNameComparator());
     }
 
