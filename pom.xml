@@ -52,7 +52,7 @@
         <modelmapper.version>2.3.1</modelmapper.version>
         <flyway-core.version>9.21.0</flyway-core.version>
         <maven.site.version>4.0.0-M9</maven.site.version>
-        <font.awesome.version>5.2.0</font.awesome.version>
+        <font.awesome.version>6.4.2</font.awesome.version>
         <fluentlenium.version>5.0.4</fluentlenium.version>
         <commons.lang.version>3.12.0</commons.lang.version>
         <flyway-mysql.version>9.21.0</flyway-mysql.version>
