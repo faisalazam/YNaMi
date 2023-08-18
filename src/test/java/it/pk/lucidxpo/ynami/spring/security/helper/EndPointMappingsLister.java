@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
 import java.lang.reflect.Method;
@@ -59,10 +59,10 @@ public class EndPointMappingsLister {
 
         final Pair<String, Object> modelAttribute = getModelAttribute(method);
 
-        final PatternsRequestCondition patternsCondition = requestMappingInfo.getPatternsCondition();
+        final PathPatternsRequestCondition patternsCondition = requestMappingInfo.getPathPatternsCondition();
         assertNotNull(patternsCondition, "patternsCondition should not be null");
 
-        final Set<String> patterns = patternsCondition.getPatterns();
+        final Set<String> patterns = patternsCondition.getPatternValues();
         assertFalse(patterns.isEmpty());
 
         return patterns.stream()
