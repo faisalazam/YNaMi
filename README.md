@@ -11,7 +11,7 @@ if running this application from IDE:
 
 ### Setting up Data Sources in IntelliJ
 
-[Click here for the details](readme/datasources-readme.md)
+[Click here for the details](readme/DATA_SOURCES.md)
 
 ### Docker Setup (MySQL etc.)
 
@@ -23,11 +23,11 @@ if running this application from IDE:
 
 ### Issues faced during the JAVA upgrade
 
-[Click here for the details](readme/upgrade-to-java20-readme.md)
+[Click here for the details](readme/UPGRADE_TO_JAVA20.md)
 
 ### Issues faced during the SpringBoot upgrade
 
-[Click here for the details](readme/upgrade-springboot-to-3.1.2-readme.md)
+[Click here for the details](readme/UPGRADE_SPRINGBOOT_TO_3_1_2.md)
 
 #### Checksums for SQL files
 
