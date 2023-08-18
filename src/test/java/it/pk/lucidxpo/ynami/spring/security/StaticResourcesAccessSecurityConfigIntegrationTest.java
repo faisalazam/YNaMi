@@ -54,7 +54,7 @@ class StaticResourcesAccessSecurityConfigIntegrationTest extends AbstractIntegra
                 "/webjars/font-awesome/6.4.2/css/fontawesome.css",
                 "/webjars/font-awesome/6.4.2/css/solid.css",
                 "/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css",
-                "/webjars/jquery/3.3.1-1/jquery.min.js",
+                "/webjars/jquery/3.7.0/jquery.min.js",
                 "/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"
         );
     }
