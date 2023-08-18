@@ -11,6 +11,7 @@ togglz:
     path: /actuator/togglz
     use-management-port: false
   features:
+    # Use comma separated list of group names for the 'groups' field
     WEB_SECURITY:
       enabled: false
       label: Enable/disable Web Security
@@ -30,7 +31,7 @@ togglz:
     MAKE_COFFEE:
       enabled: true
       label: Making a cup of coffee
-      groups: Brewing
+      groups: Sample, Brewing
     MAKE_TEA:
       enabled: true
       label: Making a cup of tea

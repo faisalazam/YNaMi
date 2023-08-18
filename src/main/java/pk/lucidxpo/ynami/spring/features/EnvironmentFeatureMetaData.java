@@ -7,11 +7,12 @@ import org.togglz.core.metadata.FeatureMetaData;
 import org.togglz.core.metadata.SimpleFeatureGroup;
 import org.togglz.core.repository.FeatureState;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
+import static java.util.stream.Collectors.toSet;
 
 class EnvironmentFeatureMetaData implements FeatureMetaData {
     private static final String TOGGLZ_FEATURES = "togglz.features.";
@@ -31,18 +32,17 @@ class EnvironmentFeatureMetaData implements FeatureMetaData {
 
     @Override
     public FeatureState getDefaultFeatureState() {
-        boolean defaultEnabledState = environment.getProperty(TOGGLZ_FEATURES + feature.name() + ".enabled", Boolean.class, false);
+        final boolean defaultEnabledState = environment.getProperty(
+                TOGGLZ_FEATURES + feature.name() + ".enabled", Boolean.class, false
+        );
         return new FeatureState(feature, defaultEnabledState);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Set<FeatureGroup> getGroups() {
-        String group = environment.getProperty(TOGGLZ_FEATURES + feature.name() + ".group");
-        final HashSet<FeatureGroup> featureGroups = new HashSet<>();
-        if (group != null) {
-            featureGroups.add(new SimpleFeatureGroup(group));
-        }
-        return featureGroups;
+        final Set<String> groups = environment.getProperty(TOGGLZ_FEATURES + feature.name() + ".groups", Set.class);
+        return groups == null ? emptySet() : groups.stream().map(SimpleFeatureGroup::new).collect(toSet());
     }
 
     @Override
