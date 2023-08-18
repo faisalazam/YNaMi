@@ -45,9 +45,9 @@
         <podam.version>8.0.0.RELEASE</podam.version>
 <!--        <selenium-htmlunit.version>4.11.0</selenium-htmlunit.version>-->
         <diffutils.version>1.2.1</diffutils.version>
+        <bootstrap.version>5.3.1</bootstrap.version>
         <joda-time.version>2.12.5</joda-time.version>
         <maven.pmd.version>3.10.0</maven.pmd.version>
-        <bootstrap.version>3.3.7-1</bootstrap.version>
         <commons.io.version>2.13.0</commons.io.version>
         <modelmapper.version>2.3.1</modelmapper.version>
         <flyway-core.version>9.21.0</flyway-core.version>
