@@ -29,12 +29,12 @@
     <body class="bg-cyan">
         <div class="HolyGrail">
             <header class="HolyGrail-header">
-                <th:block th:replace="fragments/header :: header"/>
+                <th:block th:replace="~{fragments/header :: header}"/>
             </header>
 
             <div class="HolyGrail-body">
                 <nav class="HolyGrail-nav">
-                    <th:block th:replace="fragments/side-bar :: side-bar"/>
+                    <th:block th:replace="~{fragments/side-bar :: side-bar}"/>
                 </nav>
                 <main class="HolyGrail-content auto-scrollable">
                     <div class="vertical-center" >
@@ -47,7 +47,7 @@
                 </main>
             </div>
             <footer class="HolyGrail-footer">
-                <th:block th:replace="fragments/footer :: footer"/>
+                <th:block th:replace="~{fragments/footer :: footer}"/>
             </footer>
         </div>
 
