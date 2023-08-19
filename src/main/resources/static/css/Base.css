@@ -1,9 +1,10 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: fixed 50% 50%;
+    overflow: hidden;
     background-size: cover;
-    font: normal 14px/100% "Andale Mono", AndaleMono, monospace !important;
+    background: fixed 50% 50%;
+    font: normal 14px/100% "Lato", sans-serif, monospace !important;
     color: #fff !important;
     -webkit-font-smoothing: antialiased;
 }
