@@ -10,7 +10,6 @@ html, body {
 }
 
 .auto-scrollable {
-    height: 85vh;
     overflow: auto;
 }
 

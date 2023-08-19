@@ -1,8 +1,4 @@
 .HolyGrail-nav {
-    /* TODO: Setting the height here and in .auto-scrollable is not letting the sidebar
-        hide on small screen size when the hide button is clicked
-    */
-    height: 85vh;
     display: flex;
     /*min-width: 20%;*/
 }
