@@ -27,7 +27,4 @@ body {
 
 .HolyGrail .vertical-center {
     min-height: 100%;
-    display: flex;
-    flex: 1;
-    align-items: center;
 }
