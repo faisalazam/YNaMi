@@ -19,6 +19,11 @@ body {
     background-color: gray;
 }
 
+.HolyGrail-footer p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .HolyGrail .vertical-center {
     min-height: 100%;
     display: flex;
