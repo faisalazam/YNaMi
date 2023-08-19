@@ -1,4 +1,5 @@
 .HolyGrail-nav {
+    height: 85vh;
     display: flex;
     /*min-width: 20%;*/
 }
