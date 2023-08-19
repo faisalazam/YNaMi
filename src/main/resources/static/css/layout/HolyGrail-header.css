@@ -4,8 +4,13 @@
 }
 
 .HolyGrail-header .navbar-brand img {
-    float: left;
-    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+}
+
+.HolyGrail-header .navbar-brand span {
+    vertical-align: middle;
 }
 
 .HolyGrail-header .navbar-nav.navbar-right {

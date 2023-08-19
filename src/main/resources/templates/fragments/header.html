@@ -3,64 +3,67 @@
     <body>
         <th:block th:fragment="header">
             <div class="container-fluid">
-                <nav class="navbar navbar-inverse">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-4">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
                         <a class="navbar-brand" href="#">
-                            <img th:src="@{/img/logo.jpg}" alt="LucidXPO logo"/>
+                            <img th:src="@{/img/logo.jpg}"
+                                 alt="LucidXPO logo"
+                                 class="d-inline-block">
                             <span>LucidXPO</span>
                         </a>
-                    </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="navbar-collapse-4">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Products</a></li>
-                            <!--<li><a href="#">Regions</a></li>-->
-                            <li><a href="#">Clients</a></li>
-                            <li><a href="#">About</a></li>
-                            <li>
-                                <a class="btn btn-default btn-outline btn-circle"
-                                   data-toggle="collapse"
-                                   href="#nav-collapse4"
-                                   aria-expanded="false"
-                                   aria-controls="nav-collapse4">
-                                    Profile
-                                    <i class=""></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="collapse nav navbar-nav nav-collapse" role="search" id="nav-collapse4">
-                            <li><a href="#">Support</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <!--Profile image below...-->
-                                    <!--<img class="img-circle" src="https://image_url.jpg" th:alt="Welcome User" width="20" />-->
-                                    <span>Welcome Crazy</span>
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">My profile</a></li>
-                                    <li><a href="#">Favorited</a></li>
-                                    <li><a href="#">Settings</a></li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <form id="logout-form" autocomplete="off" th:action="@{/perform_logout}" th:method="post" style="display: none"></form>
-                                        <a href="" onclick="$('#logout-form').submit(); return false;">Logout</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
+                        <button class="navbar-toggler"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbar-collapse-4"
+                                aria-controls="navbar-collapse-4"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="navbar-collapse-4">
+                            <ul class="navbar-nav ms-md-auto gap-2">
+                                <li class="nav-item rounded">
+                                    <a class="nav-link active" aria-current="page" href="#">
+                                        <i class="bi fa-solid fa-house me-2"></i>
+                                        Home
+                                    </a>
+                                </li>
+                                <li class="nav-item rounded">
+                                    <a class="nav-link" href="#">
+                                        <i class="bi fa-solid fa-house me-2"></i>
+                                        Services
+                                    </a>
+                                </li>
+                                <li class="nav-item rounded">
+                                    <a class="nav-link" href="#">
+                                        <i class="bi fa-solid fa-house me-2"></i>
+                                        Products
+                                    </a>
+                                </li>
+                                <li class="nav-item rounded">
+                                    <a class="nav-link" href="#">
+                                        <i class="bi fa-solid fa-house me-2"></i>
+                                        Clients
+                                    </a>
+                                </li>
+                                <li class="nav-item rounded">
+                                    <a class="nav-link" href="#">
+                                        <i class="bi fa-solid fa-house me-2"></i>
+                                        About
+                                    </a>
+                                </li>
+                                <li class="nav-item rounded">
+                                    <a class="nav-link" href="#">
+                                        <i class="bi fa-solid fa-phone me-2"></i>
+                                        Contact
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </nav>
             </div>
         </th:block>
