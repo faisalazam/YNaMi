@@ -73,11 +73,89 @@
                                         Contact
                                     </a>
                                 </li>
+
+                        <li class="nav-item dropdown rounded">
+                            <a href="#"
+                               role="button"
+                               aria-expanded="false"
+                               id="userAccountDropdown"
+                               data-bs-toggle="dropdown"
+                               class="nav-link dropdown-toggle">
+                                <i class="bi fa-solid fa-house me-2"></i>
+                                Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                                aria-labelledby="userAccountDropdown">
+                                <li><a class="dropdown-item" href="#">My profile</a></li>
+                                <li><a class="dropdown-item" href="#">Favourites</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form id="logout-form"
+                                          autocomplete="off"
+                                          th:action="@{/perform_logout}"
+                                          th:method="post" style="display: none">
+                                    </form>
+                                    <a href="#"
+                                       class="dropdown-item"
+                                       onclick="$('#logout-form').submit(); return false;">
+                                        Logout
+                                    </a>
+                                </li>
                             </ul>
-                        </div>
-                    </div>
-                </nav>
+                        </li>
+                        <!--                                <li class="nav-item rounded">-->
+                        <!--                                    <a class="nav-link btn btn-default btn-outline btn-circle"-->
+                        <!--                                       href="#nav-collapse4"-->
+                        <!--                                       data-bs-toggle="collapse"-->
+                        <!--                                       aria-expanded="false"-->
+                        <!--                                       aria-controls="nav-collapse4">-->
+                        <!--                                        <i class="bi fa-solid fa-house me-2"></i>-->
+                        <!--                                        Profile-->
+                        <!--                                    </a>-->
+                        <!--                                </li>-->
+                    </ul>
+                    <!--                            <div class="collapse navbar-collapse" id="navbar-collapse-4">-->
+                    <!--                            <ul class="collapse navbar-collapse navbar-nav ms-md-auto gap-2" role="search" id="nav-collapse4">>-->
+                    <!--&lt;!&ndash;                            <ul class="collapse navbar-collapse nav navbar-nav nav-collapse" role="search" id="nav-collapse4">&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            <ul class="collapse navbar-collapse nav navbar-nav nav-collapse" role="search" id="nav-collapse4">&ndash;&gt;-->
+                    <!--                                <li class="nav-item rounded">-->
+                    <!--                                    <a class="nav-link" href="#">Support</a>-->
+                    <!--                                </li>-->
+                    <!--                                <li class="dropdown">-->
+                    <!--                                    <a href="#"-->
+                    <!--                                       id="crazyDropDown"-->
+                    <!--                                       class="nav-link dropdown-toggle"-->
+                    <!--                                       data-bs-toggle="dropdown"-->
+                    <!--                                       role="button"-->
+                    <!--                                       aria-expanded="false">-->
+                    <!--                                        &lt;!&ndash;Profile image below...&ndash;&gt;-->
+                    <!--                                        &lt;!&ndash;<img class="img-circle" src="https://image_url.jpg" th:alt="Welcome User" width="20" />&ndash;&gt;-->
+                    <!--                                        <span>Welcome Crazy</span>-->
+                    <!--                                        <span class="caret"></span>-->
+                    <!--                                    </a>-->
+                    <!--                                    <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="crazyDropDown">-->
+                    <!--                                        <li><a class="dropdown-item" href="#">My profile</a></li>-->
+                    <!--                                        <li><a class="dropdown-item" href="#">Favourites</a></li>-->
+                    <!--                                        <li><a class="dropdown-item" href="#">Settings</a></li>-->
+                    <!--                                        <li>-->
+                    <!--                                            <hr class="dropdown-divider">-->
+                    <!--                                        </li>-->
+                    <!--                                        <li>-->
+                    <!--                                            <form id="logout-form1" autocomplete="off" th:action="@{/perform_logout}"-->
+                    <!--                                                  th:method="post" style="display: none"></form>-->
+                    <!--                                            <a href=""-->
+                    <!--                                               onclick="$('#logout-form').submit(); return false;">Logout</a>-->
+                    <!--                                        </li>-->
+                    <!--                                    </ul>-->
+                    <!--                                </li>-->
+                    <!--                            </ul>-->
+                </div>
             </div>
-        </th:block>
-    </body>
+        </nav>
+    </div>
+</th:block>
+</body>
 </html>
