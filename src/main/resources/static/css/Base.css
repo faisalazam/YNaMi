@@ -8,6 +8,11 @@ html, body {
     -webkit-font-smoothing: antialiased;
 }
 
+.auto-scrollable {
+    height: 85vh;
+    overflow: auto;
+}
+
 a {
     text-decoration: underline;
 }
