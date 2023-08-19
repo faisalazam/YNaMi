@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -27,7 +28,8 @@
             </header>
 
             <div class="HolyGrail-body">
-                <nav class="HolyGrail-nav">
+                <nav id="collapsible-side-navbar"
+                     class="HolyGrail-nav collapse show navbar-collapse collapse-horizontal container-fluid">
                     <th:block th:replace="~{fragments/side-bar :: side-bar}"/>
                 </nav>
                 <main class="HolyGrail-content auto-scrollable">
