@@ -128,14 +128,14 @@ a:hover {
 }
 
 a {
-    transition-property: color, background-color;
     transition-duration: 1s;
     transition-timing-function: ease-out;
+    transition-property: color, background-color;
 }
 
 a:hover, a:focus {
     color: #333;
-    background-color: #fff;
-    border-radius: 18px;
+    border-radius: 10px;
+    background-color: #222;
     border: 1px solid #86c023;
 }

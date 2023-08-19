@@ -4,7 +4,7 @@ function SideBar() {
         $(".side-bar-toggle").click(function () {
             that.toggleSideBar(this,
                 'holyGrail-nav-container',
-                'fa-angle-double-left fa-angle-double-right');
+                'fa-arrow-circle-left fa-arrow-circle-right');
         });
         this.bindClickToMenuDropDowns();
     };
