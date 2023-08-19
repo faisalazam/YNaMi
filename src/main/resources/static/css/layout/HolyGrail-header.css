@@ -45,6 +45,10 @@
     width: 100%;
 }
 
+.navbar-nav .nav-item:hover {
+    background-color: rgba(180, 190, 203, 0.4);
+}
+
 .HolyGrail-header .navbar.navbar-default .nav-collapse {
     background-color: #f8f8f8;
 }

@@ -23,6 +23,13 @@
     display: block;
 }
 
+.holyGrail-nav-container a:hover, .holyGrail-nav-container a:focus {
+    color: bisque;
+    border-radius: 10px;
+    background-color: #222;
+    border: 1px solid #86c023;
+}
+
 .menu-container {
     display: none;
     padding-left: 25px;
