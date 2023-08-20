@@ -22,7 +22,7 @@ a:hover {
 
 .bg-cyan {
     background-size: cover;
-    background-image: url(../img/background.jpg);
+    background-image: url(../img/background-buildings.jpg);
 }
 
 .body {
@@ -45,6 +45,26 @@ a:hover {
     background-color: #4CAF50;
     color: white;
 }
+
+ /*Animated background styling starts here */
+.bg-animated {
+    background-size: cover;
+    animation: scroll 100s linear infinite;
+}
+
+@keyframes scroll {
+    100% {
+        background-position: 0 -400%;
+    }
+}
+
+ /*Fallback if the operating system prefers reduced motion*/
+@media (prefers-reduced-motion) {
+    .bg-animated {
+        animation: scroll 800s linear infinite;
+    }
+}
+/* Animated background styling ends here */
 
 /*=======================================================================*/
 .button {
