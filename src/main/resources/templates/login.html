@@ -6,109 +6,118 @@
     <head>
         <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/login.css}"/>
 
-        <title>Login Demo</title>
-    </head>
-    <body>
-        <div layout:fragment="content" th:remove="tag">
-            <div id="login-box" class="col-sm-12 col-md-12 col-lg-12 d-flex align-items-center"
-                 style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                <div class="card login-content shadow-lg border-0">
-                    <div class="card-body">
-                        <div>
-                            <a class="go-back-link" href="/" th:href="@{/}">Go Back to Home</a>
-                            <div class="text-center" style="margin-top: -25px;">
-                                <img class="logo" th:src="@{/img/logo-on-login-page.png}">
+    <title>Login Demo</title>
+</head>
+<body>
+
+    <div layout:fragment="content" th:remove="tag">
+        <div class="row justify-content-center">
+            <div class="card login-content col-md-7 shadow-lg border-0">
+                <div class="card-body">
+                    <div>
+                        <a class="go-back-link" href="/" th:href="@{/}">Go Back to Home</a>
+                        <div class="text-center" style="margin-top: -25px;">
+                            <img class="logo" th:src="@{/img/logo-on-login-page.png}">
+                        </div>
+                    </div>
+                    <h3 class="text-logo">Sign In</h3>
+                    <br>
+                    <form role="form"
+                          th:method="post"
+                          autocomplete="off"
+                          class="text-center"
+                          th:action="@{/perform_login}"
+                          style="display: flex; flex-direction: column; align-items: center;"
+                          data-bs-toggle="validator">
+                        <div th:if="${param.error}">
+                            <div class="alert alert-danger">
+                                Invalid username or password.
                             </div>
                         </div>
-                        <h3 class="text-logo">Sign In</h3>
-                        <br>
-                        <form role="form"
-                              th:method="post"
-                              autocomplete="off"
-                              class="text-center"
-                              th:action="@{/perform_login}"
-                              style="display: flex; flex-direction: column; align-items: center;"
-                              data-bs-toggle="validator">
-                            <div th:if="${param.error}">
-                                <div class="alert alert-danger">
-                                    Invalid username or password.
-                                </div>
+                        <div th:if="${param.logout}">
+                            <div class="alert alert-info">
+                                You have been logged out.
                             </div>
-                            <div th:if="${param.logout}">
-                                <div class="alert alert-info">
-                                    You have been logged out.
-                                </div>
-                            </div>
+                        </div>
 
-                            <div class="col-12">
-                                <label for="login-username">Username<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                    <input id="login-username"
-                                           type="text"
-                                           th:name="username"
-                                           autocomplete="false"
-                                           class="form-control"
-                                           placeholder="Username Or Email"
-                                           required/>
-                                    <div class="input-group-text"><i class="fa fa-user"></i></div>
-                                    <!-- TODO: remove the previous statement and make the following one functional -->
-<!--                                    <span class="glyphicon form-control-feedback" aria-hidden="true">-->
-                                </div>
+                        <div class="col-12">
+                            <label for="login-username">Username<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                <input id="login-username"
+                                       type="text"
+                                       th:name="username"
+                                       autocomplete="false"
+                                       class="form-control"
+                                       placeholder="Username Or Email"
+                                       required/>
+                                <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                <!-- TODO: remove the previous statement and make the following one functional -->
+                                <!--                                    <span class="glyphicon form-control-feedback" aria-hidden="true">-->
                             </div>
+                        </div>
 
-                            <div class="col-12">
-                                <label for="login-password">Password<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <div class="input-group-text"><i class="fa fa-lock"></i></div>
-                                    <input id="login-password"
-                                           type="password"
-                                           th:name="password"
-                                           autocomplete="false"
-                                           class="form-control"
-                                           th:placeholder="Password"
-                                           required />
-                                    <div class="input-group-text"><i class="fa fa-lock"></i></div>
-                                    <!-- TODO: remove the previous statement and make the following one functional -->
-<!--                                    <span class="glyphicon form-control-feedback" aria-hidden="true">-->
+                        <div class="col-12">
+                            <label for="login-password">Password<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-text"><i class="fa fa-lock"></i></div>
+                                <input id="login-password"
+                                       type="password"
+                                       th:name="password"
+                                       autocomplete="false"
+                                       class="form-control"
+                                       th:placeholder="Password"
+                                       required />
+                                <div class="input-group-text"><i class="fa fa-lock"></i></div>
+                                <!-- TODO: remove the previous statement and make the following one functional -->
+                                <!--                                    <span class="glyphicon form-control-feedback" aria-hidden="true">-->
+                            </div>
+                        </div>
+
+                        <div class="remember-me">
+                            <div class="col-sm-6 d-flex">
+                                <div class="form-check link">
+                                    <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                                    <label class="form-check-label align-middle" for="inlineFormCheck">Remember me</label>
                                 </div>
                             </div>
 
-                            <div class="remember-me">
-                                <div class="col-sm-6 d-flex">
-                                    <div class="form-check link">
-                                        <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-                                        <label class="form-check-label align-middle" for="inlineFormCheck">Remember me</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 link">
-                                    <a href="#" class="float-end">Forgot Password?</a>
-                                </div>
+                            <div class="col-sm-6 link">
+                                <a href="#" class="float-end">Forgot Password?</a>
                             </div>
+                        </div>
 
-                            <button id="login-btn"
-                                    type="submit"
-                                    th:text="Login"
-                                    class="btn btn-primary btn-sm border-0">
-                                Login
-                            </button>
-                        </form>
-                    </div>
-                    <!--Don't have an account!-->
-                    <div class="nomember">
-                        <p class="text-center">
-                            Not a member? <a th:href="@{/support/users/new}">Create an Account</a>
-                        </p>
-                    </div>
+                        <button id="login-btn"
+                                type="submit"
+                                th:text="Login"
+                                class="btn btn-primary btn-sm border-0">
+                            Login
+                        </button>
+                    </form>
+                </div>
+                <!--Don't have an account!-->
+                <div class="not-a-member">
+                    <p class="text-center">
+                        Not a member? <a th:href="@{/support/users/new}">Create an Account</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-5 ps-0 d-none d-md-block login-content" style=background-color:#0278ae;">
+                <div class="form-right h-100 text-white text-center pt-5">
+                    <i class="fa fa-birthday-cake fa-beat-fade"></i>
+                    <h2 class="fs-1">Welcome Back!!!</h2>
                 </div>
             </div>
         </div>
-        <th:block layout:fragment="scripts">
-            <!--<script type="text/javascript" th:src="@{/webjars/bootstrap-validator/0.11.9/js/validator.min.js}"></script>-->
-            <!--<script type="text/javascript" th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>-->
-            <!--TODO following is breaking the selenium test, check and fix it...-->
-            <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>-->
-        </th:block>
-    </body>
+    </div>
+
+
+    <th:block layout:fragment="scripts">
+        <!--<script type="text/javascript" th:src="@{/webjars/bootstrap-validator/0.11.9/js/validator.min.js}"></script>-->
+        <!--<script type="text/javascript" th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>-->
+        <!--TODO following is breaking the selenium test, check and fix it...-->
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>-->
+    </th:block>
+</body>
 </html>
