@@ -1,78 +1,78 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-    <body>
-        <th:block th:fragment="header">
+<body>
+<th:block th:fragment="header">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="container-fluid">
 
-                        <!-- Toggler to toggle the navigation bar on the left side  -->
-                        <button type="button"
-                                aria-expanded="false"
-                                data-bs-toggle="collapse"
-                                class="navbar-toggler d-block"
-                                aria-label="Toggle navigation"
-                                aria-controls="collapsible-side-navbar"
-                                data-bs-target="#collapsible-side-navbar">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                <!-- Toggler to toggle the navigation bar on the left side  -->
+                <button type="button"
+                        aria-expanded="false"
+                        data-bs-toggle="collapse"
+                        class="navbar-toggler d-block"
+                        aria-label="Toggle navigation"
+                        aria-controls="collapsible-side-navbar"
+                        data-bs-target="#collapsible-side-navbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                        <a class="navbar-brand" href="#">
-                            <img th:src="@{/img/logo.jpg}"
-                                 alt="LucidXPO logo"
-                                 class="d-inline-block">
-                            <span>LucidXPO</span>
-                        </a>
+                <a class="navbar-brand" href="#">
+                    <img th:src="@{/img/logo.jpg}"
+                         alt="LucidXPO logo"
+                         class="d-inline-block">
+                    <span>LucidXPO</span>
+                </a>
 
-                        <button class="navbar-toggler"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#navbar-collapse-4"
-                                aria-controls="navbar-collapse-4"
-                                aria-expanded="false"
-                                aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbar-collapse-4"
+                        aria-controls="navbar-collapse-4"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse" id="navbar-collapse-4">
-                            <ul class="navbar-nav ms-md-auto gap-2">
-                                <li class="nav-item rounded">
-                                    <a class="nav-link active" aria-current="page" href="#">
-                                        <i class="bi fa-solid fa-house me-2"></i>
-                                        Home
-                                    </a>
-                                </li>
-                                <li class="nav-item rounded">
-                                    <a class="nav-link" href="#">
-                                        <i class="bi fa-solid fa-house me-2"></i>
-                                        Services
-                                    </a>
-                                </li>
-                                <li class="nav-item rounded">
-                                    <a class="nav-link" href="#">
-                                        <i class="bi fa-solid fa-house me-2"></i>
-                                        Products
-                                    </a>
-                                </li>
-                                <li class="nav-item rounded">
-                                    <a class="nav-link" href="#">
-                                        <i class="bi fa-solid fa-house me-2"></i>
-                                        Clients
-                                    </a>
-                                </li>
-                                <li class="nav-item rounded">
-                                    <a class="nav-link" href="#">
-                                        <i class="bi fa-solid fa-house me-2"></i>
-                                        About
-                                    </a>
-                                </li>
-                                <li class="nav-item rounded">
-                                    <a class="nav-link" href="#">
-                                        <i class="bi fa-solid fa-phone me-2"></i>
-                                        Contact
-                                    </a>
-                                </li>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse-4">
+                    <ul class="navbar-nav ms-md-auto gap-2">
+                        <li class="nav-item rounded">
+                            <a class="nav-link active" aria-current="page" href="#">
+                                <i class="bi fa-solid fa-house me-2"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item rounded">
+                            <a class="nav-link" href="#">
+                                <i class="bi fa-solid fa-house me-2"></i>
+                                Services
+                            </a>
+                        </li>
+                        <li class="nav-item rounded">
+                            <a class="nav-link" href="#">
+                                <i class="bi fa-solid fa-house me-2"></i>
+                                Products
+                            </a>
+                        </li>
+                        <li class="nav-item rounded">
+                            <a class="nav-link" href="#">
+                                <i class="bi fa-solid fa-house me-2"></i>
+                                Clients
+                            </a>
+                        </li>
+                        <li class="nav-item rounded">
+                            <a class="nav-link" href="#">
+                                <i class="bi fa-solid fa-house me-2"></i>
+                                About
+                            </a>
+                        </li>
+                        <li class="nav-item rounded">
+                            <a class="nav-link" href="#">
+                                <i class="bi fa-solid fa-phone me-2"></i>
+                                Contact
+                            </a>
+                        </li>
 
                         <li class="nav-item dropdown rounded">
                             <a href="#"

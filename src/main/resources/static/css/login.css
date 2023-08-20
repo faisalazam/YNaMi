@@ -1,0 +1,80 @@
+.login-content {
+    z-index: 1;
+    width: 100%;
+    height: 450px;
+    max-width: 450px;
+    border-radius: 25px;
+    background: #2f3242;
+}
+
+.logo {
+    width: 128px;
+    height: 128px;
+}
+
+.text-logo {
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
+
+form label {
+    display: none;
+}
+
+form .input-group {
+    width: 90%;
+    height: 3rem;
+    margin: auto auto 15px;
+    position: relative;
+    border-radius: 10px;
+    background-color: #ccffee;
+}
+
+.btn {
+    width: 90%;
+    border: none;
+    height: 3rem;
+    font-size: 22px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #0278ae;
+}
+
+.btn:hover {
+    background-color: rgb(158, 163, 240);
+}
+
+.go-back-link {
+    color: rgb(158, 163, 240);
+}
+
+.nomember {
+    color: white;
+}
+
+.nomember a {
+    text-decoration: none;
+    color: rgb(158, 163, 240);
+}
+
+.link label, .link a {
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(158, 163, 240);
+}
+
+.remember-me {
+    width: 90%;
+    display: flex;
+    margin: auto auto 15px;
+}
+
+.remember-me .form-check {
+    display: inline-block;
+}
+
+.remember-me label {
+    display: inline-block;
+}
