@@ -14,7 +14,9 @@
 
 .login-content-right {
     flex: 1;
-    background-color:#0278ae;
+    width: 40vh;
+    background-repeat: round;
+    background-image: url(../img/welcome-back.jpeg);
 }
 
 .login-content-left .logo {
@@ -71,10 +73,6 @@
     width: 90%;
     display: flex;
     margin: auto auto 15px;
-}
-
-.login-content-right i {
-    font-size: 100px;
 }
 
 @media all and (max-width: 600px) {
