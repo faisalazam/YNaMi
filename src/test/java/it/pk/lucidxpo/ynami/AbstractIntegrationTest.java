@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
@@ -30,6 +31,7 @@ import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static it.pk.lucidxpo.ynami.AbstractIntegrationTest.SCHEMA_NAME;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
@@ -52,9 +54,16 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = {
+        "spring.datasource.username=root",
+        "spring.datasource.password=root",
+        "spring.datasource.name=" + SCHEMA_NAME
+})
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
 public class AbstractIntegrationTest {
+    @SuppressWarnings("WrongPropertyKeyValueDelimiter")
+    public static final String SCHEMA_NAME = "IntegrationTestSchema";
     public static final String ADMIN_USER = "admin";
     protected static final String SUPPORT_USER = "support";
 
@@ -96,6 +105,7 @@ public class AbstractIntegrationTest {
         return environment.acceptsProfiles(of(profiles));
     }
 
+    @SuppressWarnings("SameParameterValue")
     protected boolean isConfigEnabled(final String config) {
         return toBoolean(environment.getProperty(config));
     }
@@ -128,7 +138,7 @@ public class AbstractIntegrationTest {
         return associatedRolesList;
     }
 
-    protected void assertAuditInfo(final Auditable auditable, final String auditUser) {
+    protected void assertAuditInfo(final Auditable<?> auditable, final String auditUser) {
         final String evaluatedAuditUser = featureManager.isActive(WEB_SECURITY) ? auditUser : "Anonymous";
         assertAll(
                 () -> assertEquals(evaluatedAuditUser, auditable.getCreatedBy()),

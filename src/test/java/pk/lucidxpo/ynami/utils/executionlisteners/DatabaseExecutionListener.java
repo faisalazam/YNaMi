@@ -1,5 +1,6 @@
 package pk.lucidxpo.ynami.utils.executionlisteners;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.DatabaseMetaDataCallback;
 import org.springframework.jdbc.support.MetaDataAccessException;
@@ -37,8 +38,17 @@ public class DatabaseExecutionListener implements TestExecutionListener {
 
     private void cleanDBData(final DataSource dataSource,
                              final JdbcTemplate jdbcTemplate) throws MetaDataAccessException, SQLException {
-        final DatabaseMetaDataCallback<ResultSet> action = databaseMetaData -> databaseMetaData.getTables(null,
-                null,
+        // The next few statements will find all the tables in our db schema
+        // Without being specific and not specifying catalog/schema names, will sometimes result in
+        // issues. For example, when root user is used to connect to db, it might also get other tables like
+        // sys_config and later on complain that it can't delete from there...
+        // Catalog/Schema names can be hard-coded as well...
+        final String catalogAndSchemaName = dataSource instanceof HikariDataSource
+                ? ((HikariDataSource) dataSource).getPoolName()
+                : null;
+        final DatabaseMetaDataCallback<ResultSet> action = databaseMetaData -> databaseMetaData.getTables(
+                catalogAndSchemaName,
+                catalogAndSchemaName,
                 null,
                 new String[]{"TABLE"}
         );
