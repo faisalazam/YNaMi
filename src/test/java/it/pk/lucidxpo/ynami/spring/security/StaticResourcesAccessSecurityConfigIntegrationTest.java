@@ -1,10 +1,10 @@
 package it.pk.lucidxpo.ynami.spring.security;
 
+import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.web.servlet.MvcResult;
-import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.io.File;
@@ -36,6 +36,15 @@ class StaticResourcesAccessSecurityConfigIntegrationTest extends AbstractIntegra
         final File directory = new File(STATIC_RESOURCES_PATH);
         final List<String> staticResources = listFiles(directory, null, true)
                 .stream()
+                /*
+                    In the Apple macOS operating system, .DS_Store is a file that stores custom attributes of its
+                    containing folder, such as the position of icons or the choice of a background image. The name is
+                    an abbreviation of Desktop Services Store, reflecting its purpose. It is created and maintained by
+                    the Finder application in every folder, and has functions similar to the file desktop.ini in
+                    Microsoft Windows. Starting with a full stop (period) character, it is hidden in Finder and many
+                    Unix utilities. Its internal structure is proprietary. Hence, filtering it.
+                 */
+                .filter(file -> !".DS_Store".equals(file.getName()))
                 .map(file -> file.getPath().replace(STATIC_RESOURCES_PATH, EMPTY))
                 .collect(toList());
         assertFalse(staticResources.isEmpty());
