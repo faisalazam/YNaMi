@@ -33,32 +33,35 @@
         <java.version>20</java.version>
         <maven.compiler.release>20</maven.compiler.release>
 
-        <harlib.version>1.1.2</harlib.version>
-        <togglz.version>4.0.1</togglz.version>
+        <harlib.version>1.1.3</harlib.version>
+        <togglz.version>4.2.0</togglz.version>
         <jquery.version>3.7.0</jquery.version>
         <lombok.version>1.18.28</lombok.version>
         <guava.version>32.1.2-jre</guava.version>
-        <xstream.version>1.4.10</xstream.version>
-        <jaxb.api.version>2.3.1</jaxb.api.version>
+        <xstream.version>1.4.20</xstream.version>
         <cucumber.version>7.13.0</cucumber.version>
         <selenium.version>4.11.0</selenium.version>
         <podam.version>8.0.0.RELEASE</podam.version>
-<!--        <selenium-htmlunit.version>4.11.0</selenium-htmlunit.version>-->
-        <diffutils.version>1.2.1</diffutils.version>
+        <diffutils.version>1.3.0</diffutils.version>
         <bootstrap.version>5.3.1</bootstrap.version>
         <joda-time.version>2.12.5</joda-time.version>
-        <maven.pmd.version>3.10.0</maven.pmd.version>
-        <commons.io.version>2.13.0</commons.io.version>
-        <modelmapper.version>2.3.1</modelmapper.version>
-        <flyway-core.version>9.21.0</flyway-core.version>
-        <maven.site.version>4.0.0-M9</maven.site.version>
-        <font.awesome.version>6.4.2</font.awesome.version>
+        <maven-pmd.version>3.21.0</maven-pmd.version>
+        <commons-io.version>2.13.0</commons-io.version>
+        <flyway-core.version>9.21.1</flyway-core.version>
+        <font-awesome.version>6.4.2</font-awesome.version>
         <fluentlenium.version>5.0.4</fluentlenium.version>
-        <commons.lang.version>3.12.0</commons.lang.version>
-        <flyway-mysql.version>9.21.0</flyway-mysql.version>
+        <flyway-mysql.version>9.21.1</flyway-mysql.version>
+        <commons-lang3.version>3.13.0</commons-lang3.version>
+        <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
+        <selenium-common.version>2.0b1</selenium-common.version>
+        <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
+        <modelmapper-spring-boot-starter.version>2.3.1</modelmapper-spring-boot-starter.version>
+
+
+
         <zap.clientapi.version>1.2.0</zap.clientapi.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
-        <selenium-common.version>2.0b1</selenium-common.version>
+
         <glassfish.jersey.version>2.27</glassfish.jersey.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <javax.activation.version>1.1.1</javax.activation.version>
@@ -178,7 +181,7 @@
         <dependency>
             <groupId>com.github.rozidan</groupId>
             <artifactId>modelmapper-spring-boot-starter</artifactId>
-            <version>${modelmapper.version}</version>
+            <version>${modelmapper-spring-boot-starter.version}</version>
         </dependency>
 
         <!-- JavaBeans Validation (Bean Validation) is a validation model that can add constraints to the beans
@@ -196,12 +199,12 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${commons.lang.version}</version>
+			<version>${commons-lang3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>${commons.io.version}</version>
+			<version>${commons-io.version}</version>
 		</dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -211,7 +214,7 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>${jaxb.api.version}</version>
+            <version>${jaxb-api.version}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -239,7 +242,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
-            <version>${font.awesome.version}</version>
+            <version>${font-awesome.version}</version>
         </dependency>
 
 		<!-- Following are the dependencies which will be helping us with automated testing -->
@@ -462,6 +465,7 @@
             <version>${zap.clientapi.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- HarLib is an open source Java library for the HTTP Archive Specification (HAR) v1.2. -->
         <dependency>
             <groupId>edu.umass.cs.benchlab</groupId>
             <artifactId>harlib</artifactId>
@@ -604,13 +608,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>${maven.site.version}</version>
+                <version>${maven-site-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${maven.pmd.version}</version>
+                <version>${maven-pmd.version}</version>
             </plugin>
 
             <plugin>
@@ -713,7 +717,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${maven.pmd.version}</version>
+                <version>${maven-pmd.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
