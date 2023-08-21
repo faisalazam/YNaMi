@@ -1,3 +1,10 @@
+.login-container {
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .login-content {
     z-index: 1;
     max-width: 450px;
@@ -5,32 +12,33 @@
     background: #2f3242;
 }
 
-.logo {
+.login-content-right {
+    flex: 1;
+    background-color:#0278ae;
+}
+
+.login-content-left .logo {
     width: 128px;
     height: 128px;
 }
 
-.text-logo {
+.login-content-left .text-logo {
     color: white;
     font-size: 32px;
     font-weight: bold;
     text-align: center;
 }
 
-form label {
-    display: none;
-}
-
-form .input-group {
+.login-content-left form .input-group {
     width: 90%;
     height: 3rem;
-    margin: auto auto 15px;
     position: relative;
     border-radius: 10px;
+    margin: auto auto 15px;
     background-color: #ccffee;
 }
 
-.btn {
+.login-content-left form .btn {
     width: 90%;
     border: none;
     height: 3rem;
@@ -40,43 +48,43 @@ form .input-group {
     background-color: #0278ae;
 }
 
-.btn:hover {
+.login-content-left form .btn:hover {
     background-color: rgb(158, 163, 240);
 }
 
-.go-back-link {
+.login-content-left .go-back-link {
     color: rgb(158, 163, 240);
 }
 
-.not-a-member {
-    color: white;
-}
-
-.not-a-member a {
+.login-content-left .not-a-member a {
     text-decoration: none;
     color: rgb(158, 163, 240);
 }
 
-.link label, .link a {
+.login-content-left .link label, .link a {
     font-size: 14px;
     text-decoration: none;
     color: rgb(158, 163, 240);
 }
 
-.remember-me {
+.login-content-left .remember-me {
     width: 90%;
     display: flex;
     margin: auto auto 15px;
 }
 
-.remember-me .form-check {
-    display: inline-block;
-}
-
-.remember-me label {
-    display: inline-block;
-}
-
-.form-right i {
+.login-content-right i {
     font-size: 100px;
+}
+
+@media all and (max-width: 600px) {
+    .login-content-left {
+        width: 100vh;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    .login-content-left {
+        width: 50vh;
+    }
 }
