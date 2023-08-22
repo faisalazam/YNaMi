@@ -10,10 +10,11 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.sql.DataSource;
 import java.util.Map;
 
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.dataSourceForLocalMySql;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.localDataSource;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static pk.lucidxpo.ynami.utils.Identity.randomInt;
@@ -28,7 +29,8 @@ class DBDataPatchScriptTest {
     void setup() {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
-        final DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSourceForLocalMySql());
+        final DataSource dataSource = localDataSource();
+        final DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
         final TransactionOperations transaction = new TransactionTemplate(transactionManager);
 
         dataPatchMigrationCheck = new DataPatchDBMigrationCheck(dbCleaner, executor, transaction);

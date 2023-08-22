@@ -11,6 +11,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,9 @@ import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRE
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.columnExists;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsFor;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsForTable;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.dataSourceForLocalMySql;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.hasColumnWith;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.localDataSource;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.tableExists;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,8 +44,10 @@ class DBMigrationScriptTest {
     void setup() {
         final MultiSqlExecutor executor = executorForLocalMySql();
         final DBCleaner dbCleaner = new DBCleaner(executor);
+        final DataSource dataSource = localDataSource();
         final MigrationScriptFetcher fetcher = new MigrationScriptFetcher(SCRIPT_DIRECTORY_PATH);
-        final TransactionOperations transaction = new TransactionTemplate(new DataSourceTransactionManager(dataSourceForLocalMySql()));
+        final DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        final TransactionOperations transaction = new TransactionTemplate(transactionManager);
 
         migrationCheck = new DBMigrationCheck(dbCleaner, fetcher, executor, transaction);
     }

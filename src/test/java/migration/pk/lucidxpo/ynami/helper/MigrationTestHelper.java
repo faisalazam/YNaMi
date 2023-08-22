@@ -7,7 +7,11 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
+import static io.netty.util.internal.StringUtil.EMPTY_STRING;
+
 public class MigrationTestHelper {
+    // TODO Spring Upgrade: read value of isMySql from properties file somehow???
+    public static final boolean CONNECT_TO_MYSQL = true;
     public static final String SCHEMA_NAME = "MigrationTestSchema";
     public static final String SCHEMA_NAME_PLACEHOLDER_REGEX = "\\$\\{schema_name}";
     public static final String PATCH_DIRECTORY_PATH = "src/main/resources/db/datapatch";
@@ -16,13 +20,29 @@ public class MigrationTestHelper {
     private static final int[] SCRIPT_NUMBERS_TO_IGNORE = {};
 
     public static JdbcTemplate jdbcTemplateForLocalMySql() {
-        return new JdbcTemplate(dataSourceForLocalMySql());
+        return new JdbcTemplate(localDataSource());
     }
 
-    public static DataSource dataSourceForLocalMySql() {
-// TODO Spring Upgrade: make this method return h2 or mysql dataSource based on value from properties file
-        return new DriverManagerDataSource("jdbc:h2:mem:" + SCHEMA_NAME + ";MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;", "sa", "");
-//        return new DriverManagerDataSource("jdbc:mysql://localhost:3306/" + SCHEMA_NAME + "?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true", "root", "root");
+    public static DataSource localDataSource() {
+        final String dataSourceUrl, userName, password;
+        if (CONNECT_TO_MYSQL) {
+            userName = "root";
+            password = "root";
+            dataSourceUrl = "jdbc:mysql://localhost:3306/" + SCHEMA_NAME +
+                    "?createDatabaseIfNotExist=true" +
+                    "&useSSL=false&allowPublicKeyRetrieval=true";
+        } else {
+            userName = "sa";
+            password = EMPTY_STRING;
+            dataSourceUrl = "jdbc:h2:mem:" + SCHEMA_NAME + ";" +
+                    "MODE=MySQL;" +
+                    "DB_CLOSE_DELAY=-1;" +
+                    "DB_CLOSE_ON_EXIT=FALSE;" +
+                    "DATABASE_TO_UPPER=false;" +
+                    "INIT=CREATE SCHEMA IF NOT EXISTS " + SCHEMA_NAME + "\\;" +
+                    "SET SCHEMA " + SCHEMA_NAME + ";";
+        }
+        return new DriverManagerDataSource(dataSourceUrl, userName, password);
     }
 
     public static MultiSqlExecutor executorForLocalMySql() {
