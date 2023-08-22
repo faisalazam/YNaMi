@@ -20,7 +20,7 @@ public class MigrationScriptFetcher {
 
     public MigrationScriptFetcher(final String scriptDirectoryPath) {
         final File scriptDirectory = new File(scriptDirectoryPath);
-        files = scriptDirectory.listFiles(new NoChecksumFileFilter());
+        files = scriptDirectory.listFiles(new SqlScriptFileFilter());
         assertNotNull(files, "files should not be null");
         sort(files, new FileNameComparator());
     }
@@ -54,7 +54,7 @@ public class MigrationScriptFetcher {
 
             if (!ignoredScriptsList.contains(index)) {
                 migrationScripts.add(new MigrationScript(file.getName(), readFileToString(file, UTF_8)));
-            } else if (ignoredScriptsList.contains(index)) {
+            } else {
                 System.out.println("script index ignored = " + index);
             }
         }
@@ -88,10 +88,10 @@ public class MigrationScriptFetcher {
         }
     }
 
-    private static class NoChecksumFileFilter implements FileFilter {
+    private static class SqlScriptFileFilter implements FileFilter {
         @Override
         public boolean accept(final File file) {
-            return !file.getName().startsWith("checksums.txt");
+            return file.getName().endsWith(".sql");
         }
     }
 }
