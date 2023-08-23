@@ -167,7 +167,7 @@ public class DBMigrationScriptTest {
             assertTrue(constraintExistsForTable(executor, auditEntryTableName, "PRIMARY KEY", "PRIMARY"));
             assertTrue(constraintExistsFor(executor, auditEntryTableName, "id", "PRI"));
             assertTrue(hasColumnWith(executor, auditEntryTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE));
+            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
             assertTrue(hasColumnWith(executor, auditEntryTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
             assertTrue(hasColumnWith(executor, auditEntryTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
             assertTrue(hasColumnWith(executor, auditEntryTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
@@ -179,7 +179,7 @@ public class DBMigrationScriptTest {
             assertTrue(constraintExistsForTable(executor, auditEntryArchiveTableName, "PRIMARY KEY", "PRIMARY"));
             assertTrue(constraintExistsFor(executor, auditEntryArchiveTableName, "id", "PRI"));
             assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE));
+            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
             assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
             assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
             assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
@@ -193,8 +193,8 @@ public class DBMigrationScriptTest {
 
     private void assertAuditColumns(MultiSqlExecutor executor, String usersTableName) {
         assertTrue(hasColumnWith(executor, usersTableName, "createdBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-        assertTrue(hasColumnWith(executor, usersTableName, "createdDate", DATA_TYPE_TIMESTAMP, NOT_NULLABLE));
+        assertTrue(hasColumnWith(executor, usersTableName, "createdDate", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
         assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-        assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedDate", DATA_TYPE_TIMESTAMP, IS_NULLABLE));
+        assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedDate", DATA_TYPE_TIMESTAMP, IS_NULLABLE, 6));
     }
 }
