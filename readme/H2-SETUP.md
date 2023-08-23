@@ -86,6 +86,7 @@ After Java and Spring Boot upgrade, application startup with H2 fails.
 <details>
     <summary><strong>Click to see details of `Table not found`</strong></summary>
 
+
 ### Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException
 
 Application startup with H2 fails. when `togglz` enabled and when `spring.datasource.name` is set to any
@@ -94,9 +95,11 @@ schema (i.e. `YNaMi`) other than the `PUBLIC` schema.
 It's quite strange to see such an error even when the `Flyway` migrations have completed successfully.
 So, there is no way to believe that the tables mentioned in the logs don't exist in the database.
 
+
 <blockquote>
 <details>
     <summary><strong>Click here for stacktrace</strong></summary>
+
 
 ```exception
 INFO 6578 --- [  restartedMain] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:h2:mem:YNaMi (H2 2.2)
@@ -124,12 +127,15 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FeatureToggles" not found; SQL statement:
 ```
 
+
 </details>
 </blockquote>
 
-### Suggested Fixed
 
-There are lot of suggested fixes like setting the following in the properties file:
+### Suggested Fixes
+
+There are lots of suggested fixes like setting the following in the properties file:
+
 
 ```
 spring.flyway.default-schema=YNaMi
@@ -141,7 +147,9 @@ or
 spring.flyway.enabled = false => and configure flyway manually
 ```
 
+
 Or, append the following in the datasource url:
+
 
 ```
 CASE_INSENSITIVE_IDENTIFIERS=TRUE;
@@ -153,16 +161,21 @@ or
 DB_CLOSE_ON_EXIT=FALSE;
 ```
 
+
 Or instead of all that, simply use the H2's default schema: i.e. `spring.datasource.name=PUBLIC`.
+
 
 ### Fix which actually worked
 
+
 I had to append the following in the datasource url:
+
 
 ```
 ;INIT=CREATE SCHEMA IF NOT EXISTS ${spring.datasource.name}\\\
 ;SET SCHEMA ${spring.datasource.name}
 ```
+
 
 Problem was, `Flyway` was doing its job alright but H2 wasn't connecting to that database which was used by `Flyway`
 and hence `table not found` errors. It was all working fine if we use the H2's default schema i.e. the `PUBLIC` schema.
@@ -171,6 +184,7 @@ and `SET SCHEMA` to the datasource url.
 
 </details>
 </blockquote>
+
 
 #### H2 creating column with character varying instead of varchar
 
