@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`FeatureToggles`
     `FEATURE_ENABLED` INTEGER       DEFAULT NULL,
     `STRATEGY_ID`     VARCHAR(200)  DEFAULT NULL,
     `STRATEGY_PARAMS` VARCHAR(2000) DEFAULT NULL,
-    PRIMARY KEY (`FEATURE_NAME`)
+    CONSTRAINT `PK_FeatureToggles` PRIMARY KEY (`FEATURE_NAME`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4;
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Users`
     `createdDate`      TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `lastModifiedBy`   VARCHAR(255) NOT NULL,
     `lastModifiedDate` TIMESTAMP(6)          DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
-    PRIMARY KEY (`id`),
+    CONSTRAINT `PK_Users` PRIMARY KEY (`id`),
     UNIQUE KEY `UK_USERS_USERNAME` (`username`),
     UNIQUE KEY `UK_USERS_EMAIL` (`email`)
 ) ENGINE = InnoDB
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Roles`
     `createdDate`      TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `lastModifiedBy`   VARCHAR(255) NOT NULL,
     `lastModifiedDate` TIMESTAMP(6)          DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
-    PRIMARY KEY (`id`),
+    CONSTRAINT `PK_Roles` PRIMARY KEY (`id`),
     UNIQUE KEY `UK_ROLES_NAME` (`name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4;
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`UserRoles`
 (
     `userId` VARCHAR(50) NOT NULL,
     `roleId` VARCHAR(50) NOT NULL,
-    PRIMARY KEY (`userId`, `roleId`),
+    CONSTRAINT `PK_UserRoles` PRIMARY KEY (`userId`, `roleId`),
     KEY `FK_USER_ROLES_ROLE_ID` (`roleId`),
     CONSTRAINT `FK_USER_ROLES_ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`id`),
     CONSTRAINT `FK_USER_ROLES_USER_ID` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)

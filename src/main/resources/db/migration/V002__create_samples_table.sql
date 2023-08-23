@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`Sample`
     `address`   VARCHAR(255) DEFAULT NULL,
     `firstName` VARCHAR(255) DEFAULT NULL,
     `lastName`  VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    CONSTRAINT `PK_Sample` PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4;

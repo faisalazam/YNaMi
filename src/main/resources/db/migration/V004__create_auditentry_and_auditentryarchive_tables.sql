@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`AuditEntry`
     `fieldChanged`      VARCHAR(255) NOT NULL,
     `fromValue`         LONGTEXT     NULL,
     `toValue`           LONGTEXT     NULL,
-    PRIMARY KEY (`id`)
+    CONSTRAINT `PK_AuditEntry` PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4;
 
@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS `${schema_name}`.`AuditEntryArchive`
     `fieldChanged`      VARCHAR(255) NOT NULL,
     `fromValue`         LONGTEXT     NULL,
     `toValue`           LONGTEXT     NULL,
-    PRIMARY KEY (`id`)
+    CONSTRAINT `PK_AuditEntryArchive` PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = UTF8MB4;
