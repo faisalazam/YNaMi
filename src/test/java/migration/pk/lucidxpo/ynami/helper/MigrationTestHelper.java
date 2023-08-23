@@ -47,13 +47,14 @@ public class MigrationTestHelper {
         } else {
             userName = "sa";
             password = EMPTY_STRING;
-            dataSourceUrl = "jdbc:h2:mem:" + SCHEMA_NAME + ";" +
-                    "MODE=MySQL;" +
-                    "DB_CLOSE_DELAY=-1;" +
-                    "DB_CLOSE_ON_EXIT=FALSE;" +
-                    "DATABASE_TO_UPPER=FALSE;" +
-                    "INIT=CREATE SCHEMA IF NOT EXISTS " + SCHEMA_NAME + "\\;" +
-                    "SET SCHEMA " + SCHEMA_NAME + ";";
+            dataSourceUrl = "jdbc:h2:file:./h2_db/" + SCHEMA_NAME +
+                    ";MODE=MySQL" +
+                    ";AUTO_SERVER=TRUE" +
+                    ";DB_CLOSE_DELAY=-1" +
+                    ";DB_CLOSE_ON_EXIT=TRUE" +
+                    ";DATABASE_TO_UPPER=FALSE" +
+                    ";INIT=CREATE SCHEMA IF NOT EXISTS " + SCHEMA_NAME + "\\" +
+                    ";SET SCHEMA " + SCHEMA_NAME;
         }
         return new DriverManagerDataSource(dataSourceUrl, userName, password);
     }
