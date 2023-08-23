@@ -67,9 +67,10 @@ class DBMigrationScriptsChecksumTest {
 
         if (newChecksums.size() > 0) {
             StringBuilder missedChecksums = new StringBuilder(EMPTY);
-            for (Map.Entry<String, String> newChecksum : newChecksums.entrySet()) {
-                missedChecksums.append(newChecksum.getKey()).append(SEPARATOR).append(newChecksum.getValue()).append("\n");
-            }
+            newChecksums.keySet().stream().sorted()
+                    .forEach(newChecksum -> missedChecksums
+                            .append(newChecksum).append(SEPARATOR).append(newChecksums.get(newChecksum)).append("\n")
+                    );
             fail(
                     "\n*****************************************************************************************\n"
                             + "New DB migration/s has/ve been added. The following line/s MUST be added to checksums.txt\n"
