@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.assertColumnWith;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.assertConstraintExistsFor;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.assertConstraintExistsForTable;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.columnExists;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsFor;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.constraintExistsForTable;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.hasColumnWith;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.localDataSource;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.tableExists;
 import static org.hamcrest.CoreMatchers.is;
@@ -67,42 +67,44 @@ public class DBMigrationScriptTest {
         final Operation postOperation = executor -> {
             assertTrue(tableExists("hibernate_sequence", executor));
 
-            assertTrue(hasColumnWith(executor, "hibernate_sequence", "next_val", DATA_TYPE_BIGINT, IS_NULLABLE, 19));
+            assertColumnWith(executor, "hibernate_sequence", "next_val", DATA_TYPE_BIGINT, IS_NULLABLE, 19);
 
-            final List<Map<String, Object>> hibernateSequenceRows = executor.getRowExtractor("hibernate_sequence").getRowsWithSpecifiedField("next_val", "0");
+            final List<Map<String, Object>> hibernateSequenceRows = executor
+                    .getRowExtractor("hibernate_sequence")
+                    .getRowsWithSpecifiedField("next_val", "0");
             assertThat(hibernateSequenceRows.size(), is(1));
 
             assertTrue(tableExists("FeatureToggles", executor));
-            assertTrue(constraintExistsForTable(executor, "FeatureToggles", "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsFor(executor, "FeatureToggles", "FEATURE_NAME", "PRI"));
-            assertTrue(hasColumnWith(executor, "FeatureToggles", "FEATURE_NAME", DATA_TYPE_VARCHAR, NOT_NULLABLE, 100));
-            assertTrue(hasColumnWith(executor, "FeatureToggles", "FEATURE_ENABLED", DATA_TYPE_INTEGER, IS_NULLABLE));
-            assertTrue(hasColumnWith(executor, "FeatureToggles", "STRATEGY_ID", DATA_TYPE_VARCHAR, IS_NULLABLE, 200));
-            assertTrue(hasColumnWith(executor, "FeatureToggles", "STRATEGY_PARAMS", DATA_TYPE_VARCHAR, IS_NULLABLE, 2000));
+            assertConstraintExistsForTable(executor, "FeatureToggles", "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsFor(executor, "FeatureToggles", "FEATURE_NAME", "PRI");
+            assertColumnWith(executor, "FeatureToggles", "FEATURE_NAME", DATA_TYPE_VARCHAR, NOT_NULLABLE, 100);
+            assertColumnWith(executor, "FeatureToggles", "FEATURE_ENABLED", DATA_TYPE_INTEGER, IS_NULLABLE);
+            assertColumnWith(executor, "FeatureToggles", "STRATEGY_ID", DATA_TYPE_VARCHAR, IS_NULLABLE, 200);
+            assertColumnWith(executor, "FeatureToggles", "STRATEGY_PARAMS", DATA_TYPE_VARCHAR, IS_NULLABLE, 2000);
 
             final String usersTableName = "Users";
             assertTrue(tableExists(usersTableName, executor));
-            assertTrue(constraintExistsForTable(executor, usersTableName, "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsForTable(executor, usersTableName, "UNIQUE", "UK_USERS_EMAIL"));
-            assertTrue(constraintExistsForTable(executor, usersTableName, "UNIQUE", "UK_USERS_USERNAME"));
-            assertTrue(constraintExistsFor(executor, usersTableName, "id", "PRI"));
-            assertTrue(constraintExistsFor(executor, usersTableName, "email", "UNI"));
-            assertTrue(constraintExistsFor(executor, usersTableName, "username", "UNI"));
-            assertTrue(hasColumnWith(executor, usersTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, usersTableName, "name", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40));
-            assertTrue(hasColumnWith(executor, usersTableName, "username", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40));
-            assertTrue(hasColumnWith(executor, usersTableName, "email", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40));
-            assertTrue(hasColumnWith(executor, usersTableName, "password", DATA_TYPE_VARCHAR, NOT_NULLABLE, 100));
+            assertConstraintExistsForTable(executor, usersTableName, "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsForTable(executor, usersTableName, "UNIQUE", "UK_USERS_EMAIL");
+            assertConstraintExistsForTable(executor, usersTableName, "UNIQUE", "UK_USERS_USERNAME");
+            assertConstraintExistsFor(executor, usersTableName, "id", "PRI");
+            assertConstraintExistsFor(executor, usersTableName, "email", "UNI");
+            assertConstraintExistsFor(executor, usersTableName, "username", "UNI");
+            assertColumnWith(executor, usersTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
+            assertColumnWith(executor, usersTableName, "name", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40);
+            assertColumnWith(executor, usersTableName, "username", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40);
+            assertColumnWith(executor, usersTableName, "email", DATA_TYPE_VARCHAR, NOT_NULLABLE, 40);
+            assertColumnWith(executor, usersTableName, "password", DATA_TYPE_VARCHAR, NOT_NULLABLE, 100);
             assertAuditColumns(executor, usersTableName);
 
             final String rolesTableName = "Roles";
             assertTrue(tableExists(rolesTableName, executor));
-            assertTrue(constraintExistsForTable(executor, rolesTableName, "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsForTable(executor, rolesTableName, "UNIQUE", "UK_ROLES_NAME"));
-            assertTrue(constraintExistsFor(executor, rolesTableName, "id", "PRI"));
-            assertTrue(constraintExistsFor(executor, rolesTableName, "name", "UNI"));
-            assertTrue(hasColumnWith(executor, rolesTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, rolesTableName, "name", DATA_TYPE_VARCHAR, NOT_NULLABLE, 60));
+            assertConstraintExistsForTable(executor, rolesTableName, "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsForTable(executor, rolesTableName, "UNIQUE", "UK_ROLES_NAME");
+            assertConstraintExistsFor(executor, rolesTableName, "id", "PRI");
+            assertConstraintExistsFor(executor, rolesTableName, "name", "UNI");
+            assertColumnWith(executor, rolesTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
+            assertColumnWith(executor, rolesTableName, "name", DATA_TYPE_VARCHAR, NOT_NULLABLE, 60);
             assertAuditColumns(executor, rolesTableName);
 
             assertThat(executor.getRowExtractor(rolesTableName).getRowsWithSpecifiedField("name", "ROLE_USER").size(), is(1));
@@ -111,11 +113,11 @@ public class DBMigrationScriptTest {
 
             final String userRolesTableName = "UserRoles";
             assertTrue(tableExists(userRolesTableName, executor));
-            assertTrue(constraintExistsForTable(executor, userRolesTableName, "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsForTable(executor, userRolesTableName, "FOREIGN KEY", "FK_USER_ROLES_ROLE_ID"));
-            assertTrue(constraintExistsForTable(executor, userRolesTableName, "FOREIGN KEY", "FK_USER_ROLES_USER_ID"));
-            assertTrue(hasColumnWith(executor, userRolesTableName, "userId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, userRolesTableName, "roleId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
+            assertConstraintExistsForTable(executor, userRolesTableName, "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsForTable(executor, userRolesTableName, "FOREIGN KEY", "FK_USER_ROLES_ROLE_ID");
+            assertConstraintExistsForTable(executor, userRolesTableName, "FOREIGN KEY", "FK_USER_ROLES_USER_ID");
+            assertColumnWith(executor, userRolesTableName, "userId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
+            assertColumnWith(executor, userRolesTableName, "roleId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
         };
 
         migrationCheck.testDbMigrationWithScriptNumber(1, preOperation, postOperation);
@@ -127,13 +129,13 @@ public class DBMigrationScriptTest {
 
         final Operation postOperation = executor -> {
             assertTrue(tableExists("Sample", executor));
-            assertTrue(constraintExistsForTable(executor, "Sample", "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsFor(executor, "Sample", "id", "PRI"));
-            assertTrue(hasColumnWith(executor, "Sample", "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, "Sample", "active", DATA_TYPE_BIT, IS_NULLABLE, 1));
-            assertTrue(hasColumnWith(executor, "Sample", "address", DATA_TYPE_VARCHAR, IS_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, "Sample", "firstName", DATA_TYPE_VARCHAR, IS_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, "Sample", "lastName", DATA_TYPE_VARCHAR, IS_NULLABLE, 255));
+            assertConstraintExistsForTable(executor, "Sample", "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsFor(executor, "Sample", "id", "PRI");
+            assertColumnWith(executor, "Sample", "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
+            assertColumnWith(executor, "Sample", "active", DATA_TYPE_BIT, IS_NULLABLE, 1);
+            assertColumnWith(executor, "Sample", "address", DATA_TYPE_VARCHAR, IS_NULLABLE, 255);
+            assertColumnWith(executor, "Sample", "firstName", DATA_TYPE_VARCHAR, IS_NULLABLE, 255);
+            assertColumnWith(executor, "Sample", "lastName", DATA_TYPE_VARCHAR, IS_NULLABLE, 255);
         };
 
         migrationCheck.testDbMigrationWithScriptNumber(2, preOperation, postOperation);
@@ -164,37 +166,37 @@ public class DBMigrationScriptTest {
 
         final Operation postOperation = executor -> {
             assertTrue(tableExists(auditEntryTableName, executor));
-            assertTrue(constraintExistsForTable(executor, auditEntryTableName, "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsFor(executor, auditEntryTableName, "id", "PRI"));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "fieldChanged", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "fromValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
-            assertTrue(hasColumnWith(executor, auditEntryTableName, "toValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
+            assertConstraintExistsForTable(executor, auditEntryTableName, "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsFor(executor, auditEntryTableName, "id", "PRI");
+            assertColumnWith(executor, auditEntryTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
+            assertColumnWith(executor, auditEntryTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6);
+            assertColumnWith(executor, auditEntryTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryTableName, "fieldChanged", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryTableName, "fromValue", DATA_TYPE_LONGTEXT, IS_NULLABLE);
+            assertColumnWith(executor, auditEntryTableName, "toValue", DATA_TYPE_LONGTEXT, IS_NULLABLE);
 
             assertTrue(tableExists(auditEntryArchiveTableName, executor));
-            assertTrue(constraintExistsForTable(executor, auditEntryArchiveTableName, "PRIMARY KEY", "PRIMARY"));
-            assertTrue(constraintExistsFor(executor, auditEntryArchiveTableName, "id", "PRI"));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "fieldChanged", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "fromValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
-            assertTrue(hasColumnWith(executor, auditEntryArchiveTableName, "toValue", DATA_TYPE_LONGTEXT, IS_NULLABLE));
+            assertConstraintExistsForTable(executor, auditEntryArchiveTableName, "PRIMARY KEY", "PRIMARY");
+            assertConstraintExistsFor(executor, auditEntryArchiveTableName, "id", "PRI");
+            assertColumnWith(executor, auditEntryArchiveTableName, "id", DATA_TYPE_VARCHAR, NOT_NULLABLE, 50);
+            assertColumnWith(executor, auditEntryArchiveTableName, "changedAt", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6);
+            assertColumnWith(executor, auditEntryArchiveTableName, "changedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryArchiveTableName, "changedEntityId", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryArchiveTableName, "changedEntityName", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryArchiveTableName, "fieldChanged", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+            assertColumnWith(executor, auditEntryArchiveTableName, "fromValue", DATA_TYPE_LONGTEXT, IS_NULLABLE);
+            assertColumnWith(executor, auditEntryArchiveTableName, "toValue", DATA_TYPE_LONGTEXT, IS_NULLABLE);
         };
 
         migrationCheck.testDbMigrationWithScriptNumber(4, preOperation, postOperation);
     }
 
     private void assertAuditColumns(MultiSqlExecutor executor, String usersTableName) {
-        assertTrue(hasColumnWith(executor, usersTableName, "createdBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-        assertTrue(hasColumnWith(executor, usersTableName, "createdDate", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6));
-        assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255));
-        assertTrue(hasColumnWith(executor, usersTableName, "lastModifiedDate", DATA_TYPE_TIMESTAMP, IS_NULLABLE, 6));
+        assertColumnWith(executor, usersTableName, "createdBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+        assertColumnWith(executor, usersTableName, "createdDate", DATA_TYPE_TIMESTAMP, NOT_NULLABLE, 6);
+        assertColumnWith(executor, usersTableName, "lastModifiedBy", DATA_TYPE_VARCHAR, NOT_NULLABLE, 255);
+        assertColumnWith(executor, usersTableName, "lastModifiedDate", DATA_TYPE_TIMESTAMP, IS_NULLABLE, 6);
     }
 }

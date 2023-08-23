@@ -45,7 +45,7 @@ public class MigrationTestHelper {
                     "MODE=MySQL;" +
                     "DB_CLOSE_DELAY=-1;" +
                     "DB_CLOSE_ON_EXIT=FALSE;" +
-                    "DATABASE_TO_UPPER=false;" +
+                    "DATABASE_TO_UPPER=FALSE;" +
                     "INIT=CREATE SCHEMA IF NOT EXISTS " + SCHEMA_NAME + "\\;" +
                     "SET SCHEMA " + SCHEMA_NAME + ";";
         }
@@ -72,31 +72,27 @@ public class MigrationTestHelper {
     }
 
     public static boolean tableExists(final String tableName, final MultiSqlExecutor executor) {
-        final String query = "SELECT count(*) FROM INFORMATION_SCHEMA.TABLES "
+        final String query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES "
                 + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
                 + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' ";
         System.out.println("\nCheck if table exists: \n" + query);
 
         final Integer count = executor.getTemplate().queryForObject(query, Integer.class);
-        return count != null && count > 0;
+        return count != null && count == 1;
     }
 
     public static boolean columnExists(final String tableName, final String columnName, final MultiSqlExecutor executor) {
-        return hasColumnWith(executor, tableName, columnName);
-    }
-
-    public static boolean hasColumnWith(final MultiSqlExecutor executor, final String tableName, final String columnName) {
-        final String query = "SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS "
+        final String query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS "
                 + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
                 + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
                 + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' ";
         System.out.println("\nCheck if column exists with specifics: \n" + query);
 
         final Integer count = executor.getTemplate().queryForObject(query, Integer.class);
-        return count != null && count > 0;
+        return count != null && count == 1;
     }
 
-    public static boolean hasColumnWith(final MultiSqlExecutor executor,
+    public static void assertColumnWith(final MultiSqlExecutor executor,
                                         final String tableName,
                                         final String columnName,
                                         final String dataType,
@@ -111,10 +107,9 @@ public class MigrationTestHelper {
         assertFalse(result.isEmpty());
         assertEquals((nullable ? "YES" : "NO"), result.get("IS_NULLABLE"));
         assertThat(result.get("DATA_TYPE").toString(), equalToIgnoringCase(getConvertedDataType(dataType)));
-        return true;
     }
 
-    public static boolean hasColumnWith(final MultiSqlExecutor executor,
+    public static void assertColumnWith(final MultiSqlExecutor executor,
                                         final String tableName,
                                         final String columnName,
                                         final String dataType,
@@ -132,7 +127,6 @@ public class MigrationTestHelper {
         assertEquals((nullable ? "YES" : "NO"), result.get("IS_NULLABLE"));
         assertThat(result.get("DATA_TYPE").toString(), equalToIgnoringCase(getConvertedDataType(dataType)));
         assertEquals(size, result.get(getSizeColumnName(dataType)));
-        return true;
     }
 
     public static String getSizeColumnName(final String dataType) {
@@ -145,10 +139,10 @@ public class MigrationTestHelper {
         }
     }
 
-    public static boolean constraintExistsForTable(final MultiSqlExecutor executor,
-                                                   final String tableName,
-                                                   final String constrainType,
-                                                   final String constraintName) {
+    public static void assertConstraintExistsForTable(final MultiSqlExecutor executor,
+                                                      final String tableName,
+                                                      final String constrainType,
+                                                      final String constraintName) {
         final String query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS "
                 + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
                 + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' ";
@@ -163,25 +157,21 @@ public class MigrationTestHelper {
                 ).count();
         assertEquals(1, count,
                 "Found " + constraints.size() + " but none of them matched with specified attributes");
-        return true;
     }
 
-    public static boolean constraintExistsFor(final MultiSqlExecutor executor,
-                                              final String tableName,
-                                              final String columnName,
-                                              final String columnKey) {
+    public static void assertConstraintExistsFor(final MultiSqlExecutor executor,
+                                                 final String tableName,
+                                                 final String columnName,
+                                                 final String columnKey) {
         final String query = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS "
                 + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
                 + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
-                + "AND COLUMN_KEY = '" + columnKey.toUpperCase() + "' "
-                ;
+                + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' ";
         System.out.println("\nCheck if column exists with constraint: \n" + query);
 
         final Map<String, Object> result = executor.getTemplate().queryForMap(query);
         assertFalse(result.isEmpty());
         assertEquals(columnKey.toUpperCase(), result.get("COLUMN_KEY"));
-        return true;
     }
 
     private static void executeScripts(final MultiSqlExecutor template, final List<MigrationScript> migrationScripts) {
