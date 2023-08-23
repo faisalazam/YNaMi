@@ -28,13 +28,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class DBMigrationScriptTest {
+public class DBMigrationScriptTest {
+    public static final String DATA_TYPE_VARCHAR = "VARCHAR";
+    public static final String DATA_TYPE_H2_VARCHAR = "CHARACTER VARYING";
+
     private static final boolean IS_NULLABLE = true;
     private static final boolean NOT_NULLABLE = false;
     private static final String DATA_TYPE_BIT = "BIT";
     private static final String DATA_TYPE_INTEGER = "INT";
     private static final String DATA_TYPE_BIGINT = "BIGINT";
-    private static final String DATA_TYPE_VARCHAR = "VARCHAR";
     private static final String DATA_TYPE_LONGTEXT = "LONGTEXT";
     private static final String DATA_TYPE_TIMESTAMP = "TIMESTAMP";
 

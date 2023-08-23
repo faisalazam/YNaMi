@@ -6,8 +6,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static io.netty.util.internal.StringUtil.EMPTY_STRING;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_H2_VARCHAR;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_VARCHAR;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MigrationTestHelper {
     // TODO Spring Upgrade: read value of isMySql from properties file somehow???
@@ -57,17 +64,20 @@ public class MigrationTestHelper {
     static void evolveDatabaseToPenultimatePoint(final int scriptNumber,
                                                  final MigrationScriptFetcher fetcher,
                                                  final MultiSqlExecutor template) throws Exception {
-        final List<MigrationScript> migrationScripts = fetcher.allMigrationScriptsBefore(scriptNumber, SCRIPT_NUMBERS_TO_IGNORE);
+        final List<MigrationScript> migrationScripts = fetcher.allMigrationScriptsBefore(
+                scriptNumber,
+                SCRIPT_NUMBERS_TO_IGNORE
+        );
         executeScripts(template, migrationScripts);
     }
 
     public static boolean tableExists(final String tableName, final MultiSqlExecutor executor) {
-        final Integer count = executor.getTemplate().queryForObject(
-                "SELECT count(*) FROM INFORMATION_SCHEMA.TABLES "
-                        + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                        + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                , Integer.class
-        );
+        final String query = "SELECT count(*) FROM INFORMATION_SCHEMA.TABLES "
+                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
+                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' ";
+        System.out.println("\nCheck if table exists: \n" + query);
+
+        final Integer count = executor.getTemplate().queryForObject(query, Integer.class);
         return count != null && count > 0;
     }
 
@@ -76,13 +86,13 @@ public class MigrationTestHelper {
     }
 
     public static boolean hasColumnWith(final MultiSqlExecutor executor, final String tableName, final String columnName) {
-        final Integer count = executor.getTemplate().queryForObject(
-                "SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS "
-                        + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                        + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                        + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
-                , Integer.class
-        );
+        final String query = "SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS "
+                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
+                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
+                + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' ";
+        System.out.println("\nCheck if column exists with specifics: \n" + query);
+
+        final Integer count = executor.getTemplate().queryForObject(query, Integer.class);
         return count != null && count > 0;
     }
 
@@ -91,16 +101,17 @@ public class MigrationTestHelper {
                                         final String columnName,
                                         final String dataType,
                                         final boolean nullable) {
-        final Integer count = executor.getTemplate().queryForObject(
-                "SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS "
-                        + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                        + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                        + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
-                        + "AND IS_NULLABLE = '" + (nullable ? "YES" : "NO") + "' "
-                        + "AND upper(DATA_TYPE) = '" + dataType.toUpperCase() + "' "
-                , Integer.class
-        );
-        return count != null && count > 0;
+        final String query = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS "
+                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
+                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
+                + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' ";
+        System.out.println("\nCheck if column exists with specifics: \n" + query);
+
+        final Map<String, Object> result = executor.getTemplate().queryForMap(query);
+        assertFalse(result.isEmpty());
+        assertEquals((nullable ? "YES" : "NO"), result.get("IS_NULLABLE"));
+        assertThat(result.get("DATA_TYPE").toString(), equalToIgnoringCase(getConvertedDataType(dataType)));
+        return true;
     }
 
     public static boolean hasColumnWith(final MultiSqlExecutor executor,
@@ -108,19 +119,20 @@ public class MigrationTestHelper {
                                         final String columnName,
                                         final String dataType,
                                         final boolean nullable,
-                                        final int size) {
+                                        final long size) {
 
-        final Integer count = executor.getTemplate().queryForObject(
-                "SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS "
-                        + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                        + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                        + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
-                        + "AND IS_NULLABLE = '" + (nullable ? "YES" : "NO") + "' "
-                        + "AND upper(DATA_TYPE) = '" + dataType.toUpperCase() + "' "
-                        + "AND " + getSizeColumnName(dataType) + " = '" + size + "'"
-                , Integer.class
-        );
-        return count != null && count > 0;
+        String query = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS "
+                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
+                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
+                + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' ";
+        System.out.println("\nCheck if column exists with specifics: \n" + query);
+
+        final Map<String, Object> result = executor.getTemplate().queryForMap(query);
+        assertFalse(result.isEmpty());
+        assertEquals((nullable ? "YES" : "NO"), result.get("IS_NULLABLE"));
+        assertThat(result.get("DATA_TYPE").toString(), equalToIgnoringCase(getConvertedDataType(dataType)));
+        assertEquals(size, result.get(getSizeColumnName(dataType)));
+        return true;
     }
 
     public static String getSizeColumnName(final String dataType) {
@@ -137,30 +149,39 @@ public class MigrationTestHelper {
                                                    final String tableName,
                                                    final String constrainType,
                                                    final String constraintName) {
-        final Integer count = executor.getTemplate().queryForObject(
-                "SELECT count(*) FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS "
-                        + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                        + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                        + "AND upper(CONSTRAINT_TYPE) = '" + constrainType.toUpperCase() + "' "
-                        + "AND upper(CONSTRAINT_NAME) = '" + constraintName.toUpperCase() + "' "
-                , Integer.class
-        );
-        return count != null && count > 0;
+        final String query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS "
+                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
+                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' ";
+        System.out.println("\nCheck if table exists with constraint: \n" + query);
+
+        final List<Map<String, Object>> constraints = executor.getTemplate().queryForList(query);
+        final long count = constraints
+                .stream()
+                .filter(map ->
+                        map.get("CONSTRAINT_TYPE").toString().equalsIgnoreCase(constrainType) &&
+                                map.get("CONSTRAINT_NAME").toString().equalsIgnoreCase(constraintName)
+                ).count();
+        assertEquals(1, count,
+                "Found " + constraints.size() + " but none of them matched with specified attributes");
+        return true;
     }
 
     public static boolean constraintExistsFor(final MultiSqlExecutor executor,
                                               final String tableName,
                                               final String columnName,
                                               final String columnKey) {
-        final Integer count = executor.getTemplate().queryForObject(
-                "SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS "
-                        + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                        + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
-                        + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
-                        + "AND COLUMN_KEY = '" + columnKey.toUpperCase() + "' "
-                , Integer.class
-        );
-        return count != null && count > 0;
+        final String query = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS "
+                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
+                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' "
+                + "AND upper(COLUMN_NAME) = '" + columnName.toUpperCase() + "' "
+                + "AND COLUMN_KEY = '" + columnKey.toUpperCase() + "' "
+                ;
+        System.out.println("\nCheck if column exists with constraint: \n" + query);
+
+        final Map<String, Object> result = executor.getTemplate().queryForMap(query);
+        assertFalse(result.isEmpty());
+        assertEquals(columnKey.toUpperCase(), result.get("COLUMN_KEY"));
+        return true;
     }
 
     private static void executeScripts(final MultiSqlExecutor template, final List<MigrationScript> migrationScripts) {
@@ -170,5 +191,10 @@ public class MigrationTestHelper {
             template.execute(sqlQuery);
             System.out.println("==============  Finished Executing migration script " + migrationScript.getFileName() + " ============");
         }
+    }
+
+    private static String getConvertedDataType(final String dataType) {
+        return !CONNECT_TO_MYSQL && DATA_TYPE_VARCHAR.equalsIgnoreCase(dataType)
+                ? DATA_TYPE_H2_VARCHAR : dataType;
     }
 }
