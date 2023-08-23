@@ -41,4 +41,4 @@ bin/
 
 ### Other Project Files ###
 ynami.log
-*.db
+h2_db/
