@@ -9,12 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 import static io.netty.util.internal.StringUtil.EMPTY_STRING;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_BIT;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_H2_BIT;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_H2_INTEGER;
 import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_H2_VARCHAR;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_INTEGER;
+import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_LONGTEXT;
 import static migration.pk.lucidxpo.ynami.test.DBMigrationScriptTest.DATA_TYPE_VARCHAR;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MigrationTestHelper {
     // TODO Spring Upgrade: read value of isMySql from properties file somehow???
@@ -125,8 +131,24 @@ public class MigrationTestHelper {
         final Map<String, Object> result = executor.getTemplate().queryForMap(query);
         assertFalse(result.isEmpty());
         assertEquals((nullable ? "YES" : "NO"), result.get("IS_NULLABLE"));
-        assertThat(result.get("DATA_TYPE").toString(), equalToIgnoringCase(getConvertedDataType(dataType)));
-        assertEquals(size, result.get(getSizeColumnName(dataType)));
+
+        final String convertedDataType = getConvertedDataType(dataType);
+        assertThat(result.get("DATA_TYPE").toString(), equalToIgnoringCase(convertedDataType));
+
+        final String sizeColumnName = getSizeColumnName(dataType);
+        final Object sizeObject = result.get(sizeColumnName);
+        if (sizeObject instanceof Long) {
+            assertEquals(size, sizeObject);
+        } else {
+            if (DATA_TYPE_H2_BIT.equalsIgnoreCase(convertedDataType)) {
+                // H2 has no size for this type
+                assertNull(sizeObject);
+            } else {
+                // this is just for H2 compatibility as MySql will return the size in long always
+                // but H2 will return the size in integer for DateTime columns and in long otherwise.
+                assertEquals(((Long) size).intValue(), sizeObject);
+            }
+        }
     }
 
     public static String getSizeColumnName(final String dataType) {
@@ -141,7 +163,7 @@ public class MigrationTestHelper {
 
     public static void assertConstraintExistsForTable(final MultiSqlExecutor executor,
                                                       final String tableName,
-                                                      final String constrainType,
+                                                      final String constraintType,
                                                       final String constraintName) {
         final String query = "SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS "
                 + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
@@ -149,11 +171,12 @@ public class MigrationTestHelper {
         System.out.println("\nCheck if table exists with constraint: \n" + query);
 
         final List<Map<String, Object>> constraints = executor.getTemplate().queryForList(query);
+        final String convertedConstraintName = getConvertedConstraintName(constraintType, constraintName);
         final long count = constraints
                 .stream()
                 .filter(map ->
-                        map.get("CONSTRAINT_TYPE").toString().equalsIgnoreCase(constrainType) &&
-                                map.get("CONSTRAINT_NAME").toString().equalsIgnoreCase(constraintName)
+                        map.get("CONSTRAINT_TYPE").toString().equalsIgnoreCase(constraintType) &&
+                                map.get("CONSTRAINT_NAME").toString().equalsIgnoreCase(convertedConstraintName)
                 ).count();
         assertEquals(1, count,
                 "Found " + constraints.size() + " but none of them matched with specified attributes");
@@ -171,7 +194,23 @@ public class MigrationTestHelper {
 
         final Map<String, Object> result = executor.getTemplate().queryForMap(query);
         assertFalse(result.isEmpty());
-        assertEquals(columnKey.toUpperCase(), result.get("COLUMN_KEY"));
+        if (CONNECT_TO_MYSQL) { // h2 issue -> COLUMN_KEY doesn't exist in current (2.2.220) H2 database
+            assertEquals(columnKey.toUpperCase(), result.get("COLUMN_KEY"));
+        }
+    }
+
+    public static String getConvertedDataType(final String dataType) {
+        if (CONNECT_TO_MYSQL) {
+            return dataType;
+        }
+        if (DATA_TYPE_VARCHAR.equalsIgnoreCase(dataType) || DATA_TYPE_LONGTEXT.equalsIgnoreCase(dataType)) {
+            return DATA_TYPE_H2_VARCHAR;
+        } else if (DATA_TYPE_INTEGER.equalsIgnoreCase(dataType)) {
+            return DATA_TYPE_H2_INTEGER;
+        } else if (DATA_TYPE_BIT.equalsIgnoreCase(dataType)) {
+            return DATA_TYPE_H2_BIT;
+        }
+        return dataType;
     }
 
     private static void executeScripts(final MultiSqlExecutor template, final List<MigrationScript> migrationScripts) {
@@ -183,8 +222,7 @@ public class MigrationTestHelper {
         }
     }
 
-    private static String getConvertedDataType(final String dataType) {
-        return !CONNECT_TO_MYSQL && DATA_TYPE_VARCHAR.equalsIgnoreCase(dataType)
-                ? DATA_TYPE_H2_VARCHAR : dataType;
+    private static String getConvertedConstraintName(final String constraintType, final String constraintName) {
+        return CONNECT_TO_MYSQL && "PRIMARY KEY".equals(constraintType) ? "PRIMARY" : constraintName;
     }
 }

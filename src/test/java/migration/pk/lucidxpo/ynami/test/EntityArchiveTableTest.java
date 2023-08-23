@@ -21,6 +21,7 @@ import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabase;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
+import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.getConvertedDataType;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -204,7 +205,7 @@ class EntityArchiveTableTest {
                                     final String dataType) {
         for (final DBTableColumnMetaData columnMetaData : tableColumnMetaData) {
             if (columnName.equalsIgnoreCase(columnMetaData.getColumnName())
-                    && dataType.equalsIgnoreCase(columnMetaData.getDataType())) {
+                    && getConvertedDataType(dataType).equalsIgnoreCase(columnMetaData.getDataType())) {
                 return;
             }
         }
