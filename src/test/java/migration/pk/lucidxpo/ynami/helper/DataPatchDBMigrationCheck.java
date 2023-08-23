@@ -30,7 +30,7 @@ public class DataPatchDBMigrationCheck {
                                               final Operation preOperation,
                                               final Operation postOperation,
                                               final int evolveDatabaseUpToScriptNumber,
-                                              final boolean executeScriptMultipleTimes) throws Exception {
+                                              final boolean executeScriptMultipleTimes) {
         transaction.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(final TransactionStatus transactionStatus) {

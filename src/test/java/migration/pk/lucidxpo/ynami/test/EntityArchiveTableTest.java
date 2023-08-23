@@ -1,7 +1,7 @@
 package migration.pk.lucidxpo.ynami.test;
 
-import jakarta.persistence.Entity;
 import migration.pk.lucidxpo.ynami.helper.DBCleaner;
+import migration.pk.lucidxpo.ynami.helper.DBTableColumnMetaData;
 import migration.pk.lucidxpo.ynami.helper.MigrationScriptFetcher;
 import migration.pk.lucidxpo.ynami.helper.MultiSqlExecutor;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,21 +16,19 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
-import static java.util.stream.Collectors.toSet;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
+import static migration.pk.lucidxpo.ynami.helper.DBTableColumnMetaData.findColumnMetaData;
+import static migration.pk.lucidxpo.ynami.helper.DBTableColumnMetaDataUtil.assertColumnExists;
+import static migration.pk.lucidxpo.ynami.helper.DBTableColumnMetaDataUtil.getColumnMetaData;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCRIPT_DIRECTORY_PATH;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.evolveDatabase;
 import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.executorForLocalMySql;
-import static migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.getConvertedDataType;
-import static org.apache.commons.lang3.BooleanUtils.toBoolean;
+import static migration.pk.lucidxpo.ynami.helper.ReflectionHelper.getEntityClasses;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.data.util.Pair.of;
 import static org.springframework.util.CollectionUtils.isEmpty;
-import static pk.lucidxpo.ynami.utils.ReflectionHelper.getTypesAnnotatedWith;
-import static ut.pk.lucidxpo.ynami.PackageVerifierTest.BASE_PACKAGE;
 
 /**
  * If the Java archive entity name follows the pattern "EntityName" + "Archive", you don't need to write testcase manually
@@ -106,7 +104,9 @@ class EntityArchiveTableTest {
 
     private void assertMetaDataNotEmpty(final List<DBTableColumnMetaData> columnMetaData, final String tableName) {
         if (isEmpty(columnMetaData)) {
-            fail("could not find any column on entity table[" + tableName + "], make sure all the delta scripts are applied.");
+            fail("could not find any column on entity table["
+                    + tableName + "], make sure all the delta scripts are applied."
+            );
         }
     }
 
@@ -114,7 +114,12 @@ class EntityArchiveTableTest {
                                                             final String archiveTable,
                                                             final boolean ignoreNullable,
                                                             final boolean ignoreDataDefault) {
-        checkEntityTableAndArchiveTableDBStructure(entityTable, null, archiveTable, ignoreNullable, ignoreDataDefault);
+        checkEntityTableAndArchiveTableDBStructure(entityTable,
+                null,
+                archiveTable,
+                ignoreNullable,
+                ignoreDataDefault
+        );
     }
 
     private void checkTableStructure(final List<DBTableColumnMetaData> tableColumnMetaData,
@@ -200,44 +205,20 @@ class EntityArchiveTableTest {
         }
     }
 
-    private void assertColumnExists(final List<DBTableColumnMetaData> tableColumnMetaData,
-                                    final String columnName,
-                                    final String dataType) {
-        for (final DBTableColumnMetaData columnMetaData : tableColumnMetaData) {
-            if (columnName.equalsIgnoreCase(columnMetaData.getColumnName())
-                    && getConvertedDataType(dataType).equalsIgnoreCase(columnMetaData.getDataType())) {
-                return;
-            }
-        }
-        fail("The table [" + tableColumnMetaData.get(0).getTableName() + "] should have column ["
-                + columnName + "] with dataType [" + dataType + "]"
-        );
-    }
-
-    private DBTableColumnMetaData findColumnMetaData(final List<DBTableColumnMetaData> archiveTableColumnMetaData,
-                                                     final String columnName) {
-        for (final DBTableColumnMetaData columnMetaData : archiveTableColumnMetaData) {
-            if (columnName.equals(columnMetaData.getColumnName())) {
-                return columnMetaData;
-            }
-        }
-        return null;
-    }
-
     private Collection<Pair<Class, Class>> getArchivableEntityPairs() {
-        final Collection<Class<?>> entityClasses = getEntityClasses();
+        final Collection<Class<?>> entityClasses = getEntityClasses(IGNORE_ENTITY_CLASSES);
         return getPairsFromEntityCollection(entityClasses);
     }
 
     private Collection<Pair<Class, Class>> getPairsFromEntityCollection(Collection<Class<?>> entityClasses) {
         final Set<Pair<Class, Class>> archivableEntityClasses = newHashSet();
-        for (final Class entityClass : entityClasses) {
+        entityClasses.forEach(entityClass -> {
             final String relatedClassName = getRelatedClassSimpleName(entityClass.getSimpleName());
             final Class relatedClass = getEntityClass(relatedClassName, entityClasses);
             if (relatedClass != null) {
                 addToCollection(archivableEntityClasses, entityClass, relatedClass);
             }
-        }
+        });
 
         return archivableEntityClasses;
     }
@@ -254,12 +235,7 @@ class EntityArchiveTableTest {
     }
 
     private boolean containEntry(final Collection<Pair<Class, Class>> archivableEntityClasses, final Class entity) {
-        for (final Pair<Class, Class> entry : archivableEntityClasses) {
-            if (entry.getFirst().equals(entity)) {
-                return true;
-            }
-        }
-        return false;
+        return archivableEntityClasses.stream().anyMatch(entry -> entry.getFirst().equals(entity));
     }
 
     private Class<?> getEntityClass(final String relatedClassName, final Collection<Class<?>> entityClasses) {
@@ -273,36 +249,8 @@ class EntityArchiveTableTest {
     }
 
     private String getRelatedClassSimpleName(final String entityClassSimpleName) {
-        if (entityClassSimpleName.endsWith(ARCHIVE_SUFFIX)) {
-            return entityClassSimpleName.substring(0, entityClassSimpleName.indexOf(ARCHIVE_SUFFIX));
-        } else {
-            return entityClassSimpleName + ARCHIVE_SUFFIX;
-        }
-    }
-
-    private Collection<Class<?>> getEntityClasses() {
-        return getTypesAnnotatedWith(Entity.class, BASE_PACKAGE)
-                .stream()
-                .filter(entityClass -> !IGNORE_ENTITY_CLASSES.contains(entityClass))
-                .collect(toSet());
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    private List<DBTableColumnMetaData> getColumnMetaData(final MultiSqlExecutor executor, final String tableName) {
-        final String querySQL = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, "
-                + "NUMERIC_PRECISION, DATETIME_PRECISION, IS_NULLABLE, COLUMN_DEFAULT "
-                + "FROM INFORMATION_SCHEMA.COLUMNS "
-                + "WHERE upper(TABLE_SCHEMA) = '" + SCHEMA_NAME.toUpperCase() + "' "
-                + "AND upper(TABLE_NAME) = '" + tableName.toUpperCase() + "' ";
-        return executor.getTemplate().query(querySQL, null, null, (rs, rowNum) -> new DBTableColumnMetaData(
-                rs.getString("TABLE_NAME"),
-                rs.getString("COLUMN_NAME"),
-                rs.getString("DATA_TYPE"),
-                rs.getBigDecimal("CHARACTER_MAXIMUM_LENGTH"),
-                rs.getInt("NUMERIC_PRECISION"),
-                rs.getInt("DATETIME_PRECISION"),
-                toBoolean(rs.getString("IS_NULLABLE")),
-                rs.getString("COLUMN_DEFAULT")
-        ));
+        return entityClassSimpleName.endsWith(ARCHIVE_SUFFIX)
+                ? entityClassSimpleName.substring(0, entityClassSimpleName.indexOf(ARCHIVE_SUFFIX))
+                : entityClassSimpleName + ARCHIVE_SUFFIX;
     }
 }

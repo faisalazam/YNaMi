@@ -1,10 +1,11 @@
-package migration.pk.lucidxpo.ynami.test;
+package migration.pk.lucidxpo.ynami.helper;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @ToString
@@ -35,5 +36,13 @@ public class DBTableColumnMetaData {
         this.datetimePrecision = datetimePrecision;
         this.nullable = nullable;
         this.dataDefault = dataDefault;
+    }
+
+    public static DBTableColumnMetaData findColumnMetaData(final List<DBTableColumnMetaData> archiveTableColumnMetaData,
+                                                           final String columnName) {
+        return archiveTableColumnMetaData.stream()
+                .filter(columnMetaData -> columnName.equals(columnMetaData.getColumnName()))
+                .findFirst()
+                .orElse(null);
     }
 }
