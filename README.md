@@ -29,6 +29,10 @@ if running this application from IDE:
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
 
+### Setting up H2
+
+[Click here for the details](readme/H2-SETUP.md)
+
 ### Setting up Data Sources in IntelliJ
 
 [Click here for the details](readme/DATA_SOURCES.md)
