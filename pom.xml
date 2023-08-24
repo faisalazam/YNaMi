@@ -582,10 +582,8 @@
                 <configuration>
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>${surefireArgLine}</argLine>
-                    <excludes>
-                        <exclude>**/*IntegrationTest.java</exclude>
-                    </excludes>
                     <skipTests>${skip.unit.tests}</skipTests>
+                    <test>ut.pk.lucidxpo.**/*Test.class</test>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                 </configuration>
             </plugin>
@@ -597,10 +595,8 @@
                 <configuration>
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>${testArgLine}</argLine>
-                    <includes>
-                        <include>**/*IntegrationTest.java</include>
-                    </includes>
                     <skipTests>${skip.integration.tests}</skipTests>
+                    <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                 </configuration>
             </plugin>
@@ -776,7 +772,6 @@
                 <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
             </properties>
-            <build></build>
         </profile>
     </profiles>
 </project>
