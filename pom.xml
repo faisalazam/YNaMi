@@ -551,13 +551,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!-- The following 'add-opens' args are required for reflection -->
-                    <jvmArguments>
-                        --add-opens java.base/java.lang=ALL-UNNAMED
-                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-                    </jvmArguments>
-                </configuration>
 			</plugin>
 
             <plugin>
@@ -595,11 +588,7 @@
                 <configuration>
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>
-                        --add-opens java.base/java.util=ALL-UNNAMED
-                        --add-opens java.base/java.text=ALL-UNNAMED
                         --add-opens java.base/java.lang=ALL-UNNAMED
-                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-                        --add-opens java.desktop/java.awt.font=ALL-UNNAMED
                         -D${testArgLine}
                     </argLine>
                     <skipTests>${skip.integration.tests}</skipTests>

@@ -102,6 +102,9 @@ But don't forget to add the following to VM options if running this application 
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
 
+But since the spring boot upgrade, seems like we don't need to set them in the VM options nor in the 
+`spring-boot-maven-plugin` in pom.xml file.
+
 </details>
 </blockquote>
 
@@ -171,6 +174,28 @@ But don't forget to add the following to VM options if running the integration t
 --add-opens java.base/java.lang=ALL-UNNAMED
 --add-opens java.base/java.lang.reflect=ALL-UNNAMED
 --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+```
+
+But since the spring boot upgrade, seems like we just need to set `--add-opens java.base/java.lang=ALL-UNNAMED` 
+in the VM options and the following in pom.xml file:
+
+```xml
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>${maven-surefire-plugin.version}</version>
+    <configuration>
+        <!--suppress UnresolvedMavenProperty -->
+        <argLine>
+            --add-opens java.base/java.lang=ALL-UNNAMED
+            -D${testArgLine}
+        </argLine>
+        <skipTests>${skip.integration.tests}</skipTests>
+        <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
+        <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
+    </configuration>
+</plugin>
 ```
 
 </details>

@@ -29,6 +29,9 @@ if running this application from IDE:
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
 
+But since the spring boot upgrade, seems like we don't need to set them in the VM options nor in the
+`spring-boot-maven-plugin` in pom.xml file.
+
 And add the following to run the integration tests from the IDE:
 
 ```
