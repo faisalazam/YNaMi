@@ -573,10 +573,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
+                    <test>${tests.to.execute}</test>
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>${surefireArgLine}</argLine>
                     <skipTests>${skip.unit.tests}</skipTests>
-                    <test>ut.pk.lucidxpo.**/*Test.class</test>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                 </configuration>
             </plugin>
@@ -591,8 +591,8 @@
                         --add-opens java.base/java.lang=ALL-UNNAMED
                         -D${testArgLine}
                     </argLine>
+                    <test>${tests.to.execute}</test>
                     <skipTests>${skip.integration.tests}</skipTests>
-                    <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                 </configuration>
             </plugin>
@@ -744,21 +744,42 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <tests.to.execute>ut.pk.lucidxpo.**/*Test.class</tests.to.execute>
+            </properties>
         </profile>
         <!--profile for Integration tests only -->
         <profile>
             <id>it</id>
             <properties>
-                <skip.unit.tests>true</skip.unit.tests>
-                <skip.integration.tests>false</skip.integration.tests>
+                <tests.to.execute>it.pk.lucidxpo.**/*IntegrationTest.class</tests.to.execute>
+            </properties>
+        </profile>
+        <!--profile for Database Migration tests only -->
+        <profile>
+            <id>mt</id>
+            <properties>
+                <tests.to.execute>migration.pk.lucidxpo.**/*Test.class</tests.to.execute>
+            </properties>
+        </profile>
+        <!--Both Unit and Database Migration tests combined -->
+        <profile>
+            <id>umt</id>
+            <properties>
+                <tests.to.execute>
+                    ut.pk.lucidxpo.**/*Test.class,
+                    migration.pk.lucidxpo.**/*Test.class
+                </tests.to.execute>
             </properties>
         </profile>
         <!-- Both Unit and Integration tests combined -->
         <profile>
             <id>uit</id>
             <properties>
-                <skip.unit.tests>false</skip.unit.tests>
-                <skip.integration.tests>false</skip.integration.tests>
+                <tests.to.execute>
+                    ut.pk.lucidxpo.**/*Test.class,
+                    it.pk.lucidxpo.**/*IntegrationTest.class
+                </tests.to.execute>
             </properties>
         </profile>
         <!-- No test execution required at all -->
@@ -767,8 +788,10 @@
             <properties>
                 <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
+<!--                <tests.to.execute>NoTestExecutionRequiredAtAll</tests.to.execute>-->
             </properties>
         </profile>
+        <!-- In order to run all tests, just use `mvn test` without specifying any profile -->
     </profiles>
 </project>
 
