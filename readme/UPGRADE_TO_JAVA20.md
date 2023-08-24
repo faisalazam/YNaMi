@@ -106,6 +106,77 @@ But don't forget to add the following to VM options if running this application 
 </blockquote>
 
 
+
+<blockquote>
+<details>
+    <summary><strong>Click to see details of InaccessibleObjectException</strong></summary>
+
+### Application run failed: java.lang.reflect.InaccessibleObjectException
+
+Right after fixing the issues with compiling the project,
+
+`mvn clean failsafe:integration-test -Pit` started failing with `Application run failed` with 
+`InaccessibleObjectException` and similar exceptions.
+
+<blockquote>
+<details>
+    <summary><strong>Click here for stacktrace</strong></summary>
+
+```exception
+java.lang.reflect.InaccessibleObjectException: Unable to make protected final 
+java.lang.Class java.lang.ClassLoader.findLoadedClass(java.lang.String) accessible: module java.base does not 
+"opens java.lang" to unnamed module
+```
+
+</details>
+</blockquote>
+
+### Fix
+
+I guess, since Java 17, we need to add the following `add-opens` to VM options in order to use reflection.
+
+So fix for this problem in my setup/environment was just to set the `argLine` with `add-opens` in 
+the `maven-failsafe-plugin` maven plugin in the [pom.xml](../pom.xml) file.
+
+```xml
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>${maven-surefire-plugin.version}</version>
+    <configuration>
+        <!--suppress UnresolvedMavenProperty -->
+        <argLine>
+            --add-opens java.base/java.util=ALL-UNNAMED
+            --add-opens java.base/java.text=ALL-UNNAMED
+            --add-opens java.base/java.lang=ALL-UNNAMED
+            --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+            --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+            -D${testArgLine}
+        </argLine>
+        <skipTests>${skip.integration.tests}</skipTests>
+        <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
+        <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
+    </configuration>
+</plugin>
+```
+
+NOTE the use of `-D` with `-D${testArgLine}` as without `-D`, we'll end up with `java.lang.ClassNotFoundException: ${testArgLine}`
+
+But don't forget to add the following to VM options if running the integration tests from IDE:
+
+```
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/java.text=ALL-UNNAMED
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens java.desktop/java.awt.font=ALL-UNNAMED
+```
+
+</details>
+</blockquote>
+
+
 <blockquote>
 <details>
     <summary><strong>Click to see details of NoClassDefFoundError: javax/xml/bind/JAXBException</strong></summary>

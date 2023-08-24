@@ -594,7 +594,14 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <!--suppress UnresolvedMavenProperty -->
-                    <argLine>${testArgLine}</argLine>
+                    <argLine>
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        --add-opens java.base/java.text=ALL-UNNAMED
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens java.desktop/java.awt.font=ALL-UNNAMED
+                        -D${testArgLine}
+                    </argLine>
                     <skipTests>${skip.integration.tests}</skipTests>
                     <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>

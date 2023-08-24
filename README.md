@@ -29,6 +29,16 @@ if running this application from IDE:
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
 
+And add the following to run the integration tests from the IDE:
+
+```
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/java.text=ALL-UNNAMED
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens java.desktop/java.awt.font=ALL-UNNAMED
+```
+
 
 ## Maven profiles
 * There are some profiles setup which can be used switch on/off certain things.
