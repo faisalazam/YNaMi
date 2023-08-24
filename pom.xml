@@ -591,7 +591,7 @@
                         --add-opens java.base/java.lang=ALL-UNNAMED
                         -D${testArgLine}
                     </argLine>
-                    <test>${tests.to.execute}</test>
+                    <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
                     <skipTests>${skip.integration.tests}</skipTests>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                 </configuration>
@@ -738,13 +738,24 @@
     </reporting>
 
     <profiles>
-        <!-- profile for Unit tests only -->
+        <!-- default profile for running all tests (including integration tests) and used by `mvn test` -->
         <profile>
-            <id>ut</id>
+            <id>all-tests</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <tests.to.execute />
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
+            </properties>
+        </profile>
+        <!-- profile for Unit tests only -->
+        <profile>
+            <id>ut</id>
+            <properties>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>ut.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>
@@ -752,13 +763,16 @@
         <profile>
             <id>it</id>
             <properties>
-                <tests.to.execute>it.pk.lucidxpo.**/*IntegrationTest.class</tests.to.execute>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
             </properties>
         </profile>
         <!--profile for Database Migration tests only -->
         <profile>
             <id>mt</id>
             <properties>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>migration.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>
@@ -770,16 +784,17 @@
                     ut.pk.lucidxpo.**/*Test.class,
                     migration.pk.lucidxpo.**/*Test.class
                 </tests.to.execute>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
             </properties>
         </profile>
         <!-- Both Unit and Integration tests combined -->
         <profile>
             <id>uit</id>
             <properties>
-                <tests.to.execute>
-                    ut.pk.lucidxpo.**/*Test.class,
-                    it.pk.lucidxpo.**/*IntegrationTest.class
-                </tests.to.execute>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+                <tests.to.execute>ut.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>
         <!-- No test execution required at all -->
@@ -788,7 +803,6 @@
             <properties>
                 <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
-<!--                <tests.to.execute>NoTestExecutionRequiredAtAll</tests.to.execute>-->
             </properties>
         </profile>
         <!-- In order to run all tests, just use `mvn test` without specifying any profile -->
