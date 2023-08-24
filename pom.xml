@@ -797,6 +797,36 @@
                 <tests.to.execute>ut.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>
+        <!--profile for Acceptance tests (using Selenium) only -->
+        <profile>
+            <id>ast</id>
+            <properties>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
+                <tests.to.execute>acceptance.pk.lucidxpo.*.selenium.**/*Test.class</tests.to.execute>
+            </properties>
+        </profile>
+        <!--profile for Acceptance tests (using Cucumber) only -->
+        <profile>
+            <id>act</id>
+            <properties>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
+                <tests.to.execute>acceptance.pk.lucidxpo.*.cucumber.**/*Test.class</tests.to.execute>
+            </properties>
+        </profile>
+        <!--Both Selenium and Cucumber Acceptance tests combined -->
+        <profile>
+            <id>at</id>
+            <properties>
+                <tests.to.execute>
+                    acceptance.pk.lucidxpo.*.cucumber.**/*Test.class,
+                    acceptance.pk.lucidxpo.*.selenium.**/*Test.class
+                </tests.to.execute>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
+            </properties>
+        </profile>
         <!-- No test execution required at all -->
         <profile>
             <id>nt</id>
