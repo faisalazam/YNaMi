@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.config.cucumber;
+package acceptance.pk.lucidxpo.ynami.cucumber.config;
 
 import acceptance.pk.lucidxpo.ynami.TestApplication;
 import io.cucumber.java.Before;

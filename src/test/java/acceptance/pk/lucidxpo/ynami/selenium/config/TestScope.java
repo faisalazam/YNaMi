@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.config.selenium;
+package acceptance.pk.lucidxpo.ynami.selenium.config;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;

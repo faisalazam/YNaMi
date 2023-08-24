@@ -1,6 +1,6 @@
-package acceptance.pk.lucidxpo.ynami.pageobjects;
+package acceptance.pk.lucidxpo.ynami.common.pageobjects;
 
-import acceptance.pk.lucidxpo.ynami.pageasserts.HomePageAssert;
+import acceptance.pk.lucidxpo.ynami.common.pageasserts.HomePageAssert;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

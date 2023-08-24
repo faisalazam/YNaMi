@@ -1,11 +1,10 @@
-package acceptance.pk.lucidxpo.ynami.config.cucumber;
+package acceptance.pk.lucidxpo.ynami.cucumber.config;
 
+import acceptance.pk.lucidxpo.ynami.common.config.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
-
-import static acceptance.pk.lucidxpo.ynami.config.common.WebDriverFactory.getDriver;
 
 @TestConfiguration
 public class CucumberTestCaseContext {
@@ -14,6 +13,6 @@ public class CucumberTestCaseContext {
     @Scope(CUCUMBER_GLUE_SCOPE)
     @Bean(destroyMethod = "quit")
     public WebDriver webDriver() {
-        return getDriver();
+        return WebDriverFactory.getDriver();
     }
 }

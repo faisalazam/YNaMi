@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.config.selenium;
+package acceptance.pk.lucidxpo.ynami.selenium.config;
 
 import acceptance.pk.lucidxpo.ynami.TestApplication;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;

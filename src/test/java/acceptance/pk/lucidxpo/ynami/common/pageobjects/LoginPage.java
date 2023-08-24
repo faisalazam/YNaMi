@@ -1,6 +1,6 @@
-package acceptance.pk.lucidxpo.ynami.pageobjects;
+package acceptance.pk.lucidxpo.ynami.common.pageobjects;
 
-import acceptance.pk.lucidxpo.ynami.pageasserts.LoginPageAssert;
+import acceptance.pk.lucidxpo.ynami.common.pageasserts.LoginPageAssert;
 import org.fluentlenium.core.annotation.Page;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.support.FindBy;

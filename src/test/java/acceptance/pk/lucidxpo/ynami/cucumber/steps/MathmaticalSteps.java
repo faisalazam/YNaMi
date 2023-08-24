@@ -1,6 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.cucumber.steps;
 
-import acceptance.pk.lucidxpo.ynami.config.cucumber.AbstractSteps;
+import acceptance.pk.lucidxpo.ynami.cucumber.config.AbstractSteps;
 import acceptance.pk.lucidxpo.ynami.cucumber.scenarioworld.MathScenarioWorld;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;

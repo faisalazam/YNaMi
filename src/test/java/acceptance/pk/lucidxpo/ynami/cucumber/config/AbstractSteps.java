@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.config.cucumber;
+package acceptance.pk.lucidxpo.ynami.cucumber.config;
 
 import org.fluentlenium.adapter.cucumber.FluentCucumberTest;
 import org.openqa.selenium.WebDriver;

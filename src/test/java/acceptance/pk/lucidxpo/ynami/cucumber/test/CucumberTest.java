@@ -1,6 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.cucumber.test;
 
-import acceptance.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader;
+import acceptance.pk.lucidxpo.ynami.cucumber.config.CucumberContextConfigurationLoader;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.jupiter.api.AfterAll;
@@ -40,7 +40,7 @@ public class CucumberTest extends CucumberContextConfigurationLoader {
     static final String CUCUMBER_HTML_REPORTS_DIR = "html:target/cucumber-reports/html";
     static final String CUCUMBER_JSON_REPORT = "json:target/cucumber-reports/json/Cucumber.json";
     static final String CUCUMBER_STEPS_PACKAGE = "acceptance.pk.lucidxpo.ynami.cucumber.steps";
-    static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.config.cucumber";
+    static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.cucumber.config";
 
     @AfterAll
     public static void tearDown() throws SQLException {
