@@ -29,6 +29,21 @@ if running this application from IDE:
 
 `--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED`
 
+
+## Maven profiles
+* There are some profiles setup which can be used switch on/off certain things.
+* To see the list of configured profiles, run `mvn help:all-profiles`
+    * Configured profiles (in [pom.xml][pom-xml-url] file) are:
+
+      | Profile ID | Profile Description                                          |
+      |------------|--------------------------------------------------------------|
+      | `ut`       | It'll run only the unit tests                                |
+      | `it`       | It'll run only the integration tests                         |
+      | `uit`      | It'll run both the unit and the integration tests            |
+      | `nt`       | It'll run no tests at all (skipping execution of all tests). |
+
+Learn more about [Maven Profiles][maven-profiles-url]
+
 ### Setting up H2
 
 [Click here for the details](readme/H2-SETUP.md)
@@ -74,3 +89,10 @@ You MUST add the new checksum/s value/s to the checksums.txt file
 
 Copy the file name along with the checksum from that output and add it to the end of the
 [checksums.txt](src/main/resources/db/migration/checksums.txt) file.
+
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[pom-xml-url]:https://github.com/faisalazam/MavenInActionWithGitHubActions/raw/master/TestsExecution/pom.xml
