@@ -2,11 +2,21 @@ name: 'YNaMi CI/CD'
 on: push
 env:
   JAVA_VERSION: 20
+  MYSQL_VERSION: 8.0
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
 
 jobs:
+  setup-mysql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: root
+          mysql version: ${{ env.MYSQL_VERSION }}
+
   build:
     runs-on: ubuntu-latest
+    needs: setup-mysql
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -21,7 +31,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-
 
       - name: 'Resolve Maven dependencies'
         run: mvn dependency:resolve --file pom.xml
