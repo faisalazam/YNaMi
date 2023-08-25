@@ -1,0 +1,46 @@
+name: 'YNaMi CI/CD'
+on: push
+env:
+  JAVA_VERSION: 20
+  UPLOADED_ARTIFACTS_DIR: 'gh-pages'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Cache Maven packages'
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+
+      - name: 'Resolve Maven dependencies'
+        run: mvn dependency:resolve --file pom.xml
+      - name: 'Run the unit tests'
+        run: mvn --batch-mode --update-snapshots clean test -P ut --file pom.xml
+      - name: 'Run the db migration tests'
+        run: mvn --batch-mode --update-snapshots clean test -P mt --file pom.xml
+      - name: 'Run the acceptance tests (using cucumber)'
+        run: mvn --batch-mode --update-snapshots clean test -P act --file pom.xml
+      - name: 'Run the acceptance tests (using selenium)'
+        run: mvn --batch-mode --update-snapshots clean test -P ast --file pom.xml
+      - name: 'Run the integration tests'
+        run: mvn --batch-mode --update-snapshots clean verify -P it --file pom.xml
+#      - name: 'Run the penetration tests' # TODO: fix this
+#        run: mvn --batch-mode --update-snapshots clean verify -P pt --file pom.xml
+
+      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target                            # Path to test results

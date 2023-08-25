@@ -1,0 +1,17 @@
+name: 'Setup GitHub Runner with Java and application Code'
+description: 'composite run action'
+
+inputs:
+  JAVA_VERSION_TO_INSTALL:
+    required: true
+    type: string
+    description: 'Java version to be installed'
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Set up the Oracle JDK `${{ inputs.JAVA_VERSION_TO_INSTALL }}`'
+      uses: oracle-actions/setup-java@v1
+      with:
+        website: oracle.com
+        release: ${{ inputs.JAVA_VERSION_TO_INSTALL }}
