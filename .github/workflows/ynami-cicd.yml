@@ -13,18 +13,19 @@ jobs:
       - uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: "8.0"
-      - run: mysql -uroot -e 'SELECT version()'
+          root-password: "root"
+      - run: mysql -uroot -proot -e 'SELECT version()'
 
 
   laravel_tests:
     runs-on: ubuntu-20.04
     env:
-      DB_CONNECTION: mysql
-      DB_HOST: localhost
       DB_PORT: 3306
-      DB_DATABASE: MigrationTestSchema
+      DB_HOST: localhost
       DB_USERNAME: root
       DB_PASSWORD: root
+      DB_CONNECTION: mysql
+      DB_DATABASE: MigrationTestSchema
     steps:
       - name: Set up MySQL
         run: |
@@ -33,18 +34,18 @@ jobs:
           mysql -e 'SHOW DATABASES;' -uroot -proot
       - run: mysql -uroot -proot -e 'SELECT version()'
 
-  build-docker:
-    runs-on: ubuntu-latest
-
-    steps:
-      - run: docker info
-
-
-  build:
-    runs-on: ubuntu-latest
-    needs: laravel_tests
-
-    steps:
+#  build-docker:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - run: docker info
+#
+#
+#  build:
+#    runs-on: ubuntu-latest
+#    needs: laravel_tests
+#
+#    steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
         uses: actions/checkout@v3
       - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
