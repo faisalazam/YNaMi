@@ -54,11 +54,7 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(properties = {
-        "spring.datasource.username=root",
-        "spring.datasource.password=root",
-        "spring.datasource.name=" + SCHEMA_NAME
-})
+@TestPropertySource(properties = {"spring.datasource.name=" + SCHEMA_NAME})
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
 public class AbstractIntegrationTest {
