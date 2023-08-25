@@ -19,10 +19,12 @@ jobs:
 
   laravel_tests:
     runs-on: ubuntu-latest
-    env:
-      DB_PORT: 3306
-      DB_HOST: localhost
-      DB_CONNECTION: mysql
+#    env:
+#      DB_PORT: 3306
+#      DB_HOST: localhost
+#      DB_USERNAME: root
+#      DB_PASSWORD: root
+#      DB_CONNECTION: mysql
     steps:
       - name: Set up MySQL
         run: |
