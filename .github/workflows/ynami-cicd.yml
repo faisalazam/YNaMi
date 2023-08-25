@@ -6,19 +6,12 @@ env:
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
 
 jobs:
-  setup-mysql:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql root password: root
-          mysql version: ${{ env.MYSQL_VERSION }}
-
   build:
     runs-on: ubuntu-latest
-    needs: setup-mysql
 
     steps:
+      - name: 'Set up MySQL'
+        run: sudo systemctl start mysql
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
         uses: actions/checkout@v3
       - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
