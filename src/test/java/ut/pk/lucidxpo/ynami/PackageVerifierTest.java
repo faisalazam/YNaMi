@@ -25,7 +25,11 @@ public class PackageVerifierTest {
     private static final String MIGRATION_BASE_PACKAGE = "migration." + BASE_PACKAGE;
     static final String ACCEPTANCE_BASE_PACKAGE = "acceptance." + BASE_PACKAGE;
     static final String[] BASE_PACKAGES = new String[]{
-            BASE_PACKAGE, ACCEPTANCE_BASE_PACKAGE, MIGRATION_BASE_PACKAGE, UNIT_TEST_BASE_PACKAGE, INTEGRATION_TEST_BASE_PACKAGE
+            BASE_PACKAGE,
+            ACCEPTANCE_BASE_PACKAGE,
+            MIGRATION_BASE_PACKAGE,
+            UNIT_TEST_BASE_PACKAGE,
+            INTEGRATION_TEST_BASE_PACKAGE
     };
 
     @Test
@@ -96,7 +100,9 @@ public class PackageVerifierTest {
         final Set<Class<? extends FluentPage>> allFluentPages = new Reflections(
                 new ConfigurationBuilder().forPackages(BASE_PACKAGES)
         ).getSubTypesOf(FluentPage.class);
-        final Set<Class<? extends FluentPage>> fluentPagesInPageObjectPackage = new Reflections(ACCEPTANCE_BASE_PACKAGE + ".pageobjects").getSubTypesOf(FluentPage.class);
+        final Set<Class<? extends FluentPage>> fluentPagesInPageObjectPackage =
+                new Reflections(ACCEPTANCE_BASE_PACKAGE + ".common.pageobjects")
+                        .getSubTypesOf(FluentPage.class);
 
         assertThat(fluentPagesInPageObjectPackage.isEmpty(), is(false));
         assertThat(fluentPagesInPageObjectPackage.size(), is(allFluentPages.size()));
