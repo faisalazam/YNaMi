@@ -1,6 +1,7 @@
 package penetration.pk.lucidxpo.ynami.config.cucumber;
 
 import io.cucumber.java.Before;
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
+@SuppressWarnings("NewClassNamingConvention")
+@CucumberContextConfiguration
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @SpringBootTest(webEnvironment = DEFINED_PORT)
@@ -30,12 +33,17 @@ public class CucumberContextConfigurationLoader {
     protected static Connection connection;
     protected static ApplicationContext applicationContext;
 
+    // TODO Spring Upgrade - It breaks cucumber in acceptance package, but why????
+    // Step failed
+    // io.cucumber.core.exception.CucumberException: Could not invoke hook defined at
+    // 'penetration.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader.loadContext()'.
     @Before
     public void loadContext() {
         // Dummy method so cucumber will recognize this class as glue
         // and use its context configuration.
     }
 
+    // TODO Spring Upgrade - can we replace this method with @Sql class level annotation???
     @Autowired
     public void populateData(final DataSource dataSource) throws SQLException {
         if (connection == null) {
