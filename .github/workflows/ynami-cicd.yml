@@ -23,7 +23,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: 'Compiles the application code'
-        run: mvn clean compile test-compile --file ${{ env.MODULE_DIR }}/pom.xml
+        run: mvn clean compile test-compile --file pom.xml
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
       - name: 'Set up MySQL'
         run: sudo systemctl start mysql
       - name: 'Run the migration tests'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P mt --file pom.xml
+        run: mvn clean test -P mt --file pom.xml
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the acceptance-cucumber tests'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P act --file pom.xml
+        run: mvn clean test -P act --file pom.xml
 
   acceptance-selenium-tests:
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the acceptance-selenium tests'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P ast --file pom.xml
+        run: mvn clean test -P ast --file pom.xml
 
   penetration-tests:
     runs-on: ubuntu-latest
@@ -105,7 +105,7 @@ jobs:
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the penetration tests'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P pt --file pom.xml
+        run: mvn clean test -P pt --file pom.xml
 
 #  upload-artifacts:
 #    runs-on: ubuntu-latest

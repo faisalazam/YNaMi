@@ -771,6 +771,7 @@
         <profile>
             <id>mt</id>
             <properties>
+                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>migration.pk.lucidxpo.**/*Test.class</tests.to.execute>
@@ -801,6 +802,7 @@
         <profile>
             <id>ast</id>
             <properties>
+                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>acceptance.pk.lucidxpo.*.selenium.**/*Test.class</tests.to.execute>
@@ -810,6 +812,7 @@
         <profile>
             <id>act</id>
             <properties>
+                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>acceptance.pk.lucidxpo.*.cucumber.**/*Test.class</tests.to.execute>
@@ -823,6 +826,7 @@
                     acceptance.pk.lucidxpo.*.cucumber.**/*Test.class,
                     acceptance.pk.lucidxpo.*.selenium.**/*Test.class
                 </tests.to.execute>
+                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
             </properties>
@@ -831,6 +835,7 @@
         <profile>
             <id>pt</id>
             <properties>
+                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>penetration.pk.lucidxpo.**/*Test.class</tests.to.execute>
@@ -840,6 +845,7 @@
         <profile>
             <id>nt</id>
             <properties>
+                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
             </properties>
