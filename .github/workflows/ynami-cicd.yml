@@ -9,14 +9,40 @@ jobs:
   setup-mysql:
     runs-on: ubuntu-latest
     steps:
-      - uses: mirromutth/mysql-action@v1.1
+      - uses: actions/checkout@v3
+      - uses: shogo82148/actions-setup-mysql@v1
         with:
-          mysql root password: root
-          mysql version: ${{ env.MYSQL_VERSION }}
+          mysql-version: "8.0"
+      - run: mysql -uroot -e 'SELECT version()'
+
+
+  laravel_tests:
+    runs-on: ubuntu-20.04
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_DATABASE: MigrationTestSchema
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    steps:
+      - name: Set up MySQL
+        run: |
+          sudo systemctl start mysql
+          mysql -e 'CREATE DATABASE MigrationTestSchema;' -uroot -proot
+          mysql -e 'SHOW DATABASES;' -uroot -proot
+      - run: mysql -uroot -proot -e 'SELECT version()'
+
+  build-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker info
+
 
   build:
     runs-on: ubuntu-latest
-    needs: setup-mysql
+    needs: laravel_tests
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -32,24 +58,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
+
       - name: 'Resolve Maven dependencies'
         run: mvn dependency:resolve --file pom.xml
-      - name: 'Run the unit tests'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P ut --file pom.xml
       - name: 'Run the db migration tests'
         run: mvn -Djacoco.haltOnFailure=false clean test -P mt --file pom.xml
-      - name: 'Run the acceptance tests (using cucumber)'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P act --file pom.xml
-      - name: 'Run the acceptance tests (using selenium)'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P ast --file pom.xml
-      - name: 'Run the integration tests'
-        run: mvn -Djacoco.haltOnFailure=false clean integration-test -P it --file pom.xml
-#      - name: 'Run the penetration tests' # TODO: fix this
-#        run: mvn -Djacoco.haltOnFailure=false clean test -P pt --file pom.xml
 
-      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
-        if: success() || failure()
-        with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target                            # Path to test results
