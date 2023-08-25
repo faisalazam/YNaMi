@@ -88,6 +88,9 @@
         <jacoco.ut.reporting.directory>${target.site.directory}/jacoco</jacoco.ut.reporting.directory>
         <jacoco.it.reporting.directory>${target.site.directory}/jacoco-it</jacoco.it.reporting.directory>
         <jacoco.merged.reporting.directory>${target.site.directory}/jacoco-merged</jacoco.merged.reporting.directory>
+
+        <unit.tests.results.directory>${tests.results.directory}/unit-tests</unit.tests.results.directory>
+        <integration.tests.results.directory>${tests.results.directory}/integration-tests</integration.tests.results.directory>
     </properties>
 
 	<dependencies>
@@ -590,6 +593,7 @@
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>${surefire.jacoco.exec.file.name.arg}</argLine>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
+                    <reportsDirectory>${unit.tests.results.directory}</reportsDirectory>
                 </configuration>
             </plugin>
 
@@ -606,6 +610,7 @@
                     <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
                     <skipTests>${skip.integration.tests}</skipTests>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
+                    <reportsDirectory>${integration.tests.results.directory}</reportsDirectory>
                 </configuration>
             </plugin>
 
@@ -701,6 +706,7 @@
                             <outputDirectory>${jacoco.merged.reporting.directory}</outputDirectory>
                         </configuration>
                     </execution>
+                    <!-- TODO:  The jacoco:check goal is bound to verify, add the checks/thresholds here -->
                 </executions>
             </plugin>
         </plugins>
@@ -734,8 +740,24 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <reportSets>
                     <reportSet>
+                        <id>unit-tests</id>
+                        <configuration>
+                            <reportsDirectories>
+                                <reportsDirectories>${unit.tests.results.directory}</reportsDirectories>
+                            </reportsDirectories>
+                        </configuration>
                         <reports>
                             <report>report-only</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <id>integration-tests</id>
+                        <configuration>
+                            <reportsDirectories>
+                                <reportsDirectories>${integration.tests.results.directory}</reportsDirectories>
+                            </reportsDirectories>
+                        </configuration>
+                        <reports>
                             <report>failsafe-report-only</report>
                         </reports>
                     </reportSet>
