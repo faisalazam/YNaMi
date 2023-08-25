@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Set up MySQL'
-        run: sudo systemctl start mysql
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
         uses: actions/checkout@v3
       - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
@@ -24,25 +22,98 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: 'Compiles the application code'
+        run: mvn clean compile test-compile --file ${{ env.MODULE_DIR }}/pom.xml
 
-      - name: 'Resolve Maven dependencies'
-        run: mvn dependency:resolve --file pom.xml
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the unit tests'
         run: mvn -Djacoco.haltOnFailure=false clean test -P ut --file pom.xml
-      - name: 'Run the db migration tests'
+
+  migration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Set up MySQL'
+        run: sudo systemctl start mysql
+      - name: 'Run the migration tests'
         run: mvn -Djacoco.haltOnFailure=false clean test -P mt --file pom.xml
-      - name: 'Run the acceptance tests (using cucumber)'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P act --file pom.xml
-      - name: 'Run the acceptance tests (using selenium)'
-        run: mvn -Djacoco.haltOnFailure=false clean test -P ast --file pom.xml
+
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Set up MySQL'
+        run: sudo systemctl start mysql
       - name: 'Run the integration tests'
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -P it --file pom.xml
-#      - name: 'Run the penetration tests' # TODO: fix this
-#        run: mvn -Djacoco.haltOnFailure=false clean test -P pt --file pom.xml
 
-      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
-        if: success() || failure()
+  acceptance-cucumber-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
         with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target                            # Path to test results
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the acceptance-cucumber tests'
+        run: mvn -Djacoco.haltOnFailure=false clean test -P act --file pom.xml
+
+  acceptance-selenium-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the acceptance-selenium tests'
+        run: mvn -Djacoco.haltOnFailure=false clean test -P ast --file pom.xml
+
+  penetration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the penetration tests'
+        run: mvn -Djacoco.haltOnFailure=false clean test -P pt --file pom.xml
+
+#  upload-artifacts:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+#        uses: actions/upload-artifact@v3
+#        if: success() || failure()
+#        with:
+#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+#          path: target                            # Path to test results
