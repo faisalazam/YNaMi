@@ -6,15 +6,15 @@ env:
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
 
 jobs:
-  setup-mysql:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: shogo82148/actions-setup-mysql@v1
-        with:
-          mysql-version: "8.0"
-          root-password: "root"
-      - run: mysql -uroot -proot -e 'SELECT version()'
+#  setup-mysql:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: shogo82148/actions-setup-mysql@v1
+#        with:
+#          mysql-version: "8.0"
+#          root-password: "root"
+#      - run: mysql -uroot -proot -e 'SELECT version()'
 
 
   laravel_tests:
@@ -22,8 +22,6 @@ jobs:
     env:
       DB_PORT: 3306
       DB_HOST: localhost
-      DB_USERNAME: root
-      DB_PASSWORD: root
       DB_CONNECTION: mysql
     steps:
       - name: Set up MySQL
