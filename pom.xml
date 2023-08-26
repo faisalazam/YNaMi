@@ -117,14 +117,20 @@
         <maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
         <persistence.moxy.version>4.0.2</persistence.moxy.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
+        <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
         <cucumber-reporting.version>5.7.6</cucumber-reporting.version>
         <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <commons-configuration2.version>2.9.0</commons-configuration2.version>
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
         <jackson-jaxrs-json-provider.version>2.15.2</jackson-jaxrs-json-provider.version>
         <modelmapper-spring-boot-starter.version>2.3.1</modelmapper-spring-boot-starter.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
+
+        <src.site.directory>src/site</src.site.directory>
+        <markdown.directory>markdown</markdown.directory>
+        <src.markdown.directory>${src.site.directory}/${markdown.directory}</src.markdown.directory>
 
         <target.directory>${project.build.directory}</target.directory>
         <target.site.directory>${project.reporting.outputDirectory}</target.site.directory>
@@ -667,6 +673,57 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${src.site.directory}</directory>
+                            <includes>
+                                <include>${markdown.directory}/*</include>
+                                <include>${markdown.directory}</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <!-- Copy the readme files to the site markdown directory so that html pages are generated from them. -->
+                        <id>copy-readme</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${src.markdown.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}</directory>
+                                    <includes>
+                                        <include>readme/</include>
+                                        <include>README.md</include>
+                                        <include>src/test/java/ut/pk/lucidxpo/ynami/README.md</include>
+                                        <include>src/test/java/it/pk/lucidxpo/ynami/README.md</include>
+                                        <include>src/test/java/migration/pk/lucidxpo/ynami/README.md</include>
+                                        <include>src/test/java/acceptance/pk/lucidxpo/ynami/README.md</include>
+                                        <include>src/test/java/penetration/pk/lucidxpo/ynami/README.md</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

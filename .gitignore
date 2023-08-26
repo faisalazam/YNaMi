@@ -42,3 +42,4 @@ bin/
 ### Other Project Files ###
 ynami.log
 h2_db/
+/src/site/markdown/
