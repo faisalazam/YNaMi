@@ -155,16 +155,22 @@ the `maven-failsafe-plugin` maven plugin in the [pom.xml](../pom.xml) file.
             --add-opens java.base/java.lang=ALL-UNNAMED
             --add-opens java.base/java.lang.reflect=ALL-UNNAMED
             --add-opens java.desktop/java.awt.font=ALL-UNNAMED
-            -D${testArgLine}
+            -D${failsafe.jacoco.exec.file.name.arg}
         </argLine>
-        <skipTests>${skip.integration.tests}</skipTests>
         <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
+        <skipTests>${skip.integration.tests}</skipTests>
         <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
+        <reportsDirectory>${integration.tests.results.directory}</reportsDirectory>
     </configuration>
 </plugin>
 ```
 
 NOTE the use of `-D` with `-D${testArgLine}` as without `-D`, we'll end up with `java.lang.ClassNotFoundException: ${testArgLine}`
+
+Apparently, the use of `-D` with `-D${testArgLine}` has fixed the `java.lang.ClassNotFoundException: ${testArgLine}` error,
+but it has caused another problem, and that is the reason the jacoco is not able to generate `it.exec` data file.
+
+So, we'll have to use `@` for placeholder replacement instead of `-D$` or just `$` for the proper jacoco results.
 
 But don't forget to add the following to VM options if running the integration tests from IDE:
 
@@ -188,15 +194,24 @@ in the VM options and the following in pom.xml file:
     <configuration>
         <!--suppress UnresolvedMavenProperty -->
         <argLine>
+            @{failsafe.jacoco.exec.file.name.arg}
             --add-opens java.base/java.lang=ALL-UNNAMED
-            -D${testArgLine}
         </argLine>
-        <skipTests>${skip.integration.tests}</skipTests>
         <test>it.pk.lucidxpo.**/*IntegrationTest.class</test>
+        <skipTests>${skip.integration.tests}</skipTests>
         <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
+        <reportsDirectory>${integration.tests.results.directory}</reportsDirectory>
     </configuration>
 </plugin>
 ```
+
+#### How do I use properties set by other plugins in argLine?
+Maven does property replacement for `${...}` values in pom.xml before any plugin is run. So Surefire would never see 
+the place-holders in its argLine property.
+
+Since the Version 2.17 using an alternate syntax for these properties, `@{...}` allows late replacement of properties 
+when the plugin is executed, so properties that have been modified by other plugins will be picked up correctly.
+
 
 </details>
 </blockquote>
