@@ -24,6 +24,39 @@
 		<relativePath/>
 	</parent>
 
+    <organization>
+        <name>${organization.name}</name>
+        <url>${organization.url}</url>
+    </organization>
+
+    <scm>
+        <url>${scm.repo.link}</url>
+        <connection>scm:git:${scm.repo.link}.git</connection>
+        <developerConnection>scm:git:${scm.repo.link}.git</developerConnection>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>${issueManagement.url}</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>github-actions</system>
+        <url>${ciManagement.url}</url>
+    </ciManagement>
+
+    <developers>
+        <developer>
+            <name>${owner.name}</name>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${organization.url}</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>GMT</timezone>
+        </developer>
+    </developers>
+
 	<properties>
         <!--   Setting the versions to use Java 20   -->
         <java.version>20</java.version>
@@ -40,8 +73,11 @@
         <scm.user.name>faisalazam</scm.user.name>
         <scm.repo.name>YNaMi</scm.repo.name>
         <scm.user.link>https://github.com/${scm.user.name}</scm.user.link>
+        <scm.repo.link>${scm.user.link}/${scm.repo.name}</scm.repo.link>
 
         <organization.url>${scm.user.link}</organization.url>
+        <ciManagement.url>${scm.repo.link}/actions</ciManagement.url>
+        <issueManagement.url>${scm.repo.link}/issues</issueManagement.url>
 
         <copy.right.info>
             <![CDATA[Copyright© 2018 <a href="${organization.url}">${organization.name}</a>. All Rights Reserved.]]></copy.right.info>
