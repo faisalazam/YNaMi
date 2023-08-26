@@ -64,12 +64,12 @@ In order to achieve that, `spring-boot-maven-plugin` plugin should be configured
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
     <configuration>
-        <jvmArguments>${spring-boot-maven-plugin.jvmArguments}</jvmArguments>
+        <jvmArguments>${spring.datasource.type.jvmArguments}</jvmArguments>
     </configuration>
 </plugin>
 ```
 
-And the value for `spring-boot-maven-plugin.jvmArguments` with be either of the following:
+And the value for `spring.datasource.type.jvmArguments` with be either of the following:
 
 ```
 -Dynami.spring.datasource.profile=h2
@@ -89,6 +89,20 @@ Learn more about [Maven Profiles][maven-profiles-url]
       | `it`       | It'll run only the integration tests                         |
       | `uit`      | It'll run both the unit and the integration tests            |
       | `nt`       | It'll run no tests at all (skipping execution of all tests). |
+
+
+In order to run the integration tests with particular datasource, combine the `it` profile with either `h2`
+or `mysql` profile as below:
+
+```
+mvn clean integration-test -P it,h2 --file pom.xml
+```
+
+OR
+
+```
+mvn clean integration-test -P it,mysql --file pom.xml
+```
 
 Learn more about [Maven Profiles][maven-profiles-url]
 
