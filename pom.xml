@@ -879,7 +879,6 @@
         <profile>
             <id>nt</id>
             <properties>
-                <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
             </properties>
