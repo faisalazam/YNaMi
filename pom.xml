@@ -25,13 +25,26 @@
 	</parent>
 
 	<properties>
+        <!--   Setting the versions to use Java 20   -->
+        <java.version>20</java.version>
+        <maven.compiler.release>20</maven.compiler.release>
         <!--    Setting the encodings to avoid warnings like `Input file encoding has not been set`    -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!--   Setting the versions to use Java 20   -->
-        <java.version>20</java.version>
-        <maven.compiler.release>20</maven.compiler.release>
+        <!-- Used by the 'mvn site' : Site Descriptor -->
+        <owner.name>Muhammad Faisal</owner.name>
+        <organization.name>LucidXPO</organization.name>
+        <owner.twitter.handle>mfa1616</owner.twitter.handle>
+
+        <scm.user.name>faisalazam</scm.user.name>
+        <scm.repo.name>YNaMi</scm.repo.name>
+        <scm.user.link>https://github.com/${scm.user.name}</scm.user.link>
+
+        <organization.url>${scm.user.link}</organization.url>
+
+        <copy.right.info>
+            <![CDATA[Copyright© 2018 <a href="${organization.url}">${organization.name}</a>. All Rights Reserved.]]></copy.right.info>
 
         <!--   Setting properties for test profiles   -->
         <skip.unit.tests>false</skip.unit.tests>

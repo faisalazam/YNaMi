@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="https://maven.apache.org/SITE/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd"
+         name="${project.name}">
+
+    <publishDate format="yyyy-MM-dd" position="right"/>
+    <version position="right"/>
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>2.0.0-M6</version>
+    </skin>
+
+    <custom>
+        <fluidoSkin>
+            <!-- This property will enable the top bar on the generated site -->
+            <topBarEnabled>true</topBarEnabled>
+            <sideBarEnabled>true</sideBarEnabled>
+            <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+            <!-- The following customisation will add 'Fork me on GitHub' ribbon in the top right corner -->
+            <gitHub>
+                <projectId>${scm.user.name}/${scm.repo.name}</projectId>
+                <ribbonOrientation>right</ribbonOrientation>
+                <ribbonColor>gray</ribbonColor>
+            </gitHub>
+            <!-- This will add the twitter link/handle in the Powered by section. -->
+            <twitter>
+                <user>${owner.twitter.handle}</user>
+                <showUser>true</showUser>
+                <showFollowers>true</showFollowers>
+            </twitter>
+        </fluidoSkin>
+    </custom>
+
+    <!-- PoweredBy sections, it is the section below the sidebar on the left located below the reports section-->
+    <poweredBy>
+        <logo name="IntelliJ" href="https://www.jetbrains.com/idea/"
+              title="Developed using IntelliJ" width="170px"
+              alt="developed using IntelliJ"
+              img="./images/intellij_idea_logo.png"/>
+        <logo name="Maven" href="https://maven.apache.org/"
+              title="Developed using Maven Plugins" width="170px"
+              alt="developed using Maven plugins"
+              img="./images/maven_logo.png"/>
+    </poweredBy>
+
+    <body>
+        <head>
+            <![CDATA[<script src="./js/remove-dollar-sign-from-hrefs.js" type="text/javascript"></script>]]>
+        </head>
+
+        <links>
+            <item name="Get Sources" href="./scm.html"/>
+        </links>
+
+        <breadcrumbs>
+            <!-- NOTE: see these `$$` in `href? they are not by mistake -->
+            <!-- They are there because no matter what you try, href won't get the value of the variable -->
+            <!-- With this double `$$`, variable will get evaluated but their value will start with a `$` -->
+            <!-- So, a piece of javascript has been added to remove that unnecessary `$` from the hrefs. -->
+            <item name="${organization.name}" href="$${organization.url}"/>
+            <item name="${owner.name}" href="$${scm.user.link}"/>
+            <item name="${scm.repo.name}" href="$${scm.repo.link}"/>
+        </breadcrumbs>
+
+        <menu>
+            <item name="README" href="README.html"/>
+        </menu>
+
+        <menu ref="reports" inherit="top"/>
+
+        <menu>
+            <item name="JaCoCo Combined" href="jacoco-merged/index.html"/>
+        </menu>
+
+        <footer>${copy.right.info}</footer>
+    </body>
+</project>
