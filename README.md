@@ -43,7 +43,42 @@ And add the following to run the integration tests from the IDE:
 ```
 
 
-## Maven profiles
+## Maven spring-boot:run profiles
+* There are some profiles setup which can be used to choose datasource while starting up spring-boot app.
+* To see the list of configured profiles, run `mvn help:all-profiles`
+    * Configured profiles (in [pom.xml][pom-xml-url] file) are:
+
+      | Profile ID | Profile Description                                                                         |
+      |------------|---------------------------------------------------------------------------------------------|
+      | `h2`       | `mvn spring-boot:run -Ph2` will start the sprin boot application with `H2` datasource       |
+      | `mysql`    | `mvn spring-boot:run -Pmysql` will start the sprin boot application with `MySql` datasource |
+
+An alternate approach to this is to use the following command: 
+
+```mvn spring-boot:run -Dspring-boot.run.arguments="--ynami.spring.datasource.profile=mysql"```
+
+In order to achieve that, `spring-boot-maven-plugin` plugin should be configured as below:
+
+```xml
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+        <jvmArguments>${spring-boot-maven-plugin.jvmArguments}</jvmArguments>
+    </configuration>
+</plugin>
+```
+
+And the value for `spring-boot-maven-plugin.jvmArguments` with be either of the following:
+
+```
+-Dynami.spring.datasource.profile=h2
+-Dynami.spring.datasource.profile=mysql
+```
+
+Learn more about [Maven Profiles][maven-profiles-url]
+
+## Maven test profiles
 * There are some profiles setup which can be used switch on/off certain things.
 * To see the list of configured profiles, run `mvn help:all-profiles`
     * Configured profiles (in [pom.xml][pom-xml-url] file) are:

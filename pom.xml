@@ -146,6 +146,8 @@
 
         <unit.tests.results.directory>${tests.results.directory}/unit-tests</unit.tests.results.directory>
         <integration.tests.results.directory>${tests.results.directory}/integration-tests</integration.tests.results.directory>
+
+        <spring-boot-maven-plugin.jvmArguments />
     </properties>
 
 	<dependencies>
@@ -621,6 +623,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>${spring-boot-maven-plugin.jvmArguments}</jvmArguments>
+                </configuration>
 			</plugin>
 
             <plugin>
@@ -878,6 +883,18 @@
     </reporting>
 
     <profiles>
+        <profile>
+            <id>h2</id>
+            <properties>
+                <spring-boot-maven-plugin.jvmArguments>-Dynami.spring.datasource.profile=h2</spring-boot-maven-plugin.jvmArguments>
+            </properties>
+        </profile>
+        <profile>
+            <id>mysql</id>
+            <properties>
+                <spring-boot-maven-plugin.jvmArguments>-Dynami.spring.datasource.profile=mysql</spring-boot-maven-plugin.jvmArguments>
+            </properties>
+        </profile>
         <!-- default profile for running all tests (including integration tests) and used by `mvn test` -->
         <profile>
             <id>all-tests</id>
