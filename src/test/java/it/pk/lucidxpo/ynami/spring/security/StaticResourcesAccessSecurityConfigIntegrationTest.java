@@ -8,8 +8,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
@@ -58,13 +58,14 @@ class StaticResourcesAccessSecurityConfigIntegrationTest extends AbstractIntegra
         }
     }
 
-    private HashSet<String> getWebjarsResources() {
+    private Set<String> getWebjarsResources() {
         return newHashSet(
                 "/webjars/font-awesome/6.4.2/css/fontawesome.css",
                 "/webjars/font-awesome/6.4.2/css/solid.css",
                 "/webjars/bootstrap/5.3.1/css/bootstrap.min.css",
                 "/webjars/jquery/3.7.0/jquery.min.js",
-                "/webjars/bootstrap/5.3.1/js/bootstrap.min.js"
+                "/webjars/bootstrap/5.3.1/js/bootstrap.min.js",
+                "/webjars/bootstrap/5.3.1/js/bootstrap.bundle.min.js"
         );
     }
 
