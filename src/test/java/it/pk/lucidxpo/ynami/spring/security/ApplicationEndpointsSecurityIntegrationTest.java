@@ -50,27 +50,75 @@ class ApplicationEndpointsSecurityIntegrationTest extends AbstractIntegrationTes
 
     private static DynamicTestsGenerator DYNAMIC_TESTS_GENERATOR;
 
-    private static List<Pair<String, RequestMappingCustomizer>> END_POINT_MAPPINGS_STREAM;
+    private static Collection<Pair<String, RequestMappingCustomizer>> END_POINT_MAPPINGS_STREAM;
 
     // TODO: get the following endpoints working...
     private static final List<String> EXCLUDED_REQUEST_MAPPINGS_LIST = newArrayList(
             "[GET] /error",
             "[GET] /feature-test"
     );
+
+    /**
+     * A map, where key is the request mapping -> url/endpoint with HTTP method type
+     * (i.e. something like "[GET] /actuator/togglz/{name}", and the value is the customized endpoint mapping
+     */
     private static final Map<String, RequestMappingCustomizer> CUSTOMIZED_REQUEST_MAPPINGS_MAP = newHashMap();
 
     private static final EndPointMappingsLister END_POINT_MAPPINGS_LISTER = new EndPointMappingsLister(
             EXCLUDED_REQUEST_MAPPINGS_LIST, CUSTOMIZED_REQUEST_MAPPINGS_MAP
     );
 
+    /**
+     * Populating the 'CUSTOMIZED_REQUEST_MAPPINGS_MAP' map with the end points which requires customizations.
+     * They are configured to let the testing mechanism know how to behave when any of these endpoints are encountered.
+     * <p>
+     * And finally instantiates the {@link DynamicTestsGenerator}
+     */
     @Override
     public void afterPropertiesSet() {
-        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[GET] /samples/{id}", new RequestMappingCustomizer("GET", "/samples/{id}", Sample.class, status().is3xxRedirection(), view().name("sample/editSample")));
-        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[GET] /samples/{id}/view", new RequestMappingCustomizer("GET", "/samples/{id}/view", Sample.class, status().is3xxRedirection(), view().name("sample/viewSample")));
-        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[POST] /samples", new RequestMappingCustomizer("POST", "/samples", status().is3xxRedirection(), redirectedUrl("/samples")));
-        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[PUT] /samples/{id}", new RequestMappingCustomizer("PUT", "/samples/{id}", Sample.class, status().is3xxRedirection(), redirectedUrl("/samples")));
-        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[PATCH] /samples/{id}", new RequestMappingCustomizer("PATCH", "/samples/{id}", Sample.class));
-        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[DELETE] /samples/{id}", new RequestMappingCustomizer("DELETE", "/samples/{id}", Sample.class, status().is3xxRedirection(), redirectedUrl("/samples")));
+        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[GET] /samples/{id}",
+                new RequestMappingCustomizer("GET",
+                        "/samples/{id}",
+                        Sample.class,
+                        status().is3xxRedirection(),
+                        view().name("sample/editSample")
+                )
+        );
+        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[GET] /samples/{id}/view",
+                new RequestMappingCustomizer("GET",
+                        "/samples/{id}/view",
+                        Sample.class,
+                        status().is3xxRedirection(),
+                        view().name("sample/viewSample")
+                )
+        );
+        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[POST] /samples",
+                new RequestMappingCustomizer("POST",
+                        "/samples",
+                        status().is3xxRedirection(),
+                        redirectedUrl("/samples")
+                )
+        );
+        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[PUT] /samples/{id}",
+                new RequestMappingCustomizer("PUT",
+                        "/samples/{id}",
+                        Sample.class,
+                        status().is3xxRedirection(),
+                        redirectedUrl("/samples")
+                )
+        );
+
+        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[PATCH] /samples/{id}",
+                new RequestMappingCustomizer("PATCH", "/samples/{id}", Sample.class)
+        );
+        CUSTOMIZED_REQUEST_MAPPINGS_MAP.put("[DELETE] /samples/{id}",
+                new RequestMappingCustomizer("DELETE",
+                        "/samples/{id}",
+                        Sample.class,
+                        status().is3xxRedirection(),
+                        redirectedUrl("/samples")
+                )
+        );
 
         END_POINT_MAPPINGS_STREAM = END_POINT_MAPPINGS_LISTER.endPointMappingsCollection(requestMappingHandlerMapping);
 

@@ -15,7 +15,6 @@ import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandl
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,13 +40,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest implements InitializingBean {
 
-    // A custom HandlerMapping that makes web endpoints available over HTTP using Spring MVC.
+    /**
+     * A custom HandlerMapping that makes web endpoints available over HTTP using Spring MVC.
+     */
     @Autowired
     private WebMvcEndpointHandlerMapping actuatorEndpointHandlerMapping;
 
     private static DynamicTestsGenerator DYNAMIC_TESTS_GENERATOR;
 
-    private static List<Pair<String, RequestMappingCustomizer>> END_POINT_MAPPINGS_STREAM;
+    private static Collection<Pair<String, RequestMappingCustomizer>> END_POINT_MAPPINGS_STREAM;
 
     private static final Map<String, RequestMappingCustomizer> CUSTOMIZED_REQUEST_MAPPINGS_MAP = newHashMap();
 
@@ -79,13 +80,13 @@ class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest i
 
         END_POINT_MAPPINGS_STREAM = END_POINT_MAPPINGS_LISTER.endPointMappingsCollection(actuatorEndpointHandlerMapping);
 
-        // TODO Spring Upgrade: fix the broken tests properly and remove this 'removeFailingMappingsForMow()' temporarily added method.
+        // TODO: Spring Upgrade: fix the broken tests properly and remove this 'removeFailingMappingsForMow()' temporarily added method.
         removeFailingMappingsForMow();
         DYNAMIC_TESTS_GENERATOR = new DynamicTestsGenerator(applicationContext, featureManager, END_POINT_MAPPINGS_STREAM);
     }
 
     private static void removeFailingMappingsForMow() {
-        final Set<String>  excludeFailingTestsForNow = new HashSet<>();
+        final Set<String> excludeFailingTestsForNow = new HashSet<>();
         excludeFailingTestsForNow.add("[GET] /actuator/health/**");
         excludeFailingTestsForNow.add("[GET] /actuator/loggers/{name}");
         excludeFailingTestsForNow.add("[GET] /actuator/caches/{cache}");

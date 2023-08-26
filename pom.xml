@@ -369,6 +369,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- PODAM is a lightweight tool to auto-fill Java POJOs with data. -->
         <dependency>
             <groupId>uk.co.jemos.podam</groupId>
             <artifactId>podam</artifactId>

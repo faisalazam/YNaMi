@@ -5,12 +5,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static it.pk.lucidxpo.ynami.spring.security.helper.AuthenticationSetter.setupAuthentication;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static it.pk.lucidxpo.ynami.spring.security.helper.AuthenticationSetter.setupAuthentication;
 
 class EndPointTestScenarioExecutor {
 
@@ -24,7 +24,8 @@ class EndPointTestScenarioExecutor {
             case SECURITY_DISABLED_AUTHENTICATED_WITHOUT_CSRF:
                 requestBuilder.with(user(setupAuthentication()));
                 break;
-            case SECURITY_DISABLED_AUTHENTICATED_WITH_VALID_CSRF:
+            case SECURITY_DISABLED_AUTHENTICATED_WITH_VALID_CSRF,
+                    SECURITY_ENABLED_AUTHENTICATED_WITH_VALID_CSRF:
                 requestBuilder.with(user(setupAuthentication())).with(csrf());
                 break;
             case SECURITY_DISABLED_AUTHENTICATED_WITH_INVALID_CSRF:
@@ -41,19 +42,16 @@ class EndPointTestScenarioExecutor {
 
             case SECURITY_ENABLED_AUTHENTICATED_WITHOUT_CSRF:
                 requestBuilder.with(user(setupAuthentication()));
-                if ("GET" .equalsIgnoreCase(requestMappingCustomizer.getMethodType())) {
+                if ("GET".equalsIgnoreCase(requestMappingCustomizer.getMethodType())) {
                     final ResultActions resultActions = mockMvc.perform(requestBuilder);
                     requestMappingCustomizer.assertExpectations(resultActions);
                 } else {
                     performAndAssertForbidden(mockMvc, requestBuilder);
                 }
                 return;
-            case SECURITY_ENABLED_AUTHENTICATED_WITH_VALID_CSRF:
-                requestBuilder.with(user(setupAuthentication())).with(csrf());
-                break;
             case SECURITY_ENABLED_AUTHENTICATED_WITH_INVALID_CSRF:
                 requestBuilder.with(user(setupAuthentication())).with(csrf().useInvalidToken());
-                if ("GET" .equalsIgnoreCase(requestMappingCustomizer.getMethodType())) {
+                if ("GET".equalsIgnoreCase(requestMappingCustomizer.getMethodType())) {
                     final ResultActions resultActions = mockMvc.perform(requestBuilder);
                     requestMappingCustomizer.assertExpectations(resultActions);
                 } else {
@@ -82,19 +80,21 @@ class EndPointTestScenarioExecutor {
     private static void performAndAssertExpectations(final MockMvc mockMvc,
                                                      final MockHttpServletRequestBuilder requestBuilder,
                                                      final RequestMappingCustomizer requestMappingCustomizer) throws Exception {
-        if ("GET" .equalsIgnoreCase(requestMappingCustomizer.getMethodType())) {
+        if ("GET".equalsIgnoreCase(requestMappingCustomizer.getMethodType())) {
             performAndAssertRedirectionToLogin(mockMvc, requestBuilder);
         } else {
             performAndAssertForbidden(mockMvc, requestBuilder);
         }
     }
 
-    private static void performAndAssertForbidden(final MockMvc mockMvc, final MockHttpServletRequestBuilder requestBuilder) throws Exception {
+    private static void performAndAssertForbidden(final MockMvc mockMvc,
+                                                  final MockHttpServletRequestBuilder requestBuilder) throws Exception {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isForbidden());
     }
 
-    private static void performAndAssertRedirectionToLogin(final MockMvc mockMvc, final MockHttpServletRequestBuilder requestBuilder) throws Exception {
+    private static void performAndAssertRedirectionToLogin(final MockMvc mockMvc,
+                                                           final MockHttpServletRequestBuilder requestBuilder) throws Exception {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"))
