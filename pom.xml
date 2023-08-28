@@ -147,6 +147,8 @@
         <unit.tests.results.directory>${tests.results.directory}/unit-tests</unit.tests.results.directory>
         <integration.tests.results.directory>${tests.results.directory}/integration-tests</integration.tests.results.directory>
 
+        <surefire.jacoco.exec.file.name.arg />
+        <failsafe.jacoco.exec.file.name.arg />
         <spring.datasource.type.jvmArguments />
     </properties>
 
