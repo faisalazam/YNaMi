@@ -89,27 +89,6 @@ public class AbstractIntegrationTest {
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-//    private static final Map<String, Boolean> featureStateMap = new HashMap<>();
-//
-//    @BeforeTestClass
-//    public void beforeTestClass() {
-//        for (FeatureToggles feature : FeatureToggles.values()) {
-//            featureStateMap.put(feature.name(), featureManager.isActive(feature));
-//        }
-//    }
-//
-//    @AfterTestClass
-//    public void afterTestClass() {
-//        for (FeatureToggles feature : FeatureToggles.values()) {
-//            final boolean isActive = featureStateMap.get(feature.name());
-//            if (isActive) {
-//                featureManager.activate(feature);
-//            } else {
-//                featureManager.activate(feature);
-//            }
-//        }
-//    }
-
     @BeforeEach
     void before() {
         if (featureManager.isActive(WEB_SECURITY)) {
