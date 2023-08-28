@@ -1,3 +1,4 @@
+# Changes in this file will hane no impact on integration tests as there is another application-togglz.yml in test resources.
 togglz:
   # noinspection SpringBootApplicationYaml
   enabled: ${config.togglz.enabled}
