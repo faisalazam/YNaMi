@@ -6,9 +6,7 @@ import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 
 import javax.sql.DataSource;
-import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
 import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
 public class DatabaseExecutionListener implements TestExecutionListener {
@@ -45,16 +43,16 @@ public class DatabaseExecutionListener implements TestExecutionListener {
         final String query = "SELECT TABLE_NAME\n" +
                 "FROM INFORMATION_SCHEMA.TABLES\n" +
                 "WHERE TABLE_SCHEMA = '" + schemaName + "'";
-        final Set<String> tableNames = jdbcTemplate.queryForList(query, String.class)
+        final String[] tableNames = jdbcTemplate.queryForList(query, String.class)
                 .stream()
                 .filter(tableName -> !FLYWAY_SCHEMA_HISTORY.equalsIgnoreCase(tableName))
-                .collect(toSet());
+                .toArray(String[]::new);
         cleanDBData(jdbcTemplate, tableNames);
     }
 
-    private void cleanDBData(final JdbcTemplate jdbcTemplate, final Set<String> tableNames) {
+    private void cleanDBData(final JdbcTemplate jdbcTemplate, final String[] tableNames) {
         jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0;"); // Disable foreign key constraint checks
-        deleteFromTables(jdbcTemplate, tableNames.toArray(new String[]{}));
+        deleteFromTables(jdbcTemplate, tableNames);
         jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1;"); // Enable foreign key constraint checks
     }
 }
