@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
@@ -24,6 +25,7 @@ import pk.lucidxpo.ynami.persistence.dao.security.RoleRepository;
 import pk.lucidxpo.ynami.persistence.model.Auditable;
 import pk.lucidxpo.ynami.persistence.model.security.Role;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
+import pk.lucidxpo.ynami.utils.executionlisteners.TogglzExecutionListener;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +49,7 @@ import static org.springframework.context.annotation.ComponentScan.Filter;
 import static org.springframework.context.annotation.FilterType.REGEX;
 import static org.springframework.core.env.Profiles.of;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
@@ -57,6 +60,8 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @TestPropertySource(properties = {"spring.datasource.name=" + SCHEMA_NAME})
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
+// MERGE_WITH_DEFAULTS indicates that the locally declared listeners should be merged with the default listeners.
+@TestExecutionListeners(value = TogglzExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class AbstractIntegrationTest {
     @SuppressWarnings("WrongPropertyKeyValueDelimiter")
     public static final String SCHEMA_NAME = "IntegrationTestSchema";
@@ -83,6 +88,27 @@ public class AbstractIntegrationTest {
 
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
+//    private static final Map<String, Boolean> featureStateMap = new HashMap<>();
+//
+//    @BeforeTestClass
+//    public void beforeTestClass() {
+//        for (FeatureToggles feature : FeatureToggles.values()) {
+//            featureStateMap.put(feature.name(), featureManager.isActive(feature));
+//        }
+//    }
+//
+//    @AfterTestClass
+//    public void afterTestClass() {
+//        for (FeatureToggles feature : FeatureToggles.values()) {
+//            final boolean isActive = featureStateMap.get(feature.name());
+//            if (isActive) {
+//                featureManager.activate(feature);
+//            } else {
+//                featureManager.activate(feature);
+//            }
+//        }
+//    }
 
     @BeforeEach
     void before() {
