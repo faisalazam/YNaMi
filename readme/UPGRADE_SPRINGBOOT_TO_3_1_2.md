@@ -730,6 +730,22 @@ The following statement will ensure that you don't see empty frames like below a
 
 ![h2-with-empty-frames.png](assets/images/h2-with-empty-frames.png)
 
+Improved version of that piece of code is:
+
+```
+http
+    .securityMatcher(h2ConsolePattern)
+    .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher(h2ConsolePattern)).permitAll())
+    .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+;
+```
+
+#### FrameOptionsConfig
+
+* DENY - is a default value. With this the page cannot be displayed in a frame, regardless of the site attempting to do so.
+* SAMEORIGIN - We can use this as the page will be (and can be) displayed in a frame on the same server/origin as the page itself.
+* ALLOW-FROM - Allows you to specify an origin, where the page can be displayed in a frame.
+
 </details>
 </blockquote>
 
