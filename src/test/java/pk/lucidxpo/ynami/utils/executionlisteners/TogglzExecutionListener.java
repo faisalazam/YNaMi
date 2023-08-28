@@ -1,16 +1,15 @@
 package pk.lucidxpo.ynami.utils.executionlisteners;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
-import org.springframework.test.context.support.AbstractTestExecutionListener;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 import pk.lucidxpo.ynami.spring.features.FeatureToggles;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,43 +22,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * In order to overcome this problem, we'll capture the state of the all the feature toggles before running the very
  * first test in a map, and then use that map later on at the end of every test class to reset the feature toggles
  * to their original/initial state.
- * <p>
- * NOTE the use of 'extends {@link AbstractTestExecutionListener}' instead of 'implements {@link TestExecutionListener}',
- * that's because of the autowiring of the {@link FeatureManagerWrappable}, as implementing {@link TestExecutionListener}
- * will not allow us to autowire any dependencies.
  */
-public class TogglzExecutionListener extends AbstractTestExecutionListener {
+public class TogglzExecutionListener implements TestExecutionListener {
     /**
      * A map, where key is the name of the feature toggle and value is the state of the feature toggle before running
      * the very first test.
      */
     private static final Map<String, Boolean> FEATURE_ORIGINAL_STATE_MAP = new HashMap<>();
 
-    @Value("${config.togglz.enabled}")
     private boolean togglzEnabled;
-
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    @Autowired
     private FeatureManagerWrappable featureManager;
 
     @Override
-    public void beforeTestClass(@SuppressWarnings("NullableProblems") final TestContext testContext) {
+    public void beforeTestClass(final TestContext testContext) {
+        final ApplicationContext applicationContext = testContext.getApplicationContext();
+        togglzEnabled = parseBoolean(applicationContext.getEnvironment().getProperty("config.togglz.enabled"));
+
         if (!togglzEnabled) {
             return;
         }
 
-        //get the bean factory and use it to inject into this
-        testContext.getApplicationContext()
-                .getAutowireCapableBeanFactory()
-                .autowireBean(this);
-
-        if (!FEATURE_ORIGINAL_STATE_MAP.isEmpty()) {
-            return;
-        }
-
+        featureManager = applicationContext.getBean(FeatureManagerWrappable.class);
+        // TODO: Ensure that this map is initialized with the correct feature states.
         stream(FeatureToggles.values())
                 .forEach(
-                        feature -> FEATURE_ORIGINAL_STATE_MAP.put(feature.name(), featureManager.isActive(feature))
+                        feature -> FEATURE_ORIGINAL_STATE_MAP.putIfAbsent(feature.name(), featureManager.isActive(feature))
                 );
     }
 
