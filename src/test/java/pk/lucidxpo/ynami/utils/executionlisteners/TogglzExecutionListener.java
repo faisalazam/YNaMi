@@ -1,6 +1,7 @@
 package pk.lucidxpo.ynami.utils.executionlisteners;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * There are integration tests which will be activating/deactivating the feature toggles in tests to test different
  * aspects of application. The changed state of feature toggles may impact the tests running after the ones which have
- * changed  the state of feature toggles.
+ * changed  the state of feature toggles. All that may happen when "config.togglz.enabled=true" in properties file.
  * <p>
  * In order to overcome this problem, we'll capture the state of the all the feature toggles before running the very
  * first test in a map, and then use that map later on at the end of every test class to reset the feature toggles
@@ -34,13 +35,16 @@ public class TogglzExecutionListener extends AbstractTestExecutionListener {
      */
     private static final Map<String, Boolean> FEATURE_ORIGINAL_STATE_MAP = new HashMap<>();
 
+    @Value("${config.togglz.enabled}")
+    private boolean togglzEnabled;
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private FeatureManagerWrappable featureManager;
 
     @Override
     public void beforeTestClass(@SuppressWarnings("NullableProblems") final TestContext testContext) {
-        if (!FEATURE_ORIGINAL_STATE_MAP.isEmpty()) {
+        if (!togglzEnabled) {
             return;
         }
 
@@ -48,6 +52,10 @@ public class TogglzExecutionListener extends AbstractTestExecutionListener {
         testContext.getApplicationContext()
                 .getAutowireCapableBeanFactory()
                 .autowireBean(this);
+
+        if (!FEATURE_ORIGINAL_STATE_MAP.isEmpty()) {
+            return;
+        }
 
         stream(FeatureToggles.values())
                 .forEach(
@@ -60,6 +68,10 @@ public class TogglzExecutionListener extends AbstractTestExecutionListener {
      */
     @Override
     public void afterTestClass(@SuppressWarnings("NullableProblems") final TestContext testContext) {
+        if (!togglzEnabled) {
+            return;
+        }
+
         for (FeatureToggles feature : FeatureToggles.values()) {
             final boolean wasActive = FEATURE_ORIGINAL_STATE_MAP.get(feature.name());
             if (wasActive) {
