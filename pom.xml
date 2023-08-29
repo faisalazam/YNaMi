@@ -20,7 +20,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.2</version>
+		<version>3.1.3</version>
 		<relativePath/>
 	</parent>
 
@@ -89,7 +89,7 @@
 
         <h2.version>2.2.220</h2.version>
         <harlib.version>1.1.3</harlib.version>
-        <togglz.version>4.2.0</togglz.version>
+        <togglz.version>4.3.0</togglz.version>
         <jquery.version>3.7.0</jquery.version>
         <lombok.version>1.18.28</lombok.version>
         <guava.version>32.1.2-jre</guava.version>
@@ -102,10 +102,10 @@
         <joda-time.version>2.12.5</joda-time.version>
         <maven-pmd.version>3.21.0</maven-pmd.version>
         <commons-io.version>2.13.0</commons-io.version>
-        <flyway-core.version>9.21.1</flyway-core.version>
+        <flyway-core.version>9.21.2</flyway-core.version>
         <font-awesome.version>6.4.2</font-awesome.version>
         <fluentlenium.version>5.0.4</fluentlenium.version>
-        <flyway-mysql.version>9.21.1</flyway-mysql.version>
+        <flyway-mysql.version>9.21.2</flyway-mysql.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
         <zap.clientapi.version>1.12.0</zap.clientapi.version>
@@ -155,22 +155,22 @@
 
 	<dependencies>
 		<!--Web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-		<!--Security -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+        <!--Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
-		<!--Thymeleaf -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
+        <!--Thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
         <dependency>
             <groupId> nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
@@ -335,10 +335,10 @@
             </exclusions>
 		</dependency>
         <dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
