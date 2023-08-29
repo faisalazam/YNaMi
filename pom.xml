@@ -120,6 +120,7 @@
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
         <cucumber-reporting.version>5.7.6</cucumber-reporting.version>
         <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
+        <junit-platform-suite.version>1.10.0</junit-platform-suite.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <commons-configuration2.version>2.9.0</commons-configuration2.version>
@@ -468,6 +469,18 @@
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit-platform-suite.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
@@ -680,8 +693,8 @@
                 <artifactId>cluecumber-report-plugin</artifactId>
                 <version>2.9.4</version>
                 <configuration>
-                    <sourceJsonReportDirectory>target/test-results/cucumber-reports/json</sourceJsonReportDirectory>
-                    <generatedHtmlReportDirectory>target/test-results/cucumber-reports/generated-report</generatedHtmlReportDirectory>
+                    <sourceJsonReportDirectory>target/test-results/cucumber-reports/acceptance/json</sourceJsonReportDirectory>
+                    <generatedHtmlReportDirectory>target/test-results/cucumber-reports/acceptance/generated-report</generatedHtmlReportDirectory>
                     <startPage>ALL_SCENARIOS</startPage>
                     <expandStepHooks>true</expandStepHooks>
                     <expandDocStrings>true</expandDocStrings>
