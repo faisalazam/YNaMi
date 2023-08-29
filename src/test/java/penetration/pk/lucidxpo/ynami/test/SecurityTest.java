@@ -31,7 +31,6 @@ import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
 public class SecurityTest {
     static final String CAMELCASE = "camelcase";
     static final String TAGS = "not @wip and not @slow";
-    static final String CUCUMBER_GLUE_LOCATION = "penetration.pk.lucidxpo.ynami";
     static final String FEATURE_FILES_LOCATION = "src/test/resources/cuke/security/features/";
 
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/security";
@@ -42,6 +41,12 @@ public class SecurityTest {
     private static final String PEN_TESTS_JUNIT_REPORT = "junit:" + CUCUMBER_REPORTS_PATH + "/pen_tests.xml";
     private static final String CUCUMBER_HTML_REPORT = "html:" + CUCUMBER_HTML_REPORTS_PATH + "/cucumber.html";
 
+    private static final String CUCUMBER_STEP_DEFS_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.defs";
+    private static final String CUCUMBER_CONTEXT_LOADER = "penetration.pk.lucidxpo.ynami.config.cucumber";
+    //    private static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
+
+    static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEP_DEFS_PACKAGE + ", " + CUCUMBER_CONTEXT_LOADER;
+
     static final String CUCUMBER_REPORTING_PLUGINS = "pretty"
             + ", " + PEN_TESTS_JSON_REPORT
             + ", " + PEN_TESTS_JUNIT_REPORT
@@ -50,7 +55,7 @@ public class SecurityTest {
     @AfterAll
     public static void tearDown() throws IOException {
         // TODO: do I need to generate reports explicitly? I think the ones generated through maven will be good enough.
-        //  Or considerinf combing the reports from cluecumber-report-plugin and maven-cucumber-reporting plugins.
+        //  Or consider combining the reports from cluecumber-report-plugin and maven-cucumber-reporting plugins.
         generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
         quitAll();
         stopZap();

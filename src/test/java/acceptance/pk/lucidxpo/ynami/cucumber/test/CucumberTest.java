@@ -23,11 +23,15 @@ import static io.cucumber.core.options.Constants.SNIPPET_TYPE_PROPERTY_NAME;
 public class CucumberTest {
     static final String CAMELCASE = "camelcase";
     static final String FEATURE_FILES_LOCATION = "src/test/resources/cuke/feature/";
-    static final String CUCUMBER_GLUE_LOCATION = "acceptance.pk.lucidxpo.ynami.cucumber";
+
+    private static final String CUCUMBER_STEPS_PACKAGE = "acceptance.pk.lucidxpo.ynami.cucumber.steps";
+    private static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.cucumber.config";
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/acceptance";
     private static final String CUCUMBER_JSON_REPORT = "json:" + CUCUMBER_REPORTS_PATH + "/json/cucumber.json";
     private static final String CUCUMBER_HTML_REPORT = "html:" + CUCUMBER_REPORTS_PATH + "/html/cucumber.html";
     private static final String CUCUMBER_RERUN_REPORT = "rerun:" + CUCUMBER_REPORTS_PATH + "/cucumber-api-rerun.txt";
+
+    static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEPS_PACKAGE + ", " + CUCUMBER_CONTEXT_LOADER;
     static final String CUCUMBER_REPORTING_PLUGINS = "pretty"
             + ", " + CUCUMBER_JSON_REPORT
             + ", " + CUCUMBER_RERUN_REPORT
