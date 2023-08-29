@@ -653,7 +653,6 @@
                 <configuration>
                     <test>${tests.to.execute}</test>
                     <skipTests>${skip.unit.tests}</skipTests>
-                    <!--suppress UnresolvedMavenProperty -->
                     <argLine>@{surefire.jacoco.exec.file.name.arg}</argLine>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                     <reportsDirectory>${unit.tests.results.directory}</reportsDirectory>
@@ -665,7 +664,6 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <!--suppress UnresolvedMavenProperty -->
                     <argLine>
                         @{failsafe.jacoco.exec.file.name.arg}
                         ${spring.datasource.type.jvmArguments}
@@ -676,6 +674,40 @@
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                     <reportsDirectory>${integration.tests.results.directory}</reportsDirectory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.trivago.rta</groupId>
+                <artifactId>cluecumber-report-plugin</artifactId>
+                <version>2.9.4</version>
+                <configuration>
+                    <sourceJsonReportDirectory>target/test-results/cucumber-reports/json</sourceJsonReportDirectory>
+                    <generatedHtmlReportDirectory>target/test-results/cucumber-reports/generated-report</generatedHtmlReportDirectory>
+                    <startPage>ALL_SCENARIOS</startPage>
+                    <expandStepHooks>true</expandStepHooks>
+                    <expandDocStrings>true</expandDocStrings>
+                    <expandBeforeAfterHooks>true</expandBeforeAfterHooks>
+                    <customPageTitle>Acceptance Tests' Report</customPageTitle>
+                    <customParameters>
+                        <Custom_Parameter>Test Report</Custom_Parameter>
+                        <Custom_URL>https://localhost:8443/ynami</Custom_URL>
+                        <_Text>This is the test report for the acceptance testing done using Cucumber</_Text>
+                    </customParameters>
+                    <!-- Choose between ALL_PAGES/SCENARIO_PAGES. Default value is SCENARIO_PAGES -->
+                    <customParametersDisplayMode>ALL_PAGES</customParametersDisplayMode>
+                    <customNavigationLinks>
+                        <Unit_Test_Report>https://www.google.com</Unit_Test_Report>
+                        <Integration_Test_Report>https://www.google.com</Integration_Test_Report>
+                    </customNavigationLinks>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>reporting</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
