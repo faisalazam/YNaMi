@@ -2,7 +2,7 @@ package acceptance.pk.lucidxpo.ynami.cucumber.test;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectDirectories;
+import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
 import static acceptance.pk.lucidxpo.ynami.cucumber.test.CucumberTest.CAMELCASE;
@@ -15,14 +15,15 @@ import static io.cucumber.core.options.Constants.SNIPPET_TYPE_PROPERTY_NAME;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectDirectories(FEATURE_FILES_LOCATION)
+@SelectClasspathResource(FEATURE_FILES_LOCATION)
+// Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE
 @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = CAMELCASE)
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = CUCUMBER_GLUE_LOCATION)
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = CUCUMBER_REPORTING_PLUGINS)
 // TODO: well designed Cucumber implementation: https://www.swtestacademy.com/selenium-spring-boot-cucumber-junit5-project/
 public class CucumberTest {
     static final String CAMELCASE = "camelcase";
-    static final String FEATURE_FILES_LOCATION = "src/test/resources/cuke/feature/";
+    static final String FEATURE_FILES_LOCATION = "cuke/feature/";
 
     private static final String CUCUMBER_STEPS_PACKAGE = "acceptance.pk.lucidxpo.ynami.cucumber.steps";
     private static final String CUCUMBER_CONTEXT_LOADER = "acceptance.pk.lucidxpo.ynami.cucumber.config";

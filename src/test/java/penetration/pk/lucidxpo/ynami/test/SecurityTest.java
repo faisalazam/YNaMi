@@ -3,7 +3,7 @@ package penetration.pk.lucidxpo.ynami.test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectDirectories;
+import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
 import java.io.IOException;
@@ -23,15 +23,16 @@ import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectDirectories(FEATURE_FILES_LOCATION)
+@SelectClasspathResource(FEATURE_FILES_LOCATION)
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = TAGS)
+// Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE
 @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = CAMELCASE)
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = CUCUMBER_GLUE_LOCATION)
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = CUCUMBER_REPORTING_PLUGINS)
 public class SecurityTest {
     static final String CAMELCASE = "camelcase";
     static final String TAGS = "not @wip and not @slow";
-    static final String FEATURE_FILES_LOCATION = "src/test/resources/cuke/security/features/";
+    static final String FEATURE_FILES_LOCATION = "cuke/security/features/";
 
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/security";
     private static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
