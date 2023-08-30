@@ -1,7 +1,8 @@
 package penetration.pk.lucidxpo.ynami.steps.defs;
 
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java8.En;
 import penetration.pk.lucidxpo.ynami.model.Port;
 import penetration.pk.lucidxpo.ynami.scanners.PortScanner;
 
@@ -14,26 +15,28 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static penetration.pk.lucidxpo.ynami.model.State.fromString;
 
-public class InfrastructureSteps implements En {
+public class InfrastructureSteps {
     private String targetHost;
     private List<Port> portScanResults;
     private List<Integer> selectedPorts;
 
-    public InfrastructureSteps() {
-        Given("the target host name (.*)", (final String hostname) -> targetHost = hostname);
+    @Given("the target host name (.*)")
+    public void theTargetHostName(final String hostname) {
+        targetHost = hostname;
+    }
 
-        When("the (.*) ports are selected", (final String state) -> {
-            selectedPorts = newArrayList();
-            portScanResults.stream()
-                    .filter(result -> result.getState().equals(fromString(state)))
-                    .forEach(result -> selectedPorts.add(result.getNumber()));
-        });
+    @When("the (.*) ports are selected")
+    public void thePortsAreSelected(final String state) {
+        selectedPorts = newArrayList();
+        portScanResults.stream()
+                .filter(result -> result.getState().equals(fromString(state)))
+                .forEach(result -> selectedPorts.add(result.getNumber()));
+    }
 
-        Then("the ports should be (.*)", (final String csvPorts) -> {
-                    final Integer[] expectedPorts = stream(csvPorts.split(",")).map(Integer::parseInt).toArray(Integer[]::new);
-                    assertThat("Only the expected ports are open", selectedPorts, containsInAnyOrder(expectedPorts));
-                }
-        );
+    @Then("the ports should be (.*)")
+    public void thePortsShouldBe(final String csvPorts) {
+        final Integer[] expectedPorts = stream(csvPorts.split(",")).map(Integer::parseInt).toArray(Integer[]::new);
+        assertThat("Only the expected ports are open", selectedPorts, containsInAnyOrder(expectedPorts));
     }
 
     @When("^TCP ports from (\\d+) to (\\d+) are scanned using (\\d+) threads and a timeout of (\\d+) milliseconds$")

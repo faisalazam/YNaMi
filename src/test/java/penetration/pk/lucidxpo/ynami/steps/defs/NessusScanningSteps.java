@@ -3,7 +3,6 @@ package penetration.pk.lucidxpo.ynami.steps.defs;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java8.En;
 import net.continuumsecurity.ReportClient;
 import net.continuumsecurity.ScanClient;
 import net.continuumsecurity.v5.model.Issue;
@@ -22,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
 
-public class NessusScanningSteps implements En {
+public class NessusScanningSteps {
     private String username;
     private String password;
     private String scanUuid;
@@ -35,38 +34,45 @@ public class NessusScanningSteps implements En {
     private boolean ignoreHostNamesInSSLCert = false;
     private final List<String> hostNames = newArrayList();
 
-//    TODO: try to use scenarioworld instead of maintaining steps awareness in this class
+    //    TODO: try to use scenarioworld instead of maintaining steps awareness in this class
 
-    public NessusScanningSteps() {
-        Given("a nessus API client that accepts all hostnames in SSL certificates", () -> ignoreHostNamesInSSLCert = true);
+    @Given("a nessus API client that accepts all hostnames in SSL certificates")
+    public void aNessusApiClientThatAcceptsAllHostnamesInSslCertificates() {
+        ignoreHostNamesInSSLCert = true;
+    }
 
-        Given("the nessus username (.*) and the password (.*)$", (final String username, final String password) -> {
-            this.username = username;
-            this.password = password;
-        });
+    @Given("the nessus username (.*) and the password (.*)$")
+    public void theNessusUsernameAndThePassword(final String username, final String password) {
+        this.username = username;
+        this.password = password;
+    }
 
-        Given("the scanning policy named (.*)$", (final String policyName) -> this.policyName = policyName);
+    @Given("the scanning policy named (.*)$")
+    public void theScanningPolicyNamed(final String policyName) {
+        this.policyName = policyName;
+    }
 
-        When("^the scanner is run with scan name (.*)$", (final String scanName) -> {
-            if (username == null) {
-                username = getInstance().getNessusUsername();
-                password = getInstance().getNessusPassword();
-            }
-            scanClient.login(username, password);
-            scanUuid = scanClient.newScan(scanName, policyName, join(hostNames, ","));
-            if (nessusVersion == 5) {
-                scanIdentifierForStatus = scanName;
-            } else {
-                scanIdentifierForStatus = scanUuid;
-            }
-        });
+    @When("^the scanner is run with scan name (.*)$")
+    public void theScannerIsRunWithScanName(final String scanName) throws Exception {
+        if (username == null) {
+            username = getInstance().getNessusUsername();
+            password = getInstance().getNessusPassword();
+        }
+        scanClient.login(username, password);
+        scanUuid = scanClient.newScan(scanName, policyName, join(hostNames, ","));
+        if (nessusVersion == 5) {
+            scanIdentifierForStatus = scanName;
+        } else {
+            scanIdentifierForStatus = scanUuid;
+        }
+    }
 
-        When("the list of issues is stored", () -> {
-            waitForScanToComplete(scanIdentifierForStatus);
-            final ReportClient reportClient = createReportClient(nessusUrl, nessusVersion, ignoreHostNamesInSSLCert);
-            reportClient.login(username, password);
-            issues = reportClient.getAllIssuesSortedByPluginId(scanUuid);
-        });
+    @When("the list of issues is stored")
+    public void theListOfIssuesIsStored() throws Exception {
+        waitForScanToComplete(scanIdentifierForStatus);
+        final ReportClient reportClient = createReportClient(nessusUrl, nessusVersion, ignoreHostNamesInSSLCert);
+        reportClient.login(username, password);
+        issues = reportClient.getAllIssuesSortedByPluginId(scanUuid);
     }
 
     @Given("the target host names")

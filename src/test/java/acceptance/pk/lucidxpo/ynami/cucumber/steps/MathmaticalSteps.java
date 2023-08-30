@@ -15,7 +15,7 @@ public class MathmaticalSteps extends AbstractSteps {
     @Autowired
     private MathScenarioWorld mathScenarioWorld;
 
-    @Given("^I am about to perform an operation$")
+    @Given("I am about to perform an operation")
     public void iAmAboutToPerformAnOperation() {
     }
 

@@ -1,16 +1,16 @@
 package penetration.pk.lucidxpo.ynami.steps.config;
 
-import io.cucumber.java8.En;
 import penetration.pk.lucidxpo.ynami.steps.domain.NessusFalsePositive;
 import penetration.pk.lucidxpo.ynami.steps.domain.ZAPFalsePositive;
 
 import java.util.Map;
 
-public class DataTableConfigurer implements En {
+public class DataTableConfigurer {
     // TODO Cucumber Upgrade: check if this new code works
     public DataTableConfigurer() {
-        DataTableType(this::getZapFalsePositive);
-        DataTableType(this::getNessusFalsePositive);
+//        TODO: fix me after removal of cucumber-java8
+//        DataTableType(this::getZapFalsePositive);
+//        DataTableType(this::getNessusFalsePositive);
     }
 
     private NessusFalsePositive getNessusFalsePositive(final Map<String, String> entry) {

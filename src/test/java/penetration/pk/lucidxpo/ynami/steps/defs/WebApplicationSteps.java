@@ -1,14 +1,13 @@
 package penetration.pk.lucidxpo.ynami.steps.defs;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import io.cucumber.java8.En;
 import edu.umass.cs.benchlab.har.HarCookie;
 import edu.umass.cs.benchlab.har.HarEntry;
 import edu.umass.cs.benchlab.har.HarRequest;
 import edu.umass.cs.benchlab.har.HarResponse;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import net.continuumsecurity.proxy.LoggingProxy;
 import net.continuumsecurity.proxy.ZAProxyScanner;
@@ -56,7 +55,7 @@ import static penetration.pk.lucidxpo.ynami.utils.Utils.responseContainsHeader;
 import static penetration.pk.lucidxpo.ynami.utils.Utils.responseHeaderValueIsOneOf;
 
 @Slf4j
-public class WebApplicationSteps implements En {
+public class WebApplicationSteps {
     private Application app;
     private String methodName;
     private LoggingProxy proxy;
@@ -68,39 +67,80 @@ public class WebApplicationSteps implements En {
          * start with a fresh browser getInstance, because @BeforeScenario is only
          * called once for the whole scenario, not each example.
          */
-        Given("^a new browser or client instance$", this::createApp);
+        // TODO there were some given, when, then which had been moved out of the constructor after removing
+        //  cucumber-java8, check their impact.
+    }
 
-        And("^the client\\/browser is configured to use an intercepting proxy$", this::enableLoggingDriver);
+    @Given("^a new browser or client instance$")
+    public void aNewBrowserOrClientInstance() {
+        this.createApp();
+    }
 
-        And("^the proxy logs are cleared$", this::clearProxy);
+    @And("^the client\\/browser is configured to use an intercepting proxy$")
+    public void theClientBrowserIsConfiguredToUseAnInterceptingProxy() {
+        this.enableLoggingDriver();
+    }
 
-        And("^the login page$", this::openLoginPage);
+    @And("^the proxy logs are cleared$")
+    public void theProxyLogsAreCleared() {
+        this.clearProxy();
+    }
 
-        And("^the username (.*) is used$", this::setUsername);
+    @And("^the login page$")
+    public void theLoginPage() {
+        this.openLoginPage();
+    }
 
-        And("^the password (.*) is used$", this::setPassword);
+    @And("^the username (.*) is used$")
+    public void theUsernameIsUsed(final String username) {
+        this.setUsername(username);
+    }
 
-        When("^the user logs in$", this::loginWithSetCredentials);
+    @And("^the password (.*) is used$")
+    public void thePasswordIsUsed(final String password) {
+        this.setPassword(password);
+    }
 
-        And("^the HTTP requests and responses are recorded$", () -> {
-            //HTTP traffic is recorded in checkAccessToResource
-        });
+    @When("^the user logs in$")
+    public void theUserLogsI() {
+        this.loginWithSetCredentials();
+    }
 
-        And("^they access the restricted resource: (.*)$", this::setMethodName);
+    @And("the HTTP requests and responses are recorded")
+    public void theHttpRequestsAndResponsesAreRecorded() {
+        //HTTP traffic is recorded in checkAccessToResource
+    }
 
-        Then("^the string: (.*) should be present in one of the HTTP responses$", this::assertSensitiveDataPresentInResponses);
+    @And("^they access the restricted resource: (.*)$")
+    public void theyAccessTheRestrictedResource(final String resource) {
+        this.setMethodName(resource);
+    }
 
-        Given("^the access control map for authorised users has been populated$", () -> {
-            if (getMethodProxyMap().isEmpty()) {
-                throw new RuntimeException("Access control map has not been populated.");
-            }
-        });
+    @Then("^the string: (.*) should be present in one of the HTTP responses$")
+    public void theStringShouldBePresentInOneOfTheHTTPResponses(final String str) throws NoSuchMethodException {
+        this.assertSensitiveDataPresentInResponses(str);
+    }
 
-        And("^the previously recorded HTTP Requests for (.*) are replayed using the current session ID$", this::setMethodName);
+    @Given("the access control map for authorised users has been populated")
+    public void theAccessControlMapForAuthorisedUsersHasBeenPopulated() {
+        if (getMethodProxyMap().isEmpty()) {
+            throw new RuntimeException("Access control map has not been populated.");
+        }
+    }
 
-        Then("^the string: (.*) should not be present in any of the HTTP responses$", this::assertSensitiveDataNotPresentInResponses);
+    @And("^the previously recorded HTTP Requests for (.*) are replayed using the current session ID$")
+    public void thePreviouslyRecordedHTTPRequestsForAreReplayedUsingTheCurrentSessionID(final String requests) {
+        this.setMethodName(requests);
+    }
 
-        When("^the default password$", () -> setPassword(((UserPassCredentials) Config.getInstance().getDefaultCredentials()).getPassword()));
+    @Then("^the string: (.*) should not be present in any of the HTTP responses$")
+    public void theStringShouldNotBePresentInAnyOfTheHTTPResponses(final String str) {
+        this.assertSensitiveDataNotPresentInResponses(str);
+    }
+
+    @When("the default password")
+    public void theDefaultPassword() {
+        setPassword(((UserPassCredentials) Config.getInstance().getDefaultCredentials()).getPassword());
     }
 
     @When("the authentication tokens on the client are deleted")
@@ -108,7 +148,7 @@ public class WebApplicationSteps implements En {
         deleteAuthTokens();
     }
 
-    @Given("^a new browser instance$")
+    @Given("a new browser instance")
     public void createAppForBrowser() {
         createApp();
         if (!(app.getAuthTokenManager() instanceof AuthTokenManagerImpl)) {
@@ -138,7 +178,7 @@ public class WebApplicationSteps implements En {
         setPassword(Config.getInstance().getIncorrectPassword());
     }
 
-    @When("^the user logs in from a fresh login page$")
+    @When("the user logs in from a fresh login page")
     public void loginFromFreshPage() {
         createApp();
         openLoginPage();
@@ -178,7 +218,7 @@ public class WebApplicationSteps implements En {
         range(0, limit).forEach(i -> loginFromFreshPage());
     }
 
-    @When("^the user logs out$")
+    @When("the user logs out")
     public void logout() {
         ((ILogout) app).logout();
     }
@@ -287,7 +327,7 @@ public class WebApplicationSteps implements En {
         }
     }
 
-    @When("^the password field is inspected$")
+    @When("the password field is inspected")
     public void selectPasswordField() {
         checkIfWebApplication();
         final String xpath = "//input[@type='password']";
@@ -385,7 +425,7 @@ public class WebApplicationSteps implements En {
         }
     }
 
-    @And("^the default username$")
+    @And("the default username")
     public void theDefaultUsername() {
         final String username = ((UserPassCredentials) Config.getInstance().getDefaultCredentials()).getUsername();
         setUsername(username);

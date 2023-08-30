@@ -1,7 +1,10 @@
 package penetration.pk.lucidxpo.ynami.steps.defs;
 
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java8.En;
 import lombok.extern.slf4j.Slf4j;
 import net.continuumsecurity.proxy.ContextModifier;
 import net.continuumsecurity.proxy.Spider;
@@ -34,7 +37,7 @@ import static org.zaproxy.clientapi.core.Alert.Risk.Medium;
 import static penetration.pk.lucidxpo.ynami.featureworld.ScenariosAwareWorld.getInstance;
 
 @Slf4j
-public class AppScanningSteps implements En {
+public class AppScanningSteps {
     private final Application app;
     private ZAProxyScanner scanner;
     private String scannerIds = null;
@@ -43,42 +46,95 @@ public class AppScanningSteps implements En {
 
     public AppScanningSteps() {
         app = Config.getInstance().createApp();
+        // TODO there were some given, when, then which had been moved out of the constructor after removing
+        //  cucumber-java8, check their impact.
+    }
 
-        Given("the passive scanner has already run during the app navigation", () -> {
-            //Do nothing, it has already run during navigation
-        });
+    @Given("the passive scanner has already run during the app navigation")
+    public void thePassiveScannerHasAlreadyRunDuringTheAppNavigation() {
+    }
 
-        Given("a new scanning session", app::enableHttpLoggingClient);
+    @Given("a new scanning session")
+    public void aNewScanningSession() {
+        app.enableHttpLoggingClient();
+    }
 
-        Given("all existing alerts are deleted", this::clearAlerts);
+    @Given("all existing alerts are deleted")
+    public void allExistingAlertsAreDeleted() {
+        this.clearAlerts();
+    }
 
-        Given("a scanner with all policies disabled", () -> getScanner().disableAllScanners());
+    @Given("a scanner with all policies disabled")
+    public void aScannerWithAllPoliciesDisabled() {
+        getScanner().disableAllScanners();
+    }
 
-        When("the XML report is written to the file (.*)", (final String path) -> writeReport(path, scanner.getXmlReport()));
+    @When("the XML report is written to the file (.*)")
+    public void theXmlReportIsWrittenToTheFile(final String path) throws Exception {
+        writeReport(path, scanner.getXmlReport());
+    }
 
-        Then("the HTML report is written to the file (.*)", (final String path) -> writeReport(path, scanner.getHtmlReport()));
+    @Then("the HTML report is written to the file (.*)")
+    public void theHtmlReportIsWrittenToTheFile(final String path) throws Exception {
+        writeReport(path, scanner.getHtmlReport());
+    }
 
-        Given("a scanner with all policies enabled", () -> getScanner().enableAllScanners());
+    @Given("a scanner with all policies enabled")
+    public void aScannerWithAllPoliciesEnabled() {
+        getScanner().enableAllScanners();
+    }
 
-        Given("the passive scanner is enabled", () -> getScanner().setEnablePassiveScan(true));
+    @Given("the passive scanner is enabled")
+    public void thePassiveScannerIsEnabled() {
+        getScanner().setEnablePassiveScan(true);
+    }
 
-        Given("the (\\S+) policy is enabled", this::enableScanners);
+    @Given("the (\\S+) policy is enabled")
+    public void thePolicyIsEnabled(final String policy) {
+        this.enableScanners(policy);
+    }
 
-        Given("the attack strength is set to (\\S+)", this::setScannerAttackStrength);
+    @Given("the attack strength is set to (\\S+)")
+    public void theAttackStrengthIsSetTo(final String strength) {
+        this.setScannerAttackStrength(strength);
+    }
 
-        Given("the alert threshold is set to (\\S+)", this::setScannerAlertThreshold);
 
-        Given("the following URL regular expressions are excluded from the scanner", this::excludeFromScanner);
+    @Given("the alert threshold is set to (\\S+)")
+    public void theAlertThresholdIsSetTo(final String threshold) {
+        this.setScannerAlertThreshold(threshold);
+    }
 
-        When("^the scanner is run$", this::scan);
+    @DataTableType
+    @Given("the following URL regular expressions are excluded from the scanner")
+    public void theFollowingURLRegularExpressionsAreExcludedFromTheScanner(final List<String> excludedRegexes) {
+        this.excludeFromScanner(excludedRegexes);
+    }
 
-        Then("^no (\\S+) or higher risk vulnerabilities should be present$", this::assertNoHigherRiskVulnerabilitiesPresent);
 
-        And("^the navigation and spider status is reset$", this::resetStatus);
+    @When("^the scanner is run$")
+    public void theScannerIsRun() throws InterruptedException {
+        this.scan();
+    }
 
-        And("^the application is navigated$", this::navigateApplication);
+    @Then("^no (\\S+) or higher risk vulnerabilities should be present$")
+    public void noOrHigherRiskVulnerabilitiesShouldBePresent$(final String risk) {
+        this.assertNoHigherRiskVulnerabilitiesPresent(risk);
+    }
 
-        And("^the application is spidered$", this::spiderApplication);
+    @And("^the navigation and spider status is reset$")
+    public void theNavigationAndSpiderStatusIsReset() {
+        this.resetStatus();
+    }
+
+    @And("^the application is navigated$")
+    public void theApplicationIsNavigated$() {
+        this.navigateApplication();
+    }
+
+    @And("^the application is spidered$")
+    public void theApplicationIsSpidered() {
+        this.spiderApplication();
     }
 
     @When("the following false positives are removed")
