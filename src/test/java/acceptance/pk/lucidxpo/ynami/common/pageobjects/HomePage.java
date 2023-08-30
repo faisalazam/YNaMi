@@ -13,7 +13,7 @@ public class HomePage extends BasePage<HomePage, HomePageAssert> {
     }
 
     @Override
-    protected ExpectedCondition getPageLoadCondition() {
+    protected ExpectedCondition<Boolean> getPageLoadCondition() {
         return titleIs("Why Not Me!!! - Admin Demo");
     }
 

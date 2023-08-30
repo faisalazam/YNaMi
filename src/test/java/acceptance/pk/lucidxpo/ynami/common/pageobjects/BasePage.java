@@ -25,7 +25,8 @@ import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
-abstract class BasePage<PageObject extends BasePage, PageAssert extends AbstractAssert<PageAssert, PageObject>> extends FluentPage {
+abstract class BasePage<PageObject extends BasePage<?, ?>, PageAssert extends AbstractAssert<PageAssert, PageObject>>
+        extends FluentPage {
 
     private static final int REFRESH_RATE = 2;
     private static final int LOAD_TIMEOUT = 30;
@@ -34,7 +35,7 @@ abstract class BasePage<PageObject extends BasePage, PageAssert extends Abstract
     /**
      * Provides condition when page can be considered as fully loaded.
      */
-    protected abstract ExpectedCondition getPageLoadCondition();
+    protected abstract ExpectedCondition<?> getPageLoadCondition();
 
     /**
      * Provides page relative URL/
@@ -44,7 +45,7 @@ abstract class BasePage<PageObject extends BasePage, PageAssert extends Abstract
     @SuppressWarnings("unchecked")
     public PageObject openPage(final int port) {
         goTo(getBaseUrl(port) + getPageUrl());
-        final ExpectedCondition pageLoadCondition = getPageLoadCondition();
+        final ExpectedCondition<?> pageLoadCondition = getPageLoadCondition();
         waitForPageToLoad(pageLoadCondition);
         return (PageObject) this;
     }
@@ -64,7 +65,8 @@ abstract class BasePage<PageObject extends BasePage, PageAssert extends Abstract
             final Class<PageObject> pageObjectClass = (Class<PageObject>) actualTypeArguments[0];
             final Class<PageAssert> pageAssertClass = (Class<PageAssert>) actualTypeArguments[1];
             return pageAssertClass.getDeclaredConstructor(pageObjectClass).newInstance(this);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
+                 InvocationTargetException | SecurityException | NoSuchMethodException e) {
             throwAsUncheckedException(e);
         }
         return null;
@@ -80,25 +82,26 @@ abstract class BasePage<PageObject extends BasePage, PageAssert extends Abstract
         element.sendKeys(value);
     }
 
-    void clickId(final String id) {
+    void clickId(@SuppressWarnings("SameParameterValue") final String id) {
         final WebElement button = getDriver().findElement(id(id));
         final JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", button);
     }
 
-    @SuppressWarnings("unchecked")
-    public void waitForPageToLoad(final ExpectedCondition pageLoadCondition) {
-        final Wait wait = new FluentWait(getDriver())
+    public void waitForPageToLoad(final ExpectedCondition<?> pageLoadCondition) {
+        final Wait<WebDriver> wait = new FluentWait<>(getDriver())
                 .withTimeout(ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(ofSeconds(REFRESH_RATE));
 
         wait.until(pageLoadCondition);
     }
 
+    @SuppressWarnings("unused")
     void navigate(final String value) {
         getDriver().navigate().to(value);
     }
 
+    @SuppressWarnings("unused")
     void acceptAlert() {
         final FluentWait<WebDriver> fluentWait = new FluentWait<>(getDriver());
         fluentWait.withTimeout(ofSeconds(10))
@@ -108,12 +111,14 @@ abstract class BasePage<PageObject extends BasePage, PageAssert extends Abstract
         getDriver().switchTo().alert().accept();
     }
 
+    @SuppressWarnings("unused")
     boolean isThere(final String name) {
         final List<WebElement> listTitles = getDriver()
                 .findElements(xpath("//h2[contains(text(), ' " + name + " ')]"));
         return listTitles.size() == 1;
     }
 
+    @SuppressWarnings("SameParameterValue")
     void clickXpathJs(final String value) {
         final WebElement button = getDriver()
                 .findElement(xpath("//a[contains(text(), '" + value + "')]"));
@@ -121,10 +126,12 @@ abstract class BasePage<PageObject extends BasePage, PageAssert extends Abstract
         executor.executeScript("arguments[0].click();", button);
     }
 
+    @SuppressWarnings("unused")
     protected void clickXpath(final String value) {
         getDriver().findElement(xpath("//*[contains(text(), '" + value + "')]")).click();
     }
 
+    @SuppressWarnings("unused")
     boolean hasErrors() {
         final List<WebElement> errors = getDriver()
                 .findElements(className("error"));
