@@ -1,5 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.cucumber.annotations;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
@@ -16,10 +17,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>
  * However, there are cases when we need to create a bean, not at the application context startup, but when we request it.
  * <p>
- * Hence the use of the @Lazy annotation.
+ * Hence the use of the {@link Lazy} annotation.
  * <p>
- * When we put @Lazy annotation over the @Configuration class, it indicates that all the methods with @Bean annotation
- * should be loaded lazily. So all beans will be created only when we request them for the first time.
+ * When we put {@link Lazy} annotation over the {@link Configuration} class, it indicates that all the methods with
+ * {@link Bean} annotation should be loaded lazily. So all beans will be created only when we request them for the
+ * first time.
  * <p>
  * Here we are creating our own combined @LazyConfiguration annotation to achieve the same result.
  */

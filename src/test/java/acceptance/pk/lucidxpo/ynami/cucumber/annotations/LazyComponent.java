@@ -1,5 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.cucumber.annotations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
  * <p>
  * However, there are cases when we need to create a bean, not at the application context startup, but when we request it.
  * <p>
- * Hence the use of the @Lazy annotation. In order to initialize a lazy bean, we reference it from another one with
- * both @Lazy and @Autowired annotations and the bean itself is marked with both @Lazy and @Component annotations.
+ * Hence the use of the {@link Lazy} annotation. In order to initialize a lazy bean, we reference it from another one
+ * with both {@link Lazy} and {@link Autowired} annotations and the bean itself is marked with both {@link Lazy} and
+ * {@link Component} annotations.
  * <p>
  * Here we are creating our own combined @LazyComponent annotation to achieve the same result.
  */
