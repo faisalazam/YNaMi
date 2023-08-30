@@ -695,6 +695,18 @@
                     <argLine>@{surefire.jacoco.exec.file.name.arg}</argLine>
                     <testFailureIgnore>${ignore.test.failures}</testFailureIgnore>
                     <reportsDirectory>${unit.tests.results.directory}</reportsDirectory>
+                    <properties>
+                        <!-- Unfortunately Gradle and Surefire does not include enough information to disambiguate
+                             between different examples and scenarios. While Cucumber tests can be executed, the results
+                             are reported in a <Class Name> - <Method Name> format. As a result only scenario names or
+                             example numbers are reported. This can make for hard to read reports.
+                             By using cucumber.junit-platform.naming-strategy=long, Cucumber will include the feature
+                             name in the scenario name. This makes the test results legible.
+                             -->
+                        <configurationParameters>
+                            cucumber.junit-platform.naming-strategy=long
+                        </configurationParameters>
+                    </properties>
                 </configuration>
             </plugin>
 
