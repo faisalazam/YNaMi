@@ -9,10 +9,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+
+import static java.time.Duration.ofSeconds;
 
 @Profile("!grid")
 @LazyConfiguration
@@ -38,7 +41,6 @@ public class WebDriverConfig {
 
     @Primary
     @WebdriverBeanScope
-    @ConditionalOnMissingBean
     @ConditionalOnProperty(name = "browser", havingValue = "chrome")
     public WebDriver chromeDriver() {
 //        WebDriverManager.chromedriver().setup();
@@ -46,5 +48,15 @@ public class WebDriverConfig {
         options.addArguments("--test-type");
         options.setAcceptInsecureCerts(true);
         return new ChromeDriver(options);
+    }
+
+    @Primary
+    @WebdriverBeanScope
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(name = "browser", havingValue = "htmlUnit")
+    public WebDriver htmlUnitDriver() {
+        final WebDriver driver = new HtmlUnitDriver(true);
+        driver.manage().timeouts().implicitlyWait(ofSeconds(2));
+        return driver;
     }
 }

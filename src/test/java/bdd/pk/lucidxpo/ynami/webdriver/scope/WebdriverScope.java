@@ -18,10 +18,12 @@ public class WebdriverScope extends SimpleThreadScope {
     @Override
     public Object get(final String name, final ObjectFactory<?> objectFactory) {
         final Object object = super.get(name, objectFactory);
-        final SessionId sessionId = ((RemoteWebDriver) object).getSessionId();
-        if (isNull(sessionId)) {
-            super.remove(name);
-            return super.get(name, objectFactory);
+        if (object instanceof RemoteWebDriver) { // Checking instanceof because HtmlUnitDriver is not a RemoteWebDriver.
+            final SessionId sessionId = ((RemoteWebDriver) object).getSessionId();
+            if (isNull(sessionId)) {
+                super.remove(name);
+                return super.get(name, objectFactory);
+            }
         }
         return object;
     }
