@@ -2,14 +2,12 @@ package penetration.pk.lucidxpo.ynami.config.cucumber;
 
 import io.cucumber.java.Before;
 import io.cucumber.spring.CucumberContextConfiguration;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import penetration.pk.lucidxpo.ynami.TestApplication;
 import pk.lucidxpo.ynami.YNaMiApplication;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
@@ -23,11 +21,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
-@SuppressWarnings("NewClassNamingConvention")
 @CucumberContextConfiguration
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @SpringBootTest(webEnvironment = DEFINED_PORT)
+@ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class CucumberContextConfigurationLoader {
     protected static Connection connection;
