@@ -1,12 +1,10 @@
-package acceptance.pk.lucidxpo.ynami.selenium.config;
+package acceptance.pk.lucidxpo.ynami.config;
 
-import acceptance.pk.lucidxpo.ynami.selenium.config.scope.TestMethodScope;
-import acceptance.pk.lucidxpo.ynami.selenium.config.scope.TestMethodScopeBean;
+import acceptance.pk.lucidxpo.ynami.config.scope.TestMethodScopeBean;
+import acceptance.pk.lucidxpo.ynami.config.scope.TestMethodScope;
 import org.openqa.selenium.WebDriver;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-
-import static acceptance.pk.lucidxpo.ynami.selenium.config.WebDriverFactory.getDriver;
 
 @TestConfiguration
 public class SeleniumTestCaseContext {
@@ -23,6 +21,6 @@ public class SeleniumTestCaseContext {
     @Bean
     @TestMethodScopeBean
     public WebDriver webDriver() {
-        return getDriver();
+        return WebDriverFactory.getDriver();
     }
 }

@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.selenium.config.scope;
+package acceptance.pk.lucidxpo.ynami.config.scope;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static acceptance.pk.lucidxpo.ynami.selenium.config.scope.TestMethodScopeBean.TEST_METHOD_SCOPE;
+import static acceptance.pk.lucidxpo.ynami.config.scope.TestMethodScopeBean.TEST_METHOD_SCOPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

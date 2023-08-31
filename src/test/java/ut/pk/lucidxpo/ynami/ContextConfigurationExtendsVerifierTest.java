@@ -1,6 +1,6 @@
 package ut.pk.lucidxpo.ynami;
 
-import acceptance.pk.lucidxpo.ynami.selenium.config.AbstractSeleniumTest;
+import acceptance.pk.lucidxpo.ynami.config.AbstractSeleniumTest;
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.junit.jupiter.api.Test;
