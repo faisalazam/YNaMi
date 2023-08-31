@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.config.scope;
+package acceptance.pk.lucidxpo.ynami.webdriver.scope;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;

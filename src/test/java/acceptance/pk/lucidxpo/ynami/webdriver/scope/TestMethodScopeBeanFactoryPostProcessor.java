@@ -1,5 +1,6 @@
-package acceptance.pk.lucidxpo.ynami.config.scope;
+package acceptance.pk.lucidxpo.ynami.webdriver.scope;
 
+import acceptance.pk.lucidxpo.ynami.webdriver.annotations.TestMethodScopeBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

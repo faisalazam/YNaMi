@@ -1,7 +1,8 @@
 package acceptance.pk.lucidxpo.ynami.config;
 
-import acceptance.pk.lucidxpo.ynami.config.scope.TestMethodScopeBean;
-import acceptance.pk.lucidxpo.ynami.config.scope.TestMethodScope;
+import acceptance.pk.lucidxpo.ynami.webdriver.annotations.TestMethodScopeBean;
+import acceptance.pk.lucidxpo.ynami.webdriver.config.WebDriverFactory;
+import acceptance.pk.lucidxpo.ynami.webdriver.scope.TestMethodScope;
 import org.openqa.selenium.WebDriver;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

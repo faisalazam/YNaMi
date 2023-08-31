@@ -1,5 +1,7 @@
-package acceptance.pk.lucidxpo.ynami.config.scope;
+package acceptance.pk.lucidxpo.ynami.webdriver.scope;
 
+import acceptance.pk.lucidxpo.ynami.webdriver.hooks.TestMethodScopeExecutionListener;
+import acceptance.pk.lucidxpo.ynami.webdriver.annotations.TestMethodScopeBean;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
@@ -35,7 +37,7 @@ public class TestMethodScope implements Scope {
     private final Map<String, Object> cache = synchronizedMap(newHashMap());
     private final Map<String, Runnable> destructionCallbacks = synchronizedMap(newHashMap());
 
-    void reset() {
+    public void reset() {
         cache.clear();
     }
 

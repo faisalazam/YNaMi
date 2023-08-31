@@ -1,5 +1,7 @@
-package acceptance.pk.lucidxpo.ynami.config.scope;
+package acceptance.pk.lucidxpo.ynami.webdriver.annotations;
 
+import acceptance.pk.lucidxpo.ynami.webdriver.scope.TestMethodScope;
+import acceptance.pk.lucidxpo.ynami.webdriver.hooks.TestMethodScopeExecutionListener;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.ApplicationContext;
@@ -10,7 +12,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static acceptance.pk.lucidxpo.ynami.config.scope.TestMethodScopeBean.TEST_METHOD_SCOPE;
+import static acceptance.pk.lucidxpo.ynami.webdriver.annotations.TestMethodScopeBean.TEST_METHOD_SCOPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
