@@ -12,11 +12,6 @@ import static acceptance.pk.lucidxpo.ynami.selenium.config.TestMethodScopeBean.T
 
 @TestConfiguration
 public class SeleniumTestCaseContext implements BeanFactoryPostProcessor {
-    @Bean
-    public TestScope testScope() {
-        return new TestScope();
-    }
-
     /*
      * Creating a Selenium web driver bean which will be injected into page objects.
      * Web drivers can’t be reused between tests so will create a custom scope for the driver bean called “test”.
@@ -30,6 +25,6 @@ public class SeleniumTestCaseContext implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(final ConfigurableListableBeanFactory factory) throws BeansException {
-        factory.registerScope(TEST_METHOD_SCOPE, testScope());
+        factory.registerScope(TEST_METHOD_SCOPE, new TestMethodScope());
     }
 }

@@ -19,15 +19,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * and in this case, particularly {@link WebDriver} beans.
  * <p>
  * That means the beans annotated with {@link TestMethodScopeBean} (i.e. {@link WebDriver} in this case) will be
- * removed from the {@link ApplicationContext} and {@link TestScope}, as well as {@link WebDriver} will be quit.
+ * removed from the {@link ApplicationContext} and {@link TestMethodScope}, as well as {@link WebDriver} will be quit.
  * So, each Selenium test will have its own {@link WebDriver} instance.
  * <p>
- * All that is achieved with the help of {@link TestMethodScopeBean}, {@link TestScope} and
+ * All that is achieved with the help of {@link TestMethodScopeBean}, {@link TestMethodScope} and
  * {@link SeleniumTestExecutionListener} classes.
  * <p>
- * {@link TestMethodScopeBean} will mark the beans with {@link TestMethodScopeBean#TEST_METHOD_SCOPE}, {@link TestScope}
- * will act as a sort of repository for all the beans annotated with {@link TestMethodScopeBean}, and finally the
- * {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
+ * {@link TestMethodScopeBean} will mark the beans with {@link TestMethodScopeBean#TEST_METHOD_SCOPE},
+ * {@link TestMethodScope} will act as a sort of repository for all the beans annotated with {@link TestMethodScopeBean},
+ * and finally the {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
  */
 @Bean
 @Documented
