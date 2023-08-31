@@ -10,12 +10,15 @@ import static acceptance.pk.lucidxpo.ynami.cucumber.webdriver.annotations.Webdri
 
 /**
  * This class is responsible for registering the {@link WebdriverBeanScope#WEB_DRIVER_SCOPE} custom bean scope, which
- * has been add specifically for the management of {@link WebDriver}. The {@link WebdriverScope} is the one responsible
+ * has been added specifically for the management of {@link WebDriver}. The {@link WebdriverScope} is the one responsible
  * for returning the beans annotated with {@link WebdriverBeanScope}, which in this case, will be {@link WebDriver}.
  */
 public class WebdriverScopePostProcessor implements BeanFactoryPostProcessor {
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        // The first parameter, scopeName, is used to identify/specify a scope by its unique name.
+        // The second parameter, scope, is an actual instance of the custom Scope implementation that we wish to
+        // register and use.
         beanFactory.registerScope(WEB_DRIVER_SCOPE, new WebdriverScope());
     }
 }
