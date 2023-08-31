@@ -12,6 +12,12 @@ import static java.util.Objects.isNull;
 /**
  * This class is responsible for getting and returning any beans annotated with {@link WebdriverBeanScope}, which in
  * this case, will be {@link WebDriver}, from the {@link ObjectFactory}.
+ *
+ * For parallel test execution, Three scope classes {@link WebdriverScope}, {@link WebdriverScopeConfig} and
+ * {@link WebdriverScopePostProcessor} have been added.
+ *
+ * {@link WebdriverScope} extends the {@link SimpleThreadScope} based on the webdriver session and cleans the
+ * threadScope map. It is a {@link ThreadLocal} map inside {@link SimpleThreadScope} class.
  */
 @SuppressWarnings("NullableProblems")
 public class WebdriverScope extends SimpleThreadScope {

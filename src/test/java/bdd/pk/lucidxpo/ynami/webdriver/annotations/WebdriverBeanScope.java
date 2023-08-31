@@ -13,7 +13,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * This annotation will be used to annotate the {@link WebDriver} beans.
+ * This annotation will be used to annotate the {@link WebDriver} beans. This is mainly created for parallel tests'
+ * execution, i.e {@link WebdriverBeanScope} is for parallel test execution.
  */
 @Bean
 @Documented

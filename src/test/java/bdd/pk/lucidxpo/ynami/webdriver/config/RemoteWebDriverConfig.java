@@ -15,6 +15,12 @@ import org.springframework.context.annotation.Profile;
 
 import java.net.URL;
 
+/**
+ * {@link Profile("grid")} annotation is for Selenium Grid and remotewebdriver. When we run the tests with
+ * “spring.profiles.active=grid” environment variable, the tests will use application-grid.properties file
+ * under the resources folder as the main configuration file.
+ */
+@SuppressWarnings("JavadocReference")
 @Profile("grid")
 @LazyConfiguration
 public class RemoteWebDriverConfig {
