@@ -1070,31 +1070,31 @@
         </profile>
         <!--profile for Acceptance tests (using Selenium) only -->
         <profile>
-            <id>ast</id>
+            <id>at</id>
             <properties>
                 <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
-                <tests.to.execute>acceptance.pk.lucidxpo.*.selenium.**/*Test.class</tests.to.execute>
+                <tests.to.execute>acceptance.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>
-        <!--profile for Acceptance tests (using Cucumber) only -->
+        <!--profile for BDD tests (using Cucumber) only -->
         <profile>
-            <id>act</id>
+            <id>bt</id>
             <properties>
                 <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
-                <tests.to.execute>acceptance.pk.lucidxpo.*.cucumber.**/*Test.class</tests.to.execute>
+                <tests.to.execute>bdd.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>
         <!--Both Selenium and Cucumber Acceptance tests combined -->
         <profile>
-            <id>at</id>
+            <id>abt</id>
             <properties>
                 <tests.to.execute>
-                    acceptance.pk.lucidxpo.*.cucumber.**/*Test.class,
-                    acceptance.pk.lucidxpo.*.selenium.**/*Test.class
+                    bdd.pk.lucidxpo.**/*Test.class,
+                    acceptance.pk.lucidxpo.**/*Test.class
                 </tests.to.execute>
                 <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
