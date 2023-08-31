@@ -65,7 +65,7 @@ class ContextConfigurationExtendsVerifierTest {
                 new ConfigurationBuilder().forPackages(BASE_PACKAGES)
         ).getSubTypesOf(FluentTest.class);
         final Set<Class<? extends FluentTest>> fluentTestsInSeleniumTestPackage =
-                new Reflections(ACCEPTANCE_BASE_PACKAGE + ".selenium.test")
+                new Reflections(ACCEPTANCE_BASE_PACKAGE + ".test")
                         .getSubTypesOf(FluentTest.class);
 
         //The selenium test classes that don't require application context, should not be extended from "AbstractSeleniumTest".
