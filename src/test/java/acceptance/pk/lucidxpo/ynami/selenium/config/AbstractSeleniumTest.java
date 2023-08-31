@@ -1,7 +1,7 @@
 package acceptance.pk.lucidxpo.ynami.selenium.config;
 
 import acceptance.pk.lucidxpo.ynami.TestApplication;
-import acceptance.pk.lucidxpo.ynami.selenium.config.scope.SeleniumTestExecutionListener;
+import acceptance.pk.lucidxpo.ynami.selenium.config.scope.TestMethodScopeExecutionListener;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @SpringBootTest(classes = SeleniumTestCaseContext.class, webEnvironment = DEFINED_PORT)
-@TestExecutionListeners(value = SeleniumTestExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
+@TestExecutionListeners(value = TestMethodScopeExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public abstract class AbstractSeleniumTest extends FluentTest {
     @LocalServerPort
     protected int port;

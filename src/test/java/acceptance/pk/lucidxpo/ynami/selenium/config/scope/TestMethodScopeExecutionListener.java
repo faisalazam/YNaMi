@@ -16,13 +16,13 @@ import static java.util.Objects.requireNonNull;
  * So, each Selenium test will have its own {@link WebDriver} instance.
  * <p>
  * All that is achieved with the help of {@link TestMethodScopeBean}, {@link TestMethodScope} and
- * {@link SeleniumTestExecutionListener} classes.
+ * {@link TestMethodScopeExecutionListener} classes.
  * <p>
  * {@link TestMethodScopeBean} will mark the beans with {@link TestMethodScopeBean#TEST_METHOD_SCOPE},
  * {@link TestMethodScope} will act as a sort of repository for all the beans annotated with {@link TestMethodScopeBean},
- * and finally the {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
+ * and finally the {@link TestMethodScopeExecutionListener} will be clearing those beans based on the lifecycle of the test.
  */
-public class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
+public class TestMethodScopeExecutionListener extends AbstractTestExecutionListener {
     private static final String WEB_DRIVER_BEAN_NAME = "webDriver";
 
     @Override

@@ -20,11 +20,11 @@ import static java.util.Collections.synchronizedMap;
  * ensuring that only one instance is created. It also has a reset method for clearing the cache before each test run.
  * <p>
  * It works in conjunction with {@link TestMethodScopeBean}, {@link TestMethodScope} and
- * {@link SeleniumTestExecutionListener} classes.
+ * {@link TestMethodScopeExecutionListener} classes.
  * <p>
  * {@link TestMethodScopeBean} will mark the beans with {@link TestMethodScopeBean#TEST_METHOD_SCOPE},
  * {@link TestMethodScope} will act as a sort of repository for all the beans annotated with {@link TestMethodScopeBean},
- * and finally the {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
+ * and finally the {@link TestMethodScopeExecutionListener} will be clearing those beans based on the lifecycle of the test.
  */
 @SuppressWarnings("NullableProblems")
 public class TestMethodScope implements Scope {
