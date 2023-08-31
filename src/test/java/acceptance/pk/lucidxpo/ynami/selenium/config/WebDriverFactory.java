@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.common.config;
+package acceptance.pk.lucidxpo.ynami.selenium.config;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -6,7 +6,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import static java.time.Duration.ofSeconds;
 
 public class WebDriverFactory {
-
     public static WebDriver getDriver() {
         final WebDriver driver = new HtmlUnitDriver(true);
         driver.manage().timeouts().implicitlyWait(ofSeconds(2));

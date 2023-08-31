@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import static acceptance.pk.lucidxpo.ynami.common.config.WebDriverFactory.getDriver;
+import static acceptance.pk.lucidxpo.ynami.selenium.config.WebDriverFactory.getDriver;
 
 @TestConfiguration
 public class SeleniumTestCaseContext {
