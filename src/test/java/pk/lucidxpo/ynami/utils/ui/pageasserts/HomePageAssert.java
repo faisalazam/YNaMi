@@ -1,6 +1,6 @@
-package acceptance.pk.lucidxpo.ynami.common.pageasserts;
+package pk.lucidxpo.ynami.utils.ui.pageasserts;
 
-import acceptance.pk.lucidxpo.ynami.common.pageobjects.HomePage;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.HomePage;
 import org.assertj.core.api.AbstractAssert;
 
 public class HomePageAssert extends AbstractAssert<HomePageAssert, HomePage> {

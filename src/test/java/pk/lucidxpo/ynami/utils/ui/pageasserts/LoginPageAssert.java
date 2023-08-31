@@ -1,6 +1,6 @@
-package acceptance.pk.lucidxpo.ynami.common.pageasserts;
+package pk.lucidxpo.ynami.utils.ui.pageasserts;
 
-import acceptance.pk.lucidxpo.ynami.common.pageobjects.LoginPage;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 import org.assertj.core.api.AbstractAssert;
 
 public class LoginPageAssert extends AbstractAssert<LoginPageAssert, LoginPage> {

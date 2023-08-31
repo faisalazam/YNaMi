@@ -1,6 +1,6 @@
 package acceptance.pk.lucidxpo.ynami.selenium.test;
 
-import acceptance.pk.lucidxpo.ynami.common.pageobjects.LoginPage;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 import acceptance.pk.lucidxpo.ynami.selenium.config.AbstractSeleniumTest;
 import org.fluentlenium.core.annotation.Page;
 import org.junit.jupiter.api.Test;

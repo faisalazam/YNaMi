@@ -1,6 +1,6 @@
 package bdd.pk.lucidxpo.ynami.steps;
 
-import acceptance.pk.lucidxpo.ynami.common.pageobjects.HomePage;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.HomePage;
 import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.When;

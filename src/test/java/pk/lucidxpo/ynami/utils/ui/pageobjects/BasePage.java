@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.common.pageobjects;
+package pk.lucidxpo.ynami.utils.ui.pageobjects;
 
 import org.assertj.core.api.AbstractAssert;
 import org.fluentlenium.core.FluentPage;

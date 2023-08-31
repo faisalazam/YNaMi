@@ -1,6 +1,6 @@
 package bdd.pk.lucidxpo.ynami.steps;
 
-import acceptance.pk.lucidxpo.ynami.common.pageobjects.LoginPage;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
