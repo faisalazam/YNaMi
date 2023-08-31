@@ -1,25 +1,37 @@
 package acceptance.pk.lucidxpo.ynami.selenium.config;
 
 import org.openqa.selenium.WebDriver;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 
 import static java.util.Objects.requireNonNull;
 
-/*
- * This listener has two responsibilities: resetting the test scope before each test
- * and closing the Selenium driver, i.e. the browser, after each test.
+/**
+ * This listener has two responsibilities: resetting the test scope before each test and closing the Selenium driver,
+ * i.e. the browser, after each test.
+ * <p>
+ * That means the beans annotated with {@link TestMethodScopeBean} (i.e. {@link WebDriver} in this case) will be
+ * removed from the {@link ApplicationContext} and {@link TestScope}, as well as {@link WebDriver} will be quit.
+ * So, each Selenium test will have its own {@link WebDriver} instance.
+ * <p>
+ * All that is achieved with the help of {@link TestMethodScopeBean}, {@link TestScope} and
+ * {@link SeleniumTestExecutionListener} classes.
+ * <p>
+ * {@link TestMethodScopeBean} will mark the beans with {@link TestMethodScopeBean#TEST_METHOD_SCOPE}, {@link TestScope}
+ * will act as a sort of repository for all the beans annotated with {@link TestMethodScopeBean}, and finally the
+ * {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
  */
 class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
     private static final String WEB_DRIVER_BEAN_NAME = "webDriver";
 
     @Override
-    public void beforeTestClass(final TestContext testContext) {
+    public void beforeTestClass(@SuppressWarnings("NullableProblems") final TestContext testContext) {
         reset(testContext);
     }
 
     @Override
-    public void afterTestMethod(final TestContext testContext) {
+    public void afterTestMethod(@SuppressWarnings("NullableProblems") final TestContext testContext) {
         final TestScope testScope = getTestScopeBean(testContext);
         if (testScope.contains(WEB_DRIVER_BEAN_NAME)) {
             ((WebDriver) requireNonNull(testScope.remove(WEB_DRIVER_BEAN_NAME))).quit();
@@ -27,7 +39,7 @@ class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
     }
 
     @Override
-    public void afterTestClass(final TestContext testContext) {
+    public void afterTestClass(@SuppressWarnings("NullableProblems") final TestContext testContext) {
         reset(testContext);
     }
 
