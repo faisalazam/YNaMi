@@ -1,6 +1,7 @@
 package acceptance.pk.lucidxpo.ynami.selenium.config;
 
 import acceptance.pk.lucidxpo.ynami.TestApplication;
+import acceptance.pk.lucidxpo.ynami.selenium.config.scope.SeleniumTestExecutionListener;
 import org.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;

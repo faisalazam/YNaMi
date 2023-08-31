@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.selenium.config;
+package acceptance.pk.lucidxpo.ynami.selenium.config.scope;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
@@ -27,7 +27,7 @@ import static java.util.Collections.synchronizedMap;
  * and finally the {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
  */
 @SuppressWarnings("NullableProblems")
-class TestMethodScope implements Scope {
+public class TestMethodScope implements Scope {
     /**
      * NOTE the use of {@link Collections#synchronizedMap}, that is to ensure that the implementation is thread-safe
      * because scopes can be used by multiple bean factories at the same time.

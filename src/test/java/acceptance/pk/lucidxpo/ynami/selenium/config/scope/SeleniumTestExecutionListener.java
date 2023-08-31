@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.selenium.config;
+package acceptance.pk.lucidxpo.ynami.selenium.config.scope;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.ApplicationContext;
@@ -22,7 +22,7 @@ import static java.util.Objects.requireNonNull;
  * {@link TestMethodScope} will act as a sort of repository for all the beans annotated with {@link TestMethodScopeBean},
  * and finally the {@link SeleniumTestExecutionListener} will be clearing those beans based on the lifecycle of the test.
  */
-class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
+public class SeleniumTestExecutionListener extends AbstractTestExecutionListener {
     private static final String WEB_DRIVER_BEAN_NAME = "webDriver";
 
     @Override

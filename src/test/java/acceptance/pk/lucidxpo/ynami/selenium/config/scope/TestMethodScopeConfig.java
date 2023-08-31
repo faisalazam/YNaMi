@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.selenium.config;
+package acceptance.pk.lucidxpo.ynami.selenium.config.scope;
 
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.test.context.TestConfiguration;

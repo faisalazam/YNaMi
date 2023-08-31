@@ -1,4 +1,4 @@
-package acceptance.pk.lucidxpo.ynami.selenium.config;
+package acceptance.pk.lucidxpo.ynami.selenium.config.scope;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 
-import static acceptance.pk.lucidxpo.ynami.selenium.config.TestMethodScopeBean.TEST_METHOD_SCOPE;
+import static acceptance.pk.lucidxpo.ynami.selenium.config.scope.TestMethodScopeBean.TEST_METHOD_SCOPE;
 
 /**
  * In order to make the Spring container aware of the new {@link TestMethodScope} scope, it has to be registered
