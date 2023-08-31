@@ -35,12 +35,15 @@ public class CucumberTest {
 
     private static final String CUCUMBER_STEPS_PACKAGE = "bdd.pk.lucidxpo.ynami.steps";
     private static final String CUCUMBER_CONTEXT_LOADER = "bdd.pk.lucidxpo.ynami.config";
+    private static final String CUCUMBER_WEB_DRIVER_CONFIG = "bdd.pk.lucidxpo.ynami.webdriver";
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/acceptance";
     private static final String CUCUMBER_JSON_REPORT = "json:" + CUCUMBER_REPORTS_PATH + "/json/cucumber.json";
     private static final String CUCUMBER_HTML_REPORT = "html:" + CUCUMBER_REPORTS_PATH + "/html/cucumber.html";
     private static final String CUCUMBER_RERUN_REPORT = "rerun:" + CUCUMBER_REPORTS_PATH + "/cucumber-api-rerun.txt";
 
-    static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEPS_PACKAGE + ", " + CUCUMBER_CONTEXT_LOADER;
+    static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEPS_PACKAGE
+            + ", " + CUCUMBER_CONTEXT_LOADER
+            + ", " + CUCUMBER_WEB_DRIVER_CONFIG;
     static final String CUCUMBER_REPORTING_PLUGINS = "pretty"
             + ", " + CUCUMBER_JSON_REPORT
             + ", " + CUCUMBER_RERUN_REPORT
