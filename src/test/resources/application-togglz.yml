@@ -15,7 +15,7 @@ togglz:
   features:
     # Use comma separated list of group names for the 'groups' field
     WEB_SECURITY:
-      enabled: false
+      enabled: true
       label: Enable/disable Web Security
       groups: Config
     CONTROLLER_EXECUTION:
