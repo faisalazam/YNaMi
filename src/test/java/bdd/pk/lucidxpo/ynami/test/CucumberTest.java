@@ -48,12 +48,4 @@ public class CucumberTest {
             + ", " + CUCUMBER_JSON_REPORT
             + ", " + CUCUMBER_RERUN_REPORT
             + ", " + CUCUMBER_HTML_REPORT;
-//
-//    TODO: See how we can enable the following method which got commented after all these upgrades???
-//    connection is coming from CucumberContextConfigurationLoader
-//    @AfterAll
-//    public static void tearDown() throws SQLException {
-//        connection.close();
-//        ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();
-//    }
 }
