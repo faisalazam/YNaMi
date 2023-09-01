@@ -131,8 +131,8 @@ jobs:
 #        uses: browser-actions/setup-chrome@latest
 #        with:
 #          chrome-version: 1111499 # commit hash for Chrome version 114
-      - name: 'Google Chrome Version'
-        run: chrome --version
+#      - name: 'Google Chrome Version'
+#        run: chrome --version
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
 
