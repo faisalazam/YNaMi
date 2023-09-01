@@ -105,11 +105,13 @@ public class WebDriverConfig {
         if (CI.equalsIgnoreCase(environment)) {
             webDriverManager
                     .driverVersion(LINUX_VERSION)
-                    .browserVersion(LINUX_VERSION);
+//                    .browserVersion(LINUX_VERSION)
+            ;
         } else {
             webDriverManager
                     .driverVersion(MAC_VERSION)
-                    .browserVersion(MAC_VERSION);
+//                    .browserVersion(MAC_VERSION)
+            ;
         }
     }
 }
