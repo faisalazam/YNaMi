@@ -25,6 +25,7 @@ import static java.time.Duration.ofSeconds;
 @LazyConfiguration
 public class WebDriverConfig {
     private static final String EDGE = "edge";
+    private static final String VERSION = "116";
     private static final String PROXY = "proxy";
     private static final String CHROME = "chrome";
     private static final String BROWSER = "browser";
@@ -80,6 +81,8 @@ public class WebDriverConfig {
         }
         webDriverManager
                 .capabilities(options)
+                .driverVersion(VERSION)
+                .browserVersion(VERSION)
                 .setup();
         return webDriverManager.create();
     }
