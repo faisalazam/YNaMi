@@ -5,7 +5,7 @@ env:
   MYSQL_VERSION: 8.0
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
   UNIT_TESTS_XMLS_DIR: 'target/test-results/unit-tests/*.xml'
-  INTEGRATION_TESTS_XMLS_DIR: 'target/integration-results/unit-tests/*.xml'
+  INTEGRATION_TESTS_XMLS_DIR: 'target/test-results/integration-tests/*.xml'
 
 jobs:
   build:
@@ -41,7 +41,7 @@ jobs:
         run: mvn -Djacoco.haltOnFailure=false clean test -Dmaven.test.failure.ignore=true -P ut --file pom.xml
       - name: 'Report'
         uses: dorny/test-reporter@v1
-        if: always()
+        if: success() || failure()
         with:
           fail-on-error: true
           reporter: java-junit
@@ -64,7 +64,7 @@ jobs:
         run: mvn clean test -Dmaven.test.failure.ignore=true -P mt --file pom.xml
       - name: 'Report'
         uses: dorny/test-reporter@v1
-        if: always()
+        if: success() || failure()
         with:
           fail-on-error: true
           reporter: java-junit
@@ -85,7 +85,7 @@ jobs:
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
       - name: 'Report'
         uses: dorny/test-reporter@v1
-        if: always()
+        if: success() || failure()
         with:
           fail-on-error: true
           reporter: java-junit
@@ -108,7 +108,7 @@ jobs:
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
       - name: 'Report'
         uses: dorny/test-reporter@v1
-        if: always()
+        if: success() || failure()
         with:
           fail-on-error: true
           reporter: java-junit
@@ -150,7 +150,7 @@ jobs:
         run: mvn clean test -Dmaven.test.failure.ignore=true -P at,h2 --file pom.xml
       - name: 'Report'
         uses: dorny/test-reporter@v1
-        if: always()
+        if: success() || failure()
         with:
           fail-on-error: true
           reporter: java-junit
