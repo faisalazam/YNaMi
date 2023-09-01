@@ -1178,6 +1178,8 @@
         browser=chrome mvn clean test -P bt,h2
         browser=firefox mvn clean test -P bt,h2
         browser=htmlunit mvn clean test -P bt,h2
+        browser=chrome headless_mode=true mvn clean test -P bt,h2
+        browser=chrome headless_mode=false mvn clean test -P bt,h2
 -->
 
 <!--

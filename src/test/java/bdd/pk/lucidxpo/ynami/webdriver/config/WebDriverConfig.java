@@ -6,7 +6,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,7 +14,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static io.github.bonigarcia.wdm.WebDriverManager.edgedriver;
 import static io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver;
+import static java.lang.Boolean.TRUE;
+import static java.lang.Boolean.valueOf;
+import static java.lang.System.getenv;
 import static java.time.Duration.ofSeconds;
 
 @Profile("!grid")
@@ -41,7 +44,9 @@ public class WebDriverConfig {
     @WebdriverBeanScope
     @ConditionalOnProperty(name = "browser", havingValue = "edge")
     public WebDriver edgeDriver() {
-        return new EdgeDriver();
+        final WebDriverManager webDriverManager = edgedriver();
+        webDriverManager.setup();
+        return webDriverManager.create();
     }
 
     @Primary
@@ -51,7 +56,15 @@ public class WebDriverConfig {
         final WebDriverManager webDriverManager = chromedriver();
         final ChromeOptions options = new ChromeOptions();
         options.addArguments("--test-type");
+        options.addArguments("--no-sandbox");
         options.setAcceptInsecureCerts(true);
+        options.addArguments("--disable-dev-shm-usage");
+
+        // default setting will be headless mode
+        final String headlessMode = getenv("headless_mode");
+        if (headlessMode == null || TRUE.equals(valueOf(headlessMode))) {
+            options.addArguments("--headless");
+        }
         webDriverManager
                 .capabilities(options)
                 .setup();
