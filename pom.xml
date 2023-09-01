@@ -758,7 +758,7 @@
                 <executions>
                     <execution>
                         <id>report</id>
-                        <phase>post-integration-test</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>reporting</goal>
                         </goals>
@@ -773,7 +773,7 @@
                 <executions>
                     <execution>
                         <id>execution</id>
-                        <phase>post-integration-test</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -1148,6 +1148,10 @@
         mvn surefire-report:failsafe-report-only
         mvn site -DgenerateReports=false
         report will be generated in target/site/failsafe-report.html
+-->
+
+<!-- run cucumber/bdd tests with report
+        browser=htmlUnit mvn clean test -P bt,h2
 -->
 
 <!--
