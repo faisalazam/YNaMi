@@ -1,21 +1,20 @@
 package bdd.pk.lucidxpo.ynami.webdriver.hooks;
 
 import bdd.pk.lucidxpo.ynami.annotations.LazyAutowired;
-import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import io.cucumber.java.After;
-import org.fluentlenium.adapter.IFluentAdapter;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.ApplicationContext;
-
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * Hooks for managing the lifecycle of {@link WebDriver}.
  */
 public class WebDriverHooks {
+    private final ApplicationContext applicationContext;
+
     @LazyAutowired
-    private ApplicationContext applicationContext;
+    public WebDriverHooks(final ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @After
     public void afterScenario() {

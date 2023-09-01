@@ -15,8 +15,12 @@ import java.util.Map;
  * This class is responsible for managing the {@link org.fluentlenium} related hooks.
  */
 public class IFluentAdapterHooks {
+    private final ApplicationContext applicationContext;
+
     @LazyAutowired
-    private ApplicationContext applicationContext;
+    public IFluentAdapterHooks(final ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     /**
      * There is a {@link IFluentAdapter#initFluent(WebDriver)} method which has to be hooked with {@link Before} in
