@@ -131,8 +131,22 @@ jobs:
 #        uses: browser-actions/setup-chrome@latest
 #        with:
 #          chrome-version: 1111499 # commit hash for Chrome version 114
-#      - name: 'Google Chrome Version'
-#        run: chrome --version
+
+#
+#      - name:  Install Google Chrome # Using shell script to install Google Chrome
+#        run: |
+#          chmod +x ./scripts/InstallChrome.sh
+#          ./scripts/InstallChrome.sh
+
+
+      - name:  Install Google Chrome # Using shell commands to install Google Chrome
+        run: |
+          set -ex
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
+
+      - name: 'Google Chrome Version'
+        run: chrome --version
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
 
