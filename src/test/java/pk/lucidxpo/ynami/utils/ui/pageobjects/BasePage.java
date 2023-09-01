@@ -25,8 +25,10 @@ import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
-abstract class BasePage<PageObject extends BasePage<?, ?>, PageAssert extends AbstractAssert<PageAssert, PageObject>>
-        extends FluentPage {
+abstract class BasePage<
+        PageObject extends BasePage<PageObject, PageAssert>,
+        PageAssert extends AbstractAssert<PageAssert, PageObject>
+        > extends FluentPage {
 
     private static final int REFRESH_RATE = 2;
     private static final int LOAD_TIMEOUT = 30;
