@@ -3,6 +3,7 @@ on: push
 env:
   JAVA_VERSION: 20
   MYSQL_VERSION: 8.0
+  CHROMIUM_VERSION: 116.0.5845.140-1
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
   UNIT_TESTS_XMLS_DIR: 'target/test-results/unit-tests/*.xml'
   INTEGRATION_TESTS_XMLS_DIR: 'target/test-results/integration-tests/*.xml'
@@ -141,11 +142,22 @@ jobs:
 #          ./scripts/InstallChrome.sh
 
 
+# install the latest version => working and installs 116
+#      - name:  Install Google Chrome # Using shell commands to install Google Chrome
+#        run: |
+#          set -ex
+#          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#          sudo apt install ./google-chrome-stable_current_amd64.deb
+#      - name: 'Google Chrome Version'
+#        run: google-chrome --version
+
+
+
       - name:  Install Google Chrome # Using shell commands to install Google Chrome
         run: |
-          set -ex
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install ./google-chrome-stable_current_amd64.deb
+          wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${{ CHROMIUM_VERSION }}_amd64.deb \ && sudo apt install -y /tmp/chrome.deb \ && sudo rm /tmp/chrome.deb
+          cd /tmp/
+          sudo dpkg -i chrome.deb
       - name: 'Google Chrome Version'
         run: google-chrome --version
 
