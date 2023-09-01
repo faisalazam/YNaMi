@@ -86,6 +86,8 @@ public class WebDriverConfig {
         setChromeVersion(webDriverManager);
         webDriverManager
                 .capabilities(options)
+                .clearDriverCache()
+                .clearResolutionCache()
                 .setup();
         return webDriverManager.create();
     }
