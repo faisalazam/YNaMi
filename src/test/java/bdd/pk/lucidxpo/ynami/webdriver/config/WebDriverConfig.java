@@ -86,10 +86,10 @@ public class WebDriverConfig {
         setChromeVersion(webDriverManager);
         webDriverManager
                 .capabilities(options)
-                .clearDriverCache()
-                .clearResolutionCache()
                 .setup();
-        return webDriverManager.create();
+        final WebDriver driver = webDriverManager.create();
+        driver.manage().timeouts().implicitlyWait(ofSeconds(10));
+        return driver;
     }
 
     @Primary
