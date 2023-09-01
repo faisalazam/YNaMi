@@ -1,19 +1,28 @@
 package pk.lucidxpo.ynami.utils.ui.pageobjects;
 
-import pk.lucidxpo.ynami.utils.ui.pageasserts.HomePageAssert;
+import org.fluentlenium.core.annotation.Page;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import pk.lucidxpo.ynami.utils.ui.pageasserts.HomePageAssert;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 public class HomePage extends BasePage<HomePage, HomePageAssert> {
-    public void logout() {
+    @Page
+    private LoginPage loginPage;
+
+    public HomePage iAmOnHomePage() {
+        this.assertThat().pageLoaded();
+        return this;
+    }
+
+    public LoginPage logout() {
         clickXpathJs("Logout");
-        assertEquals("Why Not Me!!! - Login Demo", pageTitle());
+        loginPage.iAmOnLoginPage();
+        return loginPage;
     }
 
     @Override
-    protected ExpectedCondition<Boolean> getPageLoadCondition() {
+    public ExpectedCondition<Boolean> getPageLoadCondition() {
         return titleIs("Why Not Me!!! - Admin Demo");
     }
 

@@ -6,11 +6,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.fluentlenium.core.annotation.Page;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.HomePage;
 import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class LoginSteps extends AbstractSteps {
+    @Page
+    private HomePage homePage;
     @Page
     private LoginPage loginPage;
 
@@ -36,14 +37,11 @@ public class LoginSteps extends AbstractSteps {
 
     @Then("I should be logged in")
     public void iShouldBeLoggedIn() {
-        assertEquals("Why Not Me!!! - Admin Demo", getDriver().getTitle());
+        homePage.iAmOnHomePage();
     }
 
     @Then("I should be on login page")
     public void iShouldBeOnLoginPage() {
-        assertEquals("Why Not Me!!! - Login Demo", getDriver().getTitle());
+        loginPage.iAmOnLoginPage();
     }
 }
-
-
-
