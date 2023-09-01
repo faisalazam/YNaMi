@@ -24,16 +24,29 @@ import static java.time.Duration.ofSeconds;
 @Profile("!grid")
 @LazyConfiguration
 public class WebDriverConfig {
+    private static final String EDGE = "edge";
+    private static final String PROXY = "proxy";
+    private static final String CHROME = "chrome";
+    private static final String BROWSER = "browser";
+    private static final String FIREFOX = "firefox";
+    private static final String HTMLUNIT = "htmlunit";
+    private static final String HEADLESS = "--headless";
+    private static final String TEST_TYPE = "--test-type";
+    private static final String NO_SANDBOX = "--no-sandbox";
+    private static final String NO_PROXY_VAR = "no_proxy-var";
+    private static final String HEADLESS_MODE = "headless_mode";
+    private static final String DISABLE_DEV_SHM_USAGE = "--disable-dev-shm-usage";
+
     @Primary
     @WebdriverBeanScope
-    @ConditionalOnProperty(name = "browser", havingValue = "firefox")
+    @ConditionalOnProperty(name = BROWSER, havingValue = FIREFOX)
     public WebDriver firefoxDriver() {
         final WebDriverManager webDriverManager = firefoxdriver();
         final FirefoxOptions options = new FirefoxOptions();
         final Proxy proxy = new Proxy();
         proxy.setAutodetect(false);
-        proxy.setNoProxy("no_proxy-var");
-        options.setCapability("proxy", proxy);
+        proxy.setNoProxy(NO_PROXY_VAR);
+        options.setCapability(PROXY, proxy);
         webDriverManager
                 .capabilities(options)
                 .setup();
@@ -42,7 +55,7 @@ public class WebDriverConfig {
 
     @Primary
     @WebdriverBeanScope
-    @ConditionalOnProperty(name = "browser", havingValue = "edge")
+    @ConditionalOnProperty(name = BROWSER, havingValue = EDGE)
     public WebDriver edgeDriver() {
         final WebDriverManager webDriverManager = edgedriver();
         webDriverManager.setup();
@@ -51,19 +64,19 @@ public class WebDriverConfig {
 
     @Primary
     @WebdriverBeanScope
-    @ConditionalOnProperty(name = "browser", havingValue = "chrome")
+    @ConditionalOnProperty(name = BROWSER, havingValue = CHROME)
     public WebDriver chromeDriver() {
         final WebDriverManager webDriverManager = chromedriver();
         final ChromeOptions options = new ChromeOptions();
-        options.addArguments("--test-type");
-        options.addArguments("--no-sandbox");
+        options.addArguments(TEST_TYPE);
+        options.addArguments(NO_SANDBOX);
         options.setAcceptInsecureCerts(true);
-        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments(DISABLE_DEV_SHM_USAGE);
 
         // default setting will be headless mode
-        final String headlessMode = getenv("headless_mode");
+        final String headlessMode = getenv(HEADLESS_MODE);
         if (headlessMode == null || TRUE.equals(valueOf(headlessMode))) {
-            options.addArguments("--headless");
+            options.addArguments(HEADLESS);
         }
         webDriverManager
                 .capabilities(options)
@@ -74,7 +87,7 @@ public class WebDriverConfig {
     @Primary
     @WebdriverBeanScope
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "browser", havingValue = "htmlunit")
+    @ConditionalOnProperty(name = BROWSER, havingValue = HTMLUNIT)
     public WebDriver htmlUnitDriver() {
         final WebDriver driver = new HtmlUnitDriver(true);
         driver.manage().timeouts().implicitlyWait(ofSeconds(2));
