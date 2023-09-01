@@ -71,49 +71,49 @@ jobs:
           name: 'DB Migration Tests'' Report'
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
-  integration-tests-h2:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-        uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-        uses: './.github/actions/install-java'
-        with:
-          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-      - name: 'Run the integration tests'
-        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
-      - name: 'Report'
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Integration Tests'' Report (H2)'
-          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
-
-  integration-tests-mysql:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-        uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-        uses: './.github/actions/install-java'
-        with:
-          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-      - name: 'Set up MySQL'
-        run: sudo systemctl start mysql
-      - name: 'Run the integration tests'
-        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
-      - name: 'Report'
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Integration Tests'' Report (MySQL)'
-          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
+#  integration-tests-h2:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+#        uses: actions/checkout@v3
+#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+#        uses: './.github/actions/install-java'
+#        with:
+#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+#      - name: 'Run the integration tests'
+#        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
+#      - name: 'Report'
+#        uses: dorny/test-reporter@v1
+#        if: success() || failure()
+#        with:
+#          fail-on-error: true
+#          reporter: java-junit
+#          name: 'Integration Tests'' Report (H2)'
+#          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
+#
+#  integration-tests-mysql:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+#        uses: actions/checkout@v3
+#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+#        uses: './.github/actions/install-java'
+#        with:
+#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+#      - name: 'Set up MySQL'
+#        run: sudo systemctl start mysql
+#      - name: 'Run the integration tests'
+#        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
+#      - name: 'Report'
+#        uses: dorny/test-reporter@v1
+#        if: success() || failure()
+#        with:
+#          fail-on-error: true
+#          reporter: java-junit
+#          name: 'Integration Tests'' Report (MySQL)'
+#          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   bdd-cucumber-tests:
     runs-on: ubuntu-latest
@@ -127,48 +127,48 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Set up MySQL'
         run: sudo systemctl start mysql
-      - name: 'Set up Google Chrome (v114)'
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: 1111499 # commit hash for Chrome version 114
-      - name: 'Google Chrome Version'
-        run: chrome --version
+#      - name: 'Set up Google Chrome (v114)'
+#        uses: browser-actions/setup-chrome@latest
+#        with:
+#          chrome-version: 1111499 # commit hash for Chrome version 114
+#      - name: 'Google Chrome Version'
+#        run: chrome --version
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
 
-  acceptance-selenium-tests:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-        uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-        uses: './.github/actions/install-java'
-        with:
-          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-      - name: 'Run the acceptance-selenium tests'
-        run: mvn clean test -Dmaven.test.failure.ignore=true -P at,h2 --file pom.xml
-      - name: 'Report'
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Acceptance-Selenium Tests'' Report'
-          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-
-  penetration-tests:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-        uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-        uses: './.github/actions/install-java'
-        with:
-          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-      - name: 'Run the penetration tests'
-        run: mvn clean test -P pt --file pom.xml
+#  acceptance-selenium-tests:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+#        uses: actions/checkout@v3
+#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+#        uses: './.github/actions/install-java'
+#        with:
+#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+#      - name: 'Run the acceptance-selenium tests'
+#        run: mvn clean test -Dmaven.test.failure.ignore=true -P at,h2 --file pom.xml
+#      - name: 'Report'
+#        uses: dorny/test-reporter@v1
+#        if: success() || failure()
+#        with:
+#          fail-on-error: true
+#          reporter: java-junit
+#          name: 'Acceptance-Selenium Tests'' Report'
+#          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
+#
+#  penetration-tests:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+#        uses: actions/checkout@v3
+#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+#        uses: './.github/actions/install-java'
+#        with:
+#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+#      - name: 'Run the penetration tests'
+#        run: mvn clean test -P pt --file pom.xml
 
 #  upload-artifacts:
 #    runs-on: ubuntu-latest

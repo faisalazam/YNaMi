@@ -108,10 +108,10 @@ public class WebDriverConfig {
 //                    .browserVersion(LINUX_VERSION)
 //            ;
 //        } else {
-            webDriverManager
-                    .driverVersion(MAC_VERSION)
+//            webDriverManager
+//                    .driverVersion(MAC_VERSION)
 //                    .browserVersion(MAC_VERSION)
-            ;
+//            ;
 //        }
     }
 }
