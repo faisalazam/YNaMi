@@ -152,14 +152,26 @@ jobs:
 #        run: google-chrome --version
 
 
+#
+#      - name: Install Google Chrome # Using shell commands to install Google Chrome
+#        run: |
+#          wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.140-1_amd64.deb \ && sudo apt install -y /tmp/chrome.deb \ && sudo rm /tmp/chrome.deb
+#          cd /tmp/
+#          sudo dpkg -i chrome.deb
+#      - name: 'Google Chrome Version'
+#        run: google-chrome --version
+#
 
-      - name:  Install Google Chrome # Using shell commands to install Google Chrome
+
+      - name: Install Google Chrome # Using shell commands to install Google Chrome
         run: |
-          wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.140-1_amd64.deb \ && sudo apt install -y /tmp/chrome.deb \ && sudo rm /tmp/chrome.deb
-          cd /tmp/
-          sudo dpkg -i chrome.deb
+          set -ex
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.140-1_amd64.deb
+          sudo apt install ./google-chrome-stable_116.0.5845.140-1_amd64.deb
       - name: 'Google Chrome Version'
         run: google-chrome --version
+
+
 
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
