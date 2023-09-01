@@ -2,7 +2,6 @@ package bdd.pk.lucidxpo.ynami.steps;
 
 import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import bdd.pk.lucidxpo.ynami.scenarioworld.MathScenarioWorld;
-import io.cucumber.java.After;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,11 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MathmaticalSteps extends AbstractSteps {
     @Autowired
     private MathScenarioWorld mathScenarioWorld;
-
-    @After
-    public void tearDown() {
-        releaseFluent();
-    }
 
     @Given("I am about to perform an operation")
     public void iAmAboutToPerformAnOperation() {

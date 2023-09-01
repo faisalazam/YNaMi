@@ -1,7 +1,5 @@
 package bdd.pk.lucidxpo.ynami.steps;
 
-import io.cucumber.java.After;
-import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -9,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.fluentlenium.core.annotation.Page;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,11 +18,6 @@ public class LoginSteps extends AbstractSteps {
     @Before
     public void before() {
         initFluent(webDriver);
-    }
-
-    @After
-    public void tearDown() {
-        releaseFluent();
     }
 
     @Given("I go to login page")
@@ -56,3 +50,6 @@ public class LoginSteps extends AbstractSteps {
         assertEquals("Why Not Me!!! - Login Demo", getDriver().getTitle());
     }
 }
+
+
+
