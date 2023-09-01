@@ -130,7 +130,7 @@ jobs:
       - name: 'Set up Google Chrome (v116)'
         uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 1165896 # commit hash for Chrome version 116
+          chrome-version: 1165842 # commit hash for Chrome version 116
       - name: 'Google Chrome Version'
         run: chrome --version
       - name: 'Run the acceptance-cucumber tests'
