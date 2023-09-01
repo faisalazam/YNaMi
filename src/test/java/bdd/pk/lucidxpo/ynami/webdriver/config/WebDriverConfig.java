@@ -102,16 +102,16 @@ public class WebDriverConfig {
 
     private static void setChromeVersion(final WebDriverManager webDriverManager) {
         final String environment = getenv(ENVIRONMENT);
-        if (CI.equalsIgnoreCase(environment)) {
-            webDriverManager
-                    .driverVersion(LINUX_VERSION)
+//        if (CI.equalsIgnoreCase(environment)) {
+//            webDriverManager
+//                    .driverVersion(LINUX_VERSION)
 //                    .browserVersion(LINUX_VERSION)
-            ;
-        } else {
+//            ;
+//        } else {
             webDriverManager
                     .driverVersion(MAC_VERSION)
 //                    .browserVersion(MAC_VERSION)
             ;
-        }
+//        }
     }
 }
