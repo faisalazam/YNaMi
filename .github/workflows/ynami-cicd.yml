@@ -127,14 +127,14 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Set up MySQL'
         run: sudo systemctl start mysql
-      - name: 'Set up Google Chrome (v116)'
+      - name: 'Set up Google Chrome (v114)'
         uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 1165842 # commit hash for Chrome version 116
+          chrome-version: 1111430 # commit hash for Chrome version 114
       - name: 'Google Chrome Version'
         run: chrome --version
       - name: 'Run the acceptance-cucumber tests'
-        run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
+        run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
 
   acceptance-selenium-tests:
     runs-on: ubuntu-latest
