@@ -61,6 +61,8 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Set up MySQL'
         run: sudo systemctl start mysql
+      - name: 'MySQL Version'
+        run: mysql --version
       - name: 'Run the migration tests'
         run: mvn clean test -Dmaven.test.failure.ignore=true -P mt --file pom.xml
       - name: 'Report'
@@ -105,6 +107,8 @@ jobs:
 #          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
 #      - name: 'Set up MySQL'
 #        run: sudo systemctl start mysql
+#      - name: 'MySQL Version'
+#        run: mysql --version
 #      - name: 'Run the integration tests'
 #        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
 #      - name: 'Report'
@@ -128,18 +132,8 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Set up MySQL'
         run: sudo systemctl start mysql
-#      - name: 'Set up Google Chrome (v114)'
-#        uses: browser-actions/setup-chrome@latest
-#        with:
-#          chrome-version: 1111499 # commit hash for Chrome version 114
-#      - name: 'Google Chrome Version'
-#        run: chrome --version
-
-#
-#      - name:  Install Google Chrome # Using shell script to install Google Chrome
-#        run: |
-#          chmod +x ./scripts/InstallChrome.sh
-#          ./scripts/InstallChrome.sh
+      - name: 'MySQL Version'
+        run: mysql --version
 
 
 # install the latest version => working and installs 116
@@ -163,18 +157,17 @@ jobs:
 #
 
 
-      - name: Install Google Chrome # Using shell commands to install Google Chrome
+      - name: 'Install Google Chrome'
         run: |
-          set -ex
           wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.140-1_amd64.deb
-          sudo apt install ./google-chrome-stable_116.0.5845.140-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_116.0.5845.140-1_amd64.deb
       - name: 'Google Chrome Version'
         run: google-chrome --version
 
 
 
       - name: 'Run the acceptance-cucumber tests'
-        run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
+        run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
 
 #  acceptance-selenium-tests:
 #    runs-on: ubuntu-latest

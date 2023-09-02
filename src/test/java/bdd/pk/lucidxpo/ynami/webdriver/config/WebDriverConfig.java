@@ -24,18 +24,15 @@ import static java.time.Duration.ofSeconds;
 @Profile("!grid")
 @LazyConfiguration
 public class WebDriverConfig {
-    private static final String CI = "CI";
     private static final String EDGE = "edge";
     private static final String PROXY = "proxy";
     private static final String CHROME = "chrome";
     private static final String BROWSER = "browser";
-    private static final String MAC_VERSION = "116";
     private static final String FIREFOX = "firefox";
-    private static final String LINUX_VERSION = "114";
     private static final String HTMLUNIT = "htmlunit";
+    private static final String CHROME_VERSION = "116";
     private static final String HEADLESS = "--headless";
     private static final String TEST_TYPE = "--test-type";
-    private static final String ENVIRONMENT = "environment";
     private static final String NO_SANDBOX = "--no-sandbox";
     private static final String NO_PROXY_VAR = "no_proxy-var";
     private static final String HEADLESS_MODE = "headless_mode";
@@ -83,9 +80,10 @@ public class WebDriverConfig {
             options.addArguments(HEADLESS);
         }
 
-        setChromeVersion(webDriverManager);
         webDriverManager
                 .capabilities(options)
+                .driverVersion(CHROME_VERSION)
+                .browserVersion(CHROME_VERSION)
                 .setup();
         final WebDriver driver = webDriverManager.create();
         driver.manage().timeouts().implicitlyWait(ofSeconds(10));
@@ -100,20 +98,5 @@ public class WebDriverConfig {
         final WebDriver driver = new HtmlUnitDriver(true);
         driver.manage().timeouts().implicitlyWait(ofSeconds(2));
         return driver;
-    }
-
-    private static void setChromeVersion(final WebDriverManager webDriverManager) {
-        final String environment = getenv(ENVIRONMENT);
-//        if (CI.equalsIgnoreCase(environment)) {
-//            webDriverManager
-//                    .driverVersion(LINUX_VERSION)
-//                    .browserVersion(LINUX_VERSION)
-//            ;
-//        } else {
-//            webDriverManager
-//                    .driverVersion(MAC_VERSION)
-//                    .browserVersion(MAC_VERSION)
-//            ;
-//        }
     }
 }
