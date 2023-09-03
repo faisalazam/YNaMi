@@ -106,6 +106,41 @@ mvn clean integration-test -P it,mysql --file pom.xml
 
 Learn more about [Maven Profiles][maven-profiles-url]
 
+
+#### Running Single Test
+
+Single test can be run like that but without specifying the testing profiles mentioned above. `h2`
+or `mysql` profile can be mentioned but if testing profile is mentioned, then it'll run that profile too.
+
+```
+mvn test -Dtest="Sample*Test"
+mvn test -Dtest=SampleControllerTest
+mvn test -Dtest="SampleControllerTest"
+mvn test -Dtest="SampleControllerTest,SampleFeatureControllerTest"
+mvn test -Dtest="SampleControllerTest#shouldGetAllSamples"
+mvn test -Dtest="SampleControllerTest#shouldGetAllSamples+shouldGetSampleById"
+```
+
+And integration tests:
+
+```
+mvn test -Dtest=SampleControllerIntegrationTest
+mvn test -Dtest=SampleControllerIntegrationTest -Dynami.spring.datasource.profile=h2
+mvn test -Dtest=SampleControllerIntegrationTest -Dynami.spring.datasource.profile=mysql
+mvn test -Dtest=SampleControllerIntegrationTest -Ph2 # Doesn't work as it runs all the tests (ut, it, mt, at, bt...)
+mvn test -Dtest="SampleServiceIntegrationTest#shouldVerifyTheRetrievalOfElementById" -Dynami.spring.datasource.profile=h2
+```
+
+Or
+
+```
+mvn integration-test -Dtest="SampleControllerIntegrationTest"
+mvn integration-test -Dtest="SampleControllerIntegrationTest" -Dynami.spring.datasource.profile=h2
+mvn integration-test -Dtest="SampleControllerIntegrationTest" -Dynami.spring.datasource.profile=mysql
+mvn integration-test -Dtest="SampleControllerIntegrationTest" -Ph2 # Doesn't work as it runs all the tests (ut, it, mt, at, bt...)
+mvn integration-test -Dtest="SampleControllerIntegrationTest#shouldGetAllSamples"
+```
+
 ### Setting up H2
 
 [Click here for the details](readme/H2-SETUP.md)
