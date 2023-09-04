@@ -1,22 +1,22 @@
 package pk.lucidxpo.ynami.utils.executionlisteners;
 
-import org.joda.time.LocalDateTime;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 
 import static org.joda.time.DateTimeUtils.setCurrentMillisFixed;
 import static org.joda.time.DateTimeUtils.setCurrentMillisSystem;
+import static org.joda.time.Instant.now;
 
 public class TimeFreezeExecutionListener implements TestExecutionListener {
-    private static final long FROZEN_TIME = new LocalDateTime().toDateTime().getMillis();
+    private static final long FROZEN_TIME = now().getMillis();
 
     @Override
-    public void beforeTestMethod(final TestContext testContext) {
+    public void beforeTestMethod(@SuppressWarnings("NullableProblems") final TestContext testContext) {
         freezeTime();
     }
 
     @Override
-    public void afterTestMethod(final TestContext testContext) {
+    public void afterTestMethod(@SuppressWarnings("NullableProblems") final TestContext testContext) {
         unFreezeTime();
     }
 
