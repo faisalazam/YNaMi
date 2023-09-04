@@ -10,7 +10,7 @@ env:
 
 jobs:
   bdd-cucumber-tests-without-install:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
 
 # With Selenium 4.11
@@ -63,7 +63,7 @@ jobs:
         run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
 
   bdd-cucumber-tests-with-install:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
 
 # Same results with Selenium 4.11 and 4.12
@@ -106,7 +106,7 @@ jobs:
         run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
 
   chrome-version-without-install:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: 'Google Chrome Version'
@@ -116,7 +116,7 @@ jobs:
           "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
 
   webdriver-without-install:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: 'Which WebDriver'
