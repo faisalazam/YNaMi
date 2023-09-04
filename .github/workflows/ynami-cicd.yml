@@ -58,7 +58,7 @@ jobs:
 # This has printed 'Google Chrome 116.0.5845.96'
         run: |
           google-chrome --version
-          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
+#          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
 
@@ -101,7 +101,7 @@ jobs:
 # This has printed 'Google Chrome 116.0.5845.140'
         run: |
           google-chrome --version
-          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
+#          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
       - name: 'Update Google Chrome version'
         run: update-alternatives --skip-auto --config google-chrome
       - name: 'Run the acceptance-cucumber tests'
@@ -115,7 +115,7 @@ jobs:
 # This has printed 'Google Chrome 116.0.5845.96'
         run: |
           google-chrome --version
-          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
+#          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
 
   webdriver-without-install:
     runs-on: ubuntu-22.04
