@@ -1,7 +1,6 @@
 package it.pk.lucidxpo.ynami.spring.security;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.TestExecutionListeners;
@@ -60,8 +59,6 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Disabled
-    // TODO: Enable me: it started failing since the togglz.features.WEB_SECURITY.enabled toggle is enabled
     @EnabledIf(value = "${togglz.features.WEB_SECURITY.enabled:false}", loadContext = true)
     void shouldVerifyRedirectedBackToSecuredResourceAfterAuthenticationWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
         final MockHttpServletRequestBuilder securedResourceAccess = get("/samples");
@@ -76,12 +73,12 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
 
         final String loginProcessingUrl = (String) getField(SecurityConfig.class, null, "LOGIN_PROCESSING_URL");
         mockMvc.perform(post(loginProcessingUrl)
-                .param("username", "admin")
-                .param("password", "admin")
-                .session(session)
-                .with(csrf()))
+                        .param("username", "admin")
+                        .param("password", "admin")
+                        .session(session)
+                        .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/samples"))
+                .andExpect(redirectedUrlPattern("**/samples?continue"))
                 .andExpect(authenticated())
                 .andReturn();
 
