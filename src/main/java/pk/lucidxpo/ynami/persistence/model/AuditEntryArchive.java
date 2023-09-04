@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
@@ -38,6 +38,6 @@ public class AuditEntryArchive {
     private String changedBy;
 
     @Column(nullable = false)
-    private LocalDateTime changedAt;
+    private Instant changedAt;
 }
 

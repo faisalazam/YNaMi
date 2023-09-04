@@ -8,10 +8,11 @@ import pk.lucidxpo.ynami.persistence.dao.AuditEntryRepository;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
-import static java.time.LocalDateTime.now;
+import static java.time.Instant.now;
+import static java.time.temporal.ChronoUnit.DAYS;
 import static org.apache.commons.lang3.StringUtils.repeat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -88,24 +89,28 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
         final AuditEntry auditEntry2 = createAuditEntry("2");
         final AuditEntry auditEntry3 = createAuditEntry("3");
 
-        updateAuditEntryChangedAtDate(now().minusDays(1), auditEntry1);
-        updateAuditEntryChangedAtDate(now().minusDays(2), auditEntry2);
-        updateAuditEntryChangedAtDate(now().minusDays(3), auditEntry3);
+        final Instant now = now();
+        updateAuditEntryChangedAtDate(now.minus(1, DAYS), auditEntry1);
+        updateAuditEntryChangedAtDate(now.minus(2, DAYS), auditEntry2);
+        updateAuditEntryChangedAtDate(now.minus(3, DAYS), auditEntry3);
 
         repository.save(auditEntry1);
         repository.save(auditEntry2);
         repository.save(auditEntry3);
 
-        List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now().minusDays(3), of(0, 10));
+        List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
+                now.minus(3, DAYS), of(0, 10));
         assertEquals(1, messages.size());
         assertEquals(auditEntry3.getId(), messages.get(0).getId());
 
-        messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now().minusDays(2), of(0, 10));
+        messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
+                now.minus(2, DAYS), of(0, 10));
         assertEquals(2, messages.size());
         assertEquals(auditEntry3.getId(), messages.get(0).getId());
         assertEquals(auditEntry2.getId(), messages.get(1).getId());
 
-        messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(now().minusDays(1), of(0, 10));
+        messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
+                now.minus(1, DAYS), of(0, 10));
         assertEquals(3, messages.size());
         assertEquals(auditEntry3.getId(), messages.get(0).getId());
         assertEquals(auditEntry2.getId(), messages.get(1).getId());
@@ -153,7 +158,7 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
         assertNotNull(found);
     }
 
-    private void updateAuditEntryChangedAtDate(final LocalDateTime dateTime, final AuditEntry auditEntry) {
+    private void updateAuditEntryChangedAtDate(final Instant dateTime, final AuditEntry auditEntry) {
         setField(auditEntry, "changedAt", dateTime);
     }
 

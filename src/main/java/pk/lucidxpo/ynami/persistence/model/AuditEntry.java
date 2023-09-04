@@ -8,9 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-import static java.time.LocalDateTime.now;
 import static java.time.temporal.ChronoUnit.MICROS;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
@@ -44,7 +43,7 @@ public class AuditEntry {
     private String changedBy;
 
     @Column(nullable = false)
-    private LocalDateTime changedAt = now().truncatedTo(MICROS);
+    private Instant changedAt = Instant.now().truncatedTo(MICROS);
 
     public AuditEntry(final String changedEntityName,
                       final String changedEntityId,
@@ -61,7 +60,7 @@ public class AuditEntry {
         this.changedBy = changedBy;
     }
 
-    public AuditEntry(final LocalDateTime changedAt,
+    public AuditEntry(final Instant changedAt,
                       final String changedEntityName,
                       final String changedEntityId,
                       final String fieldChanged,
