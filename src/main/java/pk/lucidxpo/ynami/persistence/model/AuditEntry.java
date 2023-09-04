@@ -11,6 +11,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;
+import static java.time.temporal.ChronoUnit.MICROS;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @Entity
@@ -20,7 +21,7 @@ import static pk.lucidxpo.ynami.utils.Identity.randomID;
 public class AuditEntry {
     @Id
     @Column(nullable = false, updatable = false)
-    private String id = randomID();
+    private final String id = randomID();
 
     @Column(nullable = false)
     private String changedEntityName;
@@ -43,7 +44,7 @@ public class AuditEntry {
     private String changedBy;
 
     @Column(nullable = false)
-    private LocalDateTime changedAt = now();
+    private LocalDateTime changedAt = now().truncatedTo(MICROS);
 
     public AuditEntry(final String changedEntityName,
                       final String changedEntityId,

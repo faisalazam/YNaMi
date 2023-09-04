@@ -1,11 +1,12 @@
 package it.pk.lucidxpo.ynami.persistence.dao;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestExecutionListeners;
 import pk.lucidxpo.ynami.persistence.dao.AuditEntryRepository;
 import pk.lucidxpo.ynami.persistence.model.AuditEntry;
+import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,20 +19,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.data.domain.PageRequest.of;
+import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalentTo;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
+@TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private AuditEntryRepository repository;
 
     @Test
-    @Disabled
-    // TODO: Enable me
     void shouldSaveAuditEntryIntoDatabase() {
-        final AuditEntry saved = new AuditEntry("TestEntity", "testId", "testField", "foo", "bar", "tester");
+        final AuditEntry saved = new AuditEntry("TestEntity", "testId",
+                "testField", "foo", "bar", "tester");
         repository.save(saved);
 
         final AuditEntry found = repository.findById(saved.getId()).get();
@@ -50,16 +52,17 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Disabled
-    // TODO: Enable me
     void shouldRetrieveAuditEntryRecordsByEntityId() {
 
         final String matchingEntityId = randomID();
         final String nonMatchingEntityId = randomID();
 
-        final AuditEntry auditEntry1 = new AuditEntry(randomID(), matchingEntityId, "testField1", "fromValue1", "toValue1", "changedBy1");
-        final AuditEntry auditEntry2 = new AuditEntry(randomID(), matchingEntityId, "testField2", "fromValue2", "toValue2", "changedBy2");
-        final AuditEntry auditEntry3 = new AuditEntry(randomID(), nonMatchingEntityId, "testField3", "fromValue3", "toValue3", "changedBy3");
+        final AuditEntry auditEntry1 = new AuditEntry(randomID(), matchingEntityId, "testField1",
+                "fromValue1", "toValue1", "changedBy1");
+        final AuditEntry auditEntry2 = new AuditEntry(randomID(), matchingEntityId, "testField2",
+                "fromValue2", "toValue2", "changedBy2");
+        final AuditEntry auditEntry3 = new AuditEntry(randomID(), nonMatchingEntityId, "testField3",
+                "fromValue3", "toValue3", "changedBy3");
 
         repository.save(auditEntry1);
         repository.save(auditEntry2);
@@ -81,9 +84,9 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldRetrieveAuditEntryOlderThanDate() {
 
-        final AuditEntry auditEntry1 = createAuditEntry();
-        final AuditEntry auditEntry2 = createAuditEntry();
-        final AuditEntry auditEntry3 = createAuditEntry();
+        final AuditEntry auditEntry1 = createAuditEntry("1");
+        final AuditEntry auditEntry2 = createAuditEntry("2");
+        final AuditEntry auditEntry3 = createAuditEntry("3");
 
         updateAuditEntryChangedAtDate(now().minusDays(1), auditEntry1);
         updateAuditEntryChangedAtDate(now().minusDays(2), auditEntry2);
@@ -112,11 +115,11 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldRetrieveAuditEntryByMaxResults() {
 
-        final AuditEntry auditEntry1 = createAuditEntry();
-        final AuditEntry auditEntry2 = createAuditEntry();
-        final AuditEntry auditEntry3 = createAuditEntry();
-        final AuditEntry auditEntry4 = createAuditEntry();
-        final AuditEntry auditEntry5 = createAuditEntry();
+        final AuditEntry auditEntry1 = createAuditEntry("1");
+        final AuditEntry auditEntry2 = createAuditEntry("2");
+        final AuditEntry auditEntry3 = createAuditEntry("3");
+        final AuditEntry auditEntry4 = createAuditEntry("4");
+        final AuditEntry auditEntry5 = createAuditEntry("5");
 
         repository.save(auditEntry1);
         repository.save(auditEntry2);
@@ -142,7 +145,8 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldSaveLargeTextValueAuditEntryIntoDatabase() {
-        final AuditEntry saved = new AuditEntry("TestEntity", "testId", "testField", repeat("A", 4000), repeat("B", 4000), "tester");
+        final AuditEntry saved = new AuditEntry("TestEntity", "testId",
+                "testField", repeat("A", 4000), repeat("B", 4000), "tester");
         repository.save(saved);
 
         final AuditEntry found = repository.findById(saved.getId()).get();
@@ -153,7 +157,9 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
         setField(auditEntry, "changedAt", dateTime);
     }
 
-    private AuditEntry createAuditEntry() {
-        return new AuditEntry("changedEntityName", "changedEntityId", "fieldChanged", "fromValue", "toValue", "changedBy");
+    private AuditEntry createAuditEntry(final String number) {
+        return new AuditEntry("changedEntityName" + number, "changedEntityId" + number,
+                "fieldChanged" + number, "fromValue" + number, "toValue" + number,
+                "changedBy");
     }
 }

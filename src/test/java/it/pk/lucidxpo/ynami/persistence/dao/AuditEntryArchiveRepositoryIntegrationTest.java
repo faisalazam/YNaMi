@@ -1,7 +1,6 @@
 package it.pk.lucidxpo.ynami.persistence.dao;
 
 import it.pk.lucidxpo.ynami.AbstractIntegrationTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pk.lucidxpo.ynami.persistence.dao.AuditEntryArchiveRepository;
@@ -21,22 +20,23 @@ class AuditEntryArchiveRepositoryIntegrationTest extends AbstractIntegrationTest
     private AuditEntryArchiveRepository archiveRepository;
 
     @Test
-    @Disabled
-    // TODO: Enable me
     void shouldRetrieveAuditEntryArchiveRecordsByEntityId() {
 
         final String matchingEntityId = randomID();
         final String nonMatchingEntityId = randomID();
 
-        final AuditEntry auditEntry1 = new AuditEntry(randomID(), matchingEntityId, "testField1", "fromValue1", "toValue1", "changedBy1");
+        final AuditEntry auditEntry1 = new AuditEntry(randomID(), matchingEntityId, "testField1",
+                "fromValue1", "toValue1", "changedBy1");
         final AuditEntryArchive auditEntryArchive1 = new AuditEntryArchive();
         copyProperties(auditEntry1, auditEntryArchive1);
 
-        final AuditEntry auditEntry2 = new AuditEntry(randomID(), matchingEntityId, "testField2", "fromValue2", "toValue2", "changedBy2");
+        final AuditEntry auditEntry2 = new AuditEntry(randomID(), matchingEntityId, "testField2",
+                "fromValue2", "toValue2", "changedBy2");
         final AuditEntryArchive auditEntryArchive2 = new AuditEntryArchive();
         copyProperties(auditEntry2, auditEntryArchive2);
 
-        final AuditEntry auditEntry3 = new AuditEntry(randomID(), nonMatchingEntityId, "testField3", "fromValue3", "toValue3", "changedBy3");
+        final AuditEntry auditEntry3 = new AuditEntry(randomID(), nonMatchingEntityId, "testField3",
+                "fromValue3", "toValue3", "changedBy3");
         final AuditEntryArchive auditEntryArchive3 = new AuditEntryArchive();
         copyProperties(auditEntry3, auditEntryArchive3);
 
