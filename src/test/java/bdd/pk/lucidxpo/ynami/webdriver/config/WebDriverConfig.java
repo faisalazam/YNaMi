@@ -83,16 +83,16 @@ public class WebDriverConfig {
         }
 
         final String environment = getenv(ENVIRONMENT);
+        final WebDriverManager webDriverManager = chromedriver();
         if (CI.equalsIgnoreCase(environment)) {
-            options.setBinary("/usr/bin/google-chrome");
-            options.addArguments("--remote-debugging-port=9222");
+//            options.setBinary("/usr/bin/google-chrome");
+//            options.addArguments("--remote-debugging-port=9222");
 
-            return new ChromeDriver(options);
+//            return new ChromeDriver(options);
 //       Docker is throwing the following exception
 //       org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'chromeDriver' defined in class path resource [bdd/pk/lucidxpo/ynami/webdriver/config/WebDriverConfig.class]: Failed to instantiate [org.openqa.selenium.WebDriver]: Factory method 'chromeDriver' threw exception with message: io/opentelemetry/api/events/EventEmitterProvider
 //            webDriverManager.browserInDocker();
         }
-        final WebDriverManager webDriverManager = chromedriver();
         webDriverManager
                 .capabilities(options)
 //                .driverVersion(CHROME_VERSION)
