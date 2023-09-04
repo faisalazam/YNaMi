@@ -2,7 +2,7 @@ package acceptance.pk.lucidxpo.ynami.config;
 
 import acceptance.pk.lucidxpo.ynami.TestApplication;
 import acceptance.pk.lucidxpo.ynami.webdriver.hooks.TestMethodScopeExecutionListener;
-import org.fluentlenium.adapter.junit.jupiter.FluentTest;
+import io.fluentlenium.adapter.junit.jupiter.FluentTest;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

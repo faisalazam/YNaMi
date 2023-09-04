@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.utils.ui.pageobjects;
 
-import org.fluentlenium.core.annotation.Page;
+import io.fluentlenium.core.annotation.Page;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import pk.lucidxpo.ynami.utils.ui.pageasserts.HomePageAssert;
 

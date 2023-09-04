@@ -1,8 +1,8 @@
 package ut.pk.lucidxpo.ynami;
 
+import io.fluentlenium.core.FluentPage;
 import jakarta.persistence.Entity;
 import org.assertj.core.api.AbstractAssert;
-import org.fluentlenium.core.FluentPage;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;

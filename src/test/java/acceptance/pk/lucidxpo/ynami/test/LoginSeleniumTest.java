@@ -1,13 +1,13 @@
 package acceptance.pk.lucidxpo.ynami.test;
 
-import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 import acceptance.pk.lucidxpo.ynami.config.AbstractSeleniumTest;
-import org.fluentlenium.core.annotation.Page;
+import io.fluentlenium.core.annotation.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
+import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;

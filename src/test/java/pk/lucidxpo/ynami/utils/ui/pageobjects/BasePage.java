@@ -1,7 +1,7 @@
 package pk.lucidxpo.ynami.utils.ui.pageobjects;
 
+import io.fluentlenium.core.FluentPage;
 import org.assertj.core.api.AbstractAssert;
-import org.fluentlenium.core.FluentPage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;

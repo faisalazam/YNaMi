@@ -2,7 +2,7 @@ package bdd.pk.lucidxpo.ynami.steps;
 
 import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import io.cucumber.java.en.When;
-import org.fluentlenium.core.annotation.Page;
+import io.fluentlenium.core.annotation.Page;
 import pk.lucidxpo.ynami.utils.ui.pageobjects.HomePage;
 
 public class LogoutSteps extends AbstractSteps {

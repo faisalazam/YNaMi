@@ -5,7 +5,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.fluentlenium.core.annotation.Page;
+import io.fluentlenium.core.annotation.Page;
 import pk.lucidxpo.ynami.utils.ui.pageobjects.HomePage;
 import pk.lucidxpo.ynami.utils.ui.pageobjects.LoginPage;
 

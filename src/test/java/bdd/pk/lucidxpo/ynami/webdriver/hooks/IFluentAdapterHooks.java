@@ -4,7 +4,7 @@ import bdd.pk.lucidxpo.ynami.annotations.LazyAutowired;
 import bdd.pk.lucidxpo.ynami.config.AbstractSteps;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import org.fluentlenium.adapter.IFluentAdapter;
+import io.fluentlenium.adapter.IFluentAdapter;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.ApplicationContext;
 
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * This class is responsible for managing the {@link org.fluentlenium} related hooks.
+ * This class is responsible for managing the {@link io.fluentlenium} related hooks.
  */
 public class IFluentAdapterHooks {
     private final ApplicationContext applicationContext;
@@ -39,7 +39,7 @@ public class IFluentAdapterHooks {
      * There is a {@link IFluentAdapter#releaseFluent()} method which has to be called before/after
      * {@link WebDriver#quit()} method in order to properly release/close/quit the {@link WebDriver}.
      * <p>
-     * We need to invoke the {@link IFluentAdapter#releaseFluent()} method because we are using {@link org.fluentlenium}
+     * We need to invoke the {@link IFluentAdapter#releaseFluent()} method because we are using {@link io.fluentlenium}
      * in this project.
      * <p>
      * One option is to hook it up here and the other option is to add {@link After} hook in all the *Steps classes
