@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
@@ -22,6 +22,6 @@ public class SampleDTO {
     private boolean active;
     private String createdBy;
     private String lastModifiedBy;
-    private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
+    private Instant createdDate;
+    private Instant lastModifiedDate;
 }
