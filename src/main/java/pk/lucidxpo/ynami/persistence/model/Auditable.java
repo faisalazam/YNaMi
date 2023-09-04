@@ -11,7 +11,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static org.hibernate.annotations.SourceType.DB;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
@@ -40,7 +40,7 @@ public abstract class Auditable<U> implements Identifiable {
     // this issue and tests work on both Mac and Linux.
     @CreationTimestamp(source = DB)
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     // The @LastModifiedDate and @UpdateTimestamp are convenient annotation which automatically sets the field value to
     // the current timestamp on each entity update. @LastModifiedDate is a Spring annotation. It is applicable to all
@@ -55,7 +55,7 @@ public abstract class Auditable<U> implements Identifiable {
     // and Linux.
     @Column
     @UpdateTimestamp(source = DB)
-    private LocalDateTime lastModifiedDate;
+    private Instant lastModifiedDate;
 
     //    @ManyToOne
     @CreatedBy

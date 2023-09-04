@@ -1,6 +1,6 @@
 package pk.lucidxpo.ynami.persistence.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
@@ -9,8 +9,8 @@ public abstract class AuditableBuilder<E, T> {
     protected String id = randomID();
     protected String createdBy;
     protected String lastModifiedBy;
-    protected LocalDateTime createdDate;
-    protected LocalDateTime lastModifiedDate;
+    protected Instant createdDate;
+    protected Instant lastModifiedDate;
 
     protected AuditableBuilder() {
     }
@@ -22,12 +22,12 @@ public abstract class AuditableBuilder<E, T> {
         return (T) this;
     }
 
-    public T withCreatedDate(final LocalDateTime createdDate) {
+    public T withCreatedDate(final Instant createdDate) {
         this.createdDate = createdDate;
         return (T) this;
     }
 
-    public T withLastModifiedDate(final LocalDateTime lastModifiedDate) {
+    public T withLastModifiedDate(final Instant lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
         return (T) this;
     }
