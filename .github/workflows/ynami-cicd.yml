@@ -139,28 +139,32 @@ jobs:
 #        run: chrome --version
 #      - name: 'Run the acceptance-cucumber tests'
 #        run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
-#
-#  acceptance-selenium-tests:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-#        uses: './.github/actions/install-java'
-#        with:
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Run the acceptance-selenium tests'
-#        run: mvn clean test -Dmaven.test.failure.ignore=true -P at,h2 --file pom.xml
-#      - name: 'Report'
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          fail-on-error: true
-#          reporter: java-junit
-#          name: 'Acceptance-Selenium Tests'' Report'
-#          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-#
+
+  acceptance-selenium-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Set up MySQL'
+        run: sudo systemctl start mysql
+      - name: 'MySQL Version'
+        run: mysql --version
+      - name: 'Run the acceptance-selenium tests'
+        run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
+      - name: 'Report'
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          fail-on-error: true
+          reporter: java-junit
+          name: 'Acceptance-Selenium Tests'' Report'
+          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
+
 #  penetration-tests:
 #    runs-on: ubuntu-latest
 #
