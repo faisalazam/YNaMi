@@ -112,7 +112,6 @@
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
         <zap.clientapi.version>1.12.0</zap.clientapi.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
-        <selenium-common.version>2.0b1</selenium-common.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <glassfish.jersey.version>3.1.3</glassfish.jersey.version>
         <javax.activation.version>1.1.1</javax.activation.version>
@@ -456,12 +455,6 @@
                     <artifactId>opentelemetry-semconv</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-common</artifactId>
-            <version>${selenium-common.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
