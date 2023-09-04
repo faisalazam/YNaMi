@@ -85,6 +85,7 @@ public class WebDriverConfig {
         final String environment = getenv(ENVIRONMENT);
         if (CI.equalsIgnoreCase(environment)) {
             options.setBinary("/usr/bin/google-chrome");
+            options.addArguments("--remote-debugging-port=9222");
 
             return new ChromeDriver(options);
 //       Docker is throwing the following exception
