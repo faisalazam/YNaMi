@@ -102,6 +102,8 @@ jobs:
         run: |
           google-chrome --version
           "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
+      - name: 'Update Google Chrome version'
+        run: update-alternatives --skip-auto --config google-chrome
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
 
