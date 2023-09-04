@@ -5,14 +5,15 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+import static org.hibernate.annotations.SourceType.DB;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 
 @Data
@@ -24,12 +25,36 @@ public abstract class Auditable<U> implements Identifiable {
     @Column(nullable = false, updatable = false)
     private String id = randomID();
 
-    @CreatedDate
+    // The @CreatedDate and @CreationTimestamp are convenient annotation which sets the field value to the current
+    // timestamp when the entity is first saved. @CreatedDate is a Spring annotation. It is applicable to all stores
+    // covered by Spring Data: JPA, JDBC, R2DBC, MongoDb, Cassandra and so on, whereas @CreationTimestamp is a Hibernate
+    // annotation. It is applicable to Hibernate only. By default, both of these annotations use the current date of
+    // the Java Virtual Machine when setting property values. Starting from Hibernate 6.0.0, we can optionally specify
+    // the database as the source of the date. However, when using @CreationTimestamp and @UpdateTimestamp, we have to
+    // keep in mind that Hibernate generates new timestamps on a per-field basis. This leads to multiple timestamps
+    // being different, even though they were set by the same INSERT or UPDATE statement. Main reason to use the
+    // @CreationTimestamp instead of @CreatedDate is, Spring Data Jpa sets the creation timestamp with nanoseconds
+    // (9 digits) precision on java object but saves the object with microseconds (6 digits) precision in the database
+    // on linux machines (this issue doesn't happen on MAC) and hence the assertions in the integration tests fail
+    // due to difference in precisions. So, setting 'source = DB' on the @CreationTimestamp annotation helps resolve
+    // this issue and tests work on both Mac and Linux.
+    @CreationTimestamp(source = DB)
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
+    // The @LastModifiedDate and @UpdateTimestamp are convenient annotation which automatically sets the field value to
+    // the current timestamp on each entity update. @LastModifiedDate is a Spring annotation. It is applicable to all
+    // stores covered by Spring Data: JPA, JDBC, R2DBC, MongoDb, Cassandra and so on, whereas @UpdateTimestamp is a
+    // Hibernate annotation. It is applicable to Hibernate only.By default, both of these annotations use the current
+    // date of the Java Virtual Machine when setting property values. Starting from Hibernate 6.0.0, we can optionally
+    // specify the database as the source of the date. Main reason to use the @UpdateTimestamp instead of
+    // @LastModifiedDate is, Spring Data Jpa sets the updation timestamp with nanoseconds (9 digits) precision on java
+    // object but saves the object with microseconds (6 digits) precision in the database on linux machines (this issue
+    // doesn't happen on MAC) and hence the assertions in the integration tests fail due to difference in precisions.
+    // So, setting 'source = DB' on the @UpdateTimestamp annotation helps resolve this issue and tests work on both Mac
+    // and Linux.
     @Column
-    @LastModifiedDate
+    @UpdateTimestamp(source = DB)
     private LocalDateTime lastModifiedDate;
 
     //    @ManyToOne
