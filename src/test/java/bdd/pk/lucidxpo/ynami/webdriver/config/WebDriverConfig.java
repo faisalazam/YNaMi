@@ -81,6 +81,7 @@ public class WebDriverConfig {
         }
 
         webDriverManager
+                .browserInDocker()
                 .capabilities(options)
 //                .driverVersion(CHROME_VERSION)
 //                .browserVersion(CHROME_VERSION)

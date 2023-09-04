@@ -9,58 +9,58 @@ env:
   INTEGRATION_TESTS_XMLS_DIR: 'target/test-results/integration-tests/*.xml'
 
 jobs:
-#  bdd-cucumber-tests-without-install:
-#    runs-on: ubuntu-22.04
-#
-#
-## With Selenium 4.11
-## Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
-## - Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
-## Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
-## - Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
-## Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
-## - Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
-## Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
-## - Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
-## Unable to find an exact match for CDP version 116, so returning the closest version found: 115
-## - Unable to find an exact match for CDP version 116, so returning the closest version found: 115
-#
-#
-#
-#
-## With Selenium 4.12
-## without .driverVersion(CHROME_VERSION).browserVersion(CHROME_VERSION)
-## Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
-## Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
-## Cannot invoke "org.openqa.selenium.SearchContext.findElement(org.openqa.selenium.By)" because "this.searchContext" is null
-#
-#
-#
-## with .driverVersion(CHROME_VERSION).browserVersion(CHROME_VERSION)
-## This version of ChromeDriver only supports Chrome version 114
-## 404 for chrome-for-testing/116/linux64/chromedriver-linux64.zip
-## Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/114.0.5735.90/chromedriver
-## Using chromedriver 114.0.5735.90 (resolved driver for Chrome 116)
-## This version of ChromeDriver only supports Chrome version 114
-## Current browser version is 116.0.5845.96 with binary path /usr/bin/google-chrome
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-#        uses: './.github/actions/install-java'
-#        with:
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Set up MySQL'
-#        run: sudo systemctl start mysql
-#      - name: 'MySQL Version'
-#        run: mysql --version
-#      - name: 'Google Chrome Version'
-## This has printed 'Google Chrome 116.0.5845.96'
-#        run: |
-#          google-chrome --version
-##          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
-#      - name: 'Run the acceptance-cucumber tests'
-#        run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
+  bdd-cucumber-tests-without-install:
+    runs-on: ubuntu-22.04
+
+
+# With Selenium 4.11
+# Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
+# - Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
+# Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
+# - Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
+# Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
+# - Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
+# Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
+# - Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
+# Unable to find an exact match for CDP version 116, so returning the closest version found: 115
+# - Unable to find an exact match for CDP version 116, so returning the closest version found: 115
+
+
+
+
+# With Selenium 4.12
+# without .driverVersion(CHROME_VERSION).browserVersion(CHROME_VERSION)
+# Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
+# Using chromedriver 116.0.5845.96 (resolved driver for Chrome 116)
+# Cannot invoke "org.openqa.selenium.SearchContext.findElement(org.openqa.selenium.By)" because "this.searchContext" is null
+
+
+
+# with .driverVersion(CHROME_VERSION).browserVersion(CHROME_VERSION)
+# This version of ChromeDriver only supports Chrome version 114
+# 404 for chrome-for-testing/116/linux64/chromedriver-linux64.zip
+# Exporting webdriver.chrome.driver as /home/runner/.cache/selenium/chromedriver/linux64/114.0.5735.90/chromedriver
+# Using chromedriver 114.0.5735.90 (resolved driver for Chrome 116)
+# This version of ChromeDriver only supports Chrome version 114
+# Current browser version is 116.0.5845.96 with binary path /usr/bin/google-chrome
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Set up MySQL'
+        run: sudo systemctl start mysql
+      - name: 'MySQL Version'
+        run: mysql --version
+      - name: 'Google Chrome Version'
+# This has printed 'Google Chrome 116.0.5845.96'
+        run: |
+          google-chrome --version
+#          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
+      - name: 'Run the acceptance-cucumber tests'
+        run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
 #
 #  bdd-cucumber-tests-with-install:
 #    runs-on: ubuntu-22.04
