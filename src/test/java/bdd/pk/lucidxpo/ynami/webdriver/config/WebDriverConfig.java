@@ -24,6 +24,7 @@ import static java.time.Duration.ofSeconds;
 @Profile("!grid")
 @LazyConfiguration
 public class WebDriverConfig {
+    private static final String CI = "CI";
     private static final String EDGE = "edge";
     private static final String PROXY = "proxy";
     private static final String CHROME = "chrome";
@@ -33,6 +34,7 @@ public class WebDriverConfig {
     private static final String CHROME_VERSION = "116";
     private static final String HEADLESS = "--headless";
     private static final String TEST_TYPE = "--test-type";
+    private static final String ENVIRONMENT = "environment";
     private static final String NO_SANDBOX = "--no-sandbox";
     private static final String NO_PROXY_VAR = "no_proxy-var";
     private static final String HEADLESS_MODE = "headless_mode";
@@ -80,8 +82,15 @@ public class WebDriverConfig {
             options.addArguments(HEADLESS);
         }
 
+        final String environment = getenv(ENVIRONMENT);
+        if (CI.equalsIgnoreCase(environment)) {
+            options.setBinary("/usr/bin/chromedriver");
+
+//       Docker is throwing the following exception
+//       org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'chromeDriver' defined in class path resource [bdd/pk/lucidxpo/ynami/webdriver/config/WebDriverConfig.class]: Failed to instantiate [org.openqa.selenium.WebDriver]: Factory method 'chromeDriver' threw exception with message: io/opentelemetry/api/events/EventEmitterProvider
+//            webDriverManager.browserInDocker();
+        }
         webDriverManager
-                .browserInDocker()
                 .capabilities(options)
 //                .driverVersion(CHROME_VERSION)
 //                .browserVersion(CHROME_VERSION)

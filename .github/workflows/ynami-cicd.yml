@@ -60,7 +60,7 @@ jobs:
           google-chrome --version
 #          "CHROME_BIN" --version ; "$CHROMEWEBDRIVER/chromedriver --version"
       - name: 'Run the acceptance-cucumber tests'
-        run: browser=chrome headless_mode=true mvn clean test -P bt,mysql --file pom.xml
+        run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
 #
 #  bdd-cucumber-tests-with-install:
 #    runs-on: ubuntu-22.04
