@@ -85,6 +85,7 @@ public class WebDriverConfig {
         final String environment = getenv(ENVIRONMENT);
         final WebDriverManager webDriverManager = chromedriver();
         if (CI.equalsIgnoreCase(environment)) {
+            options.addArguments("--disable-gpu");
 //            options.setBinary("/usr/bin/google-chrome");
 //            options.addArguments("--remote-debugging-port=9222");
 
