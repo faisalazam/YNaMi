@@ -121,9 +121,48 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: 'Which WebDriver'
-# This results in error
-        run: which webdriver
+      - name: 'Which chromedriver'
+        run: which chromedriver
+
+
+  webdriver-run-without-install:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'chromedriver run'
+        run: chromedriver
+
+  webdriver-run-full-path-without-install:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'chromedriver run'
+        run: /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.96/chromedriver
+
+
+  webdriver-run-with-install:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Install Google Chrome'
+        run: |
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.140-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_116.0.5845.140-1_amd64.deb
+      - name: 'chromedriver run'
+        run: chromedriver
+
+
+
+  webdriver-run-full-path-with-install:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Install Google Chrome'
+        run: |
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.140-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_116.0.5845.140-1_amd64.deb
+      - name: 'chromedriver run'
+        run: /home/runner/.cache/selenium/chromedriver/linux64/116.0.5845.140/chromedriver
 
 
 
