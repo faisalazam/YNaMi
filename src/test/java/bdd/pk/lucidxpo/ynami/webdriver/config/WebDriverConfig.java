@@ -82,8 +82,8 @@ public class WebDriverConfig {
 
         webDriverManager
                 .capabilities(options)
-                .driverVersion(CHROME_VERSION)
-                .browserVersion(CHROME_VERSION)
+//                .driverVersion(CHROME_VERSION)
+//                .browserVersion(CHROME_VERSION)
                 .setup();
         final WebDriver driver = webDriverManager.create();
         driver.manage().timeouts().implicitlyWait(ofSeconds(10));
