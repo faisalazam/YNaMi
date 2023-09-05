@@ -103,11 +103,11 @@
         <junit-bom.version>5.10.0</junit-bom.version>
         <maven-pmd.version>3.21.0</maven-pmd.version>
         <commons-io.version>2.13.0</commons-io.version>
-        <flyway-core.version>9.21.2</flyway-core.version>
+        <flyway-core.version>9.22.0</flyway-core.version>
         <font-awesome.version>6.4.2</font-awesome.version>
         <fluentlenium.version>6.0.0</fluentlenium.version>
         <cucumber-bom.version>7.13.0</cucumber-bom.version>
-        <flyway-mysql.version>9.21.2</flyway-mysql.version>
+        <flyway-mysql.version>9.22.0</flyway-mysql.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
         <zap.clientapi.version>1.12.0</zap.clientapi.version>
@@ -656,7 +656,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.21.1</version>
+                <version>9.22.0</version>
                 <configuration>
                     <user>sa</user>
 <!--                    <password></password>-->
