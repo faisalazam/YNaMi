@@ -1,7 +1,5 @@
 package it.pk.lucidxpo.ynami;
 
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.rules.SpringClassRule;
-import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import pk.lucidxpo.ynami.YNaMiApplication;
@@ -82,12 +78,13 @@ public class AbstractIntegrationTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @ClassRule
-    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
-
-    @Rule
-    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+//    TODO: figure out what these two statements were doing (and do we need their junit 5 equivalent) as all the tests
+//    are passing without them too. Commented to get rid of junit 4 from the project.
+//    @ClassRule
+//    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
+//
+//    @Rule
+//    public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     @BeforeEach
     void before() {
