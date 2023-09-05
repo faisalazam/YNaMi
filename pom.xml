@@ -500,16 +500,6 @@
             <artifactId>cucumber-java</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- TODO: cucumber-java8 is getting ready for removal in future cucumber version updates. I've removed/fixed
-             all the code which was referring to cucumber-java8, so no more code references to cucumber-java8 any more.
-             But the problem is, if I remove this cucumber-java8 dependency, then I start getting the
-             io.cucumber.junit.platform.engine.UndefinedStepException exception. So putting it back for now as without
-             it no steps are found and tests fail.-->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java8</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
