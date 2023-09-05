@@ -89,18 +89,18 @@ public class AppScanningSteps {
         getScanner().setEnablePassiveScan(true);
     }
 
-    @Given("the (\\S+) policy is enabled")
+    @Given("the {word} policy is enabled")
     public void thePolicyIsEnabled(final String policy) {
         this.enableScanners(policy);
     }
 
-    @Given("the attack strength is set to (\\S+)")
+    @Given("the attack strength is set to {word}")
     public void theAttackStrengthIsSetTo(final String strength) {
         this.setScannerAttackStrength(strength);
     }
 
 
-    @Given("the alert threshold is set to (\\S+)")
+    @Given("the alert threshold is set to {word}")
     public void theAlertThresholdIsSetTo(final String threshold) {
         this.setScannerAlertThreshold(threshold);
     }
@@ -120,7 +120,7 @@ public class AppScanningSteps {
         this.scan();
     }
 
-    @Then("no (\\S+) or higher risk vulnerabilities should be present")
+    @Then("no {word} or higher risk vulnerabilities should be present")
     public void noOrHigherRiskVulnerabilitiesShouldBePresent$(final String risk) {
         this.assertNoHigherRiskVulnerabilitiesPresent(risk);
     }

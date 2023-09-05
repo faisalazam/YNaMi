@@ -236,7 +236,7 @@ public class WebApplicationSteps {
         setCurrentHar(requests.get(0));
     }
 
-    @Given("the HTTP request containing the string (\\s+) is selected")
+    @Given("the HTTP request containing the string {word} is selected")
     public void findRequestWithString(final String value) {
         final UserPassCredentials credentials = getUserPassCredentials();
         final List<HarEntry> requests = getProxy().findInRequestHistory(value);
