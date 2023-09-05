@@ -59,3 +59,25 @@ docker exec -it mysql-docker-container bash
   * We can run any sql commands now, e.g., `show databases;`
 
 That's it, we have up and running `MySQL` container happily :)
+
+# Docker contains slow on macOS
+
+Simplest solution given below but there are others like using NFS:
+
+### Delegated
+The delegated configuration provides the weakest set of guarantees. For directories mounted with delegated the 
+container’s view of the file system is authoritative, and writes performed by containers may not be immediately 
+reflected on the host file system. In situations such as NFS asynchronous mode, if a running container with a delegated 
+bind mount crashes, then writes may be lost.
+
+### Cached
+The cached configuration provides all the guarantees of the delegated configuration, and some additional guarantees 
+around the visibility of writes performed by containers. As such, cached typically improves the performance of 
+read-heavy workloads, at the cost of some temporary inconsistency between the host and the container.
+
+Ok, we can use them simply as volume option, for example:
+
+```
+my-delegated-volume:/var/volume2:delegated
+my-cached-volume:/var/volume1:cached
+```
