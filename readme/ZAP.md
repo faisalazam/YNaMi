@@ -1,5 +1,23 @@
 
 
+
+Install ZAP
+
+https://www.zaproxy.org/download/
+
+Frequently Asked Questions
+
+https://www.zaproxy.org/faq/#cat-general-questions
+
+Then copy all the files from the `/Applications/OWASP\ ZAP.app/Contents/Java` installation directory to the
+`penetration/pk/lucidxpo/ynami/zap` project directory.
+
+Then the ZAP can be started from terminal by running the `penetration/pk/lucidxpo/ynami/zap/zap.sh` shell script.
+
+It's GUI interface can also be started from the Applications depending upon the OS and installation.
+
+
+
 https://www.zaproxy.org/faq/how-can-you-start-zap/
 
 Generally, most user’s tend to use the Mac OS build, which is a ordinary Mac OS app that can be started as any
