@@ -41,13 +41,13 @@ public class NessusScanningSteps {
         ignoreHostNamesInSSLCert = true;
     }
 
-    @Given("the nessus username (.*) and the password (.*)$")
+    @Given("the nessus username (.*) and the password (.*)")
     public void theNessusUsernameAndThePassword(final String username, final String password) {
         this.username = username;
         this.password = password;
     }
 
-    @Given("the scanning policy named (.*)$")
+    @Given("the scanning policy named (.*)")
     public void theScanningPolicyNamed(final String policyName) {
         this.policyName = policyName;
     }
@@ -80,7 +80,7 @@ public class NessusScanningSteps {
         hostNames.addAll(hosts);
     }
 
-    @Given("a nessus version {int} server at (https?:\\/\\/.+)$")
+    @Given("a nessus version {int} server at (https?:\\/\\/.+)")
     public void createNessusClient(final int version, final String url) {
         nessusUrl = url;
         nessusVersion = version;
