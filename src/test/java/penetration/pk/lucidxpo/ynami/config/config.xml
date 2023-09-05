@@ -78,8 +78,9 @@
     </proxy>
     -->
 
+    <!-- The zap-2.13.0.jar file can be copied from "/Applications/OWASP\ ZAP.app/Contents/Java/zap-2.13.0.jar" -->
     <zapPath>
-        /Users/muhammadfaisal/projects/PersonalProjects/YNaMi/src/test/java/penetration/pk/lucidxpo/ynami/zap/zap-2.6.0.jar
+        /Users/muhammadfaisal/projects/PersonalProjects/YNaMi/src/test/java/penetration/pk/lucidxpo/ynami/zap/zap-2.13.0.jar
     </zapPath>
 
 </web-app>
