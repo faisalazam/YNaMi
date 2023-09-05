@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
 import penetration.pk.lucidxpo.ynami.TestApplication;
 import pk.lucidxpo.ynami.YNaMiApplication;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
@@ -20,12 +21,17 @@ import static java.util.stream.Stream.of;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 import static org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
+import static penetration.pk.lucidxpo.ynami.config.cucumber.CucumberContextConfigurationLoader.SCHEMA_NAME;
 
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = DEFINED_PORT)
+@TestPropertySource(properties = {"spring.datasource.name=" + SCHEMA_NAME})
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class CucumberContextConfigurationLoader {
+    @SuppressWarnings("WrongPropertyKeyValueDelimiter")
+    static final String SCHEMA_NAME = "SecurityTestSchema";
+
     protected static Connection connection;
     protected static ApplicationContext applicationContext;
 
