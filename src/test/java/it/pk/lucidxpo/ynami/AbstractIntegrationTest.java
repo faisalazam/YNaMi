@@ -2,7 +2,6 @@ package it.pk.lucidxpo.ynami;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import pk.lucidxpo.ynami.YNaMiApplication;
@@ -50,13 +48,14 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import static pk.lucidxpo.ynami.persistence.model.security.RoleName.values;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
+/**
+ * MERGE_WITH_DEFAULTS indicates that the locally declared listeners should be merged with the default listeners.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = {"spring.datasource.name=" + SCHEMA_NAME})
 @ContextConfiguration(classes = {TestApplication.class, YNaMiApplication.class})
 @ComponentScan(excludeFilters = @Filter(type = REGEX, pattern = "SeleniumTestCaseContext.class"))
-// MERGE_WITH_DEFAULTS indicates that the locally declared listeners should be merged with the default listeners.
 @TestExecutionListeners(value = TogglzExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 public class AbstractIntegrationTest {
     @SuppressWarnings("WrongPropertyKeyValueDelimiter")
