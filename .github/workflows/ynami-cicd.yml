@@ -9,7 +9,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -28,7 +28,7 @@ jobs:
         run: mvn clean compile test-compile --file pom.xml
 
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -49,7 +49,7 @@ jobs:
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   migration-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -74,7 +74,7 @@ jobs:
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   integration-tests-h2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -95,7 +95,7 @@ jobs:
           path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   integration-tests-mysql:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -120,7 +120,7 @@ jobs:
           path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   bdd-cucumber-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -148,7 +148,7 @@ jobs:
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
 
   acceptance-selenium-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -173,7 +173,7 @@ jobs:
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
 #  penetration-tests:
-#    runs-on: ubuntu-latest
+#    runs-on: ubuntu-22.04
 #
 #    steps:
 #      - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -186,7 +186,7 @@ jobs:
 #        run: mvn clean test -P pt --file pom.xml
 
 #  upload-artifacts:
-#    runs-on: ubuntu-latest
+#    runs-on: ubuntu-22.04
 #
 #    steps:
 #      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
