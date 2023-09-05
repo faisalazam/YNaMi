@@ -821,6 +821,7 @@
                                         <include>src/test/java/it/pk/lucidxpo/ynami/README.md</include>
                                         <include>src/test/java/migration/pk/lucidxpo/ynami/README.md</include>
                                         <include>src/test/java/acceptance/pk/lucidxpo/ynami/README.md</include>
+                                        <include>src/test/java/bdd/pk/lucidxpo/ynami/README.md</include>
                                         <include>src/test/java/penetration/pk/lucidxpo/ynami/README.md</include>
                                     </includes>
                                 </resource>
