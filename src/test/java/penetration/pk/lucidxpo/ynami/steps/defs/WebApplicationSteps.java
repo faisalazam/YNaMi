@@ -213,7 +213,7 @@ public class WebApplicationSteps {
         }
     }
 
-    @Given("the user logs in from a fresh login page\\ (\\d+) times")
+    @Given("the user logs in from a fresh login page\\ {int} times")
     public void whenTheUserLogsInFromAFreshLoginPageXTimes(final int limit) {
         range(0, limit).forEach(i -> loginFromFreshPage());
     }
@@ -318,7 +318,7 @@ public class WebApplicationSteps {
         });
     }
 
-    @When("the session is inactive for (\\d+) minutes")
+    @When("the session is inactive for {int} minutes")
     public void waitForTime(final int minutes) {
         try {
             sleep(minutes * 60 * 1000);

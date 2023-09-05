@@ -47,7 +47,7 @@ public class SSLyzeSteps {
         assertThat(getJssLyze().getParser().doesAnyLineMatch(regex), equalTo(true));
     }
 
-    @Then("the minimum key size must be (\\d+) bits")
+    @Then("the minimum key size must be {int} bits")
     public void verifyMinimumKeySize(final int size) {
         assertThat(getJssLyze().getParser().findSmallestAcceptedKeySize(), greaterThanOrEqualTo(size));
     }

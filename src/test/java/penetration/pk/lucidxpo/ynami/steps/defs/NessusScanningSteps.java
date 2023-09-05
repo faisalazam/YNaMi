@@ -80,7 +80,7 @@ public class NessusScanningSteps {
         hostNames.addAll(hosts);
     }
 
-    @Given("a nessus version (\\d+) server at (https?:\\/\\/.+)$")
+    @Given("a nessus version {int} server at (https?:\\/\\/.+)$")
     public void createNessusClient(final int version, final String url) {
         nessusUrl = url;
         nessusVersion = version;
@@ -100,7 +100,7 @@ public class NessusScanningSteps {
         });
     }
 
-    @Then("no severity: (\\d+) or higher issues should be present")
+    @Then("no severity: {int} or higher issues should be present")
     public void verifyRiskOfIssues(final int severity) {
         final List<Issue> notable = issues.values().stream().filter(issue -> issue.getSeverity() >= severity).collect(toList());
         assertThat(notable, empty());
