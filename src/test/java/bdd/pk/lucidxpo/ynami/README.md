@@ -4,7 +4,11 @@ If running bdd tests from IntelliJ fails, remember to do clean and rebuild of th
 
 Removing the webdriver also helps:
 
-`rm -rf /Users/muhammadfaisal/.cache/selenium/`
+`rm -rf ~/.cache/selenium/`
+
+The driver managed/installed through WebDriverManager is located at location something like below:
+
+`~/.cache/selenium/chromedriver/mac64/116.0.5845.96/chromedriver`
 
 ```
 public WebDriver chromeDriver() {

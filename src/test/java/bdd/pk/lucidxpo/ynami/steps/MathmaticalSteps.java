@@ -19,27 +19,27 @@ public class MathmaticalSteps extends AbstractSteps {
     public void iAmAboutToPerformAnOperation() {
     }
 
-    @When("I enter \"([^\"]*)\" as first operand")
+    @When("I enter {string} as first operand")
     public void iEnterAsFirstOperand(final String firstOperand) {
         mathScenarioWorld.setFirstOperand(parseInt(firstOperand));
     }
 
-    @And("I enter \"([^\"]*)\" as second operand")
+    @And("I enter {string} as second operand")
     public void iEnterAsSecondOperand(final String secondOperand) {
         mathScenarioWorld.setSecondOperand(parseInt(secondOperand));
     }
 
-    @Then("The result of addition operation is \"([^\"]*)\"")
+    @Then("The result of addition operation is {string}")
     public void theResultOfAdditionOperationIs(final String result) {
         assertEquals(parseInt(result), mathScenarioWorld.getFirstOperand() + mathScenarioWorld.getSecondOperand());
     }
 
-    @Then("The result of subtraction operation is \"([^\"]*)\"")
+    @Then("The result of subtraction operation is {string}")
     public void theResultOfSubtractionOperationIs(final String result) {
         assertEquals(parseInt(result), mathScenarioWorld.getFirstOperand() - mathScenarioWorld.getSecondOperand());
     }
 
-    @Then("The result of multiplication operation is \"([^\"]*)\"")
+    @Then("The result of multiplication operation is {string}")
     public void theResultOfMultiplicationOperationIs(final String result) {
         assertEquals(parseInt(result), mathScenarioWorld.getFirstOperand() * mathScenarioWorld.getSecondOperand());
     }
