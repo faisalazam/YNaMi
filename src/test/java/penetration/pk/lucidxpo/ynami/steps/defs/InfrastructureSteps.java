@@ -39,7 +39,7 @@ public class InfrastructureSteps {
         assertThat("Only the expected ports are open", selectedPorts, containsInAnyOrder(expectedPorts));
     }
 
-    @When("^TCP ports from (\\d+) to (\\d+) are scanned using (\\d+) threads and a timeout of (\\d+) milliseconds$")
+    @When("TCP ports from {int} to {int} are scanned using {int} threads and a timeout of {int} milliseconds")
     public void scanPorts(final int from, final int to, final int threads, final int timeout) throws ExecutionException, InterruptedException {
         final PortScanner portScanner = new PortScanner(targetHost, from, to, threads, timeout);
         portScanResults = portScanner.scan();

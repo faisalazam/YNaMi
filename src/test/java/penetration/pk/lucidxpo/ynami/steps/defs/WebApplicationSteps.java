@@ -71,37 +71,37 @@ public class WebApplicationSteps {
         //  cucumber-java8, check their impact.
     }
 
-    @Given("^a new browser or client instance$")
+    @Given("a new browser or client instance")
     public void aNewBrowserOrClientInstance() {
         this.createApp();
     }
 
-    @And("^the client\\/browser is configured to use an intercepting proxy$")
+    @And("the client\\/browser is configured to use an intercepting proxy")
     public void theClientBrowserIsConfiguredToUseAnInterceptingProxy() {
         this.enableLoggingDriver();
     }
 
-    @And("^the proxy logs are cleared$")
+    @And("the proxy logs are cleared")
     public void theProxyLogsAreCleared() {
         this.clearProxy();
     }
 
-    @And("^the login page$")
+    @And("the login page")
     public void theLoginPage() {
         this.openLoginPage();
     }
 
-    @And("^the username (.*) is used$")
+    @And("the username (.*) is used")
     public void theUsernameIsUsed(final String username) {
         this.setUsername(username);
     }
 
-    @And("^the password (.*) is used$")
+    @And("the password (.*) is used")
     public void thePasswordIsUsed(final String password) {
         this.setPassword(password);
     }
 
-    @When("^the user logs in$")
+    @When("the user logs in")
     public void theUserLogsI() {
         this.loginWithSetCredentials();
     }
@@ -111,12 +111,12 @@ public class WebApplicationSteps {
         //HTTP traffic is recorded in checkAccessToResource
     }
 
-    @And("^they access the restricted resource: (.*)$")
+    @And("they access the restricted resource: (.*)")
     public void theyAccessTheRestrictedResource(final String resource) {
         this.setMethodName(resource);
     }
 
-    @Then("^the string: (.*) should be present in one of the HTTP responses$")
+    @Then("the string: (.*) should be present in one of the HTTP responses")
     public void theStringShouldBePresentInOneOfTheHTTPResponses(final String str) throws NoSuchMethodException {
         this.assertSensitiveDataPresentInResponses(str);
     }
@@ -128,12 +128,12 @@ public class WebApplicationSteps {
         }
     }
 
-    @And("^the previously recorded HTTP Requests for (.*) are replayed using the current session ID$")
+    @And("the previously recorded HTTP Requests for (.*) are replayed using the current session ID")
     public void thePreviouslyRecordedHTTPRequestsForAreReplayedUsingTheCurrentSessionID(final String requests) {
         this.setMethodName(requests);
     }
 
-    @Then("^the string: (.*) should not be present in any of the HTTP responses$")
+    @Then("the string: (.*) should not be present in any of the HTTP responses")
     public void theStringShouldNotBePresentInAnyOfTheHTTPResponses(final String str) {
         this.assertSensitiveDataNotPresentInResponses(str);
     }
@@ -213,7 +213,7 @@ public class WebApplicationSteps {
         }
     }
 
-    @Given("^the user logs in from a fresh login page\\ (\\d+) times$")
+    @Given("the user logs in from a fresh login page\\ (\\d+) times")
     public void whenTheUserLogsInFromAFreshLoginPageXTimes(final int limit) {
         range(0, limit).forEach(i -> loginFromFreshPage());
     }
@@ -236,7 +236,7 @@ public class WebApplicationSteps {
         setCurrentHar(requests.get(0));
     }
 
-    @Given("^the HTTP request containing the string (\\s+) is selected$")
+    @Given("the HTTP request containing the string (\\s+) is selected")
     public void findRequestWithString(final String value) {
         final UserPassCredentials credentials = getUserPassCredentials();
         final List<HarEntry> requests = getProxy().findInRequestHistory(value);

@@ -20,12 +20,12 @@ public class LoginSteps extends AbstractSteps {
         loginPage.openPage(port);
     }
 
-    @When("^I enter \"([^\"]*)\" in username field$")
+    @When("I enter \"([^\"]*)\" in username field")
     public void iEnterInUsernameField(final String username) {
         loginPage.username(username);
     }
 
-    @And("^I enter \"([^\"]*)\" in password field$")
+    @And("I enter \"([^\"]*)\" in password field")
     public void iEnterInPasswordField(final String password) {
         loginPage.password(password);
     }

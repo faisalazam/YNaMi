@@ -107,32 +107,35 @@ public class AppScanningSteps {
 
     @DataTableType
     @Given("the following URL regular expressions are excluded from the scanner")
-    public void theFollowingURLRegularExpressionsAreExcludedFromTheScanner(final List<String> excludedRegexes) {
+    public String theFollowingURLRegularExpressionsAreExcludedFromTheScanner(final List<String> excludedRegexes) {
+        // TODO: I don't know what should be the return type. Need to look into it after the DataTableType upgrade
+        // and return something accordingly.
         this.excludeFromScanner(excludedRegexes);
+        return "";
     }
 
 
-    @When("^the scanner is run$")
+    @When("the scanner is run")
     public void theScannerIsRun() throws InterruptedException {
         this.scan();
     }
 
-    @Then("^no (\\S+) or higher risk vulnerabilities should be present$")
+    @Then("no (\\S+) or higher risk vulnerabilities should be present")
     public void noOrHigherRiskVulnerabilitiesShouldBePresent$(final String risk) {
         this.assertNoHigherRiskVulnerabilitiesPresent(risk);
     }
 
-    @And("^the navigation and spider status is reset$")
+    @And("the navigation and spider status is reset")
     public void theNavigationAndSpiderStatusIsReset() {
         this.resetStatus();
     }
 
-    @And("^the application is navigated$")
+    @And("the application is navigated")
     public void theApplicationIsNavigated$() {
         this.navigateApplication();
     }
 
-    @And("^the application is spidered$")
+    @And("the application is spidered")
     public void theApplicationIsSpidered() {
         this.spiderApplication();
     }

@@ -52,7 +52,7 @@ public class NessusScanningSteps {
         this.policyName = policyName;
     }
 
-    @When("^the scanner is run with scan name (.*)$")
+    @When("the scanner is run with scan name (.*)")
     public void theScannerIsRunWithScanName(final String scanName) throws Exception {
         if (username == null) {
             username = getInstance().getNessusUsername();
