@@ -2,6 +2,10 @@
 
 If running bdd tests from IntelliJ fails, remember to do clean and rebuild of the project before retrying.
 
+Removing the webdriver also helps:
+
+`rm -rf /Users/muhammadfaisal/.cache/selenium/`
+
 ```
 public WebDriver chromeDriver() {
         final WebDriverManager webDriverManager = chromedriver();

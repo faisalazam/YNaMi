@@ -9,6 +9,8 @@ env:
 
 jobs:
   build:
+    # Here's whats part of the ubuntu-22.04 GitHub Runner Image:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ubuntu-22.04
 
     steps:
@@ -161,6 +163,12 @@ jobs:
         run: sudo systemctl start mysql
       - name: 'MySQL Version'
         run: mysql --version
+      - name: 'Google Chrome / Driver Info'
+        run: |
+          google-chrome --version
+          which google-chrome
+          chromedriver --version
+          which chromedriver
       - name: 'Run the acceptance-selenium tests'
         run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
       - name: 'Report'
