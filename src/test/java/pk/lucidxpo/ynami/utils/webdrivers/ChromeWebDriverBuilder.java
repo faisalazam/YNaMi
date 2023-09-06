@@ -1,6 +1,7 @@
 package pk.lucidxpo.ynami.utils.webdrivers;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -21,6 +22,19 @@ public class ChromeWebDriverBuilder {
     private static final String HEADLESS_MODE = "headless_mode";
     private static final String START_MAXIMIZED = "--start-maximized";
     private static final String DISABLE_DEV_SHM_USAGE = "--disable-dev-shm-usage";
+    public static final String PROXY = "proxy";
+
+    private final ChromeOptions options;
+
+    public ChromeWebDriverBuilder() {
+        options = new ChromeOptions();
+        options.addArguments(
+                TEST_TYPE,
+                NO_SANDBOX,
+                START_MAXIMIZED,
+                DISABLE_DEV_SHM_USAGE
+        );
+    }
 
     public WebDriver build() {
         final String environment = getenv(ENVIRONMENT);
@@ -48,15 +62,20 @@ public class ChromeWebDriverBuilder {
         return driver;
     }
 
-    private static ChromeOptions getChromeOptions() {
-        final ChromeOptions options = new ChromeOptions();
-        options.setAcceptInsecureCerts(true);
-        options.addArguments(
-                TEST_TYPE,
-                NO_SANDBOX,
-                START_MAXIMIZED,
-                DISABLE_DEV_SHM_USAGE
-        );
+    public ChromeWebDriverBuilder withAcceptInsecureCerts(final boolean acceptInsecureCerts) {
+        options.setAcceptInsecureCerts(acceptInsecureCerts);
+        return this;
+    }
+
+    public ChromeWebDriverBuilder withProxy(final Proxy proxy) {
+        options.setProxy(proxy);
+// TODO see if need to set capability as well for Proxy setting
+//        options.setCapability(PROXY, proxy);
+        return this;
+    }
+
+    private ChromeOptions getChromeOptions() {
+        withAcceptInsecureCerts(true);
 
         // default setting will be headless mode
         final String headlessMode = getenv(HEADLESS_MODE);

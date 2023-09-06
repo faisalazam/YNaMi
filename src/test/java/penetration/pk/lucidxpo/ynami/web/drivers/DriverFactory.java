@@ -1,9 +1,9 @@
 package penetration.pk.lucidxpo.ynami.web.drivers;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -15,9 +15,17 @@ import penetration.pk.lucidxpo.ynami.config.Config;
 
 import java.io.File;
 
+import static io.fluentlenium.configuration.PredefinedDesiredCapabilities.chrome;
+import static io.fluentlenium.configuration.PredefinedDesiredCapabilities.firefox;
+import static io.fluentlenium.configuration.PredefinedDesiredCapabilities.htmlUnit;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.io.File.separator;
+import static java.lang.Boolean.TRUE;
+import static java.lang.Boolean.valueOf;
 import static java.lang.System.getProperty;
+import static java.lang.System.getenv;
 import static java.lang.System.setProperty;
+import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
 //import static org.openqa.selenium.firefox.FirefoxDriver.PROFILE;
 //import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
@@ -27,21 +35,26 @@ import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
 
 @Slf4j
 public class DriverFactory {
-    private final static String CHROME = "chrome";
-    private final static String FIREFOX = "firefox";
-    private final static String HTMLUNIT = "htmlunit";
+    private final static int TIMEOUT = 10;
+    private static final String PROXY = "proxy";
+    private static final String CHROME = "chrome";
+    private static final String FIREFOX = "firefox";
+    private static final String HTMLUNIT = "htmlunit";
+    private static final String HEADLESS = "--headless";
+    private static final String TEST_TYPE = "--test-type";
+    private static final String NO_SANDBOX = "--no-sandbox";
+    private static final String HEADLESS_MODE = "headless_mode";
+    private static final String START_MAXIMIZED = "--start-maximized";
+    private static final String DISABLE_DEV_SHM_USAGE = "--disable-dev-shm-usage";
 
     private static DriverFactory dm;
     private static WebDriver driver;
     private static WebDriver proxyDriver;
 
-
     private static DriverFactory getInstance() {
         if (dm == null) {
             dm = new DriverFactory();
         }
-        // TODO: Spring Upgrade - add the following for automatic driver management instead of downloading binaries
-//        WebDriverManager.chromedriver().setup();
         return dm;
     }
 
@@ -104,48 +117,63 @@ public class DriverFactory {
     }
 
     private WebDriver createDriver(final String type) {
-        if (type.equalsIgnoreCase(CHROME)) {
+        if (CHROME.equalsIgnoreCase(type)) {
             return createChromeDriver(new DesiredCapabilities());
-        } else if (type.equalsIgnoreCase(FIREFOX)) {
+        } else if (FIREFOX.equalsIgnoreCase(type)) {
             return createFirefoxDriver(null);
-        } else if (type.equalsIgnoreCase(HTMLUNIT)) {
+        } else if (HTMLUNIT.equalsIgnoreCase(type)) {
             return createHtmlUnitDriver(null);
         }
         throw new RuntimeException("Unsupported WebDriver browser: " + type);
     }
 
     private WebDriver createProxyDriver(final String type) {
-        if (type.equalsIgnoreCase(CHROME)) {
+        if (CHROME.equalsIgnoreCase(type)) {
             return createChromeDriver(createProxyCapabilities(CHROME));
-        } else if (type.equalsIgnoreCase(FIREFOX)) {
+        } else if (FIREFOX.equalsIgnoreCase(type)) {
             return createFirefoxDriver(createProxyCapabilities(FIREFOX));
-        } else if (type.equalsIgnoreCase(HTMLUNIT)) {
+        } else if (HTMLUNIT.equalsIgnoreCase(type)) {
             return createHtmlUnitDriver(createProxyCapabilities(HTMLUNIT));
         }
         throw new RuntimeException("Unsupported WebDriver browser: " + type);
     }
 
     private WebDriver createChromeDriver(final DesiredCapabilities capabilities) {
-        setProperty("webdriver.chrome.driver", Config.getInstance().getDefaultDriverPath());
+//        setProperty("webdriver.chrome.driver", Config.getInstance().getDefaultDriverPath());
+        final WebDriverManager webDriverManager = chromedriver();
         if (capabilities != null) {
             final ChromeOptions options = new ChromeOptions();
-            options.addArguments("--test-type");
             options.setAcceptInsecureCerts(true);
+            options.addArguments(
+                    TEST_TYPE,
+                    NO_SANDBOX,
+                    START_MAXIMIZED,
+                    DISABLE_DEV_SHM_USAGE
+            );
+
+            // default setting will be headless mode
+            final String headlessMode = getenv(HEADLESS_MODE);
+            if (headlessMode == null || TRUE.equals(valueOf(headlessMode))) {
+                options.addArguments(HEADLESS);
+            }
+
             capabilities.setCapability(CAPABILITY, options);
             options.merge(capabilities);
-            return new ChromeDriver(options);
-        } else {
-            return new ChromeDriver();
+            webDriverManager.capabilities(options);
         }
+        webDriverManager.setup();
+        final WebDriver driver = webDriverManager.create();
+        driver.manage().timeouts().implicitlyWait(ofSeconds(TIMEOUT));
+        return driver;
     }
 
     private WebDriver createHtmlUnitDriver(DesiredCapabilities capabilities) {
         if (capabilities != null) {
-            capabilities.setBrowserName("htmlunit");
+            capabilities.setBrowserName(HTMLUNIT);
             return new HtmlUnitDriver(capabilities);
         }
         capabilities = new DesiredCapabilities();
-        capabilities.setBrowserName("htmlunit");
+        capabilities.setBrowserName(HTMLUNIT);
         capabilities.setAcceptInsecureCerts(true);
         return new HtmlUnitDriver(capabilities);
     }
@@ -179,20 +207,19 @@ public class DriverFactory {
 
     private DesiredCapabilities createProxyCapabilities(final String type) {
         DesiredCapabilities capabilities = null;
-        // TODO: Spring Upgrade - uncomment me
-//        switch (type) {
-//            case CHROME -> capabilities = chrome();
-//            case FIREFOX -> capabilities = firefox();
-//            case HTMLUNIT -> capabilities = htmlUnit();
-//            default -> {
-//            }
-//        }
+        switch (type) {
+            case CHROME -> capabilities = chrome();
+            case FIREFOX -> capabilities = firefox();
+            case HTMLUNIT -> capabilities = htmlUnit();
+            default -> {
+            }
+        }
         final Proxy proxy = new Proxy();
         final Config instance = Config.getInstance();
         proxy.setHttpProxy(instance.getProxyHost() + ":" + instance.getProxyPort());
         proxy.setSslProxy(instance.getProxyHost() + ":" + instance.getProxyPort());
         assert capabilities != null;
-        capabilities.setCapability("proxy", proxy);
+        capabilities.setCapability(PROXY, proxy);
         return capabilities;
     }
 }
