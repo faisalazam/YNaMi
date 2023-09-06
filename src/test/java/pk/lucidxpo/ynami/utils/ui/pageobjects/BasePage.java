@@ -21,7 +21,6 @@ import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static org.junit.platform.commons.util.ExceptionUtils.throwAsUncheckedException;
 import static org.openqa.selenium.By.className;
-import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
@@ -74,14 +73,14 @@ abstract class BasePage<
         return getDriver().getTitle();
     }
 
-    void clearAndFill(final String id, final String value) {
-        final WebElement element = getWebElementWithFluentWait(id);
+    void clearAndFill(final By selector, final String value) {
+        final WebElement element = waitElement(selector);
         element.clear();
         element.sendKeys(value);
     }
 
-    void editText(final String id, final String value) {
-        writeText(id(id), value);
+    void editText(final By selector, final String value) {
+        writeText(selector, value);
     }
 
     //Write Text by using JAVA Generics (You can use both By or WebElement)
@@ -110,8 +109,8 @@ abstract class BasePage<
         }
     }
 
-    void clickId(@SuppressWarnings("SameParameterValue") final String id) {
-        final WebElement button = getDriver().findElement(id(id));
+    void clickId(@SuppressWarnings("SameParameterValue") final By selector) {
+        final WebElement button = waitElement(selector);
         final JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", button);
     }
@@ -184,10 +183,6 @@ abstract class BasePage<
                 .getClass()
                 .getName()
                 .contains("By");
-    }
-
-    private WebElement getWebElementWithFluentWait(String id) {
-        return waitElement(id(id));
     }
 
     private FluentWait<WebDriver> fluentWaitIgnoringNoSuchElementException() {

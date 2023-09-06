@@ -3,10 +3,12 @@ package pk.lucidxpo.ynami.utils.ui.pageobjects;
 import io.fluentlenium.core.annotation.Page;
 import io.fluentlenium.core.annotation.PageUrl;
 import io.fluentlenium.core.domain.FluentWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import pk.lucidxpo.ynami.utils.ui.pageasserts.LoginPageAssert;
 
+import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 @PageUrl("/login")
@@ -24,31 +26,36 @@ public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     @FindBy(id = "login-btn")
     private FluentWebElement submitButton;
 
+    //********* Web Elements by using By Class *********
+    private By usernameBy = id("login-username");
+    private By passwordBy = id("login-password");
+    private By submitButtonBy = id("login-btn");
+
     public LoginPage username(final String text) {
 //        TODO: SEE if @FindBy can be functional
 //        username.clear();
 //        username.fill().with(text);
-        clearAndFill("login-username", text);
+        clearAndFill(usernameBy, text);
         return this;
     }
 
     public LoginPage password(final String text) {
 //        password.clear();
 //        password.fill().with(text);
-        clearAndFill("login-password", text);
+        clearAndFill(passwordBy, text);
         return this;
     }
 
     public HomePage submit() {
 //        submitButton.click();
-        clickId("login-btn");
+        clickId(submitButtonBy);
         return homePage.iAmOnHomePage();
     }
 
     public HomePage doLogin(final String testUser, final String testPass) {
-        editText("login-username", testUser);
-        editText("login-password", testPass);
-        clickId("login-btn");
+        editText(usernameBy, testUser);
+        editText(passwordBy, testPass);
+        clickId(submitButtonBy);
 //        assertThat(hasErrors(), is(false));
         return homePage.iAmOnHomePage();
     }
