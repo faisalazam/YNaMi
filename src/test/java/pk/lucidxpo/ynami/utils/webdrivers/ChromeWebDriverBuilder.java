@@ -7,22 +7,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static java.lang.Boolean.TRUE;
-import static java.lang.Boolean.valueOf;
 import static java.lang.System.getenv;
 import static java.time.Duration.ofSeconds;
 
 public class ChromeWebDriverBuilder {
     private final static int TIMEOUT = 10;
     private static final String CI = "CI";
+    private static final String PROXY = "proxy";
     private static final String HEADLESS = "--headless";
     private static final String TEST_TYPE = "--test-type";
     private static final String ENVIRONMENT = "environment";
     private static final String NO_SANDBOX = "--no-sandbox";
-    private static final String HEADLESS_MODE = "headless_mode";
     private static final String START_MAXIMIZED = "--start-maximized";
     private static final String DISABLE_DEV_SHM_USAGE = "--disable-dev-shm-usage";
-    public static final String PROXY = "proxy";
+
+    public static final String HEADLESS_MODE = "headless_mode";
 
     private final ChromeOptions options;
 
@@ -38,7 +37,6 @@ public class ChromeWebDriverBuilder {
 
     public WebDriver build() {
         final String environment = getenv(ENVIRONMENT);
-        final ChromeOptions options = getChromeOptions();
         if (CI.equalsIgnoreCase(environment)) {
             // Tests are not passing when the webDriver is managed through WebDriverManager on Linux/local Docker
             // container/GitHub Workflow, but all fine on local macOS. WebDriverManager is good in a way that we don't
@@ -74,14 +72,10 @@ public class ChromeWebDriverBuilder {
         return this;
     }
 
-    private ChromeOptions getChromeOptions() {
-        withAcceptInsecureCerts(true);
-
-        // default setting will be headless mode
-        final String headlessMode = getenv(HEADLESS_MODE);
-        if (headlessMode == null || TRUE.equals(valueOf(headlessMode))) {
+    public ChromeWebDriverBuilder withHeadlessMode(final boolean headlessMode) {
+        if (headlessMode) {
             options.addArguments(HEADLESS);
         }
-        return options;
+        return this;
     }
 }

@@ -15,7 +15,11 @@ import pk.lucidxpo.ynami.utils.webdrivers.ChromeWebDriverBuilder;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.edgedriver;
 import static io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver;
+import static java.lang.Boolean.TRUE;
+import static java.lang.Boolean.valueOf;
+import static java.lang.System.getenv;
 import static java.time.Duration.ofSeconds;
+import static pk.lucidxpo.ynami.utils.webdrivers.ChromeWebDriverBuilder.HEADLESS_MODE;
 
 @Profile("!grid")
 @LazyConfiguration
@@ -59,7 +63,12 @@ public class WebDriverConfig {
     @WebdriverBeanScope
     @ConditionalOnProperty(name = BROWSER, havingValue = CHROME)
     public WebDriver chromeDriver() {
-        return new ChromeWebDriverBuilder().build();
+        final String headlessMode = getenv(HEADLESS_MODE);
+        final boolean runInHeadlessMode = headlessMode == null || TRUE.equals(valueOf(headlessMode));
+        return new ChromeWebDriverBuilder()
+                .withAcceptInsecureCerts(true)
+                .withHeadlessMode(runInHeadlessMode)
+                .build();
     }
 
     @Primary

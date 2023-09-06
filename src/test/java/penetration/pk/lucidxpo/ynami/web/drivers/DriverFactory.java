@@ -1,10 +1,8 @@
 package penetration.pk.lucidxpo.ynami.web.drivers;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -12,21 +10,20 @@ import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import penetration.pk.lucidxpo.ynami.config.Config;
+import pk.lucidxpo.ynami.utils.webdrivers.ChromeWebDriverBuilder;
 
 import java.io.File;
 
 import static io.fluentlenium.configuration.PredefinedDesiredCapabilities.chrome;
 import static io.fluentlenium.configuration.PredefinedDesiredCapabilities.firefox;
 import static io.fluentlenium.configuration.PredefinedDesiredCapabilities.htmlUnit;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.io.File.separator;
 import static java.lang.Boolean.TRUE;
 import static java.lang.Boolean.valueOf;
 import static java.lang.System.getProperty;
 import static java.lang.System.getenv;
 import static java.lang.System.setProperty;
-import static java.time.Duration.ofSeconds;
-import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
+import static pk.lucidxpo.ynami.utils.webdrivers.ChromeWebDriverBuilder.HEADLESS_MODE;
 //import static org.openqa.selenium.firefox.FirefoxDriver.PROFILE;
 //import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 //import static org.openqa.selenium.remote.DesiredCapabilities.chrome;
@@ -35,17 +32,10 @@ import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
 
 @Slf4j
 public class DriverFactory {
-    private final static int TIMEOUT = 10;
     private static final String PROXY = "proxy";
     private static final String CHROME = "chrome";
     private static final String FIREFOX = "firefox";
     private static final String HTMLUNIT = "htmlunit";
-    private static final String HEADLESS = "--headless";
-    private static final String TEST_TYPE = "--test-type";
-    private static final String NO_SANDBOX = "--no-sandbox";
-    private static final String HEADLESS_MODE = "headless_mode";
-    private static final String START_MAXIMIZED = "--start-maximized";
-    private static final String DISABLE_DEV_SHM_USAGE = "--disable-dev-shm-usage";
 
     private static DriverFactory dm;
     private static WebDriver driver;
@@ -140,31 +130,38 @@ public class DriverFactory {
 
     private WebDriver createChromeDriver(final DesiredCapabilities capabilities) {
 //        setProperty("webdriver.chrome.driver", Config.getInstance().getDefaultDriverPath());
-        final WebDriverManager webDriverManager = chromedriver();
-        if (capabilities != null) {
-            final ChromeOptions options = new ChromeOptions();
-            options.setAcceptInsecureCerts(true);
-            options.addArguments(
-                    TEST_TYPE,
-                    NO_SANDBOX,
-                    START_MAXIMIZED,
-                    DISABLE_DEV_SHM_USAGE
-            );
-
-            // default setting will be headless mode
-            final String headlessMode = getenv(HEADLESS_MODE);
-            if (headlessMode == null || TRUE.equals(valueOf(headlessMode))) {
-                options.addArguments(HEADLESS);
-            }
-
-            capabilities.setCapability(CAPABILITY, options);
-            options.merge(capabilities);
-            webDriverManager.capabilities(options);
-        }
-        webDriverManager.setup();
-        final WebDriver driver = webDriverManager.create();
-        driver.manage().timeouts().implicitlyWait(ofSeconds(TIMEOUT));
-        return driver;
+//        final WebDriverManager webDriverManager = chromedriver();
+//        if (capabilities != null) {
+//            final ChromeOptions options = new ChromeOptions();
+//            options.setAcceptInsecureCerts(true);
+//            options.addArguments(
+//                    TEST_TYPE,
+//                    NO_SANDBOX,
+//                    START_MAXIMIZED,
+//                    DISABLE_DEV_SHM_USAGE
+//            );
+//
+//            // default setting will be headless mode
+//            final String headlessMode = getenv(HEADLESS_MODE);
+//            if (headlessMode == null || TRUE.equals(valueOf(headlessMode))) {
+//                options.addArguments(HEADLESS);
+//            }
+//
+//            capabilities.setCapability(CAPABILITY, options);
+//            options.merge(capabilities);
+//            webDriverManager.capabilities(options);
+//        }
+//        webDriverManager.setup();
+//        final WebDriver driver = webDriverManager.create();
+//        driver.manage().timeouts().implicitlyWait(ofSeconds(TIMEOUT));
+        // default setting will be headless mode
+        final String headlessMode = getenv(HEADLESS_MODE);
+        final boolean runInHeadlessMode = headlessMode == null || TRUE.equals(valueOf(headlessMode));
+        return new ChromeWebDriverBuilder()
+                .withProxy(getProxy())
+                .withAcceptInsecureCerts(true)
+                .withHeadlessMode(runInHeadlessMode)
+                .build();
     }
 
     private WebDriver createHtmlUnitDriver(DesiredCapabilities capabilities) {
@@ -214,12 +211,17 @@ public class DriverFactory {
             default -> {
             }
         }
+        final Proxy proxy = getProxy();
+        assert capabilities != null;
+        capabilities.setCapability(PROXY, proxy);
+        return capabilities;
+    }
+
+    private static Proxy getProxy() {
         final Proxy proxy = new Proxy();
         final Config instance = Config.getInstance();
         proxy.setHttpProxy(instance.getProxyHost() + ":" + instance.getProxyPort());
         proxy.setSslProxy(instance.getProxyHost() + ":" + instance.getProxyPort());
-        assert capabilities != null;
-        capabilities.setCapability(PROXY, proxy);
-        return capabilities;
+        return proxy;
     }
 }
