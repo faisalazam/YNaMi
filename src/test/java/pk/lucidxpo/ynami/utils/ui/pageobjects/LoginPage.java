@@ -27,9 +27,9 @@ public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     private FluentWebElement submitButton;
 
     //********* Web Elements by using By Class *********
-    private By usernameBy = id("login-username");
-    private By passwordBy = id("login-password");
-    private By submitButtonBy = id("login-btn");
+    private final By usernameBy = id("login-username");
+    private final By passwordBy = id("login-password");
+    private final By submitButtonBy = id("login-btn");
 
     public LoginPage username(final String text) {
 //        TODO: SEE if @FindBy can be functional
