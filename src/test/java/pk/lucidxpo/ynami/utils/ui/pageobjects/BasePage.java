@@ -2,6 +2,7 @@ package pk.lucidxpo.ynami.utils.ui.pageobjects;
 
 import io.fluentlenium.core.FluentPage;
 import org.assertj.core.api.AbstractAssert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -23,7 +24,10 @@ import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElements;
 
 abstract class BasePage<
         PageObject extends BasePage<PageObject, PageAssert>,
@@ -47,14 +51,6 @@ abstract class BasePage<
         return (PageObject) this;
     }
 
-    private String getBaseUrl(final int port) {
-        return format(BASE_URL, port);
-    }
-
-    String pageTitle() {
-        return getDriver().getTitle();
-    }
-
     @SuppressWarnings("unchecked")
     public PageAssert assertThat() {
         try {
@@ -69,14 +65,49 @@ abstract class BasePage<
         return null;
     }
 
+    private String getBaseUrl(final int port) {
+        return format(BASE_URL, port);
+    }
+
+    @SuppressWarnings("unused")
+    String pageTitle() {
+        return getDriver().getTitle();
+    }
+
     void clearAndFill(final String id, final String value) {
         final WebElement element = getWebElementWithFluentWait(id);
+        element.clear();
         element.sendKeys(value);
     }
 
     void editText(final String id, final String value) {
-        final WebElement element = getWebElementWithFluentWait(id);
-        element.sendKeys(value);
+        writeText(id(id), value);
+    }
+
+    //Write Text by using JAVA Generics (You can use both By or WebElement)
+    <T> void writeText(T elementAttr, String text) {
+        waitElement(elementAttr);
+        if (isBy(elementAttr)) {
+            getFluentWait().until(presenceOfAllElementsLocatedBy((By) elementAttr));
+            getDriver()
+                    .findElement((By) elementAttr)
+                    .sendKeys(text);
+        } else {
+            getFluentWait().until(visibilityOf((WebElement) elementAttr));
+            ((WebElement) elementAttr).sendKeys(text);
+        }
+    }
+
+    //Read Text by using JAVA Generics (You can use both By or WebElement)
+    @SuppressWarnings("unused")
+    <T> String readText(T elementAttr) {
+        if (isBy(elementAttr)) {
+            return getDriver()
+                    .findElement((By) elementAttr)
+                    .getText();
+        } else {
+            return ((WebElement) elementAttr).getText();
+        }
     }
 
     void clickId(@SuppressWarnings("SameParameterValue") final String id) {
@@ -131,14 +162,42 @@ abstract class BasePage<
         return (errors.size() > 0) && errors.get(0).isDisplayed();
     }
 
+    <T> WebElement waitElement(T elementAttr) {
+        if (isBy(elementAttr)) {
+            return getFluentWait().until(presenceOfElementLocated((By) elementAttr));
+        } else {
+            return getFluentWait().until(visibilityOf((WebElement) elementAttr));
+        }
+    }
+
+    @SuppressWarnings("unused")
+    <T> void waitElements(T elementAttr) {
+        if (isBy(elementAttr)) {
+            getFluentWait().until(presenceOfAllElementsLocatedBy((By) elementAttr));
+        } else {
+            getFluentWait().until(visibilityOfAllElements((WebElement) elementAttr));
+        }
+    }
+
+    private static <T> boolean isBy(T elementAttr) {
+        return elementAttr
+                .getClass()
+                .getName()
+                .contains("By");
+    }
+
     private WebElement getWebElementWithFluentWait(String id) {
-        return fluentWaitIgnoringNoSuchElementException().until(visibilityOfElementLocated(id(id)));
+        return waitElement(id(id));
     }
 
     private FluentWait<WebDriver> fluentWaitIgnoringNoSuchElementException() {
+        return getFluentWait().ignoring(NoSuchElementException.class);
+    }
+
+    // TODO: Try to make it a bean in WebDriverWaitConfig and autowire it here somehow
+    private FluentWait<WebDriver> getFluentWait() {
         return new FluentWait<>(getDriver())
                 .withTimeout(ofSeconds(10))
-                .pollingEvery(ofMillis(10))
-                .ignoring(NoSuchElementException.class);
+                .pollingEvery(ofMillis(10));
     }
 }
