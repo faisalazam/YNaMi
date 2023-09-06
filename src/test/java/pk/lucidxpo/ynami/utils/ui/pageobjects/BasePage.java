@@ -39,14 +39,9 @@ abstract class BasePage<
      */
     protected abstract ExpectedCondition<?> getPageLoadCondition();
 
-    /**
-     * Provides page relative URL/
-     */
-    protected abstract String getPageUrl();
-
     @SuppressWarnings("unchecked")
     public PageObject openPage(final int port) {
-        goTo(getBaseUrl(port) + getPageUrl());
+        goTo(getBaseUrl(port) + getUrl());
         final ExpectedCondition<?> pageLoadCondition = getPageLoadCondition();
         waitForPageToLoad(pageLoadCondition);
         return (PageObject) this;

@@ -1,6 +1,7 @@
 package pk.lucidxpo.ynami.utils.ui.pageobjects;
 
 import io.fluentlenium.core.annotation.Page;
+import io.fluentlenium.core.annotation.PageUrl;
 import io.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -8,6 +9,7 @@ import pk.lucidxpo.ynami.utils.ui.pageasserts.LoginPageAssert;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
+@PageUrl("/login")
 public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     @Page
     private HomePage homePage;
@@ -59,10 +61,5 @@ public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     @Override
     public ExpectedCondition<Boolean> getPageLoadCondition() {
         return titleIs("Why Not Me!!! - Login Demo");
-    }
-
-    @Override
-    public String getPageUrl() {
-        return "/login";
     }
 }
