@@ -93,7 +93,9 @@ public class WebDriverConfig {
         webDriverManager
                 .capabilities(options)
                 .setup();
-        return webDriverManager.create();
+        final WebDriver driver = webDriverManager.create();
+        driver.manage().timeouts().implicitlyWait(ofSeconds(TIMEOUT));
+        return driver;
     }
 
     @Primary

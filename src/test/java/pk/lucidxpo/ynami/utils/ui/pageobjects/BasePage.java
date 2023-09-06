@@ -74,13 +74,13 @@ abstract class BasePage<
         return null;
     }
 
+    void clearAndFill(final String id, final String value) {
+        final WebElement element = getWebElementWithFluentWait(id);
+        element.sendKeys(value);
+    }
+
     void editText(final String id, final String value) {
-        final FluentWait<WebDriver> fluentWait = new FluentWait<>(getDriver());
-        final WebElement element = fluentWait
-                .withTimeout(ofSeconds(10))
-                .pollingEvery(ofMillis(10))
-                .ignoring(NoSuchElementException.class)
-                .until(visibilityOfElementLocated(id(id)));
+        final WebElement element = getWebElementWithFluentWait(id);
         element.sendKeys(value);
     }
 
@@ -105,11 +105,7 @@ abstract class BasePage<
 
     @SuppressWarnings("unused")
     void acceptAlert() {
-        final FluentWait<WebDriver> fluentWait = new FluentWait<>(getDriver());
-        fluentWait.withTimeout(ofSeconds(10))
-                .pollingEvery(ofMillis(10))
-                .ignoring(NoSuchElementException.class)
-                .until(alertIsPresent());
+        fluentWaitIgnoringNoSuchElementException().until(alertIsPresent());
         getDriver().switchTo().alert().accept();
     }
 
@@ -138,5 +134,16 @@ abstract class BasePage<
         final List<WebElement> errors = getDriver()
                 .findElements(className("error"));
         return (errors.size() > 0) && errors.get(0).isDisplayed();
+    }
+
+    private WebElement getWebElementWithFluentWait(String id) {
+        return fluentWaitIgnoringNoSuchElementException().until(visibilityOfElementLocated(id(id)));
+    }
+
+    private FluentWait<WebDriver> fluentWaitIgnoringNoSuchElementException() {
+        return new FluentWait<>(getDriver())
+                .withTimeout(ofSeconds(10))
+                .pollingEvery(ofMillis(10))
+                .ignoring(NoSuchElementException.class);
     }
 }

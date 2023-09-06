@@ -12,6 +12,9 @@ public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     @Page
     private HomePage homePage;
 
+    // TODO: These @FindBy are not working or intermittently working/failing, see if we can get them working; but for
+    //  now, performing actions on elements directly. They result in SearchContext is null even though the WebDriver
+    //  is not null.
     @FindBy(id = "login-username")
     private FluentWebElement username;
     @FindBy(id = "login-password")
@@ -20,19 +23,23 @@ public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     private FluentWebElement submitButton;
 
     public LoginPage username(final String text) {
-        username.clear();
-        username.fill().with(text);
+//        TODO: SEE if @FindBy can be functional
+//        username.clear();
+//        username.fill().with(text);
+        clearAndFill("login-username", text);
         return this;
     }
 
     public LoginPage password(final String text) {
-        password.clear();
-        password.fill().with(text);
+//        password.clear();
+//        password.fill().with(text);
+        clearAndFill("login-password", text);
         return this;
     }
 
     public HomePage submit() {
-        submitButton.click();
+//        submitButton.click();
+        clickId("login-btn");
         return homePage.iAmOnHomePage();
     }
 
