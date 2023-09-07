@@ -180,18 +180,28 @@ jobs:
           name: 'Acceptance-Selenium Tests'' Report'
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
-#  penetration-tests:
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
-#        uses: './.github/actions/install-java'
-#        with:
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Run the penetration tests'
-#        run: mvn clean test -P pt --file pom.xml
+  penetration-tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Set up MySQL'
+        run: sudo systemctl start mysql
+      - name: 'MySQL Version'
+        run: mysql --version
+      - name: 'Google Chrome / Driver Info'
+        run: |
+          google-chrome --version
+          which google-chrome
+          chromedriver --version
+          which chromedriver
+      - name: 'Run the penetration tests'
+        run: browser=chrome headless_mode=true environment=CI mvn clean test -P pt,mysql --file pom.xml
 
 #  upload-artifacts:
 #    runs-on: ubuntu-22.04
