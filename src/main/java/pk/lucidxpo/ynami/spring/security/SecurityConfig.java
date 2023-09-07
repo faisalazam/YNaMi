@@ -9,14 +9,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import pk.lucidxpo.ynami.spring.aspect.FeatureAssociation;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 import pk.lucidxpo.ynami.utils.ProfileManager;
 
+import static org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
@@ -123,9 +126,16 @@ public class SecurityConfig {
 
     // TODO: do I need @FeatureAssociation(value = WEB_SECURITY) it here???
     public void setupH2ConsoleSecurity(final HttpSecurity http) throws Exception {
+        final RequestMatcher h2PathMatcher = new AntPathRequestMatcher(h2ConsolePattern);
+        final XFrameOptionsHeaderWriter sameOriginXFrameHeaderWriter = new XFrameOptionsHeaderWriter(SAMEORIGIN);
+        // DelegatingRequestMatcherHeaderWriter is used to apply the XFrame header only to the h2 path. On the other
+        // hand, if we had used .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)),
+        // then it'd have applied the XFrame header to all the paths/urls.
+        final DelegatingRequestMatcherHeaderWriter headerWriter =
+                new DelegatingRequestMatcherHeaderWriter(h2PathMatcher, sameOriginXFrameHeaderWriter);
         http
-                .authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher(h2ConsolePattern)).permitAll())
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .authorizeHttpRequests(auth -> auth.requestMatchers(h2PathMatcher).permitAll())
+                .headers(headers -> headers.addHeaderWriter(headerWriter))
         ;
     }
 
