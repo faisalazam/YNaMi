@@ -8,8 +8,8 @@ interface ZapBoot {
      * Starts ZAP.
      * <p>
      * It should throw {@link ZapInitializationTimeoutException}
-     * in case ZAP is not started before a timeout, defined by {@link ZapInfo.initializationTimeoutInMillis}
-     * (the default value is {@link ZapInfo.DEFAULT_INITIALIZATION_TIMEOUT_IN_MILLIS}).
+     * in case ZAP is not started before a timeout, defined by {@link ZapInfo#getInitializationTimeoutInMillis}
+     * (the default value is {@link ZapInfo#DEFAULT_INITIALIZATION_TIMEOUT_IN_MILLIS}).
      *
      * @param zapInfo an object with all the information needed to start ZAP.
      */

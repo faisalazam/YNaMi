@@ -154,13 +154,14 @@ public class DriverFactory {
 //        webDriverManager.setup();
 //        final WebDriver driver = webDriverManager.create();
 //        driver.manage().timeouts().implicitlyWait(ofSeconds(TIMEOUT));
+        final Config instance = Config.getInstance();
         // default setting will be headless mode
         final String headlessMode = getenv(HEADLESS_MODE);
         final boolean runInHeadlessMode = headlessMode == null || TRUE.equals(valueOf(headlessMode));
         return new ChromeWebDriverBuilder()
-                .withProxy(getProxy())
                 .withAcceptInsecureCerts(true)
                 .withHeadlessMode(runInHeadlessMode)
+                .withSslHttpProxy(instance.getProxyHost(), instance.getProxyPort())
                 .build();
     }
 

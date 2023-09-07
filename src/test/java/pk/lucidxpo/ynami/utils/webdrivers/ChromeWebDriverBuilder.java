@@ -13,7 +13,6 @@ import static java.time.Duration.ofSeconds;
 public class ChromeWebDriverBuilder {
     private final static int TIMEOUT = 10;
     private static final String CI = "CI";
-    private static final String PROXY = "proxy";
     private static final String HEADLESS = "--headless";
     private static final String TEST_TYPE = "--test-type";
     private static final String ENVIRONMENT = "environment";
@@ -65,10 +64,11 @@ public class ChromeWebDriverBuilder {
         return this;
     }
 
-    public ChromeWebDriverBuilder withProxy(final Proxy proxy) {
+    public ChromeWebDriverBuilder withSslHttpProxy(final String proxyHost, final int proxyPort) {
+        final Proxy proxy = new Proxy();
+        proxy.setSslProxy(proxyHost + ":" + proxyPort);
+        proxy.setHttpProxy(proxyHost + ":" + proxyPort);
         options.setProxy(proxy);
-// TODO see if need to set capability as well for Proxy setting
-//        options.setCapability(PROXY, proxy);
         return this;
     }
 
