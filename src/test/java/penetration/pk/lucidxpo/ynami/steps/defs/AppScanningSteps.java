@@ -69,12 +69,12 @@ public class AppScanningSteps {
         getScanner().disableAllScanners();
     }
 
-    @When("the XML report is written to the file (.*)")
+    @When("the XML report is written to the file {}")
     public void theXmlReportIsWrittenToTheFile(final String path) throws Exception {
         writeReport(path, scanner.getXmlReport());
     }
 
-    @Then("the HTML report is written to the file (.*)")
+    @Then("the HTML report is written to the file {}")
     public void theHtmlReportIsWrittenToTheFile(final String path) throws Exception {
         writeReport(path, scanner.getHtmlReport());
     }
