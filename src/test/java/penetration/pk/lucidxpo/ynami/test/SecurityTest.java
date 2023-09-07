@@ -44,9 +44,11 @@ public class SecurityTest {
 
     private static final String CUCUMBER_STEP_DEFS_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.defs";
     private static final String CUCUMBER_CONTEXT_LOADER = "penetration.pk.lucidxpo.ynami.config.cucumber";
-    //    private static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
+    private static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
 
-    static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEP_DEFS_PACKAGE + ", " + CUCUMBER_CONTEXT_LOADER;
+    static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEP_DEFS_PACKAGE
+            + ", " + CUCUMBER_STEPS_CONFIG_PACKAGE
+            + ", " + CUCUMBER_CONTEXT_LOADER;
 
     static final String CUCUMBER_REPORTING_PLUGINS = "pretty"
             + ", " + PEN_TESTS_JSON_REPORT
