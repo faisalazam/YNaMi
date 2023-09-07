@@ -158,6 +158,7 @@ public abstract class AbstractZapBoot implements ZapBoot {
             if (currentTimeMillis() - startUpTime > timeoutInMillis) {
                 final String message = "ZAP did not start before the timeout (" + timeoutInMillis + " ms).";
                 log.error(message);
+                Zap.stopZap();
                 throw new ZapInitializationTimeoutException(message);
             }
 
