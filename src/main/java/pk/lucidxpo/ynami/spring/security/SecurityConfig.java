@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pk.lucidxpo.ynami.spring.aspect.FeatureAssociation;
 import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
 import pk.lucidxpo.ynami.utils.ProfileManager;
@@ -25,6 +26,29 @@ public class SecurityConfig {
     static final String LOGOUT_URL = "/perform_logout";
     static final String LOGOUT_SUCCESS_URL = "/login?logout";
     static final String LOGIN_PROCESSING_URL = "/perform_login";
+
+    private static final AntPathRequestMatcher[] ENDPOINTS_WHITELIST = {
+            antMatcher("/css/**"),
+            antMatcher("/js/**"),
+            antMatcher("/img/**"),
+            antMatcher("/webjars/**"),
+            antMatcher("/favicon.ico") // 403 not working
+    };
+
+    /**
+     * Setting content security policy header to fix "Content Security Policy (CSP) Header Not Set" reported by ZAP.
+     * <p>
+     * The header value can be picked from the
+     * <a href="https://owasp.org/www-project-secure-headers/ci/headers_add.json"> HTTP response security headers to add</a>
+     */
+    private static final String CONTENT_POLICY_DIRECTIVES = "default-src 'self'"
+            + "; form-action 'self'"
+            + "; object-src 'none'"
+            + "; frame-ancestors 'none'"
+            + "; upgrade-insecure-requests"
+            + "; block-all-mixed-content"
+            + "; report-uri /report"
+            + "; report-to csp-violation-report";
 
     private final String h2ConsolePattern;
     private final ProfileManager profileManager;
@@ -47,6 +71,13 @@ public class SecurityConfig {
     @Bean
     // TODO: do I need @FeatureAssociation(value = WEB_SECURITY) it here???
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+        http
+                .headers(headers -> headers
+                        .contentSecurityPolicy(contentSecurityPolicy -> // TODO: add tests for contentSecurityPolicy header
+                                contentSecurityPolicy.policyDirectives(CONTENT_POLICY_DIRECTIVES)
+                        )
+                );
+
         // TODO: does this need to be inside any other condition?? Cover it through integration tests.
         if (profileManager.isH2Active()) {
             setupH2ConsoleSecurity(http);
@@ -54,20 +85,18 @@ public class SecurityConfig {
 
         if (!featureManager.isActive(WEB_SECURITY)) {
             return http
+                    // Spring's recommendation is to use CSRF protection for any request that could be processed by a
+                    // browser by normal users. If you are only creating a service that is used by non-browser clients,
+                    // you will likely want to disable CSRF protection. If our stateless API uses token-based
+                    // authentication, such as JWT, we don't need CSRF protection, and we must disable.
+                    // However, if our stateless API uses a session cookie authentication, we need to enable CSRF protection
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests((auth) -> auth.anyRequest().permitAll())
                     .build();
         }
 
         return http
-                .authorizeHttpRequests((auth) -> auth.requestMatchers(
-                                antMatcher("/css/**"),
-                                antMatcher("/js/**"),
-                                antMatcher("/img/**"),
-                                antMatcher("/webjars/**"),
-                                antMatcher("/favicon.ico") // 403 not working.
-                        ).permitAll()
-                )
+                .authorizeHttpRequests((auth) -> auth.requestMatchers(ENDPOINTS_WHITELIST).permitAll())
 
                 .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
 
