@@ -2,6 +2,7 @@
 Feature: Passive Application Security Scanning
   Navigate and spider the application and identify vulnerabilities passively using OWASP ZAP
 
+  @broken-since-zap-2.13.0
   Scenario: The application should not contain vulnerabilities identified using passive scanning
     Given a new scanning session
     And the navigation and spider status is reset

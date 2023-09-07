@@ -11,7 +11,7 @@ Feature: Session Management
     And the user is logged in
     Then the value of the session cookie issued after authentication should be different from that of the previously noted session ID
 
-  @cwe-613-logout
+  @cwe-613-logout @broken-since-zap-2.13.0
   Scenario: Invalidate the session when the user logs out
     Given a new browser or client instance
     When the default user logs in

@@ -21,7 +21,7 @@ Feature: Authentication
     And the HTTP request-response containing the login form
     Then the protocol should be HTTPS
 
-  @cwe-319-auth
+  @cwe-319-auth @broken-since-zap-2.13.0
   Scenario: Transmit authentication credentials over HTTPS
     Given a new browser or client instance
     And the client/browser is configured to use an intercepting proxy
@@ -30,7 +30,7 @@ Feature: Authentication
     And the HTTP request-response containing the default credentials is selected
     Then the protocol should be HTTPS
 
-  @cwe-525-repost
+  @cwe-525-repost @broken-since-zap-2.13.0
   Scenario: When authentication credentials are sent to the server, it should respond with a 3xx status code.
     Given a new browser instance
     And the client/browser is configured to use an intercepting proxy

@@ -5,30 +5,30 @@ Feature: SSL
   Background: Run the SSLyze command only once for all features
     When the SSLyze command is run against the application
 
-  @ssl_crime
+  @ssl_crime @broken-since-zap-2.13.0
   Scenario: Disable SSL deflate compression in order to mitigate the risk of the CRIME attack
     Then the output must contain the text "Compression disabled"
 
-  @ssl_client_renegotiations
+  @ssl_client_renegotiations @broken-since-zap-2.13.0
   Scenario: Disable client renegotiations
     Then the output must contain a line that matches .*Client-initiated Renegotiation?:\s+OK - Rejected.*
 
-  @ssl_heartbleed
+  @ssl_heartbleed @broken-since-zap-2.13.0
   Scenario: Patch OpenSSL against the Heartbleed vulnerability
     Then the output must contain a line that matches .*Not vulnerable to Heartbleed.*
 
-  @ssl_strong_cipher
+  @ssl_strong_cipher @broken-since-zap-2.13.0
   Scenario: The minimum cipher strength should meet requirements
     Then the minimum key size must be 128 bits
 
-  @ssl_disabled_protocols
+  @ssl_disabled_protocols @broken-since-zap-2.13.0
   Scenario: Disable weak SSL protocols due to numerous cryptographic weaknesses
     Then the following protocols must not be supported
       | SSLV1 |
       | SSLV2 |
       | SSLV3 |
 
-  @ssl_support_strong_protocols
+  @ssl_support_strong_protocols @broken-since-zap-2.13.0
   Scenario: Support TLSv1.2
     Then the following protocols must be supported
       | TLSV1_2 |

@@ -29,7 +29,7 @@ import static penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.gener
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = CUCUMBER_REPORTING_PLUGINS)
 public class SecurityTest {
     static final String CAMELCASE = "camelcase";
-    static final String TAGS = "not @wip and not @slow";
+    static final String TAGS = "not @wip and not @slow and not @broken-since-zap-2.13.0";
     static final String FEATURE_FILES_LOCATION = "cuke/security/features/";
 
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/security";

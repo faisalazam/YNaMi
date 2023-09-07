@@ -108,7 +108,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file build/zap/redirect.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-541
+  @cwe-541 @broken-since-zap-2.13.0
   Scenario: The application should not disclose source code
     And the source-code-disclosure policy is enabled
     And the attack strength is set to High
@@ -119,7 +119,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file build/zap/source_disclosure.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-78
+  @cwe-78 @broken-since-zap-2.13.0
   Scenario: The application should not be vulnerable to Shell Shock
     And the shell-shock policy is enabled
     And the attack strength is set to High
@@ -130,7 +130,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file build/zap/shell_shock.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-90
+  @cwe-90 @broken-since-zap-2.13.0
   Scenario: The application should not be vulnerable to LDAP injection
     And the ldap-injection policy is enabled
     And the attack strength is set to High
@@ -174,7 +174,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file build/zap/padding_oracle.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-200
+  @cwe-200 @broken-since-zap-2.13.0
   Scenario: The application should not expose insecure HTTP methods
     And the insecure-http-methods policy is enabled
     And the attack strength is set to High
