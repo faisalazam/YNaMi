@@ -139,6 +139,10 @@
         <target.site.directory>${project.reporting.outputDirectory}</target.site.directory>
         <tests.results.directory>${target.directory}/test-results</tests.results.directory>
 
+        <cucumber.reports.container.directory>
+            ${tests.results.directory}/cucumber-reports
+        </cucumber.reports.container.directory>
+
         <jacoco.execs.directory>${tests.results.directory}/jacoco-execs</jacoco.execs.directory>
         <jacoco.ut.exec>${jacoco.execs.directory}/ut.exec</jacoco.ut.exec>
         <jacoco.it.exec>${jacoco.execs.directory}/it.exec</jacoco.it.exec>
@@ -150,6 +154,7 @@
         <unit.tests.results.directory>${tests.results.directory}/unit-tests</unit.tests.results.directory>
         <integration.tests.results.directory>${tests.results.directory}/integration-tests</integration.tests.results.directory>
 
+        <cucumber.reports.directory />
         <surefire.jacoco.exec.file.name.arg />
         <failsafe.jacoco.exec.file.name.arg />
         <spring.datasource.type.jvmArguments />
@@ -705,8 +710,8 @@
                 <version>2.9.4</version>
                 <configuration>
                     <skip>${skip.cucumber.report.generation}</skip>
-                    <sourceJsonReportDirectory>target/test-results/cucumber-reports/acceptance/json</sourceJsonReportDirectory>
-                    <generatedHtmlReportDirectory>target/test-results/cucumber-reports/acceptance/generated-report</generatedHtmlReportDirectory>
+                    <sourceJsonReportDirectory>${cucumber.reports.container.directory}/${cucumber.reports.directory}/json</sourceJsonReportDirectory>
+                    <generatedHtmlReportDirectory>${cucumber.reports.container.directory}/${cucumber.reports.directory}/generated-report</generatedHtmlReportDirectory>
                     <startPage>ALL_SCENARIOS</startPage>
                     <expandStepHooks>true</expandStepHooks>
                     <expandDocStrings>true</expandDocStrings>
@@ -749,8 +754,8 @@
                         <configuration>
                             <projectName>${project.name}</projectName>
                             <skip>${skip.cucumber.report.generation}</skip>
-                            <inputDirectory>target/test-results/cucumber-reports/acceptance/json</inputDirectory>
-                            <outputDirectory>target/test-results/cucumber-reports/acceptance/generated-report-1</outputDirectory>
+                            <inputDirectory>${cucumber.reports.container.directory}/${cucumber.reports.directory}/json</inputDirectory>
+                            <outputDirectory>${cucumber.reports.container.directory}/${cucumber.reports.directory}/generated-report-1</outputDirectory>
                             <jsonFiles>
                                 <param>**/*.json</param>
                             </jsonFiles>
@@ -1067,6 +1072,7 @@
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>bdd.pk.lucidxpo.**/*Test.class</tests.to.execute>
+                <cucumber.reports.directory>acceptance</cucumber.reports.directory>
                 <skip.cucumber.report.generation>false</skip.cucumber.report.generation>
             </properties>
         </profile>
@@ -1081,6 +1087,7 @@
                 <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
+                <cucumber.reports.directory>acceptance</cucumber.reports.directory>
                 <skip.cucumber.report.generation>false</skip.cucumber.report.generation>
             </properties>
         </profile>
@@ -1091,6 +1098,8 @@
                 <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
+                <cucumber.reports.directory>security</cucumber.reports.directory>
+                <skip.cucumber.report.generation>false</skip.cucumber.report.generation>
                 <tests.to.execute>penetration.pk.lucidxpo.**/*Test.class</tests.to.execute>
             </properties>
         </profile>

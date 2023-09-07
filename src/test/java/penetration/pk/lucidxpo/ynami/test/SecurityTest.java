@@ -34,11 +34,12 @@ public class SecurityTest {
 
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/security";
     public static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
-    public static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
+    public static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json/cucumber.json";
 
     private static final String PEN_TESTS_JSON_REPORT = "json:" + CUCUMBER_JSON_REPORT_PATH;
     private static final String PEN_TESTS_JUNIT_REPORT = "junit:" + CUCUMBER_REPORTS_PATH + "/pen_tests.xml";
     private static final String CUCUMBER_HTML_REPORT = "html:" + CUCUMBER_HTML_REPORTS_PATH + "/cucumber.html";
+    private static final String CUCUMBER_RERUN_REPORT = "rerun:" + CUCUMBER_REPORTS_PATH + "/cucumber-api-rerun.txt";
 
     private static final String CUCUMBER_HOOKS_PACKAGE = "penetration.pk.lucidxpo.ynami.hooks";
     private static final String CUCUMBER_STEP_DEFS_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.defs";
@@ -52,6 +53,7 @@ public class SecurityTest {
 
     static final String CUCUMBER_REPORTING_PLUGINS = "pretty"
             + ", " + PEN_TESTS_JSON_REPORT
+            + ", " + CUCUMBER_RERUN_REPORT
             + ", " + PEN_TESTS_JUNIT_REPORT
             + ", " + CUCUMBER_HTML_REPORT;
 
