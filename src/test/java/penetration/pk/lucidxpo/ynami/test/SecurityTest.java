@@ -1,6 +1,6 @@
 package penetration.pk.lucidxpo.ynami.test;
 
-import org.junit.jupiter.api.AfterAll;
+import io.cucumber.java.AfterAll;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
@@ -18,8 +18,6 @@ import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_REPORTING
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.FEATURE_FILES_LOCATION;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.TAGS;
 import static penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.generateReports;
-import static penetration.pk.lucidxpo.ynami.web.drivers.DriverFactory.quitAll;
-import static penetration.pk.lucidxpo.ynami.zaputils.boot.Zap.stopZap;
 
 @Suite
 @IncludeEngines("cucumber")
@@ -35,19 +33,21 @@ public class SecurityTest {
     static final String FEATURE_FILES_LOCATION = "cuke/security/features/";
 
     private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/security";
-    private static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
-    private static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
+    public static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
+    public static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json-report.json";
 
     private static final String PEN_TESTS_JSON_REPORT = "json:" + CUCUMBER_JSON_REPORT_PATH;
     private static final String PEN_TESTS_JUNIT_REPORT = "junit:" + CUCUMBER_REPORTS_PATH + "/pen_tests.xml";
     private static final String CUCUMBER_HTML_REPORT = "html:" + CUCUMBER_HTML_REPORTS_PATH + "/cucumber.html";
 
+    private static final String CUCUMBER_HOOKS_PACKAGE = "penetration.pk.lucidxpo.ynami.hooks";
     private static final String CUCUMBER_STEP_DEFS_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.defs";
     private static final String CUCUMBER_CONTEXT_LOADER = "penetration.pk.lucidxpo.ynami.config.cucumber";
     private static final String CUCUMBER_STEPS_CONFIG_PACKAGE = "penetration.pk.lucidxpo.ynami.steps.config";
 
     static final String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEP_DEFS_PACKAGE
             + ", " + CUCUMBER_STEPS_CONFIG_PACKAGE
+            + ", " + CUCUMBER_HOOKS_PACKAGE
             + ", " + CUCUMBER_CONTEXT_LOADER;
 
     static final String CUCUMBER_REPORTING_PLUGINS = "pretty"
