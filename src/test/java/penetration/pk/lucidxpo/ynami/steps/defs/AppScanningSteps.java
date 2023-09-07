@@ -207,17 +207,15 @@ public class AppScanningSteps {
     }
 
     private void assertNoHigherRiskVulnerabilitiesPresent(final String risk) {
-        final List<Alert> filteredAlerts;
-        Risk riskLevel = High;
-
-        if ("HIGH".equalsIgnoreCase(risk)) {
-            riskLevel = High;
-        } else if ("MEDIUM".equalsIgnoreCase(risk)) {
+        final Risk riskLevel;
+        if ("MEDIUM".equalsIgnoreCase(risk)) {
             riskLevel = Medium;
         } else if ("LOW".equalsIgnoreCase(risk)) {
             riskLevel = Low;
+        } else {
+            riskLevel = High;
         }
-        filteredAlerts = getAllAlertsByRiskRating(alerts, riskLevel);
+        final List<Alert> filteredAlerts = getAllAlertsByRiskRating(alerts, riskLevel);
         final String details = getAlertDetails(filteredAlerts);
 
         assertThat(filteredAlerts.size() + " " + risk + " vulnerabilities found.\nDetails:\n" + details, filteredAlerts.size(),
@@ -256,75 +254,28 @@ public class AppScanningSteps {
 
     private void enableScanners(final String policyName) {
         switch (policyName.toLowerCase()) {
-            case "directory-browsing":
-                scannerIds = "0";
-                break;
-            case "cross-site-scripting":
-                scannerIds = "40012,40014,40016,40017";
-                break;
-            case "sql-injection":
-                scannerIds = "40018";
-                break;
-            case "path-traversal":
-                scannerIds = "6";
-                break;
-            case "remote-file-inclusion":
-                scannerIds = "7";
-                break;
-            case "server-side-include":
-                scannerIds = "40009";
-                break;
-            case "script-active-scan-rules":
-                scannerIds = "50000";
-                break;
-            case "server-side-code-injection":
-                scannerIds = "90019";
-                break;
-            case "remote-os-command-injection":
-                scannerIds = "90020";
-                break;
-            case "external-redirect":
-                scannerIds = "20019";
-                break;
-            case "crlf-injection":
-                scannerIds = "40003";
-                break;
-            case "source-code-disclosure":
-                scannerIds = "42,10045,20017";
-                break;
-            case "shell-shock":
-                scannerIds = "10048";
-                break;
-            case "remote-code-execution":
-                scannerIds = "20018";
-                break;
-            case "ldap-injection":
-                scannerIds = "40015";
-                break;
-            case "xpath-injection":
-                scannerIds = "90021";
-                break;
-            case "xml-external-entity":
-                scannerIds = "90023";
-                break;
-            case "padding-oracle":
-                scannerIds = "90024";
-                break;
-            case "el-injection":
-                scannerIds = "90025";
-                break;
-            case "insecure-http-methods":
-                scannerIds = "90028";
-                break;
-            case "parameter-pollution":
-                scannerIds = "20014";
-                break;
-            default:
-                throw new RuntimeException("No policy found for: " + policyName);
-
-        }
-        if (scannerIds == null) {
-            throw new UnexpectedContentException("No matching policy found for: " + policyName);
+            case "directory-browsing" -> scannerIds = "0";
+            case "cross-site-scripting" -> scannerIds = "40012,40014,40016,40017";
+            case "sql-injection" -> scannerIds = "40018";
+            case "path-traversal" -> scannerIds = "6";
+            case "remote-file-inclusion" -> scannerIds = "7";
+            case "server-side-include" -> scannerIds = "40009";
+            case "script-active-scan-rules" -> scannerIds = "50000";
+            case "server-side-code-injection" -> scannerIds = "90019";
+            case "remote-os-command-injection" -> scannerIds = "90020";
+            case "external-redirect" -> scannerIds = "20019";
+            case "crlf-injection" -> scannerIds = "40003";
+            case "source-code-disclosure" -> scannerIds = "42,10045,20017";
+            case "shell-shock" -> scannerIds = "10048";
+            case "remote-code-execution" -> scannerIds = "20018";
+            case "ldap-injection" -> scannerIds = "40015";
+            case "xpath-injection" -> scannerIds = "90021";
+            case "xml-external-entity" -> scannerIds = "90023";
+            case "padding-oracle" -> scannerIds = "90024";
+            case "el-injection" -> scannerIds = "90025";
+            case "insecure-http-methods" -> scannerIds = "90028";
+            case "parameter-pollution" -> scannerIds = "20014";
+            default -> throw new UnexpectedContentException("No matching policy found for: " + policyName);
         }
         getScanner().setEnableScanners(scannerIds, true);
     }
@@ -408,9 +359,6 @@ public class AppScanningSteps {
         if (!first.getUrl().equals(second.getUrl())) {
             return false;
         }
-        if (!first.matches(second)) {
-            return false;
-        }
-        return true;
+        return first.matches(second);
     }
 }
