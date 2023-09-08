@@ -12,10 +12,12 @@ import static io.cucumber.core.options.Constants.FILTER_TAGS_PROPERTY_NAME;
 import static io.cucumber.core.options.Constants.GLUE_PROPERTY_NAME;
 import static io.cucumber.core.options.Constants.PLUGIN_PROPERTY_NAME;
 import static io.cucumber.core.options.Constants.SNIPPET_TYPE_PROPERTY_NAME;
+import static io.cucumber.junit.platform.engine.Constants.JUNIT_PLATFORM_NAMING_STRATEGY_PROPERTY_NAME;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CAMELCASE;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_GLUE_LOCATION;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_REPORTING_PLUGINS;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.FEATURE_FILES_LOCATION;
+import static penetration.pk.lucidxpo.ynami.test.SecurityTest.NAMING_STRATEGY;
 import static penetration.pk.lucidxpo.ynami.test.SecurityTest.TAGS;
 import static penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.generateReports;
 
@@ -23,12 +25,14 @@ import static penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.gener
 @IncludeEngines("cucumber")
 @SelectClasspathResource(FEATURE_FILES_LOCATION)
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = TAGS)
-// Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE
 @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = CAMELCASE)
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = CUCUMBER_GLUE_LOCATION)
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = CUCUMBER_REPORTING_PLUGINS)
+@ConfigurationParameter(key = JUNIT_PLATFORM_NAMING_STRATEGY_PROPERTY_NAME, value = NAMING_STRATEGY)
 public class SecurityTest {
+    // Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE
     static final String CAMELCASE = "camelcase";
+    static final String NAMING_STRATEGY = "long";
     static final String TAGS = "not @wip and not @slow and not @broken-since-zap-2.13.0";
     static final String FEATURE_FILES_LOCATION = "cuke/security/features/";
 
