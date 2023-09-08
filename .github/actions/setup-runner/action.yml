@@ -1,0 +1,37 @@
+name: 'Setup GitHub Runner with Java and MySQL'
+description: 'composite run action'
+
+inputs:
+  WITH_MYSQL:
+    default: 'FALSE'
+    description: 'MySQL will be started if the value is TRUE'
+  WITH_GOOGLE_CHROME_INFO:
+    default: 'FALSE'
+    description: 'Google Chrome info will be printed if the value is TRUE'
+  JAVA_VERSION_TO_INSTALL:
+    required: true
+    description: 'Java version to be installed'
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Set up the Oracle JDK `${{ inputs.JAVA_VERSION_TO_INSTALL }}`'
+      uses: './.github/actions/install-java'
+      with:
+        JAVA_VERSION_TO_INSTALL: ${{ inputs.JAVA_VERSION_TO_INSTALL }}
+    - name: 'Set up MySQL'
+      if: ${{ inputs.WITH_MYSQL == 'TRUE' }}
+      run: sudo systemctl start mysql
+      shell: bash
+    - name: 'MySQL Version'
+      if: ${{ inputs.WITH_MYSQL == 'TRUE' }}
+      run: mysql --version
+      shell: bash
+    - name: 'Google Chrome / Driver Info'
+      if: ${{ inputs.WITH_GOOGLE_CHROME_INFO == 'TRUE' }}
+      run: |
+        google-chrome --version
+        which google-chrome
+        chromedriver --version
+        which chromedriver
+      shell: bash
