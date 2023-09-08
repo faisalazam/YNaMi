@@ -45,7 +45,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
@@ -76,7 +76,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
@@ -103,7 +103,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
@@ -134,7 +134,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
@@ -176,7 +176,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
@@ -210,7 +210,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
@@ -247,7 +247,7 @@ jobs:
         if: success() || failure()
         uses: test-summary/action@v2
         with:
-          show: "all"
+          show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
