@@ -9,7 +9,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
@@ -92,15 +95,7 @@ public class SecurityConfig {
         }
 
         if (!featureManager.isActive(WEB_SECURITY)) {
-            return http
-                    // Spring's recommendation is to use CSRF protection for any request that could be processed by a
-                    // browser by normal users. If you are only creating a service that is used by non-browser clients,
-                    // you will likely want to disable CSRF protection. If our stateless API uses token-based
-                    // authentication, such as JWT, we don't need CSRF protection, and we must disable.
-                    // However, if our stateless API uses a session cookie authentication, we need to enable CSRF protection
-                    .csrf(AbstractHttpConfigurer::disable)
-                    .authorizeHttpRequests((auth) -> auth.anyRequest().permitAll())
-                    .build();
+            return configureInsecureAccess(http);
         }
 
         return http
@@ -111,19 +106,9 @@ public class SecurityConfig {
                 // One reason to override most of the defaults in Spring Security is to hide that the application
                 // is secured with Spring Security. We also want to minimize the information a potential attacker
                 // knows about the application.
-                .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage(LOGIN_PAGE_URL)
-                        // By overriding this default URL, we’re concealing that the application is actually secured
-                        // with Spring Security. This information should not be available externally.
-                        .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                        .permitAll()
-                        .failureUrl(LOGIN_FAILURE_URL)
-                )
+                .formLogin(this::configureFormLogin)
 
-                .logout(formLogoutConfigurer -> formLogoutConfigurer
-                        .logoutUrl(LOGOUT_URL)
-                        .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
-                )
+                .logout(this::configureFormLogout)
 
                 .build();
     }
@@ -148,6 +133,34 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(h2PathMatcher).permitAll())
                 .headers(headers -> headers.addHeaderWriter(headerWriter))
         ;
+    }
+
+    private DefaultSecurityFilterChain configureInsecureAccess(final HttpSecurity http) throws Exception {
+        return http
+                // Spring's recommendation is to use CSRF protection for any request that could be processed by a
+                // browser by normal users. If you are only creating a service that is used by non-browser clients,
+                // you will likely want to disable CSRF protection. If our stateless API uses token-based
+                // authentication, such as JWT, we don't need CSRF protection, and we must disable.
+                // However, if our stateless API uses a session cookie authentication, we need to enable CSRF protection
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((auth) -> auth.anyRequest().permitAll())
+                .build();
+    }
+
+    private void configureFormLogin(final FormLoginConfigurer<HttpSecurity> formLoginConfigurer) {
+        formLoginConfigurer
+                .loginPage(LOGIN_PAGE_URL)
+                // By overriding this default URL, we’re concealing that the application is actually secured
+                // with Spring Security. This information should not be available externally.
+                .loginProcessingUrl(LOGIN_PROCESSING_URL)
+                .permitAll()
+                .failureUrl(LOGIN_FAILURE_URL);
+    }
+
+    private void configureFormLogout(LogoutConfigurer<HttpSecurity> logoutConfigurer) {
+        logoutConfigurer
+                .logoutUrl(LOGOUT_URL)
+                .logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
 //    @Bean
