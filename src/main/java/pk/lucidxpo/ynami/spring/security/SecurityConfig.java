@@ -74,12 +74,14 @@ public class SecurityConfig {
     @Bean
     // TODO: do I need @FeatureAssociation(value = WEB_SECURITY) it here???
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
-        http
-                .headers(headers -> headers
-                        .contentSecurityPolicy(contentSecurityPolicy -> // TODO: add tests for contentSecurityPolicy header
-                                contentSecurityPolicy.policyDirectives(CONTENT_POLICY_DIRECTIVES)
-                        )
-                );
+//        TODO: might need this for a security fix mentioned by the ZAP/security tests but bdd/selenium tests fail with
+//        this, need a proper solution.
+//        http
+//                .headers(headers -> headers
+//                        .contentSecurityPolicy(contentSecurityPolicy -> // TODO: add tests for contentSecurityPolicy header
+//                                contentSecurityPolicy.policyDirectives(CONTENT_POLICY_DIRECTIVES)
+//                        )
+//                );
 
         // TODO: does this need to be inside any other condition?? Cover it through integration tests.
         if (profileManager.isH2Active()) {
