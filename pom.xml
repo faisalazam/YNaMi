@@ -140,7 +140,7 @@
         <tests.results.directory>${target.directory}/test-results</tests.results.directory>
 
         <cucumber.reports.container.directory>
-            ${tests.results.directory}/cucumber-reports
+            ${target.site.directory}/cucumber-reports
         </cucumber.reports.container.directory>
 
         <jacoco.execs.directory>${tests.results.directory}/jacoco-execs</jacoco.execs.directory>
@@ -1072,7 +1072,7 @@
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
                 <tests.to.execute>bdd.pk.lucidxpo.**/*Test.class</tests.to.execute>
-                <cucumber.reports.directory>acceptance</cucumber.reports.directory>
+                <cucumber.reports.directory>bdd</cucumber.reports.directory>
                 <skip.cucumber.report.generation>false</skip.cucumber.report.generation>
             </properties>
         </profile>
@@ -1087,7 +1087,7 @@
                 <jacoco.skip>true</jacoco.skip>
                 <skip.unit.tests>false</skip.unit.tests>
                 <skip.integration.tests>true</skip.integration.tests>
-                <cucumber.reports.directory>acceptance</cucumber.reports.directory>
+                <cucumber.reports.directory>bdd</cucumber.reports.directory>
                 <skip.cucumber.report.generation>false</skip.cucumber.report.generation>
             </properties>
         </profile>

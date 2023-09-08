@@ -36,7 +36,7 @@ public class SecurityTest {
     static final String TAGS = "not @wip and not @slow and not @broken-since-zap-2.13.0";
     static final String FEATURE_FILES_LOCATION = "cuke/security/features/";
 
-    private static final String CUCUMBER_REPORTS_PATH = "target/test-results/cucumber-reports/security";
+    private static final String CUCUMBER_REPORTS_PATH = "target/site/cucumber-reports/security";
     public static final String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + "/html";
     public static final String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + "/json/cucumber.json";
 
