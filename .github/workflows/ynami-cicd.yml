@@ -41,6 +41,12 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the unit tests'
         run: mvn -Djacoco.haltOnFailure=false clean test -Dmaven.test.failure.ignore=true -P ut --file pom.xml
+      - name: 'Unit Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -66,6 +72,12 @@ jobs:
         run: mysql --version
       - name: 'Run the migration tests'
         run: mvn clean test -Dmaven.test.failure.ignore=true -P mt --file pom.xml
+      - name: 'Migration Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -87,6 +99,12 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the integration tests'
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
+      - name: 'Integration Tests'' with H2 - Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -112,6 +130,12 @@ jobs:
         run: mysql --version
       - name: 'Run the integration tests'
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
+      - name: 'Integration Tests'' with MySQL - Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -148,6 +172,17 @@ jobs:
           which chromedriver
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
+      - name: 'BDD Cucumber Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
 
   acceptance-selenium-tests:
     runs-on: ubuntu-22.04
@@ -171,6 +206,12 @@ jobs:
           which chromedriver
       - name: 'Run the acceptance-selenium tests'
         run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
+      - name: 'Acceptance-Selenium Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -202,6 +243,17 @@ jobs:
           which chromedriver
       - name: 'Run the penetration tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P pt,mysql --file pom.xml
+      - name: 'Penetration Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "all"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
 
 #  upload-artifacts:
 #    runs-on: ubuntu-22.04
