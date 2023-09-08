@@ -4,6 +4,7 @@ env:
   JAVA_VERSION: 20
   MYSQL_VERSION: 8.0
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
+  TESTS_UPLOADED_ARTIFACTS_DIR: 'test-results'
   UNIT_TESTS_XMLS_DIR: 'target/test-results/unit-tests/*.xml'
   INTEGRATION_TESTS_XMLS_DIR: 'target/test-results/integration-tests/*.xml'
 
@@ -47,11 +48,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/test-results               # Path to test report
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -83,11 +84,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/test-results               # Path to test report
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -147,11 +148,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/test-results               # Path to test report
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -228,11 +229,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/test-results               # Path to test report
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -276,13 +277,3 @@ jobs:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
 
-#  upload-artifacts:
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v3
-#        if: success() || failure()
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target                            # Path to test results
