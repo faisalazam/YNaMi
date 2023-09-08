@@ -66,10 +66,5 @@ public class SecurityTest {
         // TODO: do I need to generate reports explicitly? I think the ones generated through maven will be good enough.
         //  Or consider combining the reports from cluecumber-report-plugin and maven-cucumber-reporting plugins.
         generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
-
-//    TODO: See how we can enable the following method which got commented after all these upgrades???
-//    connection is coming from CucumberContextConfigurationLoader
-//        connection.close();
-//        ((AnnotationConfigServletWebServerApplicationContext) applicationContext).close();
     }
 }
