@@ -47,6 +47,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the Jacoco execs to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}/jacoco-execs # Name of the folder
+          path: target/test-results/jacoco-execs               # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -136,6 +141,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the Jacoco execs to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}/jacoco-execs # Name of the folder
+          path: target/test-results/jacoco-execs               # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
