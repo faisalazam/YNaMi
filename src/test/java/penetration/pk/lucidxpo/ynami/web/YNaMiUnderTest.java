@@ -11,6 +11,7 @@ import penetration.pk.lucidxpo.ynami.model.UserPassCredentials;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 import static penetration.pk.lucidxpo.ynami.config.Config.getInstance;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PAGE_URL;
 
 public class YNaMiUnderTest extends WebApplication implements ILogin, ILogout, INavigable {
     @Override
@@ -21,7 +22,11 @@ public class YNaMiUnderTest extends WebApplication implements ILogin, ILogout, I
 
     @Override
     public void openLoginPage() {
-        driver.get(getInstance().getBaseUrl() + "login");
+        //noinspection ConstantValue
+        driver.get(
+                getInstance().getBaseUrl()
+                        + (LOGIN_PAGE_URL.startsWith("/") ? LOGIN_PAGE_URL.substring(1) : LOGIN_PAGE_URL)
+        );
         findAndWaitForElement(id("login-username"));
     }
 
