@@ -60,7 +60,7 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
     @Test
     @DisabledIf(expression = "#{environment.acceptsProfiles('h2')}", loadContext = true)
     void shouldVerifyH2HeadersWhenH2ProfileIsInActive(
-            @Value("${spring.h2.console.path:h2-console}") final String h2ConsolePath) throws Exception {
+            @Value("${spring.h2.console.path:/h2-console}") final String h2ConsolePath) throws Exception {
         final ResultActions actions = mockMvc.perform(get(h2ConsolePath));
         assertHeadersExcludingXFrameOptions(actions)
                 .andExpect(header().string("X-Frame-Options", is(DENY.name())));
@@ -69,7 +69,7 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
     @Test
     @EnabledIf(expression = "#{environment.acceptsProfiles('h2')}", loadContext = true)
     void shouldVerifyH2HeadersWhenH2ProfileIsActive(
-            @Value("${spring.h2.console.path:h2-console}") final String h2ConsolePath) throws Exception {
+            @Value("${spring.h2.console.path:/h2-console}") final String h2ConsolePath) throws Exception {
         final ResultActions actions = mockMvc.perform(get(h2ConsolePath));
         assertHeadersExcludingXFrameOptions(actions)
                 .andExpect(header().string("X-Frame-Options", is(SAMEORIGIN.name())));

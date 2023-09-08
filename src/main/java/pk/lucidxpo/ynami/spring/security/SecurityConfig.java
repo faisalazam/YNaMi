@@ -58,7 +58,7 @@ public class SecurityConfig {
     private final FeatureManagerWrappable featureManager;
 
     @Autowired
-    public SecurityConfig(@Value("${spring.h2.console.path:h2-console}") final String h2ConsolePath,
+    public SecurityConfig(@Value("${spring.h2.console.path:/h2-console}") final String h2ConsolePath,
                           final ProfileManager profileManager,
                           final FeatureManagerWrappable featureManager) {
         this.profileManager = profileManager;

@@ -708,7 +708,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class H2ConsoleSecurityConfig {
     final String h2ConsolePattern;
 
-    public H2ConsoleSecurityConfig(@Value("${spring.h2.console.path:h2-console}") String h2ConsolePath) {
+    public H2ConsoleSecurityConfig(@Value("${spring.h2.console.path:/h2-console}") String h2ConsolePath) {
         this.h2ConsolePattern = h2ConsolePath + "/**";
     }
 
