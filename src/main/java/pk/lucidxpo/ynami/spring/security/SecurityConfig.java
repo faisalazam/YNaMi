@@ -30,6 +30,7 @@ public class SecurityConfig {
     static final String LOGOUT_SUCCESS_URL = "/login?logout";
     static final String LOGIN_PROCESSING_URL = "/perform_login";
 
+    private static final String LOGIN_URL = "/login";
     private static final AntPathRequestMatcher[] ENDPOINTS_WHITELIST = {
             antMatcher("/css/**"),
             antMatcher("/js/**"),
@@ -63,7 +64,7 @@ public class SecurityConfig {
                           final FeatureManagerWrappable featureManager) {
         this.profileManager = profileManager;
         this.featureManager = featureManager;
-        this.h2ConsolePattern = h2ConsolePath + "/**";
+        this.h2ConsolePattern = h2ConsolePath.endsWith("/") ? h2ConsolePath + "**" : h2ConsolePath + "/**";
     }
 
     @Bean
@@ -106,7 +107,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
 
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage("/login")
+                        .loginPage(LOGIN_URL)
                         .loginProcessingUrl(LOGIN_PROCESSING_URL)
                         .permitAll()
                 )
