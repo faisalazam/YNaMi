@@ -13,5 +13,5 @@ Feature: Passive Application Security Scanning
     And the application is spidered
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/passive.xml
+    And the XML report is written to the file target/zap/zap-reports/passive.xml
     Then no Medium or higher risk vulnerabilities should be present

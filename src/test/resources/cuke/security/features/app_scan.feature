@@ -17,7 +17,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/sql_injection.xml
+    And the XML report is written to the file target/zap/zap-reports/sql_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-79
@@ -28,7 +28,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/xss.xml
+    And the XML report is written to the file target/zap/zap-reports/xss.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-22
@@ -39,7 +39,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/ssi.xml
+    And the XML report is written to the file target/zap/zap-reports/ssi.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-98
@@ -50,7 +50,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/sfi.xml
+    And the XML report is written to the file target/zap/zap-reports/sfi.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-97
@@ -61,7 +61,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/ssi.xml
+    And the XML report is written to the file target/zap/zap-reports/ssi.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-94
@@ -72,7 +72,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/ss_code_injection.xml
+    And the XML report is written to the file target/zap/zap-reports/ss_code_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-78
@@ -83,7 +83,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/os_injection.xml
+    And the XML report is written to the file target/zap/zap-reports/os_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-113
@@ -94,7 +94,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/crlf_injection.xml
+    And the XML report is written to the file target/zap/zap-reports/crlf_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-601
@@ -105,7 +105,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/redirect.xml
+    And the XML report is written to the file target/zap/zap-reports/redirect.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-541 @broken-since-zap-2.13.0
@@ -116,7 +116,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/source_disclosure.xml
+    And the XML report is written to the file target/zap/zap-reports/source_disclosure.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-78 @broken-since-zap-2.13.0
@@ -127,7 +127,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/shell_shock.xml
+    And the XML report is written to the file target/zap/zap-reports/shell_shock.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-90 @broken-since-zap-2.13.0
@@ -138,7 +138,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/ldap_injection.xml
+    And the XML report is written to the file target/zap/zap-reports/ldap_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-91
@@ -149,7 +149,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/xpath_injection.xml
+    And the XML report is written to the file target/zap/zap-reports/xpath_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-611
@@ -160,7 +160,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/xxe.xml
+    And the XML report is written to the file target/zap/zap-reports/xxe.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-209-poodle
@@ -171,7 +171,7 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/padding_oracle.xml
+    And the XML report is written to the file target/zap/zap-reports/padding_oracle.xml
     Then no Medium or higher risk vulnerabilities should be present
 
   @cwe-200 @broken-since-zap-2.13.0
@@ -182,5 +182,5 @@ Feature: Automated Application Security Scanning
     When the scanner is run
     And the following false positives are removed
       | url | parameter | cweId | wascId |
-    And the XML report is written to the file build/zap/insecure_methods.xml
+    And the XML report is written to the file target/zap/zap-reports/insecure_methods.xml
     Then no Medium or higher risk vulnerabilities should be present
