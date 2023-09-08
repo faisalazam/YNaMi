@@ -26,9 +26,9 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    public static final String LOGIN_PAGE_URL = "/login";
+    public static final String LOGIN_PAGE_URL = "/login.html";
     static final String LOGIN_PROCESSING_URL = "/perform_login";
-    public static final String LOGIN_FAILURE_URL = LOGIN_PAGE_URL + "?error";
+    public static final String LOGIN_FAILURE_URL = LOGIN_PAGE_URL + "?error=true";
 
     static final String LOGOUT_URL = "/perform_logout";
     static final String LOGOUT_SUCCESS_URL = LOGIN_PAGE_URL + "?logout";
@@ -108,10 +108,16 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
 
+                // One reason to override most of the defaults in Spring Security is to hide that the application
+                // is secured with Spring Security. We also want to minimize the information a potential attacker
+                // knows about the application.
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage(LOGIN_PAGE_URL)
+                        // By overriding this default URL, we’re concealing that the application is actually secured
+                        // with Spring Security. This information should not be available externally.
                         .loginProcessingUrl(LOGIN_PROCESSING_URL)
                         .permitAll()
+                        .failureUrl(LOGIN_FAILURE_URL)
                 )
 
                 .logout(formLogoutConfigurer -> formLogoutConfigurer
