@@ -44,6 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_FAILURE_URL;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PAGE_URL;
 import static pk.lucidxpo.ynami.utils.Identity.randomID;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getField;
 
@@ -89,7 +91,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
 
                     final MvcResult mvcResult = mockMvc.perform(requestBuilder.getValue())
                             .andExpect(unauthenticated())
-                            .andExpect(redirectedUrl("/login?error"))
+                            .andExpect(redirectedUrl(LOGIN_FAILURE_URL))
                             .andReturn();
                     final HttpSession session = mvcResult.getRequest().getSession();
                     assertNotNull(session);
@@ -160,7 +162,7 @@ class LoginLogoutSecurityConfigIntegrationTest extends AbstractIntegrationTest {
                     mockMvc.perform(requestBuilder.getValue())
                             .andExpect(unauthenticated())
                             .andExpect(status().is3xxRedirection())
-                            .andExpect(redirectedUrlPattern("**/login"));
+                            .andExpect(redirectedUrlPattern("**" + LOGIN_PAGE_URL));
                 }))
                 .collect(toList());
     }

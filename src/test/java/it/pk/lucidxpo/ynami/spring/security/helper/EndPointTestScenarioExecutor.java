@@ -11,6 +11,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PAGE_URL;
 
 class EndPointTestScenarioExecutor {
 
@@ -97,7 +98,7 @@ class EndPointTestScenarioExecutor {
                                                            final MockHttpServletRequestBuilder requestBuilder) throws Exception {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"))
+                .andExpect(redirectedUrlPattern("**" + LOGIN_PAGE_URL))
                 .andExpect(unauthenticated());
     }
 }

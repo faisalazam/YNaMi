@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PAGE_URL;
 import static pk.lucidxpo.ynami.utils.ReflectionHelper.getField;
 
 @Sql(executionPhase = BEFORE_TEST_METHOD,
@@ -47,7 +48,7 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
     void shouldVerifyThatAuthenticationIsRequiredWhenSecuredResourceIsAccessedUnauthenticated() throws Exception {
         mockMvc.perform(get("/samples"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(redirectedUrlPattern("**" + LOGIN_PAGE_URL));
     }
 
     @Test
@@ -87,7 +88,7 @@ class RedirectionSecurityIntegrationTest extends AbstractIntegrationTest {
         final MockHttpServletRequestBuilder securedResourceAccess = get("/samples");
         final MvcResult unauthenticatedResult = mockMvc.perform(securedResourceAccess)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"))
+                .andExpect(redirectedUrlPattern("**" + LOGIN_PAGE_URL))
                 .andExpect(unauthenticated())
                 .andReturn();
 

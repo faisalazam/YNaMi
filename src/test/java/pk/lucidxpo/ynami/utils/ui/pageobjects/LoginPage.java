@@ -10,8 +10,9 @@ import pk.lucidxpo.ynami.utils.ui.pageasserts.LoginPageAssert;
 
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static pk.lucidxpo.ynami.spring.security.SecurityConfig.LOGIN_PAGE_URL;
 
-@PageUrl("/login")
+@PageUrl(LOGIN_PAGE_URL)
 public class LoginPage extends BasePage<LoginPage, LoginPageAssert> {
     @Page
     private HomePage homePage;

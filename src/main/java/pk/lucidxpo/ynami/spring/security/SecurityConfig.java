@@ -26,11 +26,13 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    static final String LOGOUT_URL = "/perform_logout";
-    static final String LOGOUT_SUCCESS_URL = "/login?logout";
+    public static final String LOGIN_PAGE_URL = "/login";
     static final String LOGIN_PROCESSING_URL = "/perform_login";
+    public static final String LOGIN_FAILURE_URL = LOGIN_PAGE_URL + "?error";
 
-    private static final String LOGIN_URL = "/login";
+    static final String LOGOUT_URL = "/perform_logout";
+    static final String LOGOUT_SUCCESS_URL = LOGIN_PAGE_URL + "?logout";
+
     private static final AntPathRequestMatcher[] ENDPOINTS_WHITELIST = {
             antMatcher("/css/**"),
             antMatcher("/js/**"),
@@ -107,7 +109,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
 
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage(LOGIN_URL)
+                        .loginPage(LOGIN_PAGE_URL)
                         .loginProcessingUrl(LOGIN_PROCESSING_URL)
                         .permitAll()
                 )
