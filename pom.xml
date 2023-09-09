@@ -907,9 +907,9 @@
                     </execution>
                     <execution>
                         <id>after-integration-test-execution</id>
-                        <phase>post-integration-test</phase>
+                        <phase>integration-test</phase>
                         <goals>
-                            <goal>report</goal>
+                            <goal>report-integration</goal>
                         </goals>
                         <configuration>
                             <dataFile>${jacoco.it.exec}</dataFile>
@@ -918,7 +918,7 @@
                     </execution>
                     <execution>
                         <id>merge-unit-and-integration</id>
-                        <phase>post-integration-test</phase>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>merge</goal>
                         </goals>
@@ -936,7 +936,7 @@
                     </execution>
                     <execution>
                         <id>create-merged-report</id>
-                        <phase>post-integration-test</phase>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
