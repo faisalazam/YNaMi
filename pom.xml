@@ -704,6 +704,39 @@
                     <reportsDirectory>${integration.tests.results.directory}</reportsDirectory>
                 </configuration>
             </plugin>
+            <!-- Configuring the maven-surefire-report-plugin plugin here to bind the reporting goals to test phases,
+                 so that the tests' reports get generated right after the tests run has finished. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>unit-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                        <configuration>
+                            <reportsDirectories>
+                                <reportsDirectories>${unit.tests.results.directory}</reportsDirectories>
+                            </reportsDirectories>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>failsafe-report-only</goal>
+                        </goals>
+                        <configuration>
+                            <reportsDirectories>
+                                <reportsDirectories>${integration.tests.results.directory}</reportsDirectories>
+                            </reportsDirectories>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>com.trivago.rta</groupId>
                 <artifactId>cluecumber-report-plugin</artifactId>
