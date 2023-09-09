@@ -53,11 +53,6 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
-      - name: 'Uploads the test report to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/site                       # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -139,29 +134,19 @@ jobs:
         with:
           WITH_MYSQL: 'TRUE'
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-      - name: 'Download the test results'' artifacts'
-        uses: actions/download-artifact@v3
-        with:
-          path: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
-      - name: 'Copy the Jacoco execs artifacts into the `target` folder'
-        run: |
-          mkdir target
-          ls -lart ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
-          cp -r jacoco-execs target
-          ls -lart target
       - name: 'Run the integration tests'
-        run: mvn -Djacoco.haltOnFailure=false integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
+        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
       - name: 'Integration Tests'' with MySQL - Summary'
         if: success() || failure()
         uses: test-summary/action@v2
         with:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the test report to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/site                       # Path to test report
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -256,6 +241,44 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
+
+  site-generation:
+    runs-on: ubuntu-22.04
+    needs:
+      - unit-tests
+      - migration-tests
+      - integration-tests-mysql
+      - bdd-cucumber-tests
+      - acceptance-selenium-tests
+      - penetration-tests
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up GitHup runner'
+        uses: './.github/actions/setup-runner'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Download the test results'' artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
+          path: target
+      - name: 'Download the site artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
+          path: target/site
+      - name: 'Display structure of downloaded files'
+        run: ls -R
+        working-directory: target
+      - name: 'Generate project site'
+        run: mvn site -P nt --file pom.xml
       - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
