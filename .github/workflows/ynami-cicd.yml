@@ -146,7 +146,8 @@ jobs:
       - name: 'Copy the Jacoco execs artifacts into the `target` folder'
         run: |
           mkdir target
-          cp -r ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}/jacoco-execs target
+          ls -lart ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
+          cp -r jacoco-execs target
           ls -lart target
       - name: 'Run the integration tests'
         run: mvn -Djacoco.haltOnFailure=false integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
