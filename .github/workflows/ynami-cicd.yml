@@ -268,7 +268,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
-          path: target
+          path: target/test-results
       - name: 'Download the site artifacts'
         uses: actions/download-artifact@v3
         with:
