@@ -147,6 +147,8 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
+      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
+      # target/site didn't work sa well, so need to find the issue and fix it properly.
       - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
         uses: actions/upload-artifact@v3
         with:
