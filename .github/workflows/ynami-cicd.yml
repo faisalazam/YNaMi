@@ -147,6 +147,11 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
+      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
