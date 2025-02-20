@@ -58,9 +58,9 @@
     </developers>
 
 	<properties>
-        <!--   Setting the versions to use Java 20   -->
-        <java.version>20</java.version>
-        <maven.compiler.release>20</maven.compiler.release>
+        <!--   Setting the versions to use Java 23   -->
+        <java.version>23</java.version>
+        <maven.compiler.release>23</maven.compiler.release>
         <!--    Setting the encodings to avoid warnings like `Input file encoding has not been set`    -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
