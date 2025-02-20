@@ -1,7 +1,7 @@
 name: 'YNaMi CI/CD'
 on: push
 env:
-  JAVA_VERSION: 23
+  JAVA_VERSION: 20
   MYSQL_VERSION: 8.0
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
   TESTS_UPLOADED_ARTIFACTS_DIR: 'test-results'
@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    # Here's what's part of the ubuntu-22.04 GitHub Runner Image:
+    # Here's whats part of the ubuntu-22.04 GitHub Runner Image:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ubuntu-22.04
 
