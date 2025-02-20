@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
         uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+      - name: 'Set up the JDK `${{ env.JAVA_VERSION }}`'
         uses: './.github/actions/install-java'
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
         uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+      - name: 'Set up the JDK `${{ env.JAVA_VERSION }}`'
         uses: './.github/actions/install-java'
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
@@ -49,7 +49,7 @@ jobs:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
@@ -82,7 +82,7 @@ jobs:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
@@ -101,7 +101,7 @@ jobs:
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
         uses: actions/checkout@v3
-      - name: 'Set up the Oracle JDK `${{ env.JAVA_VERSION }}`'
+      - name: 'Set up the JDK `${{ env.JAVA_VERSION }}`'
         uses: './.github/actions/install-java'
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
@@ -143,14 +143,14 @@ jobs:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
       # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
       # target/site didn't work sa well, so need to find the issue and fix it properly.
       - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
@@ -189,7 +189,7 @@ jobs:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
@@ -215,7 +215,7 @@ jobs:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/test-results                     # Path to test report
@@ -249,7 +249,7 @@ jobs:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
@@ -287,7 +287,7 @@ jobs:
       - name: 'Generate project site'
         run: mvn site -P nt --file pom.xml
       - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
