@@ -102,7 +102,7 @@
         <joda-time.version>2.12.5</joda-time.version>
         <junit-bom.version>5.10.0</junit-bom.version>
         <maven-pmd.version>3.21.0</maven-pmd.version>
-        <commons-io.version>2.13.0</commons-io.version>
+        <commons-io.version>2.18.0</commons-io.version>
         <flyway-core.version>9.22.0</flyway-core.version>
         <font-awesome.version>6.4.2</font-awesome.version>
         <fluentlenium.version>6.0.0</fluentlenium.version>
@@ -115,7 +115,7 @@
         <org.reflections.version>0.10.2</org.reflections.version>
         <glassfish.jersey.version>3.1.3</glassfish.jersey.version>
         <javax.activation.version>1.1.1</javax.activation.version>
-        <maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
+        <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
         <persistence.moxy.version>4.0.2</persistence.moxy.version>
         <webdrivermanager.version>5.5.2</webdrivermanager.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
@@ -126,10 +126,10 @@
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <commons-configuration2.version>2.9.0</commons-configuration2.version>
-        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <jackson-jaxrs-json-provider.version>2.15.2</jackson-jaxrs-json-provider.version>
         <modelmapper-spring-boot-starter.version>2.3.1</modelmapper-spring-boot-starter.version>
-        <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
+        <maven-project-info-reports-plugin.version>3.8.0</maven-project-info-reports-plugin.version>
 
         <src.site.directory>src/site</src.site.directory>
         <markdown.directory>markdown</markdown.directory>
