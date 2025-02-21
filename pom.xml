@@ -111,7 +111,7 @@
         <selenium-java.version>4.28.1</selenium-java.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
-        <zap.clientapi.version>1.12.0</zap.clientapi.version>
+        <zap.clientapi.version>1.16.0</zap.clientapi.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <glassfish.jersey.version>4.0.0-M2</glassfish.jersey.version>
@@ -555,6 +555,12 @@
             <artifactId>zap-clientapi</artifactId>
             <version>${zap.clientapi.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jdom</groupId>
+                    <artifactId>jdom</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- HarLib is an open source Java library for the HTTP Archive Specification (HAR) v1.2. -->
         <dependency>
