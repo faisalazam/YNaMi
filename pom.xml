@@ -97,7 +97,7 @@
         <xstream.version>1.4.21</xstream.version>
         <selenium.version>4.13.0</selenium.version>
         <podam.version>8.0.0.RELEASE</podam.version>
-        <diffutils.version>1.3.0</diffutils.version>
+        <diffutils.version>4.15</diffutils.version>
         <bootstrap.version>5.3.1</bootstrap.version>
         <joda-time.version>2.13.1</joda-time.version>
         <junit-bom.version>5.12.0-M1</junit-bom.version>
@@ -115,20 +115,19 @@
         <jaxb-api.version>4.0.2</jaxb-api.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <glassfish.jersey.version>4.0.0-M2</glassfish.jersey.version>
-        <javax.activation.version>1.1.1</javax.activation.version>
         <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
-        <persistence.moxy.version>4.0.2</persistence.moxy.version>
+        <persistence.moxy.version>5.0.0-B06</persistence.moxy.version>
         <webdrivermanager.version>5.9.3</webdrivermanager.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
         <cucumber-reporting.version>5.7.6</cucumber-reporting.version>
         <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
-        <junit-platform-suite.version>1.10.0</junit-platform-suite.version>
+        <junit-platform-suite.version>1.12.0-M1</junit-platform-suite.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <commons-configuration2.version>2.11.0</commons-configuration2.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <jackson-jaxrs-json-provider.version>2.15.2</jackson-jaxrs-json-provider.version>
+        <jackson-jaxrs-json-provider.version>2.18.2</jackson-jaxrs-json-provider.version>
         <modelmapper-spring-boot-starter.version>2.3.1</modelmapper-spring-boot-starter.version>
         <maven-project-info-reports-plugin.version>3.8.0</maven-project-info-reports-plugin.version>
 
@@ -570,10 +569,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.googlecode.java-diff-utils</groupId>
-            <artifactId>diffutils</artifactId>
+            <groupId>io.github.java-diff-utils</groupId>
+            <artifactId>java-diff-utils</artifactId>
             <version>${diffutils.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -616,12 +614,6 @@
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson-jaxrs-json-provider.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>${javax.activation.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -1,6 +1,6 @@
 package penetration.pk.lucidxpo.ynami.utils;
 
-import difflib.Patch;
+import com.github.difflib.patch.Patch;
 import edu.umass.cs.benchlab.har.AbstractNameValueComment;
 import edu.umass.cs.benchlab.har.HarHeader;
 import edu.umass.cs.benchlab.har.HarRequest;
@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.github.difflib.DiffUtils.diff;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
-import static difflib.DiffUtils.diff;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
@@ -33,7 +33,7 @@ import static java.util.regex.Pattern.compile;
 @Slf4j
 public class Utils {
     public static String extractSessionIDName(final String target) {
-        if (Config.getInstance().getSessionIDs().size() == 0) {
+        if (Config.getInstance().getSessionIDs().isEmpty()) {
             log.warn("Attempting to extract session ID from string, but no session IDs defined in the configuration.");
         }
         for (final String sessId : Config.getInstance().getSessionIDs()) {
