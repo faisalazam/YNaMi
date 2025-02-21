@@ -108,6 +108,7 @@
         <fluentlenium.version>6.0.0</fluentlenium.version>
         <cucumber-bom.version>7.13.0</cucumber-bom.version>
         <flyway-mysql.version>9.22.0</flyway-mysql.version>
+        <selenium-java.version>4.28.1</selenium-java.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
         <zap.clientapi.version>1.12.0</zap.clientapi.version>
@@ -450,6 +451,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
+            <version>${selenium-java.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
