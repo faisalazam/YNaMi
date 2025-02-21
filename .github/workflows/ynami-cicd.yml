@@ -272,12 +272,12 @@ jobs:
         with:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Download the test results'' artifacts'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
           path: target/test-results
 #      - name: 'Download the site artifacts'
-#        uses: actions/download-artifact@v3
+#        uses: actions/download-artifact@v4
 #        with:
 #          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
 #          path: target/site
