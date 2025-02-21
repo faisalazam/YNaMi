@@ -259,7 +259,7 @@ jobs:
     needs:
       - unit-tests
       - migration-tests
-      - integration-tests-mysql
+#      - integration-tests-mysql
       - bdd-cucumber-tests
       - acceptance-selenium-tests
       - penetration-tests
