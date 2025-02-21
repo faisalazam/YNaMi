@@ -58,9 +58,9 @@
     </developers>
 
 	<properties>
-        <!--   Setting the versions to use Java 20   -->
-        <java.version>20</java.version>
-        <maven.compiler.release>20</maven.compiler.release>
+        <!--   Setting the versions to use Java 23   -->
+        <java.version>23</java.version>
+        <maven.compiler.release>23</maven.compiler.release>
         <!--    Setting the encodings to avoid warnings like `Input file encoding has not been set`    -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -92,7 +92,7 @@
         <harlib.version>1.1.3</harlib.version>
         <togglz.version>4.3.0</togglz.version>
         <jquery.version>3.7.0</jquery.version>
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <guava.version>32.1.2-jre</guava.version>
         <xstream.version>1.4.21</xstream.version>
         <selenium.version>4.13.0</selenium.version>
@@ -110,7 +110,7 @@
         <flyway-mysql.version>9.22.0</flyway-mysql.version>
         <selenium-java.version>4.28.1</selenium-java.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
-        <jacoco.plugin.version>0.8.10</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.12</jacoco.plugin.version>
         <zap.clientapi.version>1.16.0</zap.clientapi.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <org.reflections.version>0.10.2</org.reflections.version>
@@ -656,6 +656,20 @@
                     <jvmArguments>${spring.datasource.type.jvmArguments}</jvmArguments>
                 </configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.flywaydb</groupId>
