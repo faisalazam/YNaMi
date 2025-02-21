@@ -117,7 +117,7 @@
         <javax.activation.version>1.1.1</javax.activation.version>
         <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
         <persistence.moxy.version>4.0.2</persistence.moxy.version>
-        <webdrivermanager.version>5.5.2</webdrivermanager.version>
+        <webdrivermanager.version>5.9.3</webdrivermanager.version>
         <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
         <cucumber-reporting.version>5.7.6</cucumber-reporting.version>
