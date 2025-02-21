@@ -10,9 +10,9 @@ env:
 
 jobs:
   build:
-    # Here's whats part of the ubuntu-22.04 GitHub Runner Image:
+    # Here's whats part of the ubuntu-24.04 GitHub Runner Image:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -31,7 +31,7 @@ jobs:
         run: mvn clean compile test-compile --file pom.xml
 
   unit-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -63,7 +63,7 @@ jobs:
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   migration-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -96,7 +96,7 @@ jobs:
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
 #  integration-tests-h2:
-#    runs-on: ubuntu-22.04
+#    runs-on: ubuntu-24.04
 #
 #    steps:
 #      - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -124,7 +124,7 @@ jobs:
 #          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 #
 #  integration-tests-mysql:
-#    runs-on: ubuntu-22.04
+#    runs-on: ubuntu-24.04
 #
 #    steps:
 #      - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -164,7 +164,7 @@ jobs:
 #          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   bdd-cucumber-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -195,7 +195,7 @@ jobs:
           path: target/site                       # Path to test report
 
   acceptance-selenium-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -229,7 +229,7 @@ jobs:
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   penetration-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
@@ -255,7 +255,7 @@ jobs:
           path: target/site                       # Path to test report
 
   site-generation:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - unit-tests
       - migration-tests
