@@ -95,73 +95,73 @@ jobs:
           name: 'DB Migration Tests'' Report'
           path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
-#  integration-tests-h2:
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up the JDK `${{ env.JAVA_VERSION }}`'
-#        uses: './.github/actions/install-java'
-#        with:
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Run the integration tests'
-#        run: mvn -Djacoco.skip=true clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
-#      - name: 'Integration Tests'' with H2 - Summary'
-#        if: success() || failure()
-#        uses: test-summary/action@v2
-#        with:
-#          show: "fail"
-#          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-##     Intentionally not uploading the H2 tests' result to avoid conflicts with other integration tests run with MySQL
-#      - name: 'Report'
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          fail-on-error: true
-#          reporter: java-junit
-#          name: 'Integration Tests'' Report (H2)'
-#          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
-#
-#  integration-tests-mysql:
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up GitHup runner'
-#        uses: './.github/actions/setup-runner'
-#        with:
-#          WITH_MYSQL: 'TRUE'
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Run the integration tests'
-#        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
-#      - name: 'Integration Tests'' with MySQL - Summary'
-#        if: success() || failure()
-#        uses: test-summary/action@v2
-#        with:
-#          show: "fail"
-#          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/test-results                     # Path to test report
-#      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
-#      # target/site didn't work sa well, so need to find the issue and fix it properly.
-#      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/site                       # Path to test report
-#      - name: 'Report'
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          fail-on-error: true
-#          reporter: java-junit
-#          name: 'Integration Tests'' Report (MySQL)'
-#          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
+  integration-tests-h2:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up the JDK `${{ env.JAVA_VERSION }}`'
+        uses: './.github/actions/install-java'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the integration tests'
+        run: mvn -Djacoco.skip=true clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
+      - name: 'Integration Tests'' with H2 - Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "fail"
+          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
+#     Intentionally not uploading the H2 tests' result to avoid conflicts with other integration tests run with MySQL
+      - name: 'Report'
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          fail-on-error: true
+          reporter: java-junit
+          name: 'Integration Tests'' Report (H2)'
+          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
+
+  integration-tests-mysql:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up GitHup runner'
+        uses: './.github/actions/setup-runner'
+        with:
+          WITH_MYSQL: 'TRUE'
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the integration tests'
+        run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
+      - name: 'Integration Tests'' with MySQL - Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "fail"
+          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
+      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
+      # target/site didn't work sa well, so need to find the issue and fix it properly.
+      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
+      - name: 'Report'
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          fail-on-error: true
+          reporter: java-junit
+          name: 'Integration Tests'' Report (MySQL)'
+          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   bdd-cucumber-tests:
     runs-on: ubuntu-22.04
@@ -194,101 +194,101 @@ jobs:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
 
-#  acceptance-selenium-tests:
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up GitHup runner'
-#        uses: './.github/actions/setup-runner'
-#        with:
-#          WITH_MYSQL: 'TRUE'
-#          WITH_GOOGLE_CHROME_INFO: 'TRUE'
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Run the acceptance-selenium tests'
-#        run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
-#      - name: 'Acceptance-Selenium Tests'' Summary'
-#        if: success() || failure()
-#        uses: test-summary/action@v2
-#        with:
-#          show: "fail"
-#          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/test-results                     # Path to test report
-#      - name: 'Report'
-#        uses: dorny/test-reporter@v1
-#        if: success() || failure()
-#        with:
-#          fail-on-error: true
-#          reporter: java-junit
-#          name: 'Acceptance-Selenium Tests'' Report'
-#          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-#
-#  penetration-tests:
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up GitHup runner'
-#        uses: './.github/actions/setup-runner'
-#        with:
-#          WITH_MYSQL: 'TRUE'
-#          WITH_GOOGLE_CHROME_INFO: 'TRUE'
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Run the penetration tests'
-#        run: browser=chrome headless_mode=true environment=CI mvn clean test -P pt,mysql --file pom.xml
-#      - name: 'Penetration Tests'' Summary'
-#        if: success() || failure()
-#        uses: test-summary/action@v2
-#        with:
-#          show: "fail"
-#          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/site                       # Path to test report
-#
-#  site-generation:
-#    runs-on: ubuntu-22.04
-#    needs:
-#      - unit-tests
-#      - migration-tests
-#      - integration-tests-mysql
-#      - bdd-cucumber-tests
-#      - acceptance-selenium-tests
-#      - penetration-tests
-#
-#    steps:
-#      - name: 'Get the latest code from the `${{ github.repository }}` repository'
-#        uses: actions/checkout@v3
-#      - name: 'Set up GitHup runner'
-#        uses: './.github/actions/setup-runner'
-#        with:
-#          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
-#      - name: 'Download the test results'' artifacts'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
-#          path: target/test-results
-#      - name: 'Download the site artifacts'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
-#          path: target/site
-#      - name: 'Display structure of downloaded files'
-#        run: ls -R
-#        working-directory: target
-#      - name: 'Generate project site'
-#        run: mvn site -P nt --file pom.xml
-#      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/site                       # Path to test report
+  acceptance-selenium-tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up GitHup runner'
+        uses: './.github/actions/setup-runner'
+        with:
+          WITH_MYSQL: 'TRUE'
+          WITH_GOOGLE_CHROME_INFO: 'TRUE'
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the acceptance-selenium tests'
+        run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
+      - name: 'Acceptance-Selenium Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "fail"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/test-results                     # Path to test report
+      - name: 'Report'
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          fail-on-error: true
+          reporter: java-junit
+          name: 'Acceptance-Selenium Tests'' Report'
+          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
+
+  penetration-tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up GitHup runner'
+        uses: './.github/actions/setup-runner'
+        with:
+          WITH_MYSQL: 'TRUE'
+          WITH_GOOGLE_CHROME_INFO: 'TRUE'
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Run the penetration tests'
+        run: browser=chrome headless_mode=true environment=CI mvn clean test -P pt,mysql --file pom.xml
+      - name: 'Penetration Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "fail"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
+
+  site-generation:
+    runs-on: ubuntu-22.04
+    needs:
+      - unit-tests
+      - migration-tests
+      - integration-tests-mysql
+      - bdd-cucumber-tests
+      - acceptance-selenium-tests
+      - penetration-tests
+
+    steps:
+      - name: 'Get the latest code from the `${{ github.repository }}` repository'
+        uses: actions/checkout@v3
+      - name: 'Set up GitHup runner'
+        uses: './.github/actions/setup-runner'
+        with:
+          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
+      - name: 'Download the test results'' artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
+          path: target/test-results
+      - name: 'Download the site artifacts'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
+          path: target/site
+      - name: 'Display structure of downloaded files'
+        run: ls -R
+        working-directory: target
+      - name: 'Generate project site'
+        run: mvn site -P nt --file pom.xml
+      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+          path: target/site                       # Path to test report
 
