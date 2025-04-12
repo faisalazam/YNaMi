@@ -90,25 +90,24 @@
 
         <h2.version>2.3.232</h2.version>
         <harlib.version>1.1.3</harlib.version>
-        <togglz.version>4.3.0</togglz.version>
+        <togglz.version>4.4.0</togglz.version>
         <jquery.version>3.7.0</jquery.version>
-        <lombok.version>1.18.36</lombok.version>
-        <guava.version>33.4.0-jre</guava.version>
+        <flyway.version>11.7.0</flyway.version>
+        <lombok.version>1.18.38</lombok.version>
+        <guava.version>33.4.7-jre</guava.version>
         <xstream.version>1.4.21</xstream.version>
         <selenium.version>4.13.0</selenium.version>
-        <podam.version>8.0.0.RELEASE</podam.version>
+        <podam.version>8.0.2.RELEASE</podam.version>
         <diffutils.version>4.15</diffutils.version>
         <bootstrap.version>5.3.1</bootstrap.version>
-        <joda-time.version>2.13.1</joda-time.version>
-        <junit-bom.version>5.12.0-M1</junit-bom.version>
+        <joda-time.version>2.14.0</joda-time.version>
+        <junit-bom.version>5.13.0-M2</junit-bom.version>
         <maven-pmd.version>3.21.0</maven-pmd.version>
-        <commons-io.version>2.18.0</commons-io.version>
-        <flyway-core.version>9.22.0</flyway-core.version>
+        <commons-io.version>2.19.0</commons-io.version>
         <font-awesome.version>6.4.2</font-awesome.version>
         <fluentlenium.version>6.0.0</fluentlenium.version>
-        <cucumber-bom.version>7.21.1</cucumber-bom.version>
-        <flyway-mysql.version>9.22.0</flyway-mysql.version>
-        <selenium-java.version>4.28.1</selenium-java.version>
+        <cucumber-bom.version>7.22.0</cucumber-bom.version>
+        <selenium-java.version>4.31.0</selenium-java.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <jacoco.plugin.version>0.8.12</jacoco.plugin.version>
         <zap.clientapi.version>1.16.0</zap.clientapi.version>
@@ -116,11 +115,11 @@
         <org.reflections.version>0.10.2</org.reflections.version>
         <glassfish.jersey.version>4.0.0-M2</glassfish.jersey.version>
         <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
-        <persistence.moxy.version>5.0.0-B06</persistence.moxy.version>
-        <webdrivermanager.version>5.9.3</webdrivermanager.version>
+        <persistence.moxy.version>5.0.0-B07</persistence.moxy.version>
+        <webdrivermanager.version>6.0.1</webdrivermanager.version>
         <mysql-connector-j.version>9.2.0</mysql-connector-j.version>
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
-        <cucumber-reporting.version>5.7.6</cucumber-reporting.version>
+        <cucumber-reporting.version>5.8.4</cucumber-reporting.version>
         <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
         <junit-platform-suite.version>1.12.0-M1</junit-platform-suite.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
@@ -240,12 +239,12 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>${flyway-core.version}</version>
+            <version>${flyway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
-            <version>${flyway-mysql.version}</version>
+            <version>${flyway.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.flywaydb</groupId>
@@ -666,7 +665,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.22.0</version>
+                <version>${flyway.version}</version>
                 <configuration>
                     <user>sa</user>
 <!--                    <password></password>-->
@@ -791,7 +790,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>5.7.6</version>
+                <version>${cucumber-reporting.version}</version>
                 <executions>
                     <execution>
                         <id>execution</id>

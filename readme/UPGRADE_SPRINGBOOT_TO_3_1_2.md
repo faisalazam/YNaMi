@@ -635,7 +635,7 @@ latest `9.21.0` version in the [pom.xml](../pom.xml) file.
 <dependency>
     <groupId>org.flywaydb</groupId>
     <artifactId>flyway-mysql</artifactId>
-    <version>${flyway-mysql.version}</version>
+    <version>${flyway.version}</version>
 </dependency>
 ```
 
