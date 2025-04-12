@@ -536,6 +536,17 @@
                     <groupId>joda-time</groupId>
                     <artifactId>joda-time</artifactId>
                 </exclusion>
+                <!--
+                    Excluded plexus to avoid the following exception:
+                    java.lang.NoClassDefFoundError: org/codehaus/plexus/util/xml/pull/XmlPullParserException
+                    The newer version which comes through cucumber reporting does not have the xml package and
+                    hence the error; but the one which comes through the fluentlenium-junit-jupiter dependency,
+                    is an older version and still has xml package.
+                -->
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-utils</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>commons-configuration</groupId>
                     <artifactId>commons-configuration</artifactId>
