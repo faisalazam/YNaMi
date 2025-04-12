@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import pk.lucidxpo.ynami.utils.executionlisteners.DatabaseExecutionListener;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,9 @@ import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
 
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class StaticResourcesAccessSecurityConfigIntegrationTest extends AbstractIntegrationTest {
-    private static final String STATIC_RESOURCES_PATH = "src/main/resources/static";
+    private static final String STATIC_RESOURCES_PATH = Paths.get(
+            "src", "main", "resources", "static"
+    ).toString();
 
     @ParameterizedTest
     @ValueSource(strings = {"true", "false"})
@@ -45,7 +48,12 @@ class StaticResourcesAccessSecurityConfigIntegrationTest extends AbstractIntegra
                     Unix utilities. Its internal structure is proprietary. Hence, filtering it.
                  */
                 .filter(file -> !".DS_Store".equals(file.getName()))
-                .map(file -> file.getPath().replace(STATIC_RESOURCES_PATH, EMPTY))
+                .map(file -> file.getPath()
+                        // Removes the static folder prefix to get the actual URL
+                        .replace(STATIC_RESOURCES_PATH, EMPTY)
+                        // Make the path URL-compatible (fixes backslashes on Windows)
+                        .replace(File.separatorChar, '/')
+                )
                 .collect(toList());
         assertFalse(staticResources.isEmpty());
 
