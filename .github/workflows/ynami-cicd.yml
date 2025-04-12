@@ -143,18 +143,20 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/test-results                     # Path to test report
-      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
-      # target/site didn't work as well, so need to find the issue and fix it properly.
-      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/site                       # Path to test report
+
+      # TODO: Error: Failed to CreateArtifact: Received non-retryable error: Failed request: (409) Conflict: an artifact with this name already exists on the workflow run
+#      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+#          path: target/test-results                     # Path to test report
+#      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
+#      # target/site didn't work as well, so need to find the issue and fix it properly.
+#      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
+#          path: target/site                       # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
