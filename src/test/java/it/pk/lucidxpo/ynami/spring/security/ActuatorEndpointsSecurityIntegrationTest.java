@@ -53,7 +53,11 @@ class ActuatorEndpointsSecurityIntegrationTest extends AbstractIntegrationTest i
     private static final Map<String, RequestMappingCustomizer> CUSTOMIZED_REQUEST_MAPPINGS_MAP = newHashMap();
 
     private static final EndPointMappingsLister END_POINT_MAPPINGS_LISTER = new EndPointMappingsLister(
-            newArrayList("[GET] /actuator/heapdump"), CUSTOMIZED_REQUEST_MAPPINGS_MAP
+            newArrayList(
+                    "[GET] /actuator/heapdump",
+                    "[GET] /actuator/sbom/{id}"
+            ),
+            CUSTOMIZED_REQUEST_MAPPINGS_MAP
     );
 
     @Override
