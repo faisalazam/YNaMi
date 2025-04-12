@@ -200,6 +200,12 @@ along with the current and the new version:
 mvn versions:display-dependency-updates
 ```
 
+Or, 
+
+```shell
+mvn versions:display-dependency-updates -DincludeTransitive=false
+```
+
 ### Setting up H2
 
 [Click here for the details](readme/H2-SETUP.md)
