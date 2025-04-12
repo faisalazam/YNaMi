@@ -60,13 +60,14 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
 
         final AuditEntry auditEntry1 = new AuditEntry(randomID(), matchingEntityId, "testField1",
                 "fromValue1", "toValue1", "changedBy1");
+        repository.save(auditEntry1);
+
         final AuditEntry auditEntry2 = new AuditEntry(randomID(), matchingEntityId, "testField2",
                 "fromValue2", "toValue2", "changedBy2");
+        repository.save(auditEntry2);
+
         final AuditEntry auditEntry3 = new AuditEntry(randomID(), nonMatchingEntityId, "testField3",
                 "fromValue3", "toValue3", "changedBy3");
-
-        repository.save(auditEntry1);
-        repository.save(auditEntry2);
         repository.save(auditEntry3);
 
         List<AuditEntry> records = repository.findByChangedEntityIdOrderByChangedAtDesc(matchingEntityId);
@@ -91,11 +92,12 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
 
         final Instant now = now();
         updateAuditEntryChangedAtDate(now.minus(1, DAYS), auditEntry1);
-        updateAuditEntryChangedAtDate(now.minus(2, DAYS), auditEntry2);
-        updateAuditEntryChangedAtDate(now.minus(3, DAYS), auditEntry3);
-
         repository.save(auditEntry1);
+
+        updateAuditEntryChangedAtDate(now.minus(2, DAYS), auditEntry2);
         repository.save(auditEntry2);
+
+        updateAuditEntryChangedAtDate(now.minus(3, DAYS), auditEntry3);
         repository.save(auditEntry3);
 
         List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
