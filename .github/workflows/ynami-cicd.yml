@@ -48,11 +48,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-          path: target/test-results                     # Path to test report
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -81,11 +81,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/test-results                     # Path to test report
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -142,20 +142,18 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-
-      # TODO: Error: Failed to CreateArtifact: Received non-retryable error: Failed request: (409) Conflict: an artifact with this name already exists on the workflow run
-#      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/test-results                     # Path to test report
-#      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
-#      # target/site didn't work as well, so need to find the issue and fix it properly.
-#      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/site                       # Path to test report
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
+       # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
+       # target/site didn't work as well, so need to find the issue and fix it properly.
+      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/site                                         # Path to site folder
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -190,11 +188,16 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/site                       # Path to test report
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
+      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/site                                         # Path to site folder
 
   acceptance-selenium-tests:
     runs-on: ubuntu-24.04
@@ -216,11 +219,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/test-results                     # Path to test report
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
       - name: 'Report'
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -250,11 +253,11 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-#      - name: 'Uploads the results to ${{ env.UPLOADED_ARTIFACTS_DIR }} folder'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
-#          path: target/site                       # Path to test report
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
 
   site-generation:
     runs-on: ubuntu-24.04
@@ -276,13 +279,15 @@ jobs:
       - name: 'Download the test results'' artifacts'
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}
+          merge-multiple: true
           path: target/test-results
-#      - name: 'Download the site artifacts'
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
-#          path: target/site
+          pattern: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-*
+      - name: 'Download the site artifacts'
+        uses: actions/download-artifact@v4
+        with:
+          path: target/site
+          merge-multiple: true
+          pattern: ${{ env.UPLOADED_ARTIFACTS_DIR }}-*
       - name: 'Display structure of downloaded files'
         run: ls -R
         working-directory: target
@@ -293,3 +298,5 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
+          overwrite: true
+
