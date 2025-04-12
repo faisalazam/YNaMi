@@ -198,6 +198,14 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
+      - name: 'Report'
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          fail-on-error: true
+          reporter: java-junit
+          name: 'BDD Cucumber Tests'' Report'
+          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   acceptance-selenium-tests:
     runs-on: ubuntu-24.04
@@ -258,16 +266,24 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
+      - name: 'Report'
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          fail-on-error: true
+          reporter: java-junit
+          name: 'Penetration Tests'' Report'
+          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   site-generation:
     runs-on: ubuntu-24.04
     needs:
       - unit-tests
       - migration-tests
-      - integration-tests-mysql
-      - bdd-cucumber-tests
-      - acceptance-selenium-tests
       - penetration-tests
+      - bdd-cucumber-tests
+      - integration-tests-mysql
+      - acceptance-selenium-tests
 
     steps:
       - name: 'Get the latest code from the `${{ github.repository }}` repository'
