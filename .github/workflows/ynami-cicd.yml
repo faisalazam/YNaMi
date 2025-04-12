@@ -107,6 +107,7 @@ jobs:
 #          JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
 #      - name: 'Run the integration tests'
 #        run: mvn -Djacoco.skip=true clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
+#        run: mvn --% -Djacoco.skip=true clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
 #      - name: 'Integration Tests'' with H2 - Summary'
 #        if: success() || failure()
 #        uses: test-summary/action@v2

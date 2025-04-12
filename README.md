@@ -141,6 +141,56 @@ mvn integration-test -Dtest="SampleControllerIntegrationTest" -Ph2 # Doesn't wor
 mvn integration-test -Dtest="SampleControllerIntegrationTest#shouldGetAllSamples"
 ```
 
+##### NOTE:
+PowerShell interprets `-` as PowerShell params, to run the mvn commands with `-D`, preprend them with `--%`,
+or pass them in double quotes. Examples:
+
+```
+mvn test "-Dtest=SampleControllerIntegrationTest" "-Dynami.spring.datasource.profile=h2"
+
+# OR
+
+mvn test --% -Dtest=SampleControllerIntegrationTest -Dynami.spring.datasource.profile=h2
+```
+
+mvn test --% -Dtest=AuditEntryRepositoryIntegrationTest -Dynami.spring.datasource.profile=h2
+mvn test --% -Dtest=StaticResourcesAccessSecurityConfigIntegrationTest -Dynami.spring.datasource.profile=h2
+
+mvn test --% -Dtest=RedirectionSecurityIntegrationTest -Dynami.spring.datasource.profile=h2
+mvn test --% -Dtest=ApplicationEndpointsSecurityIntegrationTest -Dynami.spring.datasource.profile=h2
+
+##### Another NOTE:
+
+If you encounter any of the following while running `mvn` commands, try them 
+with `-Daether.connector.https.securityMode=insecure`, e.g:
+
+```shell
+mvn -Daether.connector.https.securityMode=insecure clean compile
+```
+
+And the sample errors:
+
+```shell
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[FATAL] Non-resolvable parent POM for pk.lucidxpo:ynami:0.0.1-SNAPSHOT: The following artifacts could not be 
+resolved: org.springframework.boot:spring-boot-starter-parent:pom:3.4.4 (absent): Could not transfer artifact 
+org.springframework.boot:spring-boot-starter-parent:pom:3.4.4 from/to telflow-release 
+(https://nexus.support.telflow.com/content/repositories/telflow-release): Connect to nexus.support.telflow.com:443 
+[nexus.support.telflow.com/3.1.21.206, nexus.support.telflow.com/13.250.213.155] failed: connect timed out 
+and 'parent.relativePath' points at no local POM @ line 20, column 10
+```
+
+OR
+
+```shell
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[FATAL] Non-resolvable parent POM for pk.lucidxpo:ynami:0.0.1-SNAPSHOT: The following artifacts could not be 
+resolved: org.springframework.boot:spring-boot-starter-parent:pom:3.4.4 (absent): Could not transfer 
+artifact org.springframework.boot:spring-boot-starter-parent:pom:3.4.4 from/to maven-repo2 
+(https://repo1.maven.org/maven2/): PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: 
+unable to find valid certification path to requested target and 'parent.relativePath' points at no local POM @ line 20, column 10
+```
+
 ### Setting up H2
 
 [Click here for the details](readme/H2-SETUP.md)
