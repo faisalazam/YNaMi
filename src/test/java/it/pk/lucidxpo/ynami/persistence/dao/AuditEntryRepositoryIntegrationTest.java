@@ -28,8 +28,12 @@ import static pk.lucidxpo.ynami.utils.matchers.ObjectDeepDetailMatcher.equivalen
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @TestExecutionListeners(value = DatabaseExecutionListener.class, mergeMode = MERGE_WITH_DEFAULTS)
 class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
+    private final AuditEntryRepository repository;
+
     @Autowired
-    private AuditEntryRepository repository;
+    AuditEntryRepositoryIntegrationTest(AuditEntryRepository repository) {
+        this.repository = repository;
+    }
 
     @Test
     void shouldSaveAuditEntryIntoDatabase() {
@@ -91,13 +95,13 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
         final AuditEntry auditEntry3 = createAuditEntry("3");
 
         final Instant now = now();
-        updateAuditEntryChangedAtDate(now.minus(1, DAYS), auditEntry1);
+        updateAuditEntryChangedAtDate(now.minus(1, DAYS).minusMillis(1), auditEntry1);
         repository.save(auditEntry1);
 
-        updateAuditEntryChangedAtDate(now.minus(2, DAYS), auditEntry2);
+        updateAuditEntryChangedAtDate(now.minus(2, DAYS).minusMillis(2), auditEntry2);
         repository.save(auditEntry2);
 
-        updateAuditEntryChangedAtDate(now.minus(3, DAYS), auditEntry3);
+        updateAuditEntryChangedAtDate(now.minus(3, DAYS).minusMillis(3), auditEntry3);
         repository.save(auditEntry3);
 
         List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
