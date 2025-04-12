@@ -77,7 +77,7 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
 
         records = repository.findByChangedEntityIdOrderByChangedAtDesc(nonMatchingEntityId);
         assertEquals(1, records.size());
-        assertThat(auditEntry3, equivalentTo(records.get(0)));
+        assertThat(auditEntry3, equivalentTo(records.getFirst()));
 
         records = repository.findByChangedEntityIdOrderByChangedAtDesc(randomID());
         assertTrue(records.isEmpty());
@@ -103,7 +103,7 @@ class AuditEntryRepositoryIntegrationTest extends AbstractIntegrationTest {
         List<AuditEntry> messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
                 now.minus(3, DAYS), of(0, 10));
         assertEquals(1, messages.size());
-        assertEquals(auditEntry3.getId(), messages.get(0).getId());
+        assertEquals(auditEntry3.getId(), messages.getFirst().getId());
 
         messages = repository.findByChangedAtLessThanEqualOrderByChangedAtAsc(
                 now.minus(2, DAYS), of(0, 10));
