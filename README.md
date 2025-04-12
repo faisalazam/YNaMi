@@ -191,6 +191,15 @@ artifact org.springframework.boot:spring-boot-starter-parent:pom:3.4.4 from/to m
 unable to find valid certification path to requested target and 'parent.relativePath' points at no local POM @ line 20, column 10
 ```
 
+### Check for updates
+
+Run the following command to get a list of dependencies (which have newer versions available).
+along with the current and the new version:
+
+```shell
+mvn versions:display-dependency-updates
+```
+
 ### Setting up H2
 
 [Click here for the details](readme/H2-SETUP.md)
