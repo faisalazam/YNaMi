@@ -119,7 +119,7 @@
         <webdrivermanager.version>6.0.1</webdrivermanager.version>
         <mysql-connector-j.version>9.2.0</mysql-connector-j.version>
         <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
-        <cucumber-reporting.version>5.8.0</cucumber-reporting.version>
+        <cucumber-reporting.version>5.8.2</cucumber-reporting.version>
         <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
         <junit-platform-suite.version>1.12.0-M1</junit-platform-suite.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
