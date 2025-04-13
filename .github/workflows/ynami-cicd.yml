@@ -48,26 +48,11 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
-      - name: 'Unit Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
+      - name: Publish Unit Test Report
+        uses: ./.github/actions/test-report
         with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Report'
-        id: unit_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Unit Tests'' Report'
-          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View Unit Test Report](${{ steps.unit_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=Unit Test Report::[Click to view Unit Test Report](${{ steps.unit_tests_report.outputs.url_html }})"
+          report_name: 'Unit Tests'
+          results_dir: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   migration-tests:
     runs-on: ubuntu-24.04
@@ -87,26 +72,11 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
-      - name: 'Migration Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
+      - name: Publish Migration Test Report
+        uses: ./.github/actions/test-report
         with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Report'
-        id: migration_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'DB Migration Tests'' Report'
-          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View Migration Test Report](${{ steps.migration_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=Migration Test Report::[Click to view Migration Test Report](${{ steps.migration_tests_report.outputs.url_html }})"
+          report_name: 'Migration Tests'
+          results_dir: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   integration-tests-h2:
     runs-on: ubuntu-24.04
@@ -120,27 +90,12 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the integration tests'
         run: mvn -Djacoco.skip=true clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
-      - name: 'Integration Tests'' with H2 - Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
-        with:
-          show: "fail"
-          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
       # Intentionally not uploading the H2 tests' result to avoid conflicts with other integration tests run with MySQL
-      - name: 'Report'
-        id: h2_integration_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
+      - name: Publish H2 Integration Test Report
+        uses: ./.github/actions/test-report
         with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Integration Tests'' Report (H2)'
-          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View H2 Integration Test Report](${{ steps.h2_integration_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=H2 Integration Test Report::[Click to view H2 Integration Test Report](${{ steps.h2_integration_tests_report.outputs.url_html }})"
+          report_name: 'H2 Integration Tests'
+          results_dir: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   integration-tests-mysql:
     runs-on: ubuntu-24.04
@@ -167,26 +122,11 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
-      - name: 'Integration Tests'' with MySQL - Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
+      - name: Publish MySQL Integration Test Report
+        uses: ./.github/actions/test-report
         with:
-          show: "fail"
-          paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-      - name: 'Report'
-        id: mysql_integration_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Integration Tests'' Report (MySQL)'
-          path: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View MySQL Integration Test Report](${{ steps.mysql_integration_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=MySQL Integration Test Report::[Click to view MySQL Integration Test Report](${{ steps.mysql_integration_tests_report.outputs.url_html }})"
+          report_name: 'MySQL Integration Tests'
+          results_dir: ${{ env.INTEGRATION_TESTS_XMLS_DIR }}
 
   bdd-cucumber-tests:
     runs-on: ubuntu-24.04
@@ -218,26 +158,11 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
-      - name: 'BDD Cucumber Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
+      - name: Publish BDD Cucumber Test Report
+        uses: ./.github/actions/test-report
         with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Report'
-        id: bdd_cucumber_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'BDD Cucumber Tests'' Report'
-          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View BDD Cucumber Test Report](${{ steps.bdd_cucumber_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=BDD Cucumber Test Report::[Click to view BDD Cucumber Test Report](${{ steps.bdd_cucumber_tests_report.outputs.url_html }})"
+          report_name: 'BDD Cucumber Tests'
+          results_dir: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   acceptance-selenium-tests:
     runs-on: ubuntu-24.04
@@ -258,26 +183,11 @@ jobs:
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
-      - name: 'Acceptance-Selenium Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
+      - name: Publish Acceptance Test Report
+        uses: ./.github/actions/test-report
         with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Report'
-        id: acceptance_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Acceptance-Selenium Tests'' Report'
-          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View Acceptance Test Report](${{ steps.acceptance_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=Acceptance Test Report::[Click to view Acceptance Test Report](${{ steps.acceptance_tests_report.outputs.url_html }})"
+          report_name: 'Acceptance-Selenium Tests'
+          results_dir: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   penetration-tests:
     runs-on: ubuntu-24.04
@@ -304,26 +214,11 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
-      - name: 'Penetration Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
+      - name: Publish Penetration Test Report
+        uses: ./.github/actions/test-report
         with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Report'
-        id: penetration_tests_report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          fail-on-error: true
-          reporter: java-junit
-          name: 'Penetration Tests'' Report'
-          path: ${{ env.UNIT_TESTS_XMLS_DIR }}
-      - name: 'Add Test Report URL to Summary'
-        if: success() || failure()
-        run: |
-          echo "### [View Penetration Test Report](${{ steps.penetration_tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
-          echo "::notice title=Penetration Test Report::[Click to view Penetration Test Report](${{ steps.penetration_tests_report.outputs.url_html }})"
+          report_name: 'Penetration Tests'
+          results_dir: ${{ env.UNIT_TESTS_XMLS_DIR }}
 
   site-generation:
     runs-on: ubuntu-24.04

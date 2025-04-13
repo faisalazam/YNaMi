@@ -1,0 +1,41 @@
+name: "Test Report Publisher"
+description: "Publishes test summaries and report URLs to GitHub summary"
+inputs:
+  results_dir:
+    description: "Path to the test result XMLs"
+    required: true
+  report_name:
+    description: "Label for the report (e.g., 'Acceptance-Selenium Tests', 'Penetration Tests')"
+    required: true
+
+outputs:
+  url_html:
+    description: "Link to the HTML test report"
+    value: ${{ steps.tests_report.outputs.url_html }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: '${{ inputs.report_name }} Summary'
+      if: success() || failure()
+      uses: test-summary/action@v2
+      with:
+        show: "fail"
+        paths: "${{ inputs.results_dir }}"
+
+    - name: 'Generate Report'
+      id: tests_report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        fail-on-error: true
+        reporter: java-junit
+        name: '${{ inputs.report_name }} Report'
+        path: "${{ inputs.results_dir }}"
+
+    - name: 'Add Test Report URL to Summary'
+      if: success() || failure()
+      shell: bash
+      run: |
+        echo "### [View ${{ inputs.report_name }} Report](${{ steps.tests_report.outputs.url_html }})" >> $GITHUB_STEP_SUMMARY
+        echo "::notice title=${{ inputs.report_name }} Report::[Click to view ${{ inputs.report_name }} Report](${{ steps.tests_report.outputs.url_html }})"
