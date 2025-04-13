@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Cucumber" time="228.527" tests="18" skipped="0" failures="0" errors="0" timestamp="2025-04-13T06:49:41.458060266Z">
-<testcase classname="Automated Application Security Scanning" name="The application should not contain SQL injection vulnerabilities" time="46.893">
+<testsuite name="Cucumber" time="223.183" tests="18" skipped="0" failures="0" errors="0" timestamp="2025-04-13T07:25:00.700579423Z">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain SQL injection vulnerabilities" time="41.741">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -16,7 +16,7 @@ And the XML report is written to the file target/zap/zap-reports/sql_injection.x
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain Cross Site Scripting vulnerabilities" time="4.356">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain Cross Site Scripting vulnerabilities" time="5.33">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -32,7 +32,7 @@ And the XML report is written to the file target/zap/zap-reports/xss.xml....pass
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain path traversal vulnerabilities" time="2.277">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain path traversal vulnerabilities" time="2.205">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -48,7 +48,7 @@ And the XML report is written to the file target/zap/zap-reports/ssi.xml....pass
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain remote file inclusion vulnerabilities" time="2.169">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain remote file inclusion vulnerabilities" time="2.188">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -64,7 +64,7 @@ And the XML report is written to the file target/zap/zap-reports/sfi.xml....pass
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain Server side include vulnerabilities" time="2.147">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain Server side include vulnerabilities" time="2.158">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -80,7 +80,7 @@ And the XML report is written to the file target/zap/zap-reports/ssi.xml....pass
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain Server side code injection vulnerabilities" time="2.155">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain Server side code injection vulnerabilities" time="2.207">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -96,7 +96,7 @@ And the XML report is written to the file target/zap/zap-reports/ss_code_injecti
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain Remote OS Command injection vulnerabilities" time="2.162">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain Remote OS Command injection vulnerabilities" time="2.151">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -112,7 +112,7 @@ And the XML report is written to the file target/zap/zap-reports/os_injection.xm
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain CRLF injection vulnerabilities" time="2.127">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain CRLF injection vulnerabilities" time="2.146">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -128,7 +128,7 @@ And the XML report is written to the file target/zap/zap-reports/crlf_injection.
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not contain external redirect vulnerabilities" time="2.155">
+<testcase classname="Automated Application Security Scanning" name="The application should not contain external redirect vulnerabilities" time="2.162">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -144,7 +144,7 @@ And the XML report is written to the file target/zap/zap-reports/redirect.xml.pa
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not be vulnerable to XPATH injection" time="5.663">
+<testcase classname="Automated Application Security Scanning" name="The application should not be vulnerable to XPATH injection" time="6.065">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -160,7 +160,7 @@ And the XML report is written to the file target/zap/zap-reports/xpath_injection
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not be vulnerable to Xml External Entity Attacks" time="5.774">
+<testcase classname="Automated Application Security Scanning" name="The application should not be vulnerable to Xml External Entity Attacks" time="5.903">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -176,7 +176,7 @@ And the XML report is written to the file target/zap/zap-reports/xxe.xml....pass
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Automated Application Security Scanning" name="The application should not be vulnerable to the Generic Padding Oracle attack" time="5.84">
+<testcase classname="Automated Application Security Scanning" name="The application should not be vulnerable to the Generic Padding Oracle attack" time="5.919">
 <system-out><![CDATA[
 Given a new scanning session................................................passed
 And a scanner with all policies disabled....................................passed
@@ -192,7 +192,7 @@ And the XML report is written to the file target/zap/zap-reports/padding_oracle.
 Then no Medium or higher risk vulnerabilities should be present.............passed
 ]]></system-out>
 </testcase>
-<testcase classname="Authentication" name="Passwords should be case sensitive" time="31.988">
+<testcase classname="Authentication" name="Passwords should be case sensitive" time="31.621">
 <system-out><![CDATA[
 Given a new browser or client instance......................................passed
 When the default user logs in...............................................passed
@@ -204,7 +204,7 @@ And the user logs in........................................................pass
 Then the user is not logged in..............................................passed
 ]]></system-out>
 </testcase>
-<testcase classname="Authentication" name="Present the login form itself over an HTTPS connection" time="14.644">
+<testcase classname="Authentication" name="Present the login form itself over an HTTPS connection" time="15.51">
 <system-out><![CDATA[
 Given a new browser instance................................................passed
 And the client/browser is configured to use an intercepting proxy...........passed
@@ -213,7 +213,7 @@ And the HTTP request-response containing the login form.....................pass
 Then the protocol should be HTTPS...........................................passed
 ]]></system-out>
 </testcase>
-<testcase classname="Authentication" name="Disable browser auto-completion on the login form" time="9.92">
+<testcase classname="Authentication" name="Disable browser auto-completion on the login form" time="9.48">
 <system-out><![CDATA[
 Given a new browser instance................................................passed
 And the login page is displayed.............................................passed
@@ -221,7 +221,7 @@ When the login form is inspected............................................pass
 Then it should have the autocomplete attribute set to 'off'.................passed
 ]]></system-out>
 </testcase>
-<testcase classname="Session Management" name="Issue a new session ID after authentication" time="23.765">
+<testcase classname="Session Management" name="Issue a new session ID after authentication" time="23.161">
 <system-out><![CDATA[
 Given a new browser or client instance......................................passed
 And the login page..........................................................passed
@@ -231,7 +231,7 @@ And the user is logged in...................................................pass
 Then the value of the session cookie issued after authentication should be different from that of the previously noted session ID.passed
 ]]></system-out>
 </testcase>
-<testcase classname="Session Management" name="Set the 'secure' flag on the session cookie" time="27.069">
+<testcase classname="Session Management" name="Set the 'secure' flag on the session cookie" time="26.786">
 <system-out><![CDATA[
 Given a new browser or client instance......................................passed
 When the default user logs in...............................................passed
@@ -239,7 +239,7 @@ And the user is logged in...................................................pass
 Then the session cookie should have the secure flag set.....................passed
 ]]></system-out>
 </testcase>
-<testcase classname="Session Management" name="Set the 'httpOnly' flag on the session cookie" time="26.104">
+<testcase classname="Session Management" name="Set the 'httpOnly' flag on the session cookie" time="25.293">
 <system-out><![CDATA[
 Given a new browser or client instance......................................passed
 And the client/browser is configured to use an intercepting proxy...........passed
