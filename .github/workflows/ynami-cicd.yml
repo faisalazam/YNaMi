@@ -365,6 +365,13 @@ jobs:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
           overwrite: true
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: |
+            ${{ env.UPLOADED_ARTIFACTS_DIR }}-*
+            ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-*
+          failOnError: false
 
   deploy-gh-pages:
     name: gh-pages-deployment
@@ -401,6 +408,7 @@ jobs:
           echo "The GitHub Pages URL is: ${{ env.SITE_ROOT_URL }}"
 
       - name: Delete artifacts
+        if: success()  # Run this only if all previous steps in this job were successful
         uses: geekyeggo/delete-artifact@v5
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
