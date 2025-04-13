@@ -3,6 +3,7 @@ on: push
 env:
   JAVA_VERSION: 23
   MYSQL_VERSION: 8.0
+  PAGES_FOLDER: 'gh-pages'
   UPLOADED_ARTIFACTS_DIR: 'gh-pages'
   TESTS_UPLOADED_ARTIFACTS_DIR: 'test-results'
   UNIT_TESTS_XMLS_DIR: 'target/test-results/unit-tests/*.xml'
@@ -364,12 +365,46 @@ jobs:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }} # Name of the folder
           path: target/site                       # Path to test report
           overwrite: true
+
+  deploy-gh-pages:
+    name: gh-pages-deployment
+    runs-on: ubuntu-24.04
+    needs: site-generation
+    if: always()
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout the Repository 🛎️
+        uses: actions/checkout@v4
+
+      - name: Download GitHub Pages Artifact 📦
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
+          path: ${{ env.PAGES_FOLDER }}
+
+      - name: Check Contents of the Directory 📂
+        run: |
+          ls -R .
+
+      - name: Set SITE_ROOT_URL Variable
+        run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ${{ env.PAGES_FOLDER }}
+
+      - name: Display GitHub Pages URL 🌐
+        run: |
+          echo "The GitHub Pages URL is: ${{ env.SITE_ROOT_URL }}"
+
       - name: Delete artifacts
         uses: geekyeggo/delete-artifact@v5
         with:
-            name: |
-                ${{ env.UPLOADED_ARTIFACTS_DIR }}-*
-                ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-*
-            failOnError: false
-
-
+          name: |
+            ${{ env.UPLOADED_ARTIFACTS_DIR }}-*
+            ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-*
+          failOnError: false
