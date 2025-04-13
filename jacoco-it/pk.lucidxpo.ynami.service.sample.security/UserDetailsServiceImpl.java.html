@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDetailsServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.service.sample.security</a> &gt; <span class="el_source">UserDetailsServiceImpl.java</span></div><h1>UserDetailsServiceImpl.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.service.sample.security;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pk.lucidxpo.ynami.persistence.dao.security.UserRepository;
+import pk.lucidxpo.ynami.persistence.model.security.User;
+
+import static pk.lucidxpo.ynami.spring.security.UserPrincipal.create;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    @Autowired
+<span class="fc" id="L19">    public UserDetailsServiceImpl(final UserRepository userRepository) {</span>
+<span class="fc" id="L20">        this.userRepository = userRepository;</span>
+<span class="fc" id="L21">    }</span>
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(final String usernameOrEmail) throws UsernameNotFoundException {
+<span class="fc" id="L26">        final User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)</span>
+<span class="fc" id="L27">                .orElseThrow(() -&gt;</span>
+<span class="fc" id="L28">                        new UsernameNotFoundException(&quot;User not found with username or email : &quot; + usernameOrEmail)</span>
+                );
+
+<span class="fc" id="L31">        return create(user);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

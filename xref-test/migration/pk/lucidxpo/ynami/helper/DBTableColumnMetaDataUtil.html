@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>DBTableColumnMetaDataUtil xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../testapidocs/migration/pk/lucidxpo/ynami/helper/DBTableColumnMetaDataUtil.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> migration.pk.lucidxpo.ynami.helper;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.SCHEMA_NAME;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> migration.pk.lucidxpo.ynami.helper.MigrationTestHelper.getConvertedDataType;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.apache.commons.lang3.BooleanUtils.toBoolean;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.fail;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="DBTableColumnMetaDataUtil" href="../../../../../migration/pk/lucidxpo/ynami/helper/DBTableColumnMetaDataUtil.html#DBTableColumnMetaDataUtil">DBTableColumnMetaDataUtil</a> {
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>      @SuppressWarnings(<span class="jxr_string">"ConstantConditions"</span>)
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> List&lt;DBTableColumnMetaData&gt; getColumnMetaData(<strong class="jxr_keyword">final</strong> <a name="MultiSqlExecutor" href="../../../../../migration/pk/lucidxpo/ynami/helper/MultiSqlExecutor.html#MultiSqlExecutor">MultiSqlExecutor</a> executor, <strong class="jxr_keyword">final</strong> String tableName) {
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>          <strong class="jxr_keyword">final</strong> String querySQL = <span class="jxr_string">"SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, "</span>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>                  + <span class="jxr_string">"NUMERIC_PRECISION, DATETIME_PRECISION, IS_NULLABLE, COLUMN_DEFAULT "</span>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>                  + <span class="jxr_string">"FROM INFORMATION_SCHEMA.COLUMNS "</span>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>                  + <span class="jxr_string">"WHERE upper(TABLE_SCHEMA) = '"</span> + SCHEMA_NAME.toUpperCase() + <span class="jxr_string">"' "</span>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>                  + <span class="jxr_string">"AND upper(TABLE_NAME) = '"</span> + tableName.toUpperCase() + <span class="jxr_string">"' "</span>;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          <strong class="jxr_keyword">return</strong> executor.getTemplate().query(querySQL, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, (rs, rowNum) -&gt; <strong class="jxr_keyword">new</strong> <a name="DBTableColumnMetaData" href="../../../../../migration/pk/lucidxpo/ynami/helper/DBTableColumnMetaData.html#DBTableColumnMetaData">DBTableColumnMetaData</a>(
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>                  rs.getString(<span class="jxr_string">"TABLE_NAME"</span>),
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>                  rs.getString(<span class="jxr_string">"COLUMN_NAME"</span>),
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>                  rs.getString(<span class="jxr_string">"DATA_TYPE"</span>),
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>                  rs.getBigDecimal(<span class="jxr_string">"CHARACTER_MAXIMUM_LENGTH"</span>),
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>                  rs.getInt(<span class="jxr_string">"NUMERIC_PRECISION"</span>),
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>                  rs.getInt(<span class="jxr_string">"DATETIME_PRECISION"</span>),
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>                  toBoolean(rs.getString(<span class="jxr_string">"IS_NULLABLE"</span>)),
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>                  rs.getString(<span class="jxr_string">"COLUMN_DEFAULT"</span>)
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          ));
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      }
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> assertColumnExists(<strong class="jxr_keyword">final</strong> List&lt;DBTableColumnMetaData&gt; tableColumnMetaData,
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>                                            <strong class="jxr_keyword">final</strong> String columnName,
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>                                            <strong class="jxr_keyword">final</strong> String dataType) {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> <a name="DBTableColumnMetaData" href="../../../../../migration/pk/lucidxpo/ynami/helper/DBTableColumnMetaData.html#DBTableColumnMetaData">DBTableColumnMetaData</a> columnMetaData : tableColumnMetaData) {
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>              <strong class="jxr_keyword">if</strong> (columnName.equalsIgnoreCase(columnMetaData.getColumnName())
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                      &amp;&amp; getConvertedDataType(dataType).equalsIgnoreCase(columnMetaData.getDataType())) {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>                  <strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>              }
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          }
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>          fail(<span class="jxr_string">"The table ["</span> + tableColumnMetaData.get(0).getTableName() + <span class="jxr_string">"] should have column ["</span>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>                  + columnName + <span class="jxr_string">"] with dataType ["</span> + dataType + <span class="jxr_string">"]"</span>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>          );
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      }
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

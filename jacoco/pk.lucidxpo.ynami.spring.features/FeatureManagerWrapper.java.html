@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FeatureManagerWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.spring.features</a> &gt; <span class="el_source">FeatureManagerWrapper.java</span></div><h1>FeatureManagerWrapper.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.spring.features;
+
+import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
+import org.togglz.core.Feature;
+import org.togglz.core.manager.FeatureManager;
+import org.togglz.core.repository.FeatureState;
+
+@Component
+@ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;true&quot;)
+public class FeatureManagerWrapper implements FeatureManagerWrappable {
+    private final FeatureManager featureManager;
+
+    @Autowired
+<span class="nc" id="L17">    public FeatureManagerWrapper(final FeatureManager featureManager) {</span>
+<span class="nc" id="L18">        this.featureManager = featureManager;</span>
+<span class="nc" id="L19">    }</span>
+
+    @Override
+    public boolean isActive(@NotNull final Feature feature) {
+<span class="nc" id="L23">        return featureManager.getFeatureState(feature).isEnabled();</span>
+    }
+
+    @Override
+    public void activate(@NotNull final Feature feature) {
+<span class="nc" id="L28">        featureManager.setFeatureState(new FeatureState(feature).enable());</span>
+<span class="nc" id="L29">    }</span>
+
+    @Override
+    public void deactivate(@NotNull final Feature feature) {
+<span class="nc" id="L33">        featureManager.setFeatureState(new FeatureState(feature).disable());</span>
+<span class="nc" id="L34">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

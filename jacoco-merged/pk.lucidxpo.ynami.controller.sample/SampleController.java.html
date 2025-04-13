@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SampleController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.controller.sample</a> &gt; <span class="el_source">SampleController.java</span></div><h1>SampleController.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.controller.sample;
+
+import jakarta.servlet.http.HttpServletResponse;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleCreationDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdateStatusDTO;
+import pk.lucidxpo.ynami.persistence.dto.sample.SampleUpdationDTO;
+import pk.lucidxpo.ynami.persistence.model.sample.Sample;
+import pk.lucidxpo.ynami.service.sample.SampleService;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.FOUND;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
+
+@SuppressWarnings(&quot;SameReturnValue&quot;)
+@Controller
+public class SampleController {
+
+    @Value(&quot;${welcome.message}&quot;)
+    private String message;
+
+    private final ModelMapper modelMapper;
+    private final SampleService sampleService;
+
+    @Autowired
+    public SampleController(final ModelMapper modelMapper,
+<span class="fc" id="L46">                            final SampleService sampleService) {</span>
+<span class="fc" id="L47">        this.modelMapper = modelMapper;</span>
+<span class="fc" id="L48">        this.sampleService = sampleService;</span>
+<span class="fc" id="L49">    }</span>
+
+    @RequestMapping(&quot;/&quot;)
+    public String welcome(Model model) {
+<span class="fc" id="L53">        model.addAttribute(&quot;message&quot;, message);</span>
+<span class="fc" id="L54">        return &quot;welcome&quot;;</span>
+    }
+
+    @GetMapping(value = &quot;/samples&quot;)
+    public String getSamples(final Model model) {
+<span class="fc" id="L59">        final List&lt;Sample&gt; samples = sampleService.getAll();</span>
+<span class="fc" id="L60">        final List&lt;SampleDTO&gt; sampleDTOs = samples.stream()</span>
+<span class="fc" id="L61">                .map(sample -&gt; modelMapper.map(sample, SampleDTO.class))</span>
+<span class="fc" id="L62">                .collect(toList());</span>
+
+<span class="fc" id="L64">        model.addAttribute(&quot;samples&quot;, sampleDTOs);</span>
+
+<span class="fc" id="L66">        return &quot;sample/listSamples&quot;;</span>
+    }
+
+    @GetMapping(value = &quot;/samples/new&quot;)
+    public String prepareSampleCreation(final Model model) {
+<span class="fc" id="L71">        model.addAttribute(&quot;sample&quot;, SampleCreationDTO.builder().build());</span>
+<span class="fc" id="L72">        return &quot;sample/createSample&quot;;</span>
+    }
+
+    @PostMapping(value = &quot;/samples&quot;)
+    public String createSample(@ModelAttribute(&quot;sample&quot;) final SampleCreationDTO sampleCreationDTO,
+                               final HttpServletResponse response) {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (sampleService.existsByFirstName(sampleCreationDTO.getFirstName())) {</span>
+<span class="fc" id="L79">            response.setStatus(CONFLICT.value());</span>
+<span class="fc" id="L80">            return &quot;sample/createSample&quot;;</span>
+        }
+<span class="fc" id="L82">        final Sample sample = modelMapper.map(sampleCreationDTO, Sample.class);</span>
+<span class="fc" id="L83">        sampleService.create(sample);</span>
+<span class="fc" id="L84">        return &quot;redirect:/samples&quot;;</span>
+    }
+
+    @GetMapping(value = &quot;/samples/{id}/view&quot;)
+    public String getSample(@PathVariable final String id, final Model model, final HttpServletResponse response) {
+<span class="fc" id="L89">        final Optional&lt;Sample&gt; sample = sampleService.findById(id);</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (sample.isPresent()) {</span>
+<span class="fc" id="L92">            final SampleDTO sampleDTO = modelMapper.map(sample.get(), SampleDTO.class);</span>
+<span class="fc" id="L93">            model.addAttribute(&quot;sample&quot;, sampleDTO);</span>
+<span class="fc" id="L94">            response.setStatus(FOUND.value());</span>
+<span class="fc" id="L95">        } else {</span>
+<span class="fc" id="L96">            response.setStatus(NOT_FOUND.value());</span>
+        }
+<span class="fc" id="L98">        return &quot;sample/viewSample&quot;;</span>
+    }
+
+    @GetMapping(value = &quot;/samples/{id}&quot;)
+    public String prepareSampleUpdation(@PathVariable final String id, final Model model, final HttpServletResponse response) {
+<span class="fc" id="L103">        final Optional&lt;Sample&gt; optionalSample = sampleService.findById(id);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (optionalSample.isPresent()) {</span>
+<span class="fc" id="L105">            final SampleUpdationDTO sampleUpdationDTO = modelMapper.map(optionalSample.get(), SampleUpdationDTO.class);</span>
+<span class="fc" id="L106">            model.addAttribute(&quot;sample&quot;, sampleUpdationDTO);</span>
+<span class="fc" id="L107">            response.setStatus(FOUND.value());</span>
+<span class="fc" id="L108">        } else {</span>
+<span class="fc" id="L109">            response.setStatus(NOT_FOUND.value());</span>
+        }
+<span class="fc" id="L111">        return &quot;sample/editSample&quot;;</span>
+    }
+
+    @PutMapping(value = &quot;/samples/{id}&quot;)
+    public String updateSample(@PathVariable final String id,
+                               @ModelAttribute(&quot;sample&quot;) final SampleUpdationDTO sampleUpdationDTO,
+                               final HttpServletResponse response) {
+<span class="fc" id="L118">        final Optional&lt;Sample&gt; optionalSample = sampleService.findById(id);</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (optionalSample.isPresent()) {</span>
+<span class="fc" id="L120">            final Sample sample = optionalSample.get();</span>
+<span class="fc" id="L121">            modelMapper.map(sampleUpdationDTO, sample);</span>
+<span class="fc" id="L122">            sampleService.update(sample);</span>
+<span class="fc" id="L123">            return &quot;redirect:/samples&quot;;</span>
+        }
+<span class="fc" id="L125">        response.setStatus(NOT_FOUND.value());</span>
+<span class="fc" id="L126">        return &quot;sample/updateSample&quot;;</span>
+    }
+
+    @DeleteMapping(value = &quot;/samples/{id}&quot;)
+    public String deleteSample(@PathVariable final String id,
+                               final HttpServletResponse response) {
+<span class="fc" id="L132">        final Optional&lt;Sample&gt; optionalSample = sampleService.findById(id);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (optionalSample.isPresent()) {</span>
+<span class="fc" id="L134">            sampleService.delete(id);</span>
+<span class="fc" id="L135">            return &quot;redirect:/samples&quot;;</span>
+        }
+<span class="fc" id="L137">        response.setStatus(NOT_FOUND.value());</span>
+<span class="fc" id="L138">        return &quot;sample/deleteSample&quot;;</span>
+    }
+
+    @PatchMapping(value = &quot;/samples/{id}&quot;)
+    public ResponseEntity&lt;String&gt; updateSampleStatus(@PathVariable final String id,
+                                                     @ModelAttribute(&quot;sample&quot;) final SampleUpdateStatusDTO sampleUpdateStatusDTO) {
+<span class="fc" id="L144">        final Optional&lt;Sample&gt; optionalSample = sampleService.findById(id);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        if (optionalSample.isPresent()) {</span>
+<span class="fc" id="L146">            final Sample sample = optionalSample.get();</span>
+<span class="fc" id="L147">            modelMapper.map(sampleUpdateStatusDTO, sample);</span>
+<span class="fc" id="L148">            sampleService.update(sample);</span>
+<span class="fc" id="L149">            return new ResponseEntity&lt;&gt;(&quot;Sample state has been updated successfully&quot;, OK);</span>
+        }
+<span class="fc" id="L151">        return new ResponseEntity&lt;&gt;(&quot;Sample not found&quot;, NOT_FOUND);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

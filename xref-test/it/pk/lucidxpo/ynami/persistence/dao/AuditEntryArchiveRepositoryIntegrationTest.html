@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>AuditEntryArchiveRepositoryIntegrationTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../testapidocs/it/pk/lucidxpo/ynami/persistence/dao/AuditEntryArchiveRepositoryIntegrationTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> it.pk.lucidxpo.ynami.persistence.dao;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> it.pk.lucidxpo.ynami.AbstractIntegrationTest;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.springframework.beans.factory.annotation.Autowired;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> pk.lucidxpo.ynami.persistence.dao.AuditEntryArchiveRepository;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> pk.lucidxpo.ynami.persistence.model.AuditEntry;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> pk.lucidxpo.ynami.persistence.model.AuditEntryArchive;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertAll;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertEquals;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertTrue;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.springframework.beans.BeanUtils.copyProperties;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> pk.lucidxpo.ynami.utils.Identity.randomID;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">class</strong> <a name="AuditEntryArchiveRepositoryIntegrationTest" href="../../../../../../it/pk/lucidxpo/ynami/persistence/dao/AuditEntryArchiveRepositoryIntegrationTest.html#AuditEntryArchiveRepositoryIntegrationTest">AuditEntryArchiveRepositoryIntegrationTest</a> <strong class="jxr_keyword">extends</strong> AbstractIntegrationTest {
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>      @Autowired
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>      <strong class="jxr_keyword">private</strong> AuditEntryArchiveRepository archiveRepository;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      @Test
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      <strong class="jxr_keyword">void</strong> shouldRetrieveAuditEntryArchiveRecordsByEntityId() {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          <strong class="jxr_keyword">final</strong> String matchingEntityId = randomID();
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          <strong class="jxr_keyword">final</strong> String nonMatchingEntityId = randomID();
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">final</strong> AuditEntry auditEntry1 = <strong class="jxr_keyword">new</strong> AuditEntry(randomID(), matchingEntityId, <span class="jxr_string">"testField1"</span>,
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>                  <span class="jxr_string">"fromValue1"</span>, <span class="jxr_string">"toValue1"</span>, <span class="jxr_string">"changedBy1"</span>);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          <strong class="jxr_keyword">final</strong> AuditEntryArchive auditEntryArchive1 = <strong class="jxr_keyword">new</strong> AuditEntryArchive();
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          copyProperties(auditEntry1, auditEntryArchive1);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>          <strong class="jxr_keyword">final</strong> AuditEntry auditEntry2 = <strong class="jxr_keyword">new</strong> AuditEntry(randomID(), matchingEntityId, <span class="jxr_string">"testField2"</span>,
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>                  <span class="jxr_string">"fromValue2"</span>, <span class="jxr_string">"toValue2"</span>, <span class="jxr_string">"changedBy2"</span>);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>          <strong class="jxr_keyword">final</strong> AuditEntryArchive auditEntryArchive2 = <strong class="jxr_keyword">new</strong> AuditEntryArchive();
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>          copyProperties(auditEntry2, auditEntryArchive2);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>          <strong class="jxr_keyword">final</strong> AuditEntry auditEntry3 = <strong class="jxr_keyword">new</strong> AuditEntry(randomID(), nonMatchingEntityId, <span class="jxr_string">"testField3"</span>,
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>                  <span class="jxr_string">"fromValue3"</span>, <span class="jxr_string">"toValue3"</span>, <span class="jxr_string">"changedBy3"</span>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>          <strong class="jxr_keyword">final</strong> AuditEntryArchive auditEntryArchive3 = <strong class="jxr_keyword">new</strong> AuditEntryArchive();
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          copyProperties(auditEntry3, auditEntryArchive3);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          archiveRepository.save(auditEntryArchive1);
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          archiveRepository.save(auditEntryArchive2);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          archiveRepository.save(auditEntryArchive3);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          List&lt;AuditEntryArchive&gt; records = archiveRepository.findByChangedEntityIdOrderByChangedAtDesc(matchingEntityId);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>          assertEquals(2, records.size());
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          assertEntityAttributes(auditEntryArchive2, records.get(0));
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          assertEntityAttributes(auditEntryArchive1, records.get(1));
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>          records = archiveRepository.findByChangedEntityIdOrderByChangedAtDesc(nonMatchingEntityId);
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          assertEquals(1, records.size());
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>          assertEntityAttributes(auditEntryArchive3, records.get(0));
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          records = archiveRepository.findByChangedEntityIdOrderByChangedAtDesc(randomID());
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          assertTrue(records.isEmpty());
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      }
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> assertEntityAttributes(<strong class="jxr_keyword">final</strong> AuditEntryArchive expectedAuditEntryArchive, <strong class="jxr_keyword">final</strong> AuditEntryArchive actualAuditEntryArchive) {
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>          assertAll(
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getChangedEntityName(), actualAuditEntryArchive.getChangedEntityName()),
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getChangedEntityId(), actualAuditEntryArchive.getChangedEntityId()),
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getFieldChanged(), actualAuditEntryArchive.getFieldChanged()),
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getFromValue(), actualAuditEntryArchive.getFromValue()),
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getToValue(), actualAuditEntryArchive.getToValue()),
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getChangedBy(), actualAuditEntryArchive.getChangedBy()),
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>                  () -&gt; assertEquals(expectedAuditEntryArchive.getChangedAt(), actualAuditEntryArchive.getChangedAt())
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          );
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.spring.security</a> &gt; <span class="el_source">SecurityConfig.java</span></div><h1>SecurityConfig.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.spring.security;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import pk.lucidxpo.ynami.spring.aspect.FeatureAssociation;
+import pk.lucidxpo.ynami.spring.features.FeatureManagerWrappable;
+import pk.lucidxpo.ynami.utils.ProfileManager;
+
+import static org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    public static final String LOGIN_PAGE_URL = &quot;/login.html&quot;;
+    static final String LOGIN_PROCESSING_URL = &quot;/perform_login&quot;;
+    public static final String LOGIN_FAILURE_URL = LOGIN_PAGE_URL + &quot;?error=true&quot;;
+
+    static final String LOGOUT_URL = &quot;/perform_logout&quot;;
+    static final String LOGOUT_SUCCESS_URL = LOGIN_PAGE_URL + &quot;?logout&quot;;
+
+<span class="fc" id="L39">    private static final AntPathRequestMatcher[] ENDPOINTS_WHITELIST = {</span>
+<span class="fc" id="L40">            antMatcher(&quot;/css/**&quot;),</span>
+<span class="fc" id="L41">            antMatcher(&quot;/js/**&quot;),</span>
+<span class="fc" id="L42">            antMatcher(&quot;/img/**&quot;),</span>
+<span class="fc" id="L43">            antMatcher(&quot;/webjars/**&quot;),</span>
+<span class="fc" id="L44">            antMatcher(&quot;/favicon.ico&quot;) // 403 not working</span>
+    };
+
+    /**
+     * Setting content security policy header to fix &quot;Content Security Policy (CSP) Header Not Set&quot; reported by ZAP.
+     * &lt;p&gt;
+     * The header value can be picked from the
+     * &lt;a href=&quot;https://owasp.org/www-project-secure-headers/ci/headers_add.json&quot;&gt; HTTP response security headers to add&lt;/a&gt;
+     */
+    private static final String CONTENT_POLICY_DIRECTIVES = &quot;default-src 'self'&quot;
+            + &quot;; form-action 'self'&quot;
+            + &quot;; object-src 'none'&quot;
+            + &quot;; frame-ancestors 'none'&quot;
+            + &quot;; upgrade-insecure-requests&quot;
+            + &quot;; block-all-mixed-content&quot;
+            + &quot;; report-uri /report&quot;
+            + &quot;; report-to csp-violation-report&quot;;
+
+    private final String h2ConsolePattern;
+    private final ProfileManager profileManager;
+    private final FeatureManagerWrappable featureManager;
+
+    @Autowired
+    public SecurityConfig(@Value(&quot;${spring.h2.console.path:/h2-console}&quot;) final String h2ConsolePath,
+                          final ProfileManager profileManager,
+<span class="fc" id="L69">                          final FeatureManagerWrappable featureManager) {</span>
+<span class="fc" id="L70">        this.profileManager = profileManager;</span>
+<span class="fc" id="L71">        this.featureManager = featureManager;</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        this.h2ConsolePattern = h2ConsolePath.endsWith(&quot;/&quot;) ? h2ConsolePath + &quot;**&quot; : h2ConsolePath + &quot;/**&quot;;</span>
+<span class="fc" id="L73">    }</span>
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+<span class="fc" id="L77">        return new BCryptPasswordEncoder();</span>
+    }
+
+    @Bean
+    // TODO: do I need @FeatureAssociation(value = WEB_SECURITY) it here???
+    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+//        TODO: might need this for a security fix mentioned by the ZAP/security tests but bdd/selenium tests fail with
+//        this, need a proper solution.
+//        http
+//                .headers(headers -&gt; headers
+//                        .contentSecurityPolicy(contentSecurityPolicy -&gt; // TODO: add tests for contentSecurityPolicy header
+//                                contentSecurityPolicy.policyDirectives(CONTENT_POLICY_DIRECTIVES)
+//                        )
+//                );
+
+        // TODO: does this need to be inside any other condition?? Cover it through integration tests.
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (profileManager.isH2Active()) {</span>
+<span class="nc" id="L94">            setupH2ConsoleSecurity(http);</span>
+        }
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (!featureManager.isActive(WEB_SECURITY)) {</span>
+<span class="fc" id="L98">            return configureInsecureAccess(http);</span>
+        }
+
+<span class="fc" id="L101">        return http</span>
+<span class="fc" id="L102">                .authorizeHttpRequests((auth) -&gt; auth.requestMatchers(ENDPOINTS_WHITELIST).permitAll())</span>
+
+<span class="fc" id="L104">                .authorizeHttpRequests((auth) -&gt; auth.anyRequest().authenticated())</span>
+
+                // One reason to override most of the defaults in Spring Security is to hide that the application
+                // is secured with Spring Security. We also want to minimize the information a potential attacker
+                // knows about the application.
+<span class="fc" id="L109">                .formLogin(this::configureFormLogin)</span>
+
+<span class="fc" id="L111">                .logout(this::configureFormLogout)</span>
+
+<span class="fc" id="L113">                .build();</span>
+    }
+
+    @Bean
+    @FeatureAssociation(value = WEB_SECURITY)
+    public AuthenticationManager authenticationManager(
+            final AuthenticationConfiguration authenticationConfiguration) throws Exception {
+<span class="fc" id="L120">        return authenticationConfiguration.getAuthenticationManager();</span>
+    }
+
+    // TODO: do I need @FeatureAssociation(value = WEB_SECURITY) it here???
+    public void setupH2ConsoleSecurity(final HttpSecurity http) throws Exception {
+<span class="nc" id="L125">        final RequestMatcher h2PathMatcher = new AntPathRequestMatcher(h2ConsolePattern);</span>
+<span class="nc" id="L126">        final XFrameOptionsHeaderWriter sameOriginXFrameHeaderWriter = new XFrameOptionsHeaderWriter(SAMEORIGIN);</span>
+        // DelegatingRequestMatcherHeaderWriter is used to apply the XFrame header only to the h2 path. On the other
+        // hand, if we had used .headers(headers -&gt; headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)),
+        // then it'd have applied the XFrame header to all the paths/urls.
+<span class="nc" id="L130">        final DelegatingRequestMatcherHeaderWriter headerWriter =</span>
+                new DelegatingRequestMatcherHeaderWriter(h2PathMatcher, sameOriginXFrameHeaderWriter);
+<span class="nc" id="L132">        http</span>
+<span class="nc" id="L133">                .authorizeHttpRequests(auth -&gt; auth.requestMatchers(h2PathMatcher).permitAll())</span>
+<span class="nc" id="L134">                .headers(headers -&gt; headers.addHeaderWriter(headerWriter))</span>
+        ;
+<span class="nc" id="L136">    }</span>
+
+    private DefaultSecurityFilterChain configureInsecureAccess(final HttpSecurity http) throws Exception {
+<span class="fc" id="L139">        return http</span>
+                // Spring's recommendation is to use CSRF protection for any request that could be processed by a
+                // browser by normal users. If you are only creating a service that is used by non-browser clients,
+                // you will likely want to disable CSRF protection. If our stateless API uses token-based
+                // authentication, such as JWT, we don't need CSRF protection, and we must disable.
+                // However, if our stateless API uses a session cookie authentication, we need to enable CSRF protection
+<span class="fc" id="L145">                .csrf(AbstractHttpConfigurer::disable)</span>
+<span class="fc" id="L146">                .authorizeHttpRequests((auth) -&gt; auth.anyRequest().permitAll())</span>
+<span class="fc" id="L147">                .build();</span>
+    }
+
+    private void configureFormLogin(final FormLoginConfigurer&lt;HttpSecurity&gt; formLoginConfigurer) {
+<span class="fc" id="L151">        formLoginConfigurer</span>
+<span class="fc" id="L152">                .loginPage(LOGIN_PAGE_URL)</span>
+                // By overriding this default URL, we’re concealing that the application is actually secured
+                // with Spring Security. This information should not be available externally.
+<span class="fc" id="L155">                .loginProcessingUrl(LOGIN_PROCESSING_URL)</span>
+<span class="fc" id="L156">                .permitAll()</span>
+<span class="fc" id="L157">                .failureUrl(LOGIN_FAILURE_URL);</span>
+<span class="fc" id="L158">    }</span>
+
+    private void configureFormLogout(LogoutConfigurer&lt;HttpSecurity&gt; logoutConfigurer) {
+<span class="fc" id="L161">        logoutConfigurer</span>
+<span class="fc" id="L162">                .logoutUrl(LOGOUT_URL)</span>
+<span class="fc" id="L163">                .logoutSuccessUrl(LOGOUT_SUCCESS_URL);</span>
+<span class="fc" id="L164">    }</span>
+
+//    @Bean
+//    @FeatureAssociation(value = WEB_SECURITY)
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -&gt; web.ignoring().requestMatchers(
+//                antMatcher(&quot;/css/**&quot;),
+//                antMatcher(&quot;/js/**&quot;),
+//                antMatcher(&quot;/img/**&quot;),
+//                antMatcher(&quot;/webjars/**&quot;)
+//        );
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

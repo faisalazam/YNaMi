@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Identity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.utils</a> &gt; <span class="el_source">Identity.java</span></div><h1>Identity.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.utils;
+
+import java.security.SecureRandom;
+import java.util.UUID;
+
+import static java.lang.Integer.MAX_VALUE;
+import static org.apache.commons.lang3.StringUtils.remove;
+
+<span class="nc" id="L9">public final class Identity {</span>
+
+    private static final int MAX_DIGITS = 12;
+    private static final int RANDOM_DIGITS_9 = 9;
+    private static final int RANDOM_DIGITS_10 = 10;
+    private static final int RANDOM_DIGITS_11 = 11;
+
+<span class="fc" id="L16">    private static final SecureRandom RANDOM = new SecureRandom();</span>
+
+    public static int randomInt() {
+<span class="fc" id="L19">        return RANDOM.nextInt(MAX_VALUE);</span>
+    }
+
+    public static int randomInt(final int minValue, final int maxValue) {
+<span class="nc" id="L23">        return minValue + RANDOM.nextInt(maxValue - minValue);</span>
+    }
+
+    public static String randomID(final int digits) {
+<span class="nc" id="L27">        return randomID(&quot;&quot;, digits);</span>
+    }
+
+    public static String randomID() {
+<span class="fc" id="L31">        return remove(randomUUID(), &quot;-&quot;);</span>
+    }
+
+    public static String randomUUID() {
+<span class="fc" id="L35">        return UUID.randomUUID().toString();</span>
+    }
+
+    public static String randomID9(final String prefix) {
+<span class="nc" id="L39">        return randomID(prefix, RANDOM_DIGITS_9);</span>
+    }
+
+    public static String randomID11(final String prefix) {
+<span class="nc" id="L43">        return randomID(prefix, RANDOM_DIGITS_11);</span>
+    }
+
+    public static String randomID12(final String prefix) {
+<span class="nc" id="L47">        return randomID(prefix, MAX_DIGITS);</span>
+    }
+
+    public static String randomID(final String prefix, final int digits) {
+<span class="nc" id="L51">        final int len = prefix.length() + digits;</span>
+<span class="nc" id="L52">        final StringBuilder buf = new StringBuilder(len);</span>
+<span class="nc" id="L53">        buf.append(prefix);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (int i = 0; i &lt; digits; i++) {</span>
+<span class="nc" id="L55">            buf.append(RANDOM.nextInt(RANDOM_DIGITS_10));</span>
+        }
+<span class="nc" id="L57">        return buf.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

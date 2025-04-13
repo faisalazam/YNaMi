@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>TogglzConfiguration xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/pk/lucidxpo/ynami/spring/features/TogglzConfiguration.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> pk.lucidxpo.ynami.spring.features;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.springframework.beans.factory.annotation.Value;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.springframework.context.annotation.Bean;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.springframework.context.annotation.Configuration;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.togglz.core.repository.StateRepository;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.togglz.core.repository.cache.CachingStateRepository;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> javax.sql.DataSource;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.togglz.core.repository.jdbc.JDBCStateRepository.newBuilder;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  @Configuration
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  @ConditionalOnProperty(name = <span class="jxr_string">"config.togglz.enabled"</span>, havingValue = <span class="jxr_string">"true"</span>)
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="TogglzConfiguration" href="../../../../../pk/lucidxpo/ynami/spring/features/TogglzConfiguration.html#TogglzConfiguration">TogglzConfiguration</a> {
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_comment">     * The CachingStateRepository will act as a cache for persistentStateRepository.</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_comment">     * It will cache the results for 'cachingStateRepositoryTtl' milliseconds. If you omit the timeout, lookups will be cached</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_comment">     * until setFeatureState() is called for the specific feature. Using the cache without a timeout only makes sense</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_comment">     * if the repository state is never modified directly (by modifying the database table for example).</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_comment">     */</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      @Bean
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      @ConditionalOnProperty(name = <span class="jxr_string">"config.persistable.feature.toggles"</span>, havingValue = <span class="jxr_string">"true"</span>)
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">public</strong> StateRepository getStateRepository(<strong class="jxr_keyword">final</strong> DataSource dataSource,
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>                                                @Value(<span class="jxr_string">"${togglz.table.name}"</span>) <strong class="jxr_keyword">final</strong> String tableName,
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>                                                @Value(<span class="jxr_string">"${togglz.caching.state.repository.ttl}"</span>) <strong class="jxr_keyword">final</strong> Long cachingStateRepositoryTtl) {
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">final</strong> StateRepository persistentStateRepository = newBuilder(dataSource)
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>                  .tableName(tableName)
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>                  .createTable(false)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>                  .build();
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> CachingStateRepository(persistentStateRepository, cachingStateRepositoryTtl);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

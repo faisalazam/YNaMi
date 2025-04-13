@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CucumberTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../testapidocs/bdd/pk/lucidxpo/ynami/test/CucumberTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> bdd.pk.lucidxpo.ynami.test;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.ConfigurationParameter;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.IncludeEngines;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.SelectClasspathResource;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.Suite;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> bdd.pk.lucidxpo.ynami.test.CucumberTest.CAMELCASE;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> bdd.pk.lucidxpo.ynami.test.CucumberTest.CUCUMBER_GLUE_LOCATION;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> bdd.pk.lucidxpo.ynami.test.CucumberTest.CUCUMBER_REPORTING_PLUGINS;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> bdd.pk.lucidxpo.ynami.test.CucumberTest.FEATURE_FILES_LOCATION;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> bdd.pk.lucidxpo.ynami.test.CucumberTest.NAMING_STRATEGY;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.GLUE_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.PLUGIN_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.SNIPPET_TYPE_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.junit.platform.engine.Constants.JUNIT_PLATFORM_NAMING_STRATEGY_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  @Suite
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  @IncludeEngines(<span class="jxr_string">"cucumber"</span>)
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  @SelectClasspathResource(FEATURE_FILES_LOCATION)
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = CAMELCASE)
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = CUCUMBER_GLUE_LOCATION)
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = CUCUMBER_REPORTING_PLUGINS)
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  @ConfigurationParameter(key = JUNIT_PLATFORM_NAMING_STRATEGY_PROPERTY_NAME, value = NAMING_STRATEGY)
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_comment">// TODO: well designed Cucumber implementation: https://www.swtestacademy.com/selenium-spring-boot-cucumber-junit5-project/</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="CucumberTest" href="../../../../../bdd/pk/lucidxpo/ynami/test/CucumberTest.html#CucumberTest">CucumberTest</a> {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <em class="jxr_comment">// Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CAMELCASE = <span class="jxr_string">"camelcase"</span>;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      <em class="jxr_comment">// Cucumber tests results are reported in a &lt;Class Name&gt; - &lt;Method Name&gt; format. As a result only scenario names or</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <em class="jxr_comment">// example numbers are reported. This can make for hard to read reports. By using</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <em class="jxr_comment">// cucumber.junit-platform.naming-strategy=long, Cucumber will include the feature name in the scenario name. This</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <em class="jxr_comment">// makes the test results legible.</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String NAMING_STRATEGY = <span class="jxr_string">"long"</span>;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String FEATURE_FILES_LOCATION = <span class="jxr_string">"cuke/feature/"</span>;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_STEPS_PACKAGE = <span class="jxr_string">"bdd.pk.lucidxpo.ynami.steps"</span>;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_CONTEXT_LOADER = <span class="jxr_string">"bdd.pk.lucidxpo.ynami.config"</span>;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_WEB_DRIVER_CONFIG = <span class="jxr_string">"bdd.pk.lucidxpo.ynami.webdriver"</span>;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_REPORTS_PATH = <span class="jxr_string">"target/site/cucumber-reports/bdd"</span>;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_JSON_REPORT = <span class="jxr_string">"json:"</span> + CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/json/cucumber.json"</span>;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_HTML_REPORT = <span class="jxr_string">"html:"</span> + CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/html/cucumber.html"</span>;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_RERUN_REPORT = <span class="jxr_string">"rerun:"</span> + CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/cucumber-api-rerun.txt"</span>;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEPS_PACKAGE
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>              + <span class="jxr_string">", "</span> + CUCUMBER_CONTEXT_LOADER
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>              + <span class="jxr_string">", "</span> + CUCUMBER_WEB_DRIVER_CONFIG;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_REPORTING_PLUGINS = <span class="jxr_string">"pretty"</span>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>              + <span class="jxr_string">", "</span> + CUCUMBER_JSON_REPORT
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>              + <span class="jxr_string">", "</span> + CUCUMBER_RERUN_REPORT
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>              + <span class="jxr_string">", "</span> + CUCUMBER_HTML_REPORT;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

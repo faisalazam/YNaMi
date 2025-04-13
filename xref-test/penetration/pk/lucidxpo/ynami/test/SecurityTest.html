@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>SecurityTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../testapidocs/penetration/pk/lucidxpo/ynami/test/SecurityTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> penetration.pk.lucidxpo.ynami.test;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> io.cucumber.java.AfterAll;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.ConfigurationParameter;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.IncludeEngines;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.SelectClasspathResource;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.junit.platform.suite.api.Suite;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.FILTER_TAGS_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.GLUE_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.PLUGIN_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.core.options.Constants.SNIPPET_TYPE_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.cucumber.junit.platform.engine.Constants.JUNIT_PLATFORM_NAMING_STRATEGY_PROPERTY_NAME;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.test.SecurityTest.CAMELCASE;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_GLUE_LOCATION;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.test.SecurityTest.CUCUMBER_REPORTING_PLUGINS;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.test.SecurityTest.FEATURE_FILES_LOCATION;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.test.SecurityTest.NAMING_STRATEGY;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.test.SecurityTest.TAGS;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> penetration.pk.lucidxpo.ynami.utils.CucumberReportsGenerator.generateReports;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  @Suite
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  @IncludeEngines(<span class="jxr_string">"cucumber"</span>)
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  @SelectClasspathResource(FEATURE_FILES_LOCATION)
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = TAGS)
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  @ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = CAMELCASE)
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = CUCUMBER_GLUE_LOCATION)
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = CUCUMBER_REPORTING_PLUGINS)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  @ConfigurationParameter(key = JUNIT_PLATFORM_NAMING_STRATEGY_PROPERTY_NAME, value = NAMING_STRATEGY)
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="SecurityTest" href="../../../../../penetration/pk/lucidxpo/ynami/test/SecurityTest.html#SecurityTest">SecurityTest</a> {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <em class="jxr_comment">// Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CAMELCASE = <span class="jxr_string">"camelcase"</span>;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String NAMING_STRATEGY = <span class="jxr_string">"long"</span>;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TAGS = <span class="jxr_string">"not @wip and not @slow and not @broken-since-zap-2.13.0"</span>;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String FEATURE_FILES_LOCATION = <span class="jxr_string">"cuke/security/features/"</span>;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_REPORTS_PATH = <span class="jxr_string">"target/site/cucumber-reports/security"</span>;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_HTML_REPORTS_PATH = CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/html"</span>;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_JSON_REPORT_PATH = CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/json/cucumber.json"</span>;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String PEN_TESTS_JSON_REPORT = <span class="jxr_string">"json:"</span> + CUCUMBER_JSON_REPORT_PATH;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String PEN_TESTS_JUNIT_REPORT = <span class="jxr_string">"junit:"</span> + CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/pen_tests.xml"</span>;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_HTML_REPORT = <span class="jxr_string">"html:"</span> + CUCUMBER_HTML_REPORTS_PATH + <span class="jxr_string">"/cucumber.html"</span>;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_RERUN_REPORT = <span class="jxr_string">"rerun:"</span> + CUCUMBER_REPORTS_PATH + <span class="jxr_string">"/cucumber-api-rerun.txt"</span>;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_HOOKS_PACKAGE = <span class="jxr_string">"penetration.pk.lucidxpo.ynami.hooks"</span>;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_STEP_DEFS_PACKAGE = <span class="jxr_string">"penetration.pk.lucidxpo.ynami.steps.defs"</span>;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_CONTEXT_LOADER = <span class="jxr_string">"penetration.pk.lucidxpo.ynami.config.cucumber"</span>;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_STEPS_CONFIG_PACKAGE = <span class="jxr_string">"penetration.pk.lucidxpo.ynami.steps.config"</span>;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_GLUE_LOCATION = CUCUMBER_STEP_DEFS_PACKAGE
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>              + <span class="jxr_string">", "</span> + CUCUMBER_STEPS_CONFIG_PACKAGE
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>              + <span class="jxr_string">", "</span> + CUCUMBER_HOOKS_PACKAGE
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>              + <span class="jxr_string">", "</span> + CUCUMBER_CONTEXT_LOADER;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CUCUMBER_REPORTING_PLUGINS = <span class="jxr_string">"pretty"</span>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>              + <span class="jxr_string">", "</span> + PEN_TESTS_JSON_REPORT
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>              + <span class="jxr_string">", "</span> + CUCUMBER_RERUN_REPORT
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              + <span class="jxr_string">", "</span> + PEN_TESTS_JUNIT_REPORT
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>              + <span class="jxr_string">", "</span> + CUCUMBER_HTML_REPORT;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      @AfterAll
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> tearDown() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          <em class="jxr_comment">// TODO: do I need to generate reports explicitly? I think the ones generated through maven will be good enough.</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <em class="jxr_comment">//  Or consider combining the reports from cluecumber-report-plugin and maven-cucumber-reporting plugins.</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          generateReports(CUCUMBER_HTML_REPORTS_PATH, CUCUMBER_JSON_REPORT_PATH);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      }
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

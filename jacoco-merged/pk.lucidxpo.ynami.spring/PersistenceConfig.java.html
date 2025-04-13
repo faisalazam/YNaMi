@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersistenceConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.spring</a> &gt; <span class="el_source">PersistenceConfig.java</span></div><h1>PersistenceConfig.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.spring;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import pk.lucidxpo.ynami.spring.features.FeatureProxyFactoryBeanWrapper;
+import pk.lucidxpo.ynami.spring.security.SpringSecurityAuditAwareImpl;
+
+import static pk.lucidxpo.ynami.spring.features.FeatureToggles.WEB_SECURITY;
+
+@Configuration
+@EnableJpaAuditing
+@EnableTransactionManagement
+<span class="fc" id="L20">public class PersistenceConfig {</span>
+    static final String AUDITOR_AWARE_BEAN_NAME = &quot;auditorAware&quot;;
+
+    @Bean
+    @ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;true&quot;)
+    public AuditorAware&lt;String&gt; insecureAuditorAware() {
+<span class="fc" id="L26">        return new AuditorAwareImpl();</span>
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;true&quot;)
+    public AuditorAware&lt;String&gt; springSecurityAuditorAware() {
+<span class="fc" id="L32">        return new SpringSecurityAuditAwareImpl();</span>
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;true&quot;)
+    public FeatureProxyFactoryBeanWrapper proxiedAuditorAware() {
+<span class="fc" id="L38">        final FeatureProxyFactoryBeanWrapper proxyFactoryBean = new FeatureProxyFactoryBeanWrapper();</span>
+<span class="fc" id="L39">        proxyFactoryBean.setFeature(WEB_SECURITY);</span>
+<span class="fc" id="L40">        proxyFactoryBean.setProxyType(AuditorAware.class);</span>
+<span class="fc" id="L41">        proxyFactoryBean.setActive(springSecurityAuditorAware());</span>
+<span class="fc" id="L42">        proxyFactoryBean.setInactive(insecureAuditorAware());</span>
+<span class="fc" id="L43">        return proxyFactoryBean;</span>
+    }
+
+    @Primary
+    @Bean(AUDITOR_AWARE_BEAN_NAME)
+    @ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;true&quot;)
+    public AuditorAware auditorAware(@Autowired @Qualifier(&quot;proxiedAuditorAware&quot;) final FeatureProxyFactoryBeanWrapper proxiedAuditorAware) throws Exception {
+<span class="fc" id="L50">        return (AuditorAware) proxiedAuditorAware.getObject();</span>
+    }
+
+    @Bean(AUDITOR_AWARE_BEAN_NAME)
+    @ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;false&quot;, matchIfMissing = true)
+    public AuditorAware auditorAwareWhenTogglzIsDisabled() {
+<span class="fc" id="L56">        return new AuditorAwareImpl();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

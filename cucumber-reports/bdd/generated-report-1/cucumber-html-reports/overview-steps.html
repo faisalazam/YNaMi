@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script src="js/Chart.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="css/cucumber.css" type="text/css"/>
+<link rel="stylesheet" href="css/font-awesome.min.css"/>
+<link rel="shortcut icon" href="images/favicon.png"/>
+
+<script>
+$(document).ready(function() {
+    // this will tell tablesorter to try looking for the data-value attribute
+    // if present, it'll sort by that instead
+    // otherwise, it'll sort by the text content of the table cell
+    $("#tablesorter").tablesorter({
+        textAttribute: 'data-value',
+        // ignores the first row of the header, the 'scenario', 'steps', since
+        // sorting those doesn't make sense
+        selectorHeaders: '> thead tr:not(.dont-sort) th',
+        // use a stable sort
+        sortStable: true
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<title>Cucumber Reports (no 1) - Steps Overview</title>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navigation">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse">
+      <p class="navbar-text navbar-left">Cucumber Report</p>
+      <ul class="nav navbar-nav navbar-right">
+        <li role="presentation" ><a href="overview-features.html">Features</a></li>
+        <li role="presentation" ><a href="overview-tags.html">Tags</a></li>
+        <li role="presentation"     class="active" ><a href="overview-steps.html">Steps</a></li>
+        <li role="presentation" ><a href="overview-failures.html">Failures</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container-fluid">
+  <div class="col-md-5 col-md-offset-1">
+
+<table class="table table-bordered" id="build-info">
+  <thead>
+    <tr>
+      <th>Project</th>
+        <th>Number</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="info">
+      <td>YNaMi</td>
+        <td>1</td>
+      <td>13 Apr 2025, 06:34</td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+  <div class="col-md-3 col-md-offset-2">
+  </div>
+</div>
+
+
+<div id="report-lead" class="container-fluid">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>Steps Statistics</h2>
+      <p>The following graph shows step statistics for this build. Below list is based on results.
+ step does not provide information about result then is not listed below.
+ Additionally @Before and @After are not counted because they are part of the scenarios, not steps.</p>
+  </div>
+</div>
+
+<div class="container-fluid" id="report">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <table id="tablesorter" class="stats-table table-hover">
+
+        <thead>
+          <tr class="header">
+            <th>Implementation</th>
+            <th>Occurrences</th>
+            <th>Average duration</th>
+            <th>Max duration</th>
+            <th>Total durations</th>
+            <th>Ratio</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LoginSteps.iClickOnSubmitButton()</td>
+              <td>6</td>
+              <td class="duration" data-value="762350807">0.762</td>
+              <td class="duration" data-value="762350807">2.494</td>
+              <td class="duration" data-value="4574104846">4.574</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LoginSteps.iEnterInPasswordField(java.lang.String)</td>
+              <td>6</td>
+              <td class="duration" data-value="996713462">0.996</td>
+              <td class="duration" data-value="996713462">1.944</td>
+              <td class="duration" data-value="5980280777">5.980</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LoginSteps.iEnterInUsernameField(java.lang.String)</td>
+              <td>6</td>
+              <td class="duration" data-value="10007647626">10.007</td>
+              <td class="duration" data-value="10007647626">10.958</td>
+              <td class="duration" data-value="60045885760">1:0.045</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LoginSteps.iGoToLoginPage()</td>
+              <td>6</td>
+              <td class="duration" data-value="1218863137">1.218</td>
+              <td class="duration" data-value="1218863137">2.909</td>
+              <td class="duration" data-value="7313178822">7.313</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LoginSteps.iShouldBeLoggedIn()</td>
+              <td>6</td>
+              <td class="duration" data-value="479654607">0.479</td>
+              <td class="duration" data-value="479654607">0.940</td>
+              <td class="duration" data-value="2877927643">2.877</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LoginSteps.iShouldBeOnLoginPage()</td>
+              <td>6</td>
+              <td class="duration" data-value="370439243">0.370</td>
+              <td class="duration" data-value="370439243">0.984</td>
+              <td class="duration" data-value="2222635458">2.222</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.LogoutSteps.iCanClickOnLogout()</td>
+              <td>6</td>
+              <td class="duration" data-value="1766326789">1.766</td>
+              <td class="duration" data-value="1766326789">2.306</td>
+              <td class="duration" data-value="10597960734">10.597</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.MathmaticalSteps.iAmAboutToPerformAnOperation()</td>
+              <td>3</td>
+              <td class="duration" data-value="275787">0.000</td>
+              <td class="duration" data-value="275787">0.000</td>
+              <td class="duration" data-value="827362">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.MathmaticalSteps.iEnterAsFirstOperand(java.lang.String)</td>
+              <td>3</td>
+              <td class="duration" data-value="108806">0.000</td>
+              <td class="duration" data-value="108806">0.000</td>
+              <td class="duration" data-value="326418">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.MathmaticalSteps.iEnterAsSecondOperand(java.lang.String)</td>
+              <td>3</td>
+              <td class="duration" data-value="82891">0.000</td>
+              <td class="duration" data-value="82891">0.000</td>
+              <td class="duration" data-value="248674">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.MathmaticalSteps.theResultOfAdditionOperationIs(java.lang.String)</td>
+              <td>1</td>
+              <td class="duration" data-value="1774746">0.001</td>
+              <td class="duration" data-value="1774746">0.001</td>
+              <td class="duration" data-value="1774746">0.001</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.MathmaticalSteps.theResultOfMultiplicationOperationIs(java.lang.String)</td>
+              <td>1</td>
+              <td class="duration" data-value="162753">0.000</td>
+              <td class="duration" data-value="162753">0.000</td>
+              <td class="duration" data-value="162753">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.steps.MathmaticalSteps.theResultOfSubtractionOperationIs(java.lang.String)</td>
+              <td>1</td>
+              <td class="duration" data-value="135683">0.000</td>
+              <td class="duration" data-value="135683">0.000</td>
+              <td class="duration" data-value="135683">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.webdriver.hooks.IFluentAdapterHooks.afterScenario()</td>
+              <td>9</td>
+              <td class="duration" data-value="306639">0.000</td>
+              <td class="duration" data-value="306639">0.000</td>
+              <td class="duration" data-value="2759753">0.002</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.webdriver.hooks.IFluentAdapterHooks.before()</td>
+              <td>9</td>
+              <td class="duration" data-value="1496666332">1.496</td>
+              <td class="duration" data-value="1496666332">10.015</td>
+              <td class="duration" data-value="13469996990">13.469</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">bdd.pk.lucidxpo.ynami.webdriver.hooks.WebDriverHooks.afterScenario()</td>
+              <td>9</td>
+              <td class="duration" data-value="186933259">0.186</td>
+              <td class="duration" data-value="186933259">0.256</td>
+              <td class="duration" data-value="1682399337">1.682</td>
+              <td class="passed">100.00%</td>
+            </tr>
+        </tbody>
+
+        <tfoot class="total">
+          <tr>
+            <td>16</td>
+            <td>81</td>
+            <td class="duration">1.342</td>
+            <td class="duration">1:0.045</td>
+            <td class="duration">1:48.770</td>
+            <td>Totals</td>
+          </tr>
+        </tfoot>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<nav class="navbar navbar-default" id="footer">
+  <div class="container-fluid">
+    <p class="navbar-text navbar-right">
+        <small>generate Cucumber HTML reports via:&nbsp;</small>
+        <a class="navbar-link" href="https://github.com/jenkinsci/cucumber-reports-plugin">Jenkins Plugin</a> |
+        <a class="navbar-link" href="https://github.com/damianszczepanik/cucumber-reporting">Standalone</a> |
+        <a class="navbar-link" href="https://github.com/damianszczepanik/cucumber-sandwich">Sandwich</a> |
+        <a class="navbar-link" href="https://github.com/damianszczepanik/maven-cucumber-reporting">Maven</a>
+        &nbsp;&nbsp;
+    </p>
+  </div>
+</nav>
+
+</body>
+</html>

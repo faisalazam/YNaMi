@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Auditable xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/pk/lucidxpo/ynami/persistence/model/Auditable.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> pk.lucidxpo.ynami.persistence.model;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> jakarta.persistence.Column;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> jakarta.persistence.EntityListeners;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> jakarta.persistence.Id;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> jakarta.persistence.MappedSuperclass;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> lombok.Data;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.hibernate.annotations.CreationTimestamp;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.hibernate.annotations.UpdateTimestamp;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.springframework.data.annotation.CreatedBy;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.springframework.data.annotation.LastModifiedBy;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.springframework.data.jpa.domain.support.AuditingEntityListener;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> java.time.Instant;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.hibernate.annotations.SourceType.DB;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> pk.lucidxpo.ynami.utils.Identity.randomID;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  @Data
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  @MappedSuperclass
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  @EntityListeners({AuditingEntityListener.<strong class="jxr_keyword">class</strong>})
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> Auditable&lt;U&gt; <strong class="jxr_keyword">implements</strong> <a name="Identifiable" href="../../../../../pk/lucidxpo/ynami/persistence/model/Identifiable.html#Identifiable">Identifiable</a> {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      <em class="jxr_comment">//    TODO: consider replacing this class with org.springframework.data.jpa.domain.AbstractAuditable</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      @Id
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      @Column(nullable = false, updatable = false)
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">private</strong> String id = randomID();
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <em class="jxr_comment">// The @CreatedDate and @CreationTimestamp are convenient annotation which sets the field value to the current</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      <em class="jxr_comment">// timestamp when the entity is first saved. @CreatedDate is a Spring annotation. It is applicable to all stores</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <em class="jxr_comment">// covered by Spring Data: JPA, JDBC, R2DBC, MongoDb, Cassandra and so on, whereas @CreationTimestamp is a Hibernate</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <em class="jxr_comment">// annotation. It is applicable to Hibernate only. By default, both of these annotations use the current date of</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <em class="jxr_comment">// the Java Virtual Machine when setting property values. Starting from Hibernate 6.0.0, we can optionally specify</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <em class="jxr_comment">// the database as the source of the date. However, when using @CreationTimestamp and @UpdateTimestamp, we have to</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <em class="jxr_comment">// keep in mind that Hibernate generates new timestamps on a per-field basis. This leads to multiple timestamps</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <em class="jxr_comment">// being different, even though they were set by the same INSERT or UPDATE statement. Main reason to use the</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      <em class="jxr_comment">// @CreationTimestamp instead of @CreatedDate is, Spring Data Jpa sets the creation timestamp with nanoseconds</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <em class="jxr_comment">// (9 digits) precision on java object but saves the object with microseconds (6 digits) precision in the database</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      <em class="jxr_comment">// on linux machines (this issue doesn't happen on MAC) and hence the assertions in the integration tests fail</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      <em class="jxr_comment">// due to difference in precisions. So, setting 'source = DB' on the @CreationTimestamp annotation helps resolve</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      <em class="jxr_comment">// this issue and tests work on both Mac and Linux.</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <em class="jxr_comment">// Insertable =&gt; Whether the column is included in SQL INSERT statements generated by the persistence provider.</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <em class="jxr_comment">// Updatable =&gt; Whether the column is included in SQL UPDATE statements generated by the persistence provider.</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      @CreationTimestamp(source = DB)
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      @Column(nullable = false, insertable = false, updatable = false)
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">private</strong> Instant createdDate;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <em class="jxr_comment">// The @LastModifiedDate and @UpdateTimestamp are convenient annotation which automatically sets the field value to</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      <em class="jxr_comment">// the current timestamp on each entity update. @LastModifiedDate is a Spring annotation. It is applicable to all</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <em class="jxr_comment">// stores covered by Spring Data: JPA, JDBC, R2DBC, MongoDb, Cassandra and so on, whereas @UpdateTimestamp is a</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      <em class="jxr_comment">// Hibernate annotation. It is applicable to Hibernate only.By default, both of these annotations use the current</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <em class="jxr_comment">// date of the Java Virtual Machine when setting property values. Starting from Hibernate 6.0.0, we can optionally</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>      <em class="jxr_comment">// specify the database as the source of the date. Main reason to use the @UpdateTimestamp instead of</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      <em class="jxr_comment">// @LastModifiedDate is, Spring Data Jpa sets the updation timestamp with nanoseconds (9 digits) precision on java</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      <em class="jxr_comment">// object but saves the object with microseconds (6 digits) precision in the database on linux machines (this issue</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <em class="jxr_comment">// doesn't happen on MAC) and hence the assertions in the integration tests fail due to difference in precisions.</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <em class="jxr_comment">// So, setting 'source = DB' on the @UpdateTimestamp annotation helps resolve this issue and tests work on both Mac</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      <em class="jxr_comment">// and Linux.</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <em class="jxr_comment">// Insertable =&gt; Whether the column is included in SQL INSERT statements generated by the persistence provider.</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <em class="jxr_comment">// Updatable =&gt; Whether the column is included in SQL UPDATE statements generated by the persistence provider.</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      @UpdateTimestamp(source = DB)
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>      @Column(insertable = false, updatable = false)
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">private</strong> Instant lastModifiedDate;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <em class="jxr_comment">//    @ManyToOne</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      @CreatedBy
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      @Column(nullable = false, updatable = false)
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">private</strong> U createdBy;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      @Column(nullable = false)
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_comment">//    @ManyToOne</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      @LastModifiedBy
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">private</strong> U lastModifiedBy;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

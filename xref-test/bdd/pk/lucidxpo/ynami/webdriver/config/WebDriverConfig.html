@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>WebDriverConfig xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../testapidocs/bdd/pk/lucidxpo/ynami/webdriver/config/WebDriverConfig.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> bdd.pk.lucidxpo.ynami.webdriver.config;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> bdd.pk.lucidxpo.ynami.annotations.LazyConfiguration;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> bdd.pk.lucidxpo.ynami.webdriver.annotations.WebdriverBeanScope;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> io.github.bonigarcia.wdm.WebDriverManager;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.Proxy;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.WebDriver;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.firefox.FirefoxOptions;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.htmlunit.HtmlUnitDriver;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.springframework.context.annotation.Primary;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.springframework.context.annotation.Profile;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> pk.lucidxpo.ynami.utils.webdrivers.ChromeWebDriverBuilder;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.github.bonigarcia.wdm.WebDriverManager.edgedriver;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> java.lang.Boolean.TRUE;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> java.lang.Boolean.valueOf;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> java.lang.System.getenv;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> java.time.Duration.ofSeconds;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> pk.lucidxpo.ynami.utils.webdrivers.ChromeWebDriverBuilder.HEADLESS_MODE;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  @Profile(<span class="jxr_string">"!grid"</span>)
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  @LazyConfiguration
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="WebDriverConfig" href="../../../../../../bdd/pk/lucidxpo/ynami/webdriver/config/WebDriverConfig.html#WebDriverConfig">WebDriverConfig</a> {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String EDGE = <span class="jxr_string">"edge"</span>;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String PROXY = <span class="jxr_string">"proxy"</span>;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CHROME = <span class="jxr_string">"chrome"</span>;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String BROWSER = <span class="jxr_string">"browser"</span>;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String FIREFOX = <span class="jxr_string">"firefox"</span>;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String HTMLUNIT = <span class="jxr_string">"htmlunit"</span>;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String NO_PROXY_VAR = <span class="jxr_string">"no_proxy-var"</span>;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      @Primary
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      @WebdriverBeanScope
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      @ConditionalOnProperty(name = BROWSER, havingValue = FIREFOX)
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      <strong class="jxr_keyword">public</strong> WebDriver firefoxDriver() {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          <strong class="jxr_keyword">final</strong> Proxy proxy = <strong class="jxr_keyword">new</strong> Proxy();
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>          proxy.setAutodetect(false);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          proxy.setNoProxy(NO_PROXY_VAR);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <strong class="jxr_keyword">final</strong> FirefoxOptions options = <strong class="jxr_keyword">new</strong> FirefoxOptions();
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          options.setCapability(PROXY, proxy);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">final</strong> WebDriverManager webDriverManager = firefoxdriver();
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          webDriverManager
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>                  .capabilities(options)
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>                  .setup();
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          <strong class="jxr_keyword">return</strong> webDriverManager.create();
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      }
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      @Primary
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      @WebdriverBeanScope
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      @ConditionalOnProperty(name = BROWSER, havingValue = EDGE)
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">public</strong> WebDriver edgeDriver() {
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">final</strong> WebDriverManager webDriverManager = edgedriver();
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          webDriverManager.setup();
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          <strong class="jxr_keyword">return</strong> webDriverManager.create();
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      }
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      @Primary
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      @WebdriverBeanScope
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      @ConditionalOnProperty(name = BROWSER, havingValue = CHROME)
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">public</strong> WebDriver chromeDriver() {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          <strong class="jxr_keyword">final</strong> String headlessMode = getenv(HEADLESS_MODE);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> runInHeadlessMode = headlessMode == <strong class="jxr_keyword">null</strong> || TRUE.equals(valueOf(headlessMode));
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="ChromeWebDriverBuilder" href="../../../../../../pk/lucidxpo/ynami/utils/webdrivers/ChromeWebDriverBuilder.html#ChromeWebDriverBuilder">ChromeWebDriverBuilder</a>()
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>                  .withAcceptInsecureCerts(<strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>                  .withHeadlessMode(runInHeadlessMode)
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>                  .build();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      @Primary
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      @WebdriverBeanScope
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      @ConditionalOnMissingBean
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      @ConditionalOnProperty(name = BROWSER, havingValue = HTMLUNIT)
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">public</strong> WebDriver htmlUnitDriver() {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">final</strong> WebDriver driver = <strong class="jxr_keyword">new</strong> HtmlUnitDriver(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          driver.manage().timeouts().implicitlyWait(ofSeconds(2));
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">return</strong> driver;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      }
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

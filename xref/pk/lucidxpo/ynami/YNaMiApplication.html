@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>YNaMiApplication xref</title>
+<link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../apidocs/pk/lucidxpo/ynami/YNaMiApplication.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> pk.lucidxpo.ynami;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.springframework.beans.BeansException;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.springframework.boot.autoconfigure.SpringBootApplication;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.springframework.context.ApplicationContext;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.springframework.context.ApplicationContextAware;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.apache.commons.lang3.BooleanUtils.toBoolean;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.springframework.boot.SpringApplication.run;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> pk.lucidxpo.ynami.spring.features.TogglzWrapper.bindApplicationContext;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> pk.lucidxpo.ynami.spring.features.TogglzWrapper.getApplicationContext;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> pk.lucidxpo.ynami.spring.features.TogglzWrapper.releaseApplicationContext;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  @SpringBootApplication
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="YNaMiApplication" href="../../../pk/lucidxpo/ynami/YNaMiApplication.html#YNaMiApplication">YNaMiApplication</a> <strong class="jxr_keyword">implements</strong> ApplicationContextAware {
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>          run(YNaMiApplication.<strong class="jxr_keyword">class</strong>, args);
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>      }
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>      @Override
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setApplicationContext(<strong class="jxr_keyword">final</strong> ApplicationContext applicationContext) <strong class="jxr_keyword">throws</strong> BeansException {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>          <strong class="jxr_keyword">if</strong> (toBoolean(applicationContext.getEnvironment().getProperty(<span class="jxr_string">"config.togglz.enabled"</span>))) {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>              <strong class="jxr_keyword">if</strong> (getApplicationContext() != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>                  releaseApplicationContext();
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>              }
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>              bindApplicationContext(applicationContext);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          }
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      }
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/faisalazam">LucidXPO</a></div>
+</body>
+</html>

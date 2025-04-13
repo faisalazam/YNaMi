@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TogglzConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">YNaMi</a> &gt; <a href="index.source.html" class="el_package">pk.lucidxpo.ynami.spring.features</a> &gt; <span class="el_source">TogglzConfiguration.java</span></div><h1>TogglzConfiguration.java</h1><pre class="source lang-java linenums">package pk.lucidxpo.ynami.spring.features;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.togglz.core.repository.StateRepository;
+import org.togglz.core.repository.cache.CachingStateRepository;
+
+import javax.sql.DataSource;
+
+import static org.togglz.core.repository.jdbc.JDBCStateRepository.newBuilder;
+
+@Configuration
+@ConditionalOnProperty(name = &quot;config.togglz.enabled&quot;, havingValue = &quot;true&quot;)
+<span class="fc" id="L16">public class TogglzConfiguration {</span>
+    /*
+     * The CachingStateRepository will act as a cache for persistentStateRepository.
+     * It will cache the results for 'cachingStateRepositoryTtl' milliseconds. If you omit the timeout, lookups will be cached
+     * until setFeatureState() is called for the specific feature. Using the cache without a timeout only makes sense
+     * if the repository state is never modified directly (by modifying the database table for example).
+     */
+    @Bean
+    @ConditionalOnProperty(name = &quot;config.persistable.feature.toggles&quot;, havingValue = &quot;true&quot;)
+    public StateRepository getStateRepository(final DataSource dataSource,
+                                              @Value(&quot;${togglz.table.name}&quot;) final String tableName,
+                                              @Value(&quot;${togglz.caching.state.repository.ttl}&quot;) final Long cachingStateRepositoryTtl) {
+<span class="fc" id="L28">        final StateRepository persistentStateRepository = newBuilder(dataSource)</span>
+<span class="fc" id="L29">                .tableName(tableName)</span>
+<span class="fc" id="L30">                .createTable(false)</span>
+<span class="fc" id="L31">                .build();</span>
+<span class="fc" id="L32">        return new CachingStateRepository(persistentStateRepository, cachingStateRepositoryTtl);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
