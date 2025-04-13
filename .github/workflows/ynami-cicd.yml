@@ -212,6 +212,7 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      # target/test-results were not uploaded earlier, see if it causes any issues in generated reports
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
         uses: actions/upload-artifact@v4
         with:
@@ -297,11 +298,17 @@ jobs:
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
+      # target/test-results were not uploaded earlier, see if it causes any issues in generated reports
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
+      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/site                                         # Path to site folder
       - name: 'Report'
         id: penetration_tests_report
         uses: dorny/test-reporter@v1
