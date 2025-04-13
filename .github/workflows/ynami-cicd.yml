@@ -386,8 +386,7 @@ jobs:
           path: ${{ env.PAGES_FOLDER }}
 
       - name: Check Contents of the Directory 📂
-        run: |
-          ls -R .
+        run: ls -R .
 
       - name: Set SITE_ROOT_URL Variable
         run: echo "SITE_ROOT_URL=https://${GITHUB_ACTOR}.github.io/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
@@ -404,7 +403,5 @@ jobs:
       - name: Delete artifacts
         uses: geekyeggo/delete-artifact@v5
         with:
-          name: |
-            ${{ env.UPLOADED_ARTIFACTS_DIR }}-*
-            ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-*
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}
           failOnError: false
