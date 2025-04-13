@@ -43,17 +43,17 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the unit tests'
         run: mvn -Djacoco.haltOnFailure=false clean test -Dmaven.test.failure.ignore=true -P ut --file pom.xml
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
       - name: 'Unit Tests'' Summary'
         if: success() || failure()
         uses: test-summary/action@v2
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
-          path: target/test-results                                       # Path to test report
       - name: 'Report'
         id: unit_tests_report
         uses: dorny/test-reporter@v1
@@ -82,17 +82,17 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the migration tests'
         run: mvn clean test -Dmaven.test.failure.ignore=true -P mt --file pom.xml
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
       - name: 'Migration Tests'' Summary'
         if: success() || failure()
         uses: test-summary/action@v2
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
-          path: target/test-results                                       # Path to test report
       - name: 'Report'
         id: migration_tests_report
         uses: dorny/test-reporter@v1
@@ -155,24 +155,24 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the integration tests'
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
+      # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
+      # target/site didn't work as well, so need to find the issue and fix it properly.
+      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/site                                         # Path to site folder
       - name: 'Integration Tests'' with MySQL - Summary'
         if: success() || failure()
         uses: test-summary/action@v2
         with:
           show: "fail"
           paths: "${{ env.INTEGRATION_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
-          path: target/test-results                                       # Path to test report
-       # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
-       # target/site didn't work as well, so need to find the issue and fix it properly.
-      - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
-          path: target/site                                         # Path to site folder
       - name: 'Report'
         id: mysql_integration_tests_report
         uses: dorny/test-reporter@v1
@@ -207,12 +207,6 @@ jobs:
 #          sudo dpkg -i ./google-chrome-stable_116.0.5845.140-1_amd64.deb
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
-      - name: 'BDD Cucumber Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
-        with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       # target/test-results were not uploaded earlier, see if it causes any issues in generated reports
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
         uses: actions/upload-artifact@v4
@@ -224,6 +218,12 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
+      - name: 'BDD Cucumber Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "fail"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         id: bdd_cucumber_tests_report
         uses: dorny/test-reporter@v1
@@ -253,17 +253,17 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the acceptance-selenium tests'
         run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
+      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
+          path: target/test-results                                       # Path to test report
       - name: 'Acceptance-Selenium Tests'' Summary'
         if: success() || failure()
         uses: test-summary/action@v2
         with:
           show: "fail"
           paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
-      - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
-          path: target/test-results                                       # Path to test report
       - name: 'Report'
         id: acceptance_tests_report
         uses: dorny/test-reporter@v1
@@ -293,12 +293,6 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the penetration tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P pt,mysql --file pom.xml
-      - name: 'Penetration Tests'' Summary'
-        if: success() || failure()
-        uses: test-summary/action@v2
-        with:
-          show: "fail"
-          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       # target/test-results were not uploaded earlier, see if it causes any issues in generated reports
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
         uses: actions/upload-artifact@v4
@@ -310,6 +304,12 @@ jobs:
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
+      - name: 'Penetration Tests'' Summary'
+        if: success() || failure()
+        uses: test-summary/action@v2
+        with:
+          show: "fail"
+          paths: "${{ env.UNIT_TESTS_XMLS_DIR }}"
       - name: 'Report'
         id: penetration_tests_report
         uses: dorny/test-reporter@v1
