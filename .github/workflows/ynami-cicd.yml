@@ -272,7 +272,6 @@ jobs:
     name: gh-pages-deployment
     runs-on: ubuntu-24.04
     needs: site-generation
-    if: always()
 
     permissions:
       contents: write
