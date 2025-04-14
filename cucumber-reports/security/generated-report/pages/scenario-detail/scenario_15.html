@@ -78,19 +78,22 @@ font-src * data: blob: 'unsafe-inline';"/>
   "data": {
     "labels": [
       "a new browser instance",
+      "the client/browser is configured to use an intercepting proxy",
       "the login page is displayed",
-      "the login form is inspected",
-      "it should have the autocomplete attribute set to \u0027off\u0027"
+      "the HTTP request-response containing the login form",
+      "the protocol should be HTTPS"
     ],
     "datasets": [
       {
         "data": [
-          2.429,
-          3.298,
-          1.793,
-          2.162
+          10.538,
+          0.035,
+          3.343,
+          1.216,
+          0.005
         ],
         "backgroundColor": [
+          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
@@ -104,9 +107,11 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
@@ -120,9 +125,11 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
@@ -154,7 +161,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 3.298,
+            "stepSize": 10.538,
             "display": true
           },
           "stacked": true,
@@ -263,7 +270,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-14 12:15:40</span>
+            <span class="text-light">2025-04-14 15:09:01</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -273,7 +280,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a href="pages/feature-scenarios/feature_1.html">Authentication</a>
                         <span class="small">classpath:cuke/security/features//authentication.feature</span>
                     </h5>
-                    <h3>Disable browser auto-completion on the login form</h3>
+                    <h3>Present the login form itself over an HTTPS connection</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -320,15 +327,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-14 12:14:16</li>
-                <li class="list-group-item">Ended on:<br>2025-04-14 12:14:25</li>
-            <li class="list-group-item">Test Runtime:<br>0m 09s 684ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-14 15:07:23</li>
+                <li class="list-group-item">Ended on:<br>2025-04-14 15:07:38</li>
+            <li class="list-group-item">Test Runtime:<br>0m 15s 141ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
                     <a href="pages/tag-scenarios/tag_authentication.html">@authentication</a>,
 
-                    <a href="pages/tag-scenarios/tag_cwe-525-autocomplete-form.html">@cwe-525-autocomplete-form</a>            </li>
+                    <a href="pages/tag-scenarios/tag_cwe-295-auth.html">@cwe-295-auth</a>            </li>
             </div>
         </div>
     </div>
@@ -338,11 +345,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    4         Steps
+                    5         Steps
 
                 </li>
                 <li class="list-group-item">
-                    4 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    5 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -379,7 +386,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 02s 429ms
+                                0m 10s 538ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -392,13 +399,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.displayLoginPage()">
-                                    <a href="pages/step-scenarios/step_1830362448.html"><span
-                                                class="keyword">And </span> the login page is displayed</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.theClientBrowserIsConfiguredToUseAnInterceptingProxy()">
+                                    <a href="pages/step-scenarios/step_1753700067.html"><span
+                                                class="keyword">And </span> the client/browser is configured to use an intercepting proxy</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 03s 298ms
+                                0m 00s 035ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -411,13 +418,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.selectLoginFormElement()">
-                                    <a href="pages/step-scenarios/step_858448165.html"><span
-                                                class="keyword">When </span> the login form is inspected</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.displayLoginPage()">
+                                    <a href="pages/step-scenarios/step_1830362448.html"><span
+                                                class="keyword">And </span> the login page is displayed</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 01s 793ms
+                                0m 03s 343ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -430,13 +437,32 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.thenTheLogonFormShouldHaveTheAutocompleteDirectiveSetToOff()">
-                                    <a href="pages/step-scenarios/step_048172528.html"><span
-                                                class="keyword">Then </span> it should have the autocomplete attribute set to 'off'</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.findResponseWithLoginform()">
+                                    <a href="pages/step-scenarios/step_0145299725.html"><span
+                                                class="keyword">And </span> the HTTP request-response containing the login form</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 02s 162ms
+                                0m 01s 216ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">5.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.verifyProtocolHttps()">
+                                    <a href="pages/step-scenarios/step_0607095072.html"><span
+                                                class="keyword">Then </span> the protocol should be HTTPS</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 005ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -455,7 +481,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 12:15:40.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 15:09:01.</span>
     </div>
 </footer>    </body>
     </html>

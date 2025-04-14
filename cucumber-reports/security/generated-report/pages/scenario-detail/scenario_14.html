@@ -77,22 +77,31 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "a new browser instance",
-      "the client/browser is configured to use an intercepting proxy",
+      "a new browser or client instance",
+      "the default user logs in",
+      "the user is logged in",
+      "the case of the password is changed",
+      "the authentication tokens on the client are deleted",
       "the login page is displayed",
-      "the HTTP request-response containing the login form",
-      "the protocol should be HTTPS"
+      "the user logs in",
+      "the user is not logged in"
     ],
     "datasets": [
       {
         "data": [
-          9.349,
-          2.513,
-          1.767,
-          0.846,
-          0.0
+          0.105,
+          13.076,
+          0.069,
+          0.0,
+          1.002,
+          5.985,
+          8.072,
+          0.049
         ],
         "backgroundColor": [
+          "rgba(96, 204, 121, 1.000)",
+          "rgba(96, 204, 121, 1.000)",
+          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
@@ -108,9 +117,15 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(252, 113, 128, 1.000)",
+          "rgba(252, 113, 128, 1.000)",
+          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
@@ -126,9 +141,15 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(247, 196, 43, 1.000)",
+          "rgba(247, 196, 43, 1.000)",
+          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
@@ -161,7 +182,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 9.349,
+            "stepSize": 13.076,
             "display": true
           },
           "stacked": true,
@@ -270,7 +291,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-14 12:15:40</span>
+            <span class="text-light">2025-04-14 15:09:01</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -280,7 +301,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a href="pages/feature-scenarios/feature_1.html">Authentication</a>
                         <span class="small">classpath:cuke/security/features//authentication.feature</span>
                     </h5>
-                    <h3>Present the login form itself over an HTTPS connection</h3>
+                    <h3>Passwords should be case sensitive</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -327,15 +348,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-14 12:14:01</li>
-                <li class="list-group-item">Ended on:<br>2025-04-14 12:14:16</li>
-            <li class="list-group-item">Test Runtime:<br>0m 14s 478ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-14 15:06:54</li>
+                <li class="list-group-item">Ended on:<br>2025-04-14 15:07:23</li>
+            <li class="list-group-item">Test Runtime:<br>0m 28s 362ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
                     <a href="pages/tag-scenarios/tag_authentication.html">@authentication</a>,
 
-                    <a href="pages/tag-scenarios/tag_cwe-295-auth.html">@cwe-295-auth</a>            </li>
+                    <a href="pages/tag-scenarios/tag_cwe-178-auth.html">@cwe-178-auth</a>            </li>
             </div>
         </div>
     </div>
@@ -345,11 +366,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    5         Steps
+                    8         Steps
 
                 </li>
                 <li class="list-group-item">
-                    5 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    8 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -380,13 +401,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.createAppForBrowser()">
-                                    <a href="pages/step-scenarios/step_738790058.html"><span
-                                                class="keyword">Given </span> a new browser instance</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.aNewBrowserOrClientInstance()">
+                                    <a href="pages/step-scenarios/step_1715091506.html"><span
+                                                class="keyword">Given </span> a new browser or client instance</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 09s 349ms
+                                0m 00s 105ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -399,13 +420,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.theClientBrowserIsConfiguredToUseAnInterceptingProxy()">
-                                    <a href="pages/step-scenarios/step_1753700067.html"><span
-                                                class="keyword">And </span> the client/browser is configured to use an intercepting proxy</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginDefaultUser()">
+                                    <a href="pages/step-scenarios/step_0263053923.html"><span
+                                                class="keyword">When </span> the default user logs in</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 02s 513ms
+                                0m 13s 076ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -418,13 +439,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.displayLoginPage()">
-                                    <a href="pages/step-scenarios/step_1830362448.html"><span
-                                                class="keyword">And </span> the login page is displayed</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginSucceeds()">
+                                    <a href="pages/step-scenarios/step_1666796320.html"><span
+                                                class="keyword">Then </span> the user is logged in</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 01s 767ms
+                                0m 00s 069ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -437,13 +458,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.findResponseWithLoginform()">
-                                    <a href="pages/step-scenarios/step_0145299725.html"><span
-                                                class="keyword">And </span> the HTTP request-response containing the login form</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.changeCaseOfPassword()">
+                                    <a href="pages/step-scenarios/step_460206860.html"><span
+                                                class="keyword">When </span> the case of the password is changed</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 846ms
+                                0m 00s 000ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -456,13 +477,70 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">5.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.verifyProtocolHttps()">
-                                    <a href="pages/step-scenarios/step_0607095072.html"><span
-                                                class="keyword">Then </span> the protocol should be HTTPS</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.deleteAuthTokensOnClient()">
+                                    <a href="pages/step-scenarios/step_992149297.html"><span
+                                                class="keyword">And </span> the authentication tokens on the client are deleted</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 000ms
+                                0m 01s 002ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">6.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.displayLoginPage()">
+                                    <a href="pages/step-scenarios/step_1830362448.html"><span
+                                                class="keyword">And </span> the login page is displayed</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 05s 985ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">7.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.theUserLogsI()">
+                                    <a href="pages/step-scenarios/step_0268023976.html"><span
+                                                class="keyword">And </span> the user logs in</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 08s 072ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">8.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginFails()">
+                                    <a href="pages/step-scenarios/step_0628181114.html"><span
+                                                class="keyword">Then </span> the user is not logged in</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 049ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -481,7 +559,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 12:15:40.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 15:09:01.</span>
     </div>
 </footer>    </body>
     </html>

@@ -77,38 +77,22 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "the \"Source Code Disclosure\" policy is enabled",
-      "the attack strength is set to High",
-      "the alert threshold is set to Low",
-      "the scanner is run",
-      "the following false positives are removed",
-      "the XML report is written to the file target/zap/zap-reports/source_disclosure.xml",
-      "no Medium or higher risk vulnerabilities should be present"
+      "a new browser or client instance",
+      "the client/browser is configured to use an intercepting proxy",
+      "the default user logs in",
+      "the user is logged in",
+      "the session cookie should have the httpOnly flag set"
     ],
     "datasets": [
       {
         "data": [
-          3.976,
-          0.02,
-          0.003,
-          0.0,
-          0.0,
-          0.005,
-          0.022,
-          0.016,
-          2.014,
-          0.002,
-          0.013,
-          0.0
+          6.086,
+          0.039,
+          12.992,
+          0.054,
+          2.254
         ],
         "backgroundColor": [
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
@@ -124,23 +108,9 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
@@ -156,23 +126,9 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
@@ -205,7 +161,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 3.976,
+            "stepSize": 12.992,
             "display": true
           },
           "stacked": true,
@@ -321,10 +277,10 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="cluecumber-template">
             <div class="pb-2 mt-4 mb-2">
                     <h5>
-                            <a href="pages/feature-scenarios/feature_0.html">Automated Application Security Scanning</a>
-                        <span class="small">classpath:cuke/security/features//app_scan.feature</span>
+                            <a href="pages/feature-scenarios/feature_2.html">Session Management</a>
+                        <span class="small">classpath:cuke/security/features//session_management.feature</span>
                     </h5>
-                    <h3>The application should not disclose source code</h3>
+                    <h3>Set the &#39;httpOnly&#39; flag on the session cookie</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -371,15 +327,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-14 15:06:31</li>
-                <li class="list-group-item">Ended on:<br>2025-04-14 15:06:37</li>
-            <li class="list-group-item">Test Runtime:<br>0m 06s 077ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-14 15:08:35</li>
+                <li class="list-group-item">Ended on:<br>2025-04-14 15:08:56</li>
+            <li class="list-group-item">Test Runtime:<br>0m 21s 427ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
-                    <a href="pages/tag-scenarios/tag_app_scan.html">@app_scan</a>,
+                    <a href="pages/tag-scenarios/tag_session_management.html">@session_management</a>,
 
-                    <a href="pages/tag-scenarios/tag_cwe-541.html">@cwe-541</a>            </li>
+                    <a href="pages/tag-scenarios/tag_wasc-13.html">@wasc-13</a>            </li>
             </div>
         </div>
     </div>
@@ -389,11 +345,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    7         Steps
+                    5         Steps
 
                 </li>
                 <li class="list-group-item">
-                    7 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    5 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -413,110 +369,6 @@ font-src * data: blob: 'unsafe-inline';"/>
 
     <ul class="list-group list-group-flush">
 
-    <div class="col-sm-12  h-auto" data-cluecumber-item="card">
-        <div class="card h-100">
-                <div class="card-header">Background Steps</div>
-            <div class="card-body">
-                <li class="list-group-item">
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.aNewScanningSession()">
-                                    <a href="pages/step-scenarios/step_244638468.html"><span
-                                                class="keyword">Given </span> a new scanning session</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 03s 976ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.aScannerWithAllPoliciesDisabled()">
-                                    <a href="pages/step-scenarios/step_1850514888.html"><span
-                                                class="keyword">And </span> a scanner with all policies disabled</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 020ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.allExistingAlertsAreDeleted()">
-                                    <a href="pages/step-scenarios/step_310857446.html"><span
-                                                class="keyword">And </span> all existing alerts are deleted</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 003ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theApplicationIsNavigated$()">
-                                    <a href="pages/step-scenarios/step_1989879452.html"><span
-                                                class="keyword">And </span> the application is navigated</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 000ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">5.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theApplicationIsSpidered()">
-                                    <a href="pages/step-scenarios/step_279943535.html"><span
-                                                class="keyword">And </span> the application is spidered</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 000ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-                </li>
-            </div>
-        </div>
-    </div>
 
     <div class="col-sm-12  h-auto" data-cluecumber-item="card">
         <div class="card h-100">
@@ -528,13 +380,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.thePolicyIsEnabled(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_1248794961.html"><span
-                                                class="keyword">And </span> the <span class="parameter">"Source Code Disclosure"</span> policy is enabled</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.aNewBrowserOrClientInstance()">
+                                    <a href="pages/step-scenarios/step_1715091506.html"><span
+                                                class="keyword">Given </span> a new browser or client instance</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 005ms
+                                0m 06s 086ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -547,13 +399,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theAttackStrengthIsSetTo(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_1498960950.html"><span
-                                                class="keyword">And </span> the attack strength is set to <span class="parameter">High</span></a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.theClientBrowserIsConfiguredToUseAnInterceptingProxy()">
+                                    <a href="pages/step-scenarios/step_1753700067.html"><span
+                                                class="keyword">And </span> the client/browser is configured to use an intercepting proxy</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 022ms
+                                0m 00s 039ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -566,13 +418,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theAlertThresholdIsSetTo(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_794236720.html"><span
-                                                class="keyword">And </span> the alert threshold is set to <span class="parameter">Low</span></a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginDefaultUser()">
+                                    <a href="pages/step-scenarios/step_0263053923.html"><span
+                                                class="keyword">When </span> the default user logs in</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 016ms
+                                0m 12s 992ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -585,13 +437,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theScannerIsRun()">
-                                    <a href="pages/step-scenarios/step_01382767086.html"><span
-                                                class="keyword">When </span> the scanner is run</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginSucceeds()">
+                                    <a href="pages/step-scenarios/step_1666796320.html"><span
+                                                class="keyword">And </span> the user is logged in</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 02s 014ms
+                                0m 00s 054ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -604,63 +456,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">5.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.removeFalsePositives(java.util.List<penetration.pk.lucidxpo.ynami.steps.domain.ZAPFalsePositive>)">
-                                    <a href="pages/step-scenarios/step_01320641013.html"><span
-                                                class="keyword">And </span> the following false positives are removed</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.sessionCookiesHttpOnlyFlag()">
+                                    <a href="pages/step-scenarios/step_02114367309.html"><span
+                                                class="keyword">Then </span> the session cookie should have the httpOnly flag set</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 002ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                                <div class="row w-100 p-3 m-0 scenarioDataTable">
-                                    <div class="w-100 text-left border border-dark table-responsive">
-                                        <table class="table table-hover small table-striped text-left pb-0">
-                                                <tr>
-                                                        <td>url</td>
-                                                        <td>parameter</td>
-                                                        <td>cweId</td>
-                                                        <td>wascId</td>
-                                                </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">6.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theXmlReportIsWrittenToTheFile(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_692130172.html"><span
-                                                class="keyword">And </span> the XML report is written to the file <span class="parameter">target/zap/zap-reports/source_disclosure.xml</span></a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 013ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">7.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.noOrHigherRiskVulnerabilitiesShouldBePresent$(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_1715016848.html"><span
-                                                class="keyword">Then </span> no <span class="parameter">Medium</span> or higher risk vulnerabilities should be present</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 000ms
+                                0m 02s 254ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
