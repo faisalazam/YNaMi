@@ -20,6 +20,8 @@ It's GUI interface can also be started from the Applications depending upon the 
 
 https://www.zaproxy.org/faq/how-can-you-start-zap/
 
+https://www.zaproxy.org/docs/desktop/releases/
+
 Generally, most user’s tend to use the Mac OS build, which is a ordinary Mac OS app that can be started as any
 other app: Double-Click on the app to start it.
 
@@ -32,9 +34,9 @@ If you have downloaded the Linux package, which can also be run on Mac OS, you c
 
 This script has been copied from the ZAP's installation directory,
 i.e. "/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh".
-and it is from ZAP's version 2.13.0.
+and it is from ZAP's version 2.16.1.
 
-And the zap-2.13.0.jar file can be copied from "/Applications/OWASP\ ZAP.app/Contents/Java/zap-2.13.0.jar"
+And the zap-2.16.1.jar file can be copied from "/Applications/OWASP\ ZAP.app/Contents/Java/zap-2.16.1.jar"
 
 
 Easy way to upgrade is:
