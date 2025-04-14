@@ -94,7 +94,7 @@ public class AppScanningSteps {
         getScanner().setEnablePassiveScan(true);
     }
 
-    @Given("the {word} policy is enabled")
+    @Given("the {string} policy is enabled")
     public void thePolicyIsEnabled(final String policy) {
         this.enableScanners(policy);
     }
@@ -261,27 +261,27 @@ public class AppScanningSteps {
         // https://github.com/zaproxy/zaproxy/blob/main/docs/scanners.md
         // To see the list of available scanners, invoke: listAvailableScanners();
         switch (policyName.toLowerCase()) {
-            case "directory-browsing" -> scannerIds = "0";
-            case "cross-site-scripting" -> scannerIds = "40012,40014,40016,40017";
-            case "sql-injection" -> scannerIds = "40018";
-            case "path-traversal" -> scannerIds = "6";
-            case "remote-file-inclusion" -> scannerIds = "7";
-            case "server-side-include" -> scannerIds = "40009";
-            case "script-active-scan-rules" -> scannerIds = "50000";
-            case "server-side-code-injection" -> scannerIds = "90019";
-            case "remote-os-command-injection" -> scannerIds = "90020";
-            case "external-redirect" -> scannerIds = "20019";
-            case "crlf-injection" -> scannerIds = "40003";
-            case "source-code-disclosure" -> scannerIds = "42,10045,20017";
-            case "shell-shock" -> scannerIds = "10048";
-            case "remote-code-execution" -> scannerIds = "20018";
-            case "ldap-injection" -> scannerIds = "40015";
-            case "xpath-injection" -> scannerIds = "90021";
-            case "xml-external-entity" -> scannerIds = "90023";
-            case "padding-oracle" -> scannerIds = "90024";
-            case "el-injection" -> scannerIds = "90025";
-            case "insecure-http-methods" -> scannerIds = "90028";
-            case "parameter-pollution" -> scannerIds = "20014";
+            case "directory browsing" -> scannerIds = "0";
+            case "cross site scripting" -> scannerIds = "40012,40014,40016,40017";
+            case "sql injection" -> scannerIds = "40018,40019,40020,40021,40022,40024,40027";
+            case "path traversal" -> scannerIds = "6";
+            case "remote file inclusion" -> scannerIds = "7";
+            case "server side include" -> scannerIds = "40009";
+            case "script active scan rules" -> scannerIds = "50000";
+            case "server side code injection" -> scannerIds = "90019";
+            case "remote os command injection" -> scannerIds = "90020";
+            case "external redirect" -> scannerIds = "20019";
+            case "crlf injection" -> scannerIds = "40003";
+            case "source code disclosure" -> scannerIds = "10045,20017";
+            case "shellshock" -> scannerIds = "10048";
+            case "remote code execution" -> scannerIds = "20018";
+            case "ldap injection" -> scannerIds = "40015";
+            case "xpath injection" -> scannerIds = "90021";
+            case "xml external entity attack" -> scannerIds = "90023";
+            case "generic padding oracle" -> scannerIds = "90024";
+            case "server side template injection" -> scannerIds = "90035,90036";
+            case "insecure http method" -> scannerIds = "90028";
+            case "parameter tampering" -> scannerIds = "40008";
             default -> throw new UnexpectedContentException("No matching policy found for: " + policyName);
         }
         getScanner().setEnableScanners(scannerIds, true);

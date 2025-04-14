@@ -11,7 +11,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-89
   Scenario: The application should not contain SQL injection vulnerabilities
-    And the SQL-Injection policy is enabled
+    And the "SQL Injection" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -22,7 +22,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-79
   Scenario: The application should not contain Cross Site Scripting vulnerabilities
-    And the Cross-Site-Scripting policy is enabled
+    And the "Cross Site Scripting" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -33,7 +33,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-22
   Scenario: The application should not contain path traversal vulnerabilities
-    And the Path-traversal policy is enabled
+    And the "Path Traversal" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -44,7 +44,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-98
   Scenario: The application should not contain remote file inclusion vulnerabilities
-    And the Remote-file-inclusion policy is enabled
+    And the "Remote File Inclusion" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -55,7 +55,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-97
   Scenario: The application should not contain Server side include vulnerabilities
-    And the Server-side-include policy is enabled
+    And the "Server Side Include" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -66,7 +66,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-94
   Scenario: The application should not contain Server side code injection vulnerabilities
-    And the Server-side-code-injection policy is enabled
+    And the "Server Side Code Injection" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -77,7 +77,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-78
   Scenario: The application should not contain Remote OS Command injection vulnerabilities
-    And the Remote-os-command-injection policy is enabled
+    And the "Remote OS Command Injection" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -88,7 +88,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-113
   Scenario: The application should not contain CRLF injection vulnerabilities
-    And the crlf-injection policy is enabled
+    And the "CRLF Injection" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -99,7 +99,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-601
   Scenario: The application should not contain external redirect vulnerabilities
-    And the External-redirect policy is enabled
+    And the "External Redirect" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -110,7 +110,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-541 @broken-since-zap-2.13.0
   Scenario: The application should not disclose source code
-    And the source-code-disclosure policy is enabled
+    And the "Source Code Disclosure" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -121,7 +121,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-78 @broken-since-zap-2.13.0
   Scenario: The application should not be vulnerable to Shell Shock
-    And the shell-shock policy is enabled
+    And the "ShellShock" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -132,7 +132,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-90 @broken-since-zap-2.13.0
   Scenario: The application should not be vulnerable to LDAP injection
-    And the ldap-injection policy is enabled
+    And the "LDAP Injection" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -143,7 +143,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-91
   Scenario: The application should not be vulnerable to XPATH injection
-    And the xpath-injection policy is enabled
+    And the "XPath Injection" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -154,7 +154,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-611
   Scenario: The application should not be vulnerable to Xml External Entity Attacks
-    And the xml-external-entity policy is enabled
+    And the "XML External Entity Attack" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -165,7 +165,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-209-poodle
   Scenario: The application should not be vulnerable to the Generic Padding Oracle attack
-    And the padding-oracle policy is enabled
+    And the "Generic Padding Oracle" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -176,7 +176,7 @@ Feature: Automated Application Security Scanning
 
   @cwe-200 @broken-since-zap-2.13.0
   Scenario: The application should not expose insecure HTTP methods
-    And the insecure-http-methods policy is enabled
+    And the "Insecure HTTP Method" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
