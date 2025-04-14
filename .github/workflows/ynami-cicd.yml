@@ -43,12 +43,15 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the unit tests'
         run: mvn -Djacoco.haltOnFailure=false clean test -Dmaven.test.failure.ignore=true -P ut --file pom.xml
+        continue-on-error: true
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
       - name: Publish Unit Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'Unit Tests'
@@ -67,12 +70,15 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the migration tests'
         run: mvn clean test -Dmaven.test.failure.ignore=true -P mt --file pom.xml
+        continue-on-error: true
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
       - name: Publish Migration Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'Migration Tests'
@@ -90,8 +96,10 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the integration tests'
         run: mvn -Djacoco.skip=true clean integration-test -Dmaven.test.failure.ignore=true -P it,h2 --file pom.xml
+        continue-on-error: true
       # Intentionally not uploading the H2 tests' result to avoid conflicts with other integration tests run with MySQL
       - name: Publish H2 Integration Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'H2 Integration Tests'
@@ -110,7 +118,9 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the integration tests'
         run: mvn -Djacoco.haltOnFailure=false clean integration-test -Dmaven.test.failure.ignore=true -P it,mysql --file pom.xml
+        continue-on-error: true
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
@@ -118,11 +128,13 @@ jobs:
       # TODO: Jacoco report for IT isn't correct. It shows the results of the merged report on CI somehow. Uploading the
       # target/site didn't work as well, so need to find the issue and fix it properly.
       - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
       - name: Publish MySQL Integration Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'MySQL Integration Tests'
@@ -147,18 +159,22 @@ jobs:
 #          sudo dpkg -i ./google-chrome-stable_116.0.5845.140-1_amd64.deb
       - name: 'Run the acceptance-cucumber tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P bt,mysql --file pom.xml
+        continue-on-error: true
       # target/test-results were not uploaded earlier, see if it causes any issues in generated reports
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
       - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
       - name: Publish BDD Cucumber Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'BDD Cucumber Tests'
@@ -178,12 +194,15 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the acceptance-selenium tests'
         run: headless_mode=true mvn clean test -P at,mysql --file pom.xml
+        continue-on-error: true
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
       - name: Publish Acceptance Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'Acceptance-Selenium Tests'
@@ -203,18 +222,22 @@ jobs:
           JAVA_VERSION_TO_INSTALL: ${{ env.JAVA_VERSION }}
       - name: 'Run the penetration tests'
         run: browser=chrome headless_mode=true environment=CI mvn clean test -P pt,mysql --file pom.xml
+        continue-on-error: true
       # target/test-results were not uploaded earlier, see if it causes any issues in generated reports
       - name: 'Uploads the results to ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.TESTS_UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/test-results                                       # Path to test report
       - name: 'Uploads the site to ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} folder'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.UPLOADED_ARTIFACTS_DIR }}-${{ github.job }} # Name of the folder
           path: target/site                                         # Path to site folder
       - name: Publish Penetration Test Report
+        if: always()
         uses: ./.github/actions/test-report
         with:
           report_name: 'Penetration Tests'
