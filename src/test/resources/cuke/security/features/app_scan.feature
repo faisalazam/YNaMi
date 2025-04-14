@@ -108,7 +108,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file target/zap/zap-reports/redirect.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-541 @broken-since-zap-2.13.0
+  @cwe-541
   Scenario: The application should not disclose source code
     And the "Source Code Disclosure" policy is enabled
     And the attack strength is set to High
