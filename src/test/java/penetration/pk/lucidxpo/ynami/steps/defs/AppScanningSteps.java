@@ -10,11 +10,16 @@ import net.continuumsecurity.proxy.ContextModifier;
 import net.continuumsecurity.proxy.Spider;
 import net.continuumsecurity.proxy.ZAProxyScanner;
 import org.zaproxy.clientapi.core.Alert;
+import org.zaproxy.clientapi.core.ApiResponse;
+import org.zaproxy.clientapi.core.ApiResponseList;
+import org.zaproxy.clientapi.core.ApiResponseSet;
+import org.zaproxy.clientapi.core.ClientApi;
 import penetration.pk.lucidxpo.ynami.behaviours.INavigable;
 import penetration.pk.lucidxpo.ynami.config.Config;
 import penetration.pk.lucidxpo.ynami.exceptions.UnexpectedContentException;
 import penetration.pk.lucidxpo.ynami.steps.domain.ZAPFalsePositive;
 import penetration.pk.lucidxpo.ynami.web.Application;
+import pk.lucidxpo.ynami.utils.ReflectionHelper;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -169,7 +174,7 @@ public class AppScanningSteps {
             try {
                 getContext().setIncludeInContext(ZAP_CONTEXT_NAME, ".*"); //if URLs are not in context then they won't be spidered
             } catch (final Exception e) {
-                e.printStackTrace();
+                log.error("Something went wrong: ", e);
             }
             final int maxDepth = Config.getInstance().getMaxDepth();
             getSpider().setMaxDepth(maxDepth);
@@ -181,7 +186,7 @@ public class AppScanningSteps {
                 try {
                     spider(url);
                 } catch (final InterruptedException e) {
-                    e.printStackTrace();
+                    log.error("Something went wrong: ", e);
                 }
             }
             waitForSpiderToComplete();
@@ -223,7 +228,7 @@ public class AppScanningSteps {
     }
 
     private void scan() throws InterruptedException {
-        log.info("Scanning: " + Config.getInstance().getBaseUrl());
+        log.info("Scanning: {}", Config.getInstance().getBaseUrl());
         getScanner().scan(Config.getInstance().getBaseUrl());
         int complete = 0;
         final int scanId = getScanner().getLastScannerScanId();
@@ -253,6 +258,8 @@ public class AppScanningSteps {
     }
 
     private void enableScanners(final String policyName) {
+        // https://github.com/zaproxy/zaproxy/blob/main/docs/scanners.md
+        // To see the list of available scanners, invoke: listAvailableScanners();
         switch (policyName.toLowerCase()) {
             case "directory-browsing" -> scannerIds = "0";
             case "cross-site-scripting" -> scannerIds = "40012,40014,40016,40017";
@@ -324,7 +331,7 @@ public class AppScanningSteps {
             try {
                 sleep(2000);
             } catch (final InterruptedException e) {
-                e.printStackTrace();
+                log.error("Something went wrong: ", e);
             }
         }
     }
@@ -335,7 +342,7 @@ public class AppScanningSteps {
 
     private String getAlertDetails(final List<Alert> alerts) {
         String detail = "";
-        if (alerts.size() != 0) {
+        if (!alerts.isEmpty()) {
             detail = alerts.stream()
                     .map(alert -> alert.getName()
                             + "\n" + "URL: " + alert.getUrl()
@@ -349,7 +356,7 @@ public class AppScanningSteps {
     }
 
     private boolean alertsMatchByValue(final Alert first, final Alert second) {
-        //The built in Alert.matches(Alert) method includes risk, reliability and alert, but not cweid.
+        //The built-in Alert.matches(Alert) method includes risk, reliability and alert, but not cweid.
         if (first.getCweId() != second.getCweId()) {
             return false;
         }
@@ -360,5 +367,26 @@ public class AppScanningSteps {
             return false;
         }
         return first.matches(second);
+    }
+
+    private void listAvailableScanners() {
+        try {
+            final ClientApi api = (ClientApi) ReflectionHelper.getField(getScanner(), "clientApi");
+            final ApiResponse response = api.ascan.scanners("Default Policy", "");
+            if (response instanceof ApiResponseList scanners) {
+                System.out.println("The available scanners are listed below:");
+                scanners.getItems().stream()
+                        .map(resp -> (ApiResponseSet) resp)
+                        .forEach(scanner -> System.out.println(
+                                        scanner.getStringValue("id") + " - " + scanner.getStringValue("name")
+                                )
+                        );
+
+            } else {
+                log.error("Unexpected response type: {}", response.getClass());
+            }
+        } catch (Exception e) {
+            log.warn("Something went wrong: ", e);
+        }
     }
 }
