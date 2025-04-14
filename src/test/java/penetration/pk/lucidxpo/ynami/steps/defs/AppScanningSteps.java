@@ -259,7 +259,6 @@ public class AppScanningSteps {
 
     private void enableScanners(final String policyName) {
         // https://github.com/zaproxy/zaproxy/blob/main/docs/scanners.md
-        // To see the list of available scanners, invoke: listAvailableScanners();
         switch (policyName.toLowerCase()) {
             case "directory browsing" -> scannerIds = "0";
             case "cross site scripting" -> scannerIds = "40012,40014,40016,40017";
@@ -292,6 +291,9 @@ public class AppScanningSteps {
             final Config instance = Config.getInstance();
             scanner = new ZAProxyScanner(instance.getProxyHost(), instance.getProxyPort(), instance.getProxyApi());
             scanner.setAttackMode();
+
+            // To see the list of available scanners, invoke: listAvailableScanners();
+            listAvailableScanners(scanner);
         }
         return scanner;
     }
@@ -369,16 +371,16 @@ public class AppScanningSteps {
         return first.matches(second);
     }
 
-    private void listAvailableScanners() {
+    private void listAvailableScanners(final ZAProxyScanner scanner) {
         try {
-            final ClientApi api = (ClientApi) ReflectionHelper.getField(getScanner(), "clientApi");
+            final ClientApi api = (ClientApi) ReflectionHelper.getField(scanner, "clientApi");
             final ApiResponse response = api.ascan.scanners("Default Policy", "");
             if (response instanceof ApiResponseList scanners) {
                 System.out.println("The available scanners are listed below:");
                 scanners.getItems().stream()
                         .map(resp -> (ApiResponseSet) resp)
-                        .forEach(scanner -> System.out.println(
-                                        scanner.getStringValue("id") + " - " + scanner.getStringValue("name")
+                        .forEach(sc -> System.out.println(
+                                        sc.getStringValue("id") + " - " + sc.getStringValue("name")
                                 )
                         );
 
