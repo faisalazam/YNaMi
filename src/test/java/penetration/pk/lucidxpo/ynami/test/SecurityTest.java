@@ -33,7 +33,7 @@ public class SecurityTest {
     // Camelcase SNIPPET_TYPE will tell Cucumber to generate the method names for Step Definitions in CAMELCASE
     static final String CAMELCASE = "camelcase";
     static final String NAMING_STRATEGY = "long";
-    static final String TAGS = "not @wip and not @slow and not @broken-since-zap-2.13.0";
+    static final String TAGS = "not @wip and not @slow and not @broken-since-zap-2.13.0 and not @broken-since-zap-2.16.1";
     static final String FEATURE_FILES_LOCATION = "cuke/security/features/";
 
     private static final String CUCUMBER_REPORTS_PATH = "target/site/cucumber-reports/security";
