@@ -24,9 +24,9 @@
     -->
     <sslyze>
         <path>sslyze</path>
-        <option>--regular</option>
-        <targetHost>localhost</targetHost>
         <targetPort>8443</targetPort>
+        <targetHost>localhost</targetHost>
+        <option>--certinfo --http_headers --compression --reneg --heartbleed --tlsv1_3 --tlsv1_2 --tlsv1_1 --tlsv1 --sslv3 --sslv2</option>
     </sslyze>
 
     <!-- Optional names of the session ID cookies for session management testing. -->
