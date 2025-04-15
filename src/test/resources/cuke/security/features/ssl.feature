@@ -9,9 +9,13 @@ Feature: SSL
   Scenario: Disable SSL deflate compression in order to mitigate the risk of the CRIME attack
     Then the output must contain the text "Compression disabled"
 
-  @ssl_client_renegotiations @broken-since-zap-2.13.0
+  @ssl_client_renegotiations
   Scenario: Disable client renegotiations
-    Then the output must contain a line that matches .*Client-initiated Renegotiation?:\s+OK - Rejected.*
+    Then the output must contain a line that matches .*Client Renegotiation DoS Attack:\s+OK - Not vulnerable.*
+
+  @ssl_client_secure_renegotiations
+  Scenario: Disable client renegotiations
+    Then the output must contain a line that matches .*Secure Renegotiation:\s+OK - Supported.*
 
   @ssl_heartbleed
   Scenario: Patch OpenSSL against the Heartbleed vulnerability
