@@ -25,8 +25,8 @@ import static penetration.pk.lucidxpo.ynami.zaputils.boot.AbstractZapBoot.getDef
 public final class ZapInfo {
     private static final String DEFAULT_KEY = "";
     private static final String DEFAULT_HOST = "localhost";
-    private static final String DEFAULT_JVM_OPTIONS = "-Xmx1024m";
-    private static final Long DEFAULT_INITIALIZATION_TIMEOUT_IN_MILLIS = 120000L;
+    private static final String DEFAULT_JVM_OPTIONS = "-Xmx2096m";
+    private static final Long DEFAULT_INITIALIZATION_TIMEOUT_IN_MILLIS = 180000L;
 
     private final String host;
     private final Integer port;
