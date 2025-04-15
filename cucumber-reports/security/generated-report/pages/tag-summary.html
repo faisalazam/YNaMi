@@ -90,6 +90,7 @@ font-src * data: blob: 'unsafe-inline';"/>
       "@cwe-94",
       "@ssl_disabled_protocols",
       "@cwe-611",
+      "@ssl_client_renegotiations",
       "@security",
       "@cwe-209-poodle",
       "@cwe-601",
@@ -98,6 +99,7 @@ font-src * data: blob: 'unsafe-inline';"/>
       "@cwe-295-auth",
       "@ssl_crime",
       "@cwe-541",
+      "@ssl_client_secure_renegotiations",
       "@cwe-113"
     ],
     "datasets": [
@@ -116,17 +118,21 @@ font-src * data: blob: 'unsafe-inline';"/>
           1.0,
           1.0,
           1.0,
-          19.0,
+          1.0,
+          21.0,
           1.0,
           1.0,
           2.0,
-          3.0,
+          5.0,
+          1.0,
           1.0,
           1.0,
           1.0,
           1.0
         ],
         "backgroundColor": [
+          "rgba(96, 204, 121, 1.000)",
+          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
@@ -175,9 +181,13 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(252, 113, 128, 1.000)",
+          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
@@ -226,9 +236,13 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(247, 196, 43, 1.000)",
+          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
@@ -268,7 +282,7 @@ font-src * data: blob: 'unsafe-inline';"/>
           "stacked": true,
           "scaleLabel": {
             "display": true,
-            "labelString": "22 Tags"
+            "labelString": "24 Tags"
           },
           "stepSize": 0.0
         }
@@ -277,7 +291,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 19.0,
+            "stepSize": 21.0,
             "display": true
           },
           "stacked": true,
@@ -386,7 +400,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-15 06:29:57</span>
+            <span class="text-light">2025-04-15 07:22:27</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -440,14 +454,14 @@ font-src * data: blob: 'unsafe-inline';"/>
                 <div class="card-header">Tag Summary</div>
             <div class="card-body">
             <ul class="list-group list-group-flush" data-cluecumber-item="tag-summary">
-                <li class="list-group-item">22         Tags
+                <li class="list-group-item">24         Tags
  in
                     <br>
-                    19 Tagged         Scenarios
+                    21 Tagged         Scenarios
 
                 </li>
                 <li class="list-group-item">
-                    19 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    21 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -593,9 +607,17 @@ font-src * data: blob: 'unsafe-inline';"/>
                     </tr>
                     <tr>
                         <td class="text-left"><a
+                                    href="pages/tag-scenarios/tag_ssl_client_renegotiations.html">@ssl_client_renegotiations</a></td>
+                        <td class="text-right"><strong>1</strong></td>
+                        <td class="text-right passedCell">1</td>
+                        <td class="text-right failedCell">0</td>
+                        <td class="text-right skippedCell">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"><a
                                     href="pages/tag-scenarios/tag_security.html">@security</a></td>
-                        <td class="text-right"><strong>19</strong></td>
-                        <td class="text-right passedCell">19</td>
+                        <td class="text-right"><strong>21</strong></td>
+                        <td class="text-right passedCell">21</td>
                         <td class="text-right failedCell">0</td>
                         <td class="text-right skippedCell">0</td>
                     </tr>
@@ -626,8 +648,8 @@ font-src * data: blob: 'unsafe-inline';"/>
                     <tr>
                         <td class="text-left"><a
                                     href="pages/tag-scenarios/tag_ssl.html">@ssl</a></td>
-                        <td class="text-right"><strong>3</strong></td>
-                        <td class="text-right passedCell">3</td>
+                        <td class="text-right"><strong>5</strong></td>
+                        <td class="text-right passedCell">5</td>
                         <td class="text-right failedCell">0</td>
                         <td class="text-right skippedCell">0</td>
                     </tr>
@@ -657,6 +679,14 @@ font-src * data: blob: 'unsafe-inline';"/>
                     </tr>
                     <tr>
                         <td class="text-left"><a
+                                    href="pages/tag-scenarios/tag_ssl_client_secure_renegotiations.html">@ssl_client_secure_renegotiations</a></td>
+                        <td class="text-right"><strong>1</strong></td>
+                        <td class="text-right passedCell">1</td>
+                        <td class="text-right failedCell">0</td>
+                        <td class="text-right skippedCell">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"><a
                                     href="pages/tag-scenarios/tag_cwe-113.html">@cwe-113</a></td>
                         <td class="text-right"><strong>1</strong></td>
                         <td class="text-right passedCell">1</td>
@@ -674,7 +704,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 06:29:57.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 07:22:27.</span>
     </div>
 </footer>    </body>
     </html>

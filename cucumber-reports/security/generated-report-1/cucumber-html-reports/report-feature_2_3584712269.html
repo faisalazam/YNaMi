@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>YNaMi</td>
         <td>1</td>
-      <td>15 Apr 2025, 06:29</td>
+      <td>15 Apr 2025, 07:22</td>
     </tr>
   </tbody>
 </table>
@@ -129,18 +129,18 @@ $(document).ready(function() {
         <tbody>
         <tr>
           <td class="tagname">SSL</td>
-          <td      class="passed"    >6</td>
+          <td      class="passed"    >10</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">6</td>
+          <td class="total">10</td>
 
-          <td  class="passed"    >3</td>
+          <td  class="passed"    >5</td>
           <td >0</td>
-          <td class="total">3</td>
+          <td class="total">5</td>
 
-          <td class="duration" data-value="6472041887">6.472</td>
+          <td class="duration" data-value="6950649530">6.950</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -194,7 +194,7 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">6.296</span>
+  <span class="lead-duration duration">6.592</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
@@ -237,7 +237,7 @@ $(document).ready(function() {
   <span class="keyword indention">When</span>
   <span class="name">the SSLyze command is run against the application</span>
 
-  <span class="lead-duration duration">6.296</span>
+  <span class="lead-duration duration">6.592</span>
 
 </div>
 
@@ -441,18 +441,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_2237666054.html">@ssl_heartbleed</a>
+       <a href="report-tag_997579557.html">@ssl_client_renegotiations</a>
 </div>
 
 
-  <span class="lead-duration duration">0.019</span>
+  <span class="lead-duration duration">0.013</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Patch OpenSSL against the Heartbleed vulnerability</span>
+  <span class="name">Disable client renegotiations</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -486,9 +486,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the output must contain a line that matches <span class="argument">.*Not vulnerable to Heartbleed.*</span></span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Client Renegotiation DoS Attack:\s+OK - Not vulnerable.*</span></span>
 
-  <span class="lead-duration duration">0.019</span>
+  <span class="lead-duration duration">0.013</span>
 
 </div>
 
@@ -607,18 +607,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
+       <a href="report-tag_2637661259.html">@ssl_client_secure_renegotiations</a>
 </div>
 
 
-  <span class="lead-duration duration">0.154</span>
+  <span class="lead-duration duration">0.004</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-11">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
+  <span class="name">Disable client renegotiations</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -652,9 +652,341 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Secure Renegotiation:\s+OK - Supported.*</span></span>
+
+  <span class="lead-duration duration">0.004</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+</div>
+
+
+  <span class="lead-duration duration">0.000</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-13">
+
+<div class="brief passed">
+  <span class="keyword indention">Background</span>
+  <span class="name">Run the SSLyze command only once for all features</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-13" class="collapse collapsable-details ">
+
+
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-14">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-14" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the SSLyze command is run against the application</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_3383637887.html">@security</a>
+       <a href="report-tag_2149504459.html">@ssl</a>
+       <a href="report-tag_2237666054.html">@ssl_heartbleed</a>
+</div>
+
+
+  <span class="lead-duration duration">0.011</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-15">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Patch OpenSSL against the Heartbleed vulnerability</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-15" class="collapse collapsable-details ">
+
+
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-16">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-16" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Not vulnerable to Heartbleed.*</span></span>
+
+  <span class="lead-duration duration">0.011</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+</div>
+
+
+  <span class="lead-duration duration">0.000</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-17">
+
+<div class="brief passed">
+  <span class="keyword indention">Background</span>
+  <span class="name">Run the SSLyze command only once for all features</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-17" class="collapse collapsable-details ">
+
+
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-18">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-18" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the SSLyze command is run against the application</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_3383637887.html">@security</a>
+       <a href="report-tag_2149504459.html">@ssl</a>
+       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
+</div>
+
+
+  <span class="lead-duration duration">0.326</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-19">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-19" class="collapse collapsable-details ">
+
+
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-20">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-20" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
   <span class="name">the following protocols must not be supported</span>
 
-  <span class="lead-duration duration">0.154</span>
+  <span class="lead-duration duration">0.326</span>
 
 </div>
 

@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @ssl_crime</title>
+<title>Cucumber Reports (no 1) - Tag: @ssl_client_renegotiations</title>
 
 </head>
 <body>
@@ -128,7 +128,7 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@ssl_crime</td>
+          <td class="tagname">@ssl_client_renegotiations</td>
           <td      class="passed"    >1</td>
           <td >0</td>
           <td >0</td>
@@ -140,7 +140,7 @@ $(document).ready(function() {
           <td >0</td>
           <td class="total">1</td>
 
-          <td class="duration" data-value="678728">0.000</td>
+          <td class="duration" data-value="13744171">0.013</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -181,18 +181,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_3492229310.html">@ssl_crime</a>
+       <a href="report-tag_997579557.html">@ssl_client_renegotiations</a>
 </div>
 
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.013</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Disable SSL deflate compression in order to mitigate the risk of the CRIME attack</span>
+  <span class="name">Disable client renegotiations</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -226,9 +226,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the output must contain the text <span class="argument">&quot;Compression disabled&quot;</span></span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Client Renegotiation DoS Attack:\s+OK - Not vulnerable.*</span></span>
 
-  <span class="lead-duration duration">0.000</span>
+  <span class="lead-duration duration">0.013</span>
 
 </div>
 

@@ -77,13 +77,13 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "the output must contain a line that matches .*Not vulnerable to Heartbleed.*"
+      "the output must contain a line that matches .*Client Renegotiation DoS Attack:\\s+OK - Not vulnerable.*"
     ],
     "datasets": [
       {
         "data": [
           0.0,
-          0.019
+          0.013
         ],
         "backgroundColor": [
           "rgba(96, 204, 121, 1.000)",
@@ -139,7 +139,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 0.019,
+            "stepSize": 0.013,
             "display": true
           },
           "stacked": true,
@@ -248,7 +248,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-15 06:29:57</span>
+            <span class="text-light">2025-04-15 07:22:27</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -258,7 +258,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a href="pages/feature-scenarios/feature_2.html">SSL</a>
                         <span class="small">classpath:cuke/security/features//ssl.feature</span>
                     </h5>
-                    <h3>Patch OpenSSL against the Heartbleed vulnerability</h3>
+                    <h3>Disable client renegotiations</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -305,15 +305,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-15 06:29:53</li>
-                <li class="list-group-item">Ended on:<br>2025-04-15 06:29:53</li>
-            <li class="list-group-item">Test Runtime:<br>0m 00s 019ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-15 07:22:22</li>
+                <li class="list-group-item">Ended on:<br>2025-04-15 07:22:22</li>
+            <li class="list-group-item">Test Runtime:<br>0m 00s 013ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
                     <a href="pages/tag-scenarios/tag_ssl.html">@ssl</a>,
 
-                    <a href="pages/tag-scenarios/tag_ssl_heartbleed.html">@ssl_heartbleed</a>            </li>
+                    <a href="pages/tag-scenarios/tag_ssl_client_renegotiations.html">@ssl_client_renegotiations</a>            </li>
             </div>
         </div>
     </div>
@@ -388,11 +388,11 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 <span class="text-left">1.</span>
                                 <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
                                     <a href="pages/step-scenarios/step_01237404831.html"><span
-                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*Not vulnerable to Heartbleed.*</span></a>
+                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*Client Renegotiation DoS Attack:\s+OK - Not vulnerable.*</span></a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 019ms
+                                0m 00s 013ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -411,7 +411,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 06:29:57.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 07:22:27.</span>
     </div>
 </footer>    </body>
     </html>
