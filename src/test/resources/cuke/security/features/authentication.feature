@@ -2,7 +2,7 @@
 Feature: Authentication
   Verify that the authentication system is robust
 
-  @cwe-178-auth
+  @cwe-178-auth @broken-since-zap-2.13.0
   Scenario: Passwords should be case sensitive
     Given a new browser or client instance
     When the default user logs in

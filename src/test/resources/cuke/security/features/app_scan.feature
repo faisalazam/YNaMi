@@ -97,7 +97,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file target/zap/zap-reports/crlf_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-601 @broken-since-zap-2.16.1
+  @cwe-601
   Scenario: The application should not contain external redirect vulnerabilities
     And the "External Redirect" policy is enabled
     And the attack strength is set to High
@@ -141,7 +141,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file target/zap/zap-reports/ldap_injection.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-91
+  @cwe-91 @broken-since-zap-2.13.0
   Scenario: The application should not be vulnerable to XPATH injection
     And the "XPath Injection" policy is enabled
     And the attack strength is set to High

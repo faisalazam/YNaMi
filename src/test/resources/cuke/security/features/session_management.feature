@@ -2,7 +2,7 @@
 Feature: Session Management
   Verify that there are no weaknesses in the session management implementation
 
-  @cwe-664-fixation
+  @cwe-664-fixation @broken-since-zap-2.13.0
   Scenario: Issue a new session ID after authentication
     Given a new browser or client instance
     And the login page
@@ -27,14 +27,14 @@ Feature: Session Management
     When the session is inactive for 15 minutes
     Then the user is not logged in
 
-  @cwe-614
+  @cwe-614 @broken-since-zap-2.13.0
   Scenario: Set the 'secure' flag on the session cookie
     Given a new browser or client instance
     When the default user logs in
     And the user is logged in
     Then the session cookie should have the secure flag set
 
-  @wasc-13
+  @wasc-13 @broken-since-zap-2.13.0
   Scenario: Set the 'httpOnly' flag on the session cookie
     Given a new browser or client instance
     And the client/browser is configured to use an intercepting proxy
