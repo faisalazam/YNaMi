@@ -77,15 +77,18 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "the output must contain a line that matches .*Not vulnerable to Heartbleed.*"
+      "the output must contain a line that matches .*OpenSSL Heartbleed:.*",
+      "the output must contain a line that matches .*OK - Not vulnerable to Heartbleed.*"
     ],
     "datasets": [
       {
         "data": [
           0.0,
-          0.011
+          0.006,
+          0.006
         ],
         "backgroundColor": [
+          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)"
         ],
@@ -95,9 +98,11 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)"
         ],
@@ -107,9 +112,11 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)"
         ],
@@ -139,7 +146,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 0.011,
+            "stepSize": 0.006,
             "display": true
           },
           "stacked": true,
@@ -248,7 +255,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-15 07:22:27</span>
+            <span class="text-light">2025-04-15 07:30:55</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -305,9 +312,9 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-15 07:22:22</li>
-                <li class="list-group-item">Ended on:<br>2025-04-15 07:22:22</li>
-            <li class="list-group-item">Test Runtime:<br>0m 00s 011ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-15 07:30:50</li>
+                <li class="list-group-item">Ended on:<br>2025-04-15 07:30:50</li>
+            <li class="list-group-item">Test Runtime:<br>0m 00s 013ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
@@ -323,11 +330,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    1         Step
+                    2         Steps
 
                 </li>
                 <li class="list-group-item">
-                    1 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    2 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -388,11 +395,30 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 <span class="text-left">1.</span>
                                 <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
                                     <a href="pages/step-scenarios/step_01237404831.html"><span
-                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*Not vulnerable to Heartbleed.*</span></a>
+                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*OpenSSL Heartbleed:.*</span></a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 011ms
+                                0m 00s 006ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">2.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
+                                    <a href="pages/step-scenarios/step_01237404831.html"><span
+                                                class="keyword">And </span> the output must contain a line that matches <span class="parameter">.*OK - Not vulnerable to Heartbleed.*</span></a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 006ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -411,7 +437,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 07:22:27.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 07:30:55.</span>
     </div>
 </footer>    </body>
     </html>
