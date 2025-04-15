@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @cwe-664-fixation</title>
+<title>Cucumber Reports (no 1) - Tag: @ssl_heartbleed</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>YNaMi</td>
         <td>1</td>
-      <td>14 Apr 2025, 15:09</td>
+      <td>15 Apr 2025, 05:16</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@cwe-664-fixation</td>
-          <td      class="passed"    >6</td>
+          <td class="tagname">@ssl_heartbleed</td>
+          <td      class="passed"    >1</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">6</td>
+          <td class="total">1</td>
 
           <td  class="passed"    >1</td>
           <td >0</td>
           <td class="total">1</td>
 
-          <td class="duration" data-value="23442760025">23.442</td>
+          <td class="duration" data-value="19971816">0.019</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -173,26 +173,26 @@ $(document).ready(function() {
 <div class="element">
     <div class="indention">
       <b>Feature:</b>
-      <a href="report-feature_2_3647960089.html">Session Management</a>
+      <a href="report-feature_2_3584712269.html">SSL</a>
     </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
-       <a href="report-tag_4025377227.html">@session_management</a>
-       <a href="report-tag_1401514580.html">@cwe-664-fixation</a>
+       <a href="report-tag_2149504459.html">@ssl</a>
+       <a href="report-tag_2237666054.html">@ssl_heartbleed</a>
 </div>
 
 
-  <span class="lead-duration duration">23.442</span>
+  <span class="lead-duration duration">0.019</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Issue a new session ID after authentication</span>
+  <span class="name">Patch OpenSSL against the Heartbleed vulnerability</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -224,146 +224,11 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a new browser or client instance</span>
-
-  <span class="lead-duration duration">5.204</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the login page</span>
-
-  <span class="lead-duration duration">3.241</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the value of the session ID is noted</span>
-
-  <span class="lead-duration duration">0.847</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">the default user logs in</span>
-
-  <span class="lead-duration duration">14.098</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the user is logged in</span>
-
-  <span class="lead-duration duration">0.040</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the value of the session cookie issued after authentication should be different from that of the previously noted session ID</span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Not vulnerable to Heartbleed.*</span></span>
 
-  <span class="lead-duration duration">0.010</span>
+  <span class="lead-duration duration">0.019</span>
 
 </div>
 

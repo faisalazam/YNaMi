@@ -77,22 +77,15 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "a new browser or client instance",
-      "the default user logs in",
-      "the user is logged in",
-      "the session cookie should have the secure flag set"
+      "the output must contain a line that matches .*Not vulnerable to Heartbleed.*"
     ],
     "datasets": [
       {
         "data": [
-          11.481,
-          13.762,
-          1.156,
-          0.007
+          0.0,
+          0.019
         ],
         "backgroundColor": [
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)"
         ],
@@ -102,13 +95,9 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)"
         ],
@@ -118,13 +107,9 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)"
         ],
@@ -154,7 +139,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 13.762,
+            "stepSize": 0.019,
             "display": true
           },
           "stacked": true,
@@ -263,17 +248,17 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-14 15:09:01</span>
+            <span class="text-light">2025-04-15 05:16:09</span>
         </div>
     </nav>
     <main role="main" class="container">
         <div class="cluecumber-template">
             <div class="pb-2 mt-4 mb-2">
                     <h5>
-                            <a href="pages/feature-scenarios/feature_2.html">Session Management</a>
-                        <span class="small">classpath:cuke/security/features//session_management.feature</span>
+                            <a href="pages/feature-scenarios/feature_2.html">SSL</a>
+                        <span class="small">classpath:cuke/security/features//ssl.feature</span>
                     </h5>
-                    <h3>Set the &#39;secure&#39; flag on the session cookie</h3>
+                    <h3>Patch OpenSSL against the Heartbleed vulnerability</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -320,15 +305,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-14 15:08:08</li>
-                <li class="list-group-item">Ended on:<br>2025-04-14 15:08:35</li>
-            <li class="list-group-item">Test Runtime:<br>0m 26s 408ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-15 05:16:04</li>
+                <li class="list-group-item">Ended on:<br>2025-04-15 05:16:04</li>
+            <li class="list-group-item">Test Runtime:<br>0m 00s 020ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
-                    <a href="pages/tag-scenarios/tag_session_management.html">@session_management</a>,
+                    <a href="pages/tag-scenarios/tag_ssl.html">@ssl</a>,
 
-                    <a href="pages/tag-scenarios/tag_cwe-614.html">@cwe-614</a>            </li>
+                    <a href="pages/tag-scenarios/tag_ssl_heartbleed.html">@ssl_heartbleed</a>            </li>
             </div>
         </div>
     </div>
@@ -338,11 +323,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    4         Steps
+                    1         Step
 
                 </li>
                 <li class="list-group-item">
-                    4 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    1 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -362,6 +347,34 @@ font-src * data: blob: 'unsafe-inline';"/>
 
     <ul class="list-group list-group-flush">
 
+    <div class="col-sm-12  h-auto" data-cluecumber-item="card">
+        <div class="card h-100">
+                <div class="card-header">Background Steps</div>
+            <div class="card-body">
+                <li class="list-group-item">
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">1.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theSslyzeCommandIsRunAgainstTheApplication()">
+                                    <a href="pages/step-scenarios/step_806119511.html"><span
+                                                class="keyword">When </span> the SSLyze command is run against the application</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 000ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+                </li>
+            </div>
+        </div>
+    </div>
 
     <div class="col-sm-12  h-auto" data-cluecumber-item="card">
         <div class="card h-100">
@@ -373,70 +386,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.aNewBrowserOrClientInstance()">
-                                    <a href="pages/step-scenarios/step_1715091506.html"><span
-                                                class="keyword">Given </span> a new browser or client instance</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
+                                    <a href="pages/step-scenarios/step_01237404831.html"><span
+                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*Not vulnerable to Heartbleed.*</span></a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 11s 481ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginDefaultUser()">
-                                    <a href="pages/step-scenarios/step_0263053923.html"><span
-                                                class="keyword">When </span> the default user logs in</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 13s 762ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginSucceeds()">
-                                    <a href="pages/step-scenarios/step_1666796320.html"><span
-                                                class="keyword">And </span> the user is logged in</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 01s 156ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.sessionCookiesSecureFlag()">
-                                    <a href="pages/step-scenarios/step_1724661334.html"><span
-                                                class="keyword">Then </span> the session cookie should have the secure flag set</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 007ms
+                                0m 00s 019ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -455,7 +411,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 15:09:01.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 05:16:09.</span>
     </div>
 </footer>    </body>
     </html>

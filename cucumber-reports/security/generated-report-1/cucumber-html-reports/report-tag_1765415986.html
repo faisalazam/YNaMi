@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Feature: Session Management</title>
+<title>Cucumber Reports (no 1) - Tag: @cwe-90</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>YNaMi</td>
         <td>1</td>
-      <td>14 Apr 2025, 15:09</td>
+      <td>15 Apr 2025, 05:16</td>
     </tr>
   </tbody>
 </table>
@@ -89,7 +89,7 @@ $(document).ready(function() {
 
 <div id="report-lead" class="container-fluid">
   <div class="col-md-10 col-md-offset-1">
-    <h2>Feature Report</h2>
+    <h2>Tag Report</h2>
   </div>
 </div>
 
@@ -108,7 +108,7 @@ $(document).ready(function() {
     <th colspan="2">Features</th>
   </tr>
   <tr>
-    <th>Feature</th>
+    <th>Tag</th>
     <th class="passed">Passed</th>
     <th class="failed">Failed</th>
     <th class="skipped">Skipped</th>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">Session Management</td>
-          <td      class="passed"    >15</td>
+          <td class="tagname">@cwe-90</td>
+          <td      class="passed"    >7</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">15</td>
+          <td class="total">7</td>
 
-          <td  class="passed"    >3</td>
+          <td  class="passed"    >1</td>
           <td >0</td>
-          <td class="total">3</td>
+          <td class="total">1</td>
 
-          <td class="duration" data-value="71278527688">1:11.278</td>
+          <td class="duration" data-value="2059221759">2.059</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -167,45 +167,32 @@ $(document).ready(function() {
 <div class="container-fluid" id="report">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <div class="feature">
+      <div class="elements">
 
-<div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_3383637887.html">@security</a>
-       <a href="report-tag_4025377227.html">@session_management</a>
-</div>
-
-
-<div class="brief passed">
-  <span class="keyword indention">Feature</span>
-  <span class="name">Session Management</span>
-
-
-</div>
-
-        <div class="description indention">  Verify that there are no weaknesses in the session management implementation</div>
-
-        <div class="elements inner-level">
 
 <div class="element">
+    <div class="indention">
+      <b>Feature:</b>
+      <a href="report-feature_3521283304.html">Automated Application Security Scanning</a>
+    </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
-       <a href="report-tag_4025377227.html">@session_management</a>
-       <a href="report-tag_1401514580.html">@cwe-664-fixation</a>
+       <a href="report-tag_3602313754.html">@app_scan</a>
+       <a href="report-tag_1765415986.html">@cwe-90</a>
 </div>
 
 
-  <span class="lead-duration duration">23.442</span>
+  <span class="lead-duration duration">2.059</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Issue a new session ID after authentication</span>
+  <span class="name">The application should not be vulnerable to LDAP injection</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -237,11 +224,11 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a new browser or client instance</span>
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the <span class="argument">&quot;LDAP Injection&quot;</span> policy is enabled</span>
 
-  <span class="lead-duration duration">5.204</span>
+  <span class="lead-duration duration">0.008</span>
 
 </div>
 
@@ -266,9 +253,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">the login page</span>
+  <span class="name">the attack strength is set to <span class="argument">High</span></span>
 
-  <span class="lead-duration duration">3.241</span>
+  <span class="lead-duration duration">0.005</span>
 
 </div>
 
@@ -293,9 +280,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">the value of the session ID is noted</span>
+  <span class="name">the alert threshold is set to <span class="argument">Low</span></span>
 
-  <span class="lead-duration duration">0.847</span>
+  <span class="lead-duration duration">0.006</span>
 
 </div>
 
@@ -320,9 +307,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-When passed">
   <span class="keyword indention">When</span>
-  <span class="name">the default user logs in</span>
+  <span class="name">the scanner is run</span>
 
-  <span class="lead-duration duration">14.098</span>
+  <span class="lead-duration duration">2.017</span>
 
 </div>
 
@@ -347,9 +334,44 @@ $(document).ready(function() {
 
 <div class="brief step-name-And passed">
   <span class="keyword indention">And</span>
-  <span class="name">the user is logged in</span>
+  <span class="name">the following false positives are removed</span>
 
-  <span class="lead-duration duration">0.040</span>
+  <span class="lead-duration duration">0.003</span>
+
+</div>
+
+
+
+
+
+
+
+          <table class="step-arguments">
+              <tr>
+                  <td>url</td>
+                  <td>parameter</td>
+                  <td>cweId</td>
+                  <td>wascId</td>
+              </tr>
+          </table>
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the XML report is written to the file <span class="argument">target/zap/zap-reports/ldap_injection.xml</span></span>
+
+  <span class="lead-duration duration">0.017</span>
 
 </div>
 
@@ -374,9 +396,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the value of the session cookie issued after authentication should be different from that of the previously noted session ID</span>
+  <span class="name">no <span class="argument">Medium</span> or higher risk vulnerabilities should be present</span>
 
-  <span class="lead-duration duration">0.010</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -406,366 +428,6 @@ $(document).ready(function() {
   </div>
 </div>
 
-
-<div class="element">
-
-
-<div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_3383637887.html">@security</a>
-       <a href="report-tag_4025377227.html">@session_management</a>
-       <a href="report-tag_3188285244.html">@cwe-614</a>
-</div>
-
-
-  <span class="lead-duration duration">26.408</span>
-
-
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-3">
-
-<div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Set the 'secure' flag on the session cookie</span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </span>
-  <div class="description indention"></div>
-
-  <div id="element-3" class="collapse collapsable-details ">
-
-
-
-
-
-<div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-4">
-
-<div class="brief passed">
-  <span class="keyword indention">Steps</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </div>
-
-  <div id="steps-4" class="inner-level collapse collapsable-details ">
-      <div class="step">
-
-
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a new browser or client instance</span>
-
-  <span class="lead-duration duration">11.481</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">the default user logs in</span>
-
-  <span class="lead-duration duration">13.762</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the user is logged in</span>
-
-  <span class="lead-duration duration">1.156</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-Then passed">
-  <span class="keyword indention">Then</span>
-  <span class="name">the session cookie should have the secure flag set</span>
-
-  <span class="lead-duration duration">0.007</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-  </div>
-</div>
-
-
-
-
-
-  </div>
-</div>
-
-
-<div class="element">
-
-
-<div class="tags indention">
-    <b>Tags:</b>
-       <a href="report-tag_3383637887.html">@security</a>
-       <a href="report-tag_4025377227.html">@session_management</a>
-       <a href="report-tag_3143177716.html">@wasc-13</a>
-</div>
-
-
-  <span class="lead-duration duration">21.427</span>
-
-
-  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-5">
-
-<div class="brief passed">
-  <span class="keyword indention">Scenario</span>
-  <span class="name">Set the 'httpOnly' flag on the session cookie</span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </span>
-  <div class="description indention"></div>
-
-  <div id="element-5" class="collapse collapsable-details ">
-
-
-
-
-
-<div class="steps inner-level">
-  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-6">
-
-<div class="brief passed">
-  <span class="keyword indention">Steps</span>
-  <span class="name"></span>
-
-
-     <i class="chevron fa fa-fw"></i>
-</div>
-
-  </div>
-
-  <div id="steps-6" class="inner-level collapse collapsable-details ">
-      <div class="step">
-
-
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a new browser or client instance</span>
-
-  <span class="lead-duration duration">6.086</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the client/browser is configured to use an intercepting proxy</span>
-
-  <span class="lead-duration duration">0.039</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">the default user logs in</span>
-
-  <span class="lead-duration duration">12.992</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the user is logged in</span>
-
-  <span class="lead-duration duration">0.054</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-Then passed">
-  <span class="keyword indention">Then</span>
-  <span class="name">the session cookie should have the httpOnly flag set</span>
-
-  <span class="lead-duration duration">2.254</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-  </div>
-</div>
-
-
-
-
-
-  </div>
-</div>
-
-        </div>
 
       </div>
     </div>

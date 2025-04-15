@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @wasc-13</title>
+<title>Cucumber Reports (no 1) - Tag: @ssl_disabled_protocols</title>
 
 </head>
 <body>
@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>YNaMi</td>
         <td>1</td>
-      <td>14 Apr 2025, 15:09</td>
+      <td>15 Apr 2025, 05:16</td>
     </tr>
   </tbody>
 </table>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@wasc-13</td>
-          <td      class="passed"    >5</td>
+          <td class="tagname">@ssl_disabled_protocols</td>
+          <td      class="passed"    >1</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">5</td>
+          <td class="total">1</td>
 
           <td  class="passed"    >1</td>
           <td >0</td>
           <td class="total">1</td>
 
-          <td class="duration" data-value="21427325495">21.427</td>
+          <td class="duration" data-value="264685926">0.264</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -173,26 +173,26 @@ $(document).ready(function() {
 <div class="element">
     <div class="indention">
       <b>Feature:</b>
-      <a href="report-feature_2_3647960089.html">Session Management</a>
+      <a href="report-feature_2_3584712269.html">SSL</a>
     </div>
 
 
 <div class="tags indention">
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
-       <a href="report-tag_4025377227.html">@session_management</a>
-       <a href="report-tag_3143177716.html">@wasc-13</a>
+       <a href="report-tag_2149504459.html">@ssl</a>
+       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
 </div>
 
 
-  <span class="lead-duration duration">21.427</span>
+  <span class="lead-duration duration">0.264</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Set the 'httpOnly' flag on the session cookie</span>
+  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -224,119 +224,11 @@ $(document).ready(function() {
       <div class="step">
 
 
-<div class="brief step-name-Given passed">
-  <span class="keyword indention">Given</span>
-  <span class="name">a new browser or client instance</span>
-
-  <span class="lead-duration duration">6.086</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the client/browser is configured to use an intercepting proxy</span>
-
-  <span class="lead-duration duration">0.039</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-When passed">
-  <span class="keyword indention">When</span>
-  <span class="name">the default user logs in</span>
-
-  <span class="lead-duration duration">12.992</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
-<div class="brief step-name-And passed">
-  <span class="keyword indention">And</span>
-  <span class="name">the user is logged in</span>
-
-  <span class="lead-duration duration">0.054</span>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-      <div class="step">
-
-
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the session cookie should have the httpOnly flag set</span>
+  <span class="name">the following protocols must not be supported</span>
 
-  <span class="lead-duration duration">2.254</span>
+  <span class="lead-duration duration">0.264</span>
 
 </div>
 
@@ -346,6 +238,17 @@ $(document).ready(function() {
 
 
 
+          <table class="step-arguments">
+              <tr>
+                  <td>SSLV1</td>
+              </tr>
+              <tr>
+                  <td>SSLV2</td>
+              </tr>
+              <tr>
+                  <td>SSLV3</td>
+              </tr>
+          </table>
 
 
 

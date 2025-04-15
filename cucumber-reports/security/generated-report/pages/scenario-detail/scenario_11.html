@@ -77,26 +77,26 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "the \"XPath Injection\" policy is enabled",
+      "the \"Remote Code Execution - Shell Shock\" policy is enabled",
       "the attack strength is set to High",
       "the alert threshold is set to Low",
       "the scanner is run",
       "the following false positives are removed",
-      "the XML report is written to the file target/zap/zap-reports/xpath_injection.xml",
+      "the XML report is written to the file target/zap/zap-reports/shell_shock.xml",
       "no Medium or higher risk vulnerabilities should be present"
     ],
     "datasets": [
       {
         "data": [
-          3.632,
-          0.016,
+          3.874,
+          0.017,
           0.001,
           0.0,
           0.0,
-          0.003,
-          0.003,
+          0.006,
           0.005,
-          2.011,
+          0.005,
+          2.017,
           0.003,
           0.013,
           0.0
@@ -205,7 +205,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 3.632,
+            "stepSize": 3.874,
             "display": true
           },
           "stacked": true,
@@ -314,7 +314,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-14 15:09:01</span>
+            <span class="text-light">2025-04-15 05:16:09</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -324,7 +324,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a href="pages/feature-scenarios/feature_0.html">Automated Application Security Scanning</a>
                         <span class="small">classpath:cuke/security/features//app_scan.feature</span>
                     </h5>
-                    <h3>The application should not be vulnerable to XPATH injection</h3>
+                    <h3>The application should not be vulnerable to Remote Code Execution - Shell Shock</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -371,15 +371,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-14 15:06:37</li>
-                <li class="list-group-item">Ended on:<br>2025-04-14 15:06:43</li>
-            <li class="list-group-item">Test Runtime:<br>0m 05s 691ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-15 05:15:25</li>
+                <li class="list-group-item">Ended on:<br>2025-04-15 05:15:31</li>
+            <li class="list-group-item">Test Runtime:<br>0m 05s 945ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
                     <a href="pages/tag-scenarios/tag_app_scan.html">@app_scan</a>,
 
-                    <a href="pages/tag-scenarios/tag_cwe-91.html">@cwe-91</a>            </li>
+                    <a href="pages/tag-scenarios/tag_cwe-78.html">@cwe-78</a>            </li>
             </div>
         </div>
     </div>
@@ -429,7 +429,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 03s 632ms
+                                0m 03s 874ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -448,7 +448,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 016ms
+                                0m 00s 017ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -530,11 +530,11 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 <span class="text-left">1.</span>
                                 <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.thePolicyIsEnabled(java.lang.String)">
                                     <a href="pages/step-scenarios/step_1248794961.html"><span
-                                                class="keyword">And </span> the <span class="parameter">"XPath Injection"</span> policy is enabled</a>
+                                                class="keyword">And </span> the <span class="parameter">"Remote Code Execution - Shell Shock"</span> policy is enabled</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 003ms
+                                0m 00s 006ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -553,7 +553,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 003ms
+                                0m 00s 005ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -591,7 +591,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 02s 011ms
+                                0m 02s 017ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -637,7 +637,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                                 <span class="text-left">6.</span>
                                 <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.AppScanningSteps.theXmlReportIsWrittenToTheFile(java.lang.String)">
                                     <a href="pages/step-scenarios/step_692130172.html"><span
-                                                class="keyword">And </span> the XML report is written to the file <span class="parameter">target/zap/zap-reports/xpath_injection.xml</span></a>
+                                                class="keyword">And </span> the XML report is written to the file <span class="parameter">target/zap/zap-reports/shell_shock.xml</span></a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
@@ -679,7 +679,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 15:09:01.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 05:16:09.</span>
     </div>
 </footer>    </body>
     </html>

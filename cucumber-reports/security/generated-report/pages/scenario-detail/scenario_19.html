@@ -77,25 +77,15 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "a new browser or client instance",
-      "the client/browser is configured to use an intercepting proxy",
-      "the default user logs in",
-      "the user is logged in",
-      "the session cookie should have the httpOnly flag set"
+      "the following protocols must not be supported"
     ],
     "datasets": [
       {
         "data": [
-          6.086,
-          0.039,
-          12.992,
-          0.054,
-          2.254
+          0.0,
+          0.264
         ],
         "backgroundColor": [
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)"
         ],
@@ -105,15 +95,9 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
-          0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)"
         ],
@@ -123,15 +107,9 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
-          0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)"
         ],
@@ -161,7 +139,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 12.992,
+            "stepSize": 0.264,
             "display": true
           },
           "stacked": true,
@@ -270,17 +248,17 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-14 15:09:01</span>
+            <span class="text-light">2025-04-15 05:16:09</span>
         </div>
     </nav>
     <main role="main" class="container">
         <div class="cluecumber-template">
             <div class="pb-2 mt-4 mb-2">
                     <h5>
-                            <a href="pages/feature-scenarios/feature_2.html">Session Management</a>
-                        <span class="small">classpath:cuke/security/features//session_management.feature</span>
+                            <a href="pages/feature-scenarios/feature_2.html">SSL</a>
+                        <span class="small">classpath:cuke/security/features//ssl.feature</span>
                     </h5>
-                    <h3>Set the &#39;httpOnly&#39; flag on the session cookie</h3>
+                    <h3>Disable weak SSL protocols due to numerous cryptographic weaknesses</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -327,15 +305,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-14 15:08:35</li>
-                <li class="list-group-item">Ended on:<br>2025-04-14 15:08:56</li>
-            <li class="list-group-item">Test Runtime:<br>0m 21s 427ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-15 05:16:04</li>
+                <li class="list-group-item">Ended on:<br>2025-04-15 05:16:04</li>
+            <li class="list-group-item">Test Runtime:<br>0m 00s 264ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
-                    <a href="pages/tag-scenarios/tag_session_management.html">@session_management</a>,
+                    <a href="pages/tag-scenarios/tag_ssl.html">@ssl</a>,
 
-                    <a href="pages/tag-scenarios/tag_wasc-13.html">@wasc-13</a>            </li>
+                    <a href="pages/tag-scenarios/tag_ssl_disabled_protocols.html">@ssl_disabled_protocols</a>            </li>
             </div>
         </div>
     </div>
@@ -345,11 +323,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    5         Steps
+                    1         Step
 
                 </li>
                 <li class="list-group-item">
-                    5 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    1 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -369,10 +347,9 @@ font-src * data: blob: 'unsafe-inline';"/>
 
     <ul class="list-group list-group-flush">
 
-
     <div class="col-sm-12  h-auto" data-cluecumber-item="card">
         <div class="card h-100">
-                <div class="card-header">Steps</div>
+                <div class="card-header">Background Steps</div>
             <div class="card-body">
                 <li class="list-group-item">
 
@@ -380,89 +357,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.aNewBrowserOrClientInstance()">
-                                    <a href="pages/step-scenarios/step_1715091506.html"><span
-                                                class="keyword">Given </span> a new browser or client instance</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theSslyzeCommandIsRunAgainstTheApplication()">
+                                    <a href="pages/step-scenarios/step_806119511.html"><span
+                                                class="keyword">When </span> the SSLyze command is run against the application</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 06s 086ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.theClientBrowserIsConfiguredToUseAnInterceptingProxy()">
-                                    <a href="pages/step-scenarios/step_1753700067.html"><span
-                                                class="keyword">And </span> the client/browser is configured to use an intercepting proxy</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 039ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginDefaultUser()">
-                                    <a href="pages/step-scenarios/step_0263053923.html"><span
-                                                class="keyword">When </span> the default user logs in</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 12s 992ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.loginSucceeds()">
-                                    <a href="pages/step-scenarios/step_1666796320.html"><span
-                                                class="keyword">And </span> the user is logged in</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 054ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">5.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.WebApplicationSteps.sessionCookiesHttpOnlyFlag()">
-                                    <a href="pages/step-scenarios/step_02114367309.html"><span
-                                                class="keyword">Then </span> the session cookie should have the httpOnly flag set</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 02s 254ms
+                                0m 00s 000ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -475,13 +376,57 @@ font-src * data: blob: 'unsafe-inline';"/>
         </div>
     </div>
 
+    <div class="col-sm-12  h-auto" data-cluecumber-item="card">
+        <div class="card h-100">
+                <div class="card-header">Steps</div>
+            <div class="card-body">
+                <li class="list-group-item">
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">1.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.verifyDisabledProtocols(java.util.List<java.lang.String>)">
+                                    <a href="pages/step-scenarios/step_1795932085.html"><span
+                                                class="keyword">Then </span> the following protocols must not be supported</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 264ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                                <div class="row w-100 p-3 m-0 scenarioDataTable">
+                                    <div class="w-100 text-left border border-dark table-responsive">
+                                        <table class="table table-hover small table-striped text-left pb-0">
+                                                <tr>
+                                                        <td>SSLV1</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>SSLV2</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>SSLV3</td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                        </div>
+                </li>
+            </div>
+        </div>
+    </div>
+
     </ul>
         </div>
     </main>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-14 15:09:01.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-15 05:16:09.</span>
     </div>
 </footer>    </body>
     </html>
