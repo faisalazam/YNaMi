@@ -41,7 +41,7 @@ And the zap-2.16.1.jar file can be copied from "/Applications/OWASP\ ZAP.app/Con
 3- Extract the `ZAP_<VERSION>_Linux.tar` file
 4- Delete the `src/test/java/penetration/pk/lucidxpo/ynami/zap/*`
 5- Move the extracted contents to the `src/test/java/penetration/pk/lucidxpo/ynami/zap/*` folder
-6- Search for <VERSION> in the whole project and replace with <NEW_VERSION> where makes sense
+6- Search for `<VERSION>` in the whole project and replace with `<NEW_VERSION>` where makes sense
 7- That's it, ready to go
 8- But, after upgrading, if you have failing penetration tests due to errors like below:
 `org.zaproxy.clientapi.core.ClientApiException: Does Not Exist (does_not_exist): IDs: [40012, 40014, 40016, 40017]`
