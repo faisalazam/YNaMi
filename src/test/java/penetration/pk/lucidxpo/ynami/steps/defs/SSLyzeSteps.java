@@ -31,7 +31,7 @@ public class SSLyzeSteps {
         }
     }
 
-    @Then("the output must contain the text (.*)")
+    @Then("the output must contain the text {string}")
     public void theOutputMustContainTheText(String text) {
         if (text.startsWith("\"") || text.startsWith("'")) {
             text = text.substring(1, text.length() - 1);
