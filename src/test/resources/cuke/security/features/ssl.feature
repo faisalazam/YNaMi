@@ -19,7 +19,8 @@ Feature: SSL
 
   @ssl_heartbleed
   Scenario: Patch OpenSSL against the Heartbleed vulnerability
-    Then the output must contain a line that matches .*Not vulnerable to Heartbleed.*
+    Then the output must contain a line that matches .*OpenSSL Heartbleed:.*
+    And the output must contain a line that matches .*OK - Not vulnerable to Heartbleed.*
 
   @ssl_strong_cipher @broken-since-zap-2.13.0
   Scenario: The minimum cipher strength should meet requirements
