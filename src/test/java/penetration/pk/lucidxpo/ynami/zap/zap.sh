@@ -32,6 +32,7 @@
 # some files which are not available in new version, e.g.: ascanrulesAlpha-alpha-48.zap, ascanrulesBeta-beta-58.zap
 # So, basically work out which *.zap contains the "does_not_exist" id, and then download and
 # copy it to the src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin dir. e.g.:
+# curl -L -o src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin/ascanrules-release-70.zap https://github.com/zaproxy/zap-extensions/releases/download/ascanrules-v70/ascanrules-release-70.zap
 # curl -L -o src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin/ascanrulesAlpha-alpha-19.zap https://github.com/zaproxy/zap-extensions/releases/download/ascanrulesAlpha-v48/ascanrulesAlpha-alpha-19.zap
 # curl -L -o src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin/ascanrulesBeta-beta-21.zap https://github.com/zaproxy/zap-extensions/releases/download/ascanrulesBeta-v56/ascanrulesBeta-beta-21.zap
 # Or, go to https://www.zaproxy.org/addons/ and download the relevant zap addon file from there
