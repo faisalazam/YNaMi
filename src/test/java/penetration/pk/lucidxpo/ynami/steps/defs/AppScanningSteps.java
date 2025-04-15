@@ -271,8 +271,8 @@ public class AppScanningSteps {
             case "remote os command injection" -> scannerIds = "90020";
             case "external redirect" -> scannerIds = "20019";
             case "crlf injection" -> scannerIds = "40003";
-            case "source code disclosure" -> scannerIds = "10045,20017";
-            case "shellshock" -> scannerIds = "10048";
+            case "source code disclosure" -> scannerIds = "41,42,43,10045,20017";
+            case "remote code execution - shell shock" -> scannerIds = "10048";
             case "remote code execution" -> scannerIds = "20018";
             case "ldap injection" -> scannerIds = "40015";
             case "xpath injection" -> scannerIds = "90021";

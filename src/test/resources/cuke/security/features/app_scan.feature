@@ -119,9 +119,9 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file target/zap/zap-reports/source_disclosure.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-78 @broken-since-zap-2.13.0
-  Scenario: The application should not be vulnerable to Shell Shock
-    And the "ShellShock" policy is enabled
+  @cwe-78
+  Scenario: The application should not be vulnerable to Remote Code Execution - Shell Shock
+    And the "Remote Code Execution - Shell Shock" policy is enabled
     And the attack strength is set to High
     And the alert threshold is set to Low
     When the scanner is run
@@ -130,7 +130,7 @@ Feature: Automated Application Security Scanning
     And the XML report is written to the file target/zap/zap-reports/shell_shock.xml
     Then no Medium or higher risk vulnerabilities should be present
 
-  @cwe-90 @broken-since-zap-2.13.0
+  @cwe-90
   Scenario: The application should not be vulnerable to LDAP injection
     And the "LDAP Injection" policy is enabled
     And the attack strength is set to High
