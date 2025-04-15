@@ -17,7 +17,25 @@
 # and it is from ZAP's version 2.13.0.
 #
 # And the zap-2.13.0.jar file can be copied from "/Applications/OWASP\ ZAP.app/Contents/Java/zap-2.13.0.jar"
-
+#
+# Easy way to upgrade is:
+# 1- Download the "Linux Package" from: https://www.zaproxy.org/docs/desktop/releases/
+# 2- You should have ZAP_<VERSION>_Linux.tar now (e.g. ZAP_2.13.0_Linux.tar)
+# 3- Extract the ZAP_<VERSION>_Linux.tar (version will vary) file
+# 4- Delete the src/test/java/penetration/pk/lucidxpo/ynami/zap/*
+# 5- Move the extracted contents to the src/test/java/penetration/pk/lucidxpo/ynami/zap/* folder
+# 6- Search for <VERSION> in the whole project and replace with <NEW_VERSION> where makes sense
+# 7- That's it, ready to go
+# 8- But, after upgrading, if you have failing penetration tests due to errors like below:
+# org.zaproxy.clientapi.core.ClientApiException: Does Not Exist (does_not_exist): IDs: [40012, 40014, 40016, 40017]
+# Then, the likely cause would be the new src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin dir is missing
+# some files which are not available in new version, e.g.: ascanrulesAlpha-alpha-48.zap, ascanrulesBeta-beta-58.zap
+# So, basically work out which *.zap contains the "does_not_exist" id, and then download and
+# copy it to the src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin dir. e.g.:
+# curl -L -o src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin/ascanrulesAlpha-alpha-19.zap https://github.com/zaproxy/zap-extensions/releases/download/ascanrulesAlpha-v48/ascanrulesAlpha-alpha-19.zap
+# curl -L -o src/test/java/penetration/pk/lucidxpo/ynami/zap/plugin/ascanrulesBeta-beta-21.zap https://github.com/zaproxy/zap-extensions/releases/download/ascanrulesBeta-v56/ascanrulesBeta-beta-21.zap
+# Or, go to https://www.zaproxy.org/addons/ and download the relevant zap addon file from there
+#
 # Dereference from link to the real directory
 SCRIPTNAME="$0"
 
