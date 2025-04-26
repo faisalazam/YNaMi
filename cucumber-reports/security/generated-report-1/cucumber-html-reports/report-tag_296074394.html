@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @ssl_disabled_protocols</title>
+<title>Cucumber Reports (no 1) - Tag: @ssl_perfect_forward_secrecy</title>
 
 </head>
 <body>
@@ -128,19 +128,19 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@ssl_disabled_protocols</td>
-          <td      class="passed"    >1</td>
+          <td class="tagname">@ssl_perfect_forward_secrecy</td>
+          <td      class="passed"    >3</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">1</td>
+          <td class="total">3</td>
 
           <td  class="passed"    >1</td>
           <td >0</td>
           <td class="total">1</td>
 
-          <td class="duration" data-value="1177531452">1.177</td>
+          <td class="duration" data-value="424594379">0.424</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -181,18 +181,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
+       <a href="report-tag_296074394.html">@ssl_perfect_forward_secrecy</a>
 </div>
 
 
-  <span class="lead-duration duration">1.177</span>
+  <span class="lead-duration duration">0.424</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
+  <span class="name">Enable Perfect forward secrecy</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -226,9 +226,63 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the following protocols must not be supported</span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Forward Secrecy\s+OK - Supported.*</span></span>
 
-  <span class="lead-duration duration">1.177</span>
+  <span class="lead-duration duration">0.003</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">the output must contain a line that matches <span class="argument">.*Legacy RC4 Algorithm\s+OK - Not Supported.*</span></span>
+
+  <span class="lead-duration duration">0.002</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="step">
+
+
+<div class="brief step-name-And passed">
+  <span class="keyword indention">And</span>
+  <span class="name">any of the following ciphers must be supported</span>
+
+  <span class="lead-duration duration">0.418</span>
 
 </div>
 
@@ -240,13 +294,58 @@ $(document).ready(function() {
 
           <table class="step-arguments">
               <tr>
-                  <td>SSLV1</td>
+                  <td>TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</td>
               </tr>
               <tr>
-                  <td>SSLV2</td>
+                  <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384</td>
               </tr>
               <tr>
-                  <td>SSLV3</td>
+                  <td>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</td>
+              </tr>
+              <tr>
+                  <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256</td>
+              </tr>
+              <tr>
+                  <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA</td>
+              </tr>
+              <tr>
+                  <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</td>
+              </tr>
+              <tr>
+                  <td>DHE-DSS-CAMELLIA128-SHA</td>
+              </tr>
+              <tr>
+                  <td>DHE-DSS-CAMELLIA256-SHA</td>
+              </tr>
+              <tr>
+                  <td>DHE-RSA-CAMELLIA128-SHA</td>
+              </tr>
+              <tr>
+                  <td>DHE-RSA-CAMELLIA256-SHA</td>
+              </tr>
+              <tr>
+                  <td>ECDHE-ECDSA-CAMELLIA128-SHA256</td>
+              </tr>
+              <tr>
+                  <td>ECDHE-ECDSA-CAMELLIA256-SHA384</td>
+              </tr>
+              <tr>
+                  <td>ECDH-ECDSA-CAMELLIA128-SHA256</td>
+              </tr>
+              <tr>
+                  <td>ECDH-ECDSA-CAMELLIA256-SHA384</td>
+              </tr>
+              <tr>
+                  <td>ECDHE-RSA-CAMELLIA128-SHA256</td>
+              </tr>
+              <tr>
+                  <td>ECDHE-RSA-CAMELLIA256-SHA384</td>
+              </tr>
+              <tr>
+                  <td>ECDH-RSA-CAMELLIA128-SHA256</td>
+              </tr>
+              <tr>
+                  <td>ECDH-RSA-CAMELLIA256-SHA384</td>
               </tr>
           </table>
 
