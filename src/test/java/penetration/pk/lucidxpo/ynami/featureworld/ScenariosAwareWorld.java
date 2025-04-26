@@ -4,7 +4,7 @@ import edu.umass.cs.benchlab.har.HarEntry;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.continuumsecurity.jsslyze.JSSLyze;
+import penetration.pk.lucidxpo.ynami.jsslyze.JSSLyze;
 import penetration.pk.lucidxpo.ynami.model.Credentials;
 import penetration.pk.lucidxpo.ynami.model.UserPassCredentials;
 

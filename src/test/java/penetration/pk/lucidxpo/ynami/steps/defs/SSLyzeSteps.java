@@ -2,8 +2,8 @@ package penetration.pk.lucidxpo.ynami.steps.defs;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import net.continuumsecurity.jsslyze.JSSLyze;
 import penetration.pk.lucidxpo.ynami.config.Config;
+import penetration.pk.lucidxpo.ynami.jsslyze.JSSLyze;
 
 import java.util.List;
 

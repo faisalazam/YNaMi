@@ -635,13 +635,6 @@
         </dependency>
         <dependency>
             <groupId>net.continuumsecurity</groupId>
-            <artifactId>jssylze</artifactId>
-            <version>0.2-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.build.testSourceDirectory}/penetration/pk/lucidxpo/ynami/lib/jssylze-0.2-SNAPSHOT.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>net.continuumsecurity</groupId>
             <artifactId>nessus-java-client</artifactId>
             <version>0.2-SNAPSHOT</version>
             <scope>system</scope>
