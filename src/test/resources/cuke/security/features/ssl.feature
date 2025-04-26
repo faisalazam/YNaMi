@@ -22,7 +22,7 @@ Feature: SSL
     Then the output must contain a line that matches .*OpenSSL Heartbleed:.*
     And the output must contain a line that matches .*OK - Not vulnerable to Heartbleed.*
 
-  @ssl_strong_cipher @broken-since-zap-2.13.0
+  @ssl_strong_cipher
   Scenario: The minimum cipher strength should meet requirements
     Then the minimum key size must be 128 bits
 
