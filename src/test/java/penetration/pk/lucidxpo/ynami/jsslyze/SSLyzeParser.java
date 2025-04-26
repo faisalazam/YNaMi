@@ -110,24 +110,41 @@ public class SSLyzeParser {
     public List<CipherElement> listAcceptedCipherSuitesFor(String protocol) {
         Scanner lineScanner = new Scanner(output).useDelimiter(NEWLINE);
 
-        while (lineScanner.hasNext()) {
-            if (lineScanner.next().contains(protocol + " Cipher Suites")) break;
-        }
+        // Step 1: Find the correct protocol section
         while (lineScanner.hasNext()) {
             String line = lineScanner.next();
-            if (line.contains("Accepted") || line.contains("Server rejected")) break;
+            if (line.contains(protocol + " Cipher Suites")) {
+                break;
+            }
         }
+
+        // Step 2: Find the "The server accepted the following" line
+        while (lineScanner.hasNext()) {
+            String line = lineScanner.next();
+            if (line.contains("The server accepted the following") || line.contains("the server rejected")) {
+                break;
+            }
+        }
+
         List<CipherElement> found = new ArrayList<>();
+        // Step 3: Now collect cipher suites
         while (lineScanner.hasNext()) {
-            String line = lineScanner.next();
-            if (line.isEmpty() || line.contains("Undefined")) {
+            String line = lineScanner.next().trim();
+            if (line.isEmpty() || line.startsWith("*") || line.startsWith("The group of cipher suites")) {
                 break;
             } else {
                 Scanner wordScanner = new Scanner(line);
                 String name = wordScanner.next();
-                String code = wordScanner.next();
-                if (!code.matches("-")) wordScanner.next();
-                int size = wordScanner.nextInt();
+                int size = 0;
+                // Try to skip codes if present
+                while (wordScanner.hasNext()) {
+                    if (wordScanner.hasNextInt()) {
+                        size = wordScanner.nextInt();
+                        break;
+                    } else {
+                        wordScanner.next(); // skip hex codes or irrelevant
+                    }
+                }
                 found.add(new CipherElement(name, size));
                 wordScanner.close();
             }
@@ -158,7 +175,7 @@ public class SSLyzeParser {
         return false;
     }
 
-    private class CipherElement {
+    private static class CipherElement {
         String name;
         int size;
 
@@ -171,16 +188,8 @@ public class SSLyzeParser {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public int getSize() {
             return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
         }
     }
 }
