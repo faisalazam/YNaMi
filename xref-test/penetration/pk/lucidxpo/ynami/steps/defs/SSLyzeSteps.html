@@ -10,8 +10,8 @@
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> io.cucumber.java.en.Then;
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> io.cucumber.java.en.When;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> net.continuumsecurity.jsslyze.JSSLyze;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> penetration.pk.lucidxpo.ynami.config.Config;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> penetration.pk.lucidxpo.ynami.config.Config;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> penetration.pk.lucidxpo.ynami.jsslyze.JSSLyze;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   
@@ -32,7 +32,7 @@
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>              <strong class="jxr_keyword">final</strong> <a name="Config" href="../../../../../../penetration/pk/lucidxpo/ynami/config/Config.html#Config">Config</a> configInstance = Config.getInstance();
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>              <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> port = configInstance.getSslPort();
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>              <strong class="jxr_keyword">final</strong> String host = configInstance.getSslHost();
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>              <strong class="jxr_keyword">final</strong> JSSLyze jSSLLyze = <strong class="jxr_keyword">new</strong> JSSLyze(configInstance.getSSLyzePath(), OUTFILENAME);
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>              <strong class="jxr_keyword">final</strong> <a name="JSSLyze" href="../../../../../../penetration/pk/lucidxpo/ynami/jsslyze/JSSLyze.html#JSSLyze">JSSLyze</a> jSSLLyze = <strong class="jxr_keyword">new</strong> <a name="JSSLyze" href="../../../../../../penetration/pk/lucidxpo/ynami/jsslyze/JSSLyze.html#JSSLyze">JSSLyze</a>(configInstance.getSSLyzePath(), OUTFILENAME);
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>              jSSLLyze.execute(configInstance.getSSLyzeOption(), host, port);
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>              getInstance().setJSSLyze(jSSLLyze);
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>              getInstance().setSslRunCompleted(<strong class="jxr_keyword">true</strong>);
@@ -84,7 +84,7 @@
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>          assertThat(foundCipher, equalTo(<strong class="jxr_keyword">true</strong>));
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>      }
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">private</strong> JSSLyze getJssLyze() {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">private</strong> <a name="JSSLyze" href="../../../../../../penetration/pk/lucidxpo/ynami/jsslyze/JSSLyze.html#JSSLyze">JSSLyze</a> getJssLyze() {
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>          <strong class="jxr_keyword">return</strong> getInstance().getJSSLyze();
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>      }
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  }
