@@ -38,15 +38,17 @@ Feature: SSL
     Then the following protocols must be supported
       | TLSV1_2 |
 
-  @ssl_perfect_forward_secrecy @wip
+  @ssl_perfect_forward_secrecy
   Scenario: Enable Perfect forward secrecy
-    Then any of the following ciphers must be supported
+    Then the output must contain a line that matches .*Forward Secrecy\s+OK - Supported.*
+    And the output must contain a line that matches .*Legacy RC4 Algorithm\s+OK - Not Supported.*
+    And any of the following ciphers must be supported
       | TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 |
       | TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 |
       | TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 |
       | TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 |
-      | ECDHE-RSA-AES128-SHA                  |
-      | ECDHE-RSA-AES256-SHA                  |
+      | TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA    |
+      | TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA    |
       | DHE-DSS-CAMELLIA128-SHA               |
       | DHE-DSS-CAMELLIA256-SHA               |
       | DHE-RSA-CAMELLIA128-SHA               |
