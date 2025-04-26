@@ -31,7 +31,7 @@ public class SSLyzeParser {
                 wordScanner.next();
                 wordScanner.next();
                 int size = wordScanner.nextInt();
-                found.add(new CipherElement(name,size));
+                found.add(new CipherElement(name, size));
                 wordScanner.close();
             }
         }
@@ -61,12 +61,16 @@ public class SSLyzeParser {
         String line;
         while (lineScanner.hasNext()) {
             line = lineScanner.next();
-            if (line.contains("Cipher Suites:")) {
+            if (line.trim().endsWith("Cipher Suites:")) {
                 String nextLine = lineScanner.next();
                 if (!nextLine.contains("rejected")) {
                     Scanner wordScanner = new Scanner(line);
-                    wordScanner.next();
-                    all.add(wordScanner.next());
+                    wordScanner.next(); // skip '*'
+                    String protocol = wordScanner.next(); // TLS or SSL
+                    if (wordScanner.hasNext()) {
+                        protocol += " " + wordScanner.next(); // append version number like 1.2
+                    }
+                    all.add(protocol);
                     wordScanner.close();
                 }
             }
@@ -99,7 +103,7 @@ public class SSLyzeParser {
             all.add(cipherElement.getSize());
         }
         Collections.sort(all);
-        if (all.isEmpty()) throw new RuntimeException("No keys found for protocol "+protocol);
+        if (all.isEmpty()) throw new RuntimeException("No keys found for protocol " + protocol);
         return all.getFirst();
     }
 
@@ -124,7 +128,7 @@ public class SSLyzeParser {
                 String code = wordScanner.next();
                 if (!code.matches("-")) wordScanner.next();
                 int size = wordScanner.nextInt();
-                found.add(new CipherElement(name,size));
+                found.add(new CipherElement(name, size));
                 wordScanner.close();
             }
         }
