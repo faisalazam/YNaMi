@@ -77,21 +77,15 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "the output must contain a line that matches .*Forward Secrecy\\s+OK - Supported.*",
-      "the output must contain a line that matches .*Legacy RC4 Algorithm\\s+OK - Not Supported.*",
-      "any of the following ciphers must be supported"
+      "the following protocols must not be supported"
     ],
     "datasets": [
       {
         "data": [
           0.0,
-          0.003,
-          0.002,
-          0.418
+          0.175
         ],
         "backgroundColor": [
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)"
         ],
@@ -101,13 +95,9 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)"
         ],
@@ -117,13 +107,9 @@ font-src * data: blob: 'unsafe-inline';"/>
       {
         "data": [
           0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)"
         ],
@@ -153,7 +139,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 0.418,
+            "stepSize": 0.175,
             "display": true
           },
           "stacked": true,
@@ -262,7 +248,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-26 16:34:18</span>
+            <span class="text-light">2025-04-26 18:06:07</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -272,7 +258,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a href="pages/feature-scenarios/feature_2.html">SSL</a>
                         <span class="small">classpath:cuke/security/features//ssl.feature</span>
                     </h5>
-                    <h3>Enable Perfect forward secrecy</h3>
+                    <h3>Disable weak SSL protocols due to numerous cryptographic weaknesses</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -319,15 +305,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-26 16:34:14</li>
-                <li class="list-group-item">Ended on:<br>2025-04-26 16:34:14</li>
-            <li class="list-group-item">Test Runtime:<br>0m 00s 424ms</li>
+                <li class="list-group-item">Started on:<br>2025-04-26 18:06:02</li>
+                <li class="list-group-item">Ended on:<br>2025-04-26 18:06:02</li>
+            <li class="list-group-item">Test Runtime:<br>0m 00s 175ms</li>
             <li class="list-group-item">
                     <a href="pages/tag-scenarios/tag_security.html">@security</a>,
 
                     <a href="pages/tag-scenarios/tag_ssl.html">@ssl</a>,
 
-                    <a href="pages/tag-scenarios/tag_ssl_perfect_forward_secrecy.html">@ssl_perfect_forward_secrecy</a>            </li>
+                    <a href="pages/tag-scenarios/tag_ssl_disabled_protocols.html">@ssl_disabled_protocols</a>            </li>
             </div>
         </div>
     </div>
@@ -337,11 +323,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    3         Steps
+                    1         Step
 
                 </li>
                 <li class="list-group-item">
-                    3 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    1 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -400,51 +386,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_01237404831.html"><span
-                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*Forward Secrecy\s+OK - Supported.*</span></a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.verifyDisabledProtocols(java.util.List<java.lang.String>)">
+                                    <a href="pages/step-scenarios/step_1795932085.html"><span
+                                                class="keyword">Then </span> the following protocols must not be supported</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 00s 003ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_01237404831.html"><span
-                                                class="keyword">And </span> the output must contain a line that matches <span class="parameter">.*Legacy RC4 Algorithm\s+OK - Not Supported.*</span></a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 002ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.verifyAnyCipherSupported(java.util.List<java.lang.String>)">
-                                    <a href="pages/step-scenarios/step_01078229557.html"><span
-                                                class="keyword">And </span> any of the following ciphers must be supported</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 418ms
+                                0m 00s 175ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -455,58 +403,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                                     <div class="w-100 text-left border border-dark table-responsive">
                                         <table class="table table-hover small table-striped text-left pb-0">
                                                 <tr>
-                                                        <td>TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</td>
+                                                        <td>SSLV1</td>
                                                 </tr>
                                                 <tr>
-                                                        <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384</td>
+                                                        <td>SSLV2</td>
                                                 </tr>
                                                 <tr>
-                                                        <td>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>DHE-DSS-CAMELLIA128-SHA</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>DHE-DSS-CAMELLIA256-SHA</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>DHE-RSA-CAMELLIA128-SHA</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>DHE-RSA-CAMELLIA256-SHA</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDHE-ECDSA-CAMELLIA128-SHA256</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDHE-ECDSA-CAMELLIA256-SHA384</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDH-ECDSA-CAMELLIA128-SHA256</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDH-ECDSA-CAMELLIA256-SHA384</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDHE-RSA-CAMELLIA128-SHA256</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDHE-RSA-CAMELLIA256-SHA384</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDH-RSA-CAMELLIA128-SHA256</td>
-                                                </tr>
-                                                <tr>
-                                                        <td>ECDH-RSA-CAMELLIA256-SHA384</td>
+                                                        <td>SSLV3</td>
                                                 </tr>
                                         </table>
                                     </div>
@@ -523,7 +426,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-26 16:34:18.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-26 18:06:07.</span>
     </div>
 </footer>    </body>
     </html>

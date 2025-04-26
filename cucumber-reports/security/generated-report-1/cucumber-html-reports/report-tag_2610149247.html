@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
 
-<title>Cucumber Reports (no 1) - Tag: @ssl_disabled_protocols</title>
+<title>Cucumber Reports (no 1) - Tag: @ssl_strong_cipher</title>
 
 </head>
 <body>
@@ -128,7 +128,7 @@ $(document).ready(function() {
 
         <tbody>
         <tr>
-          <td class="tagname">@ssl_disabled_protocols</td>
+          <td class="tagname">@ssl_strong_cipher</td>
           <td      class="passed"    >1</td>
           <td >0</td>
           <td >0</td>
@@ -140,7 +140,7 @@ $(document).ready(function() {
           <td >0</td>
           <td class="total">1</td>
 
-          <td class="duration" data-value="175415663">0.175</td>
+          <td class="duration" data-value="25703671">0.025</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -181,18 +181,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
+       <a href="report-tag_2610149247.html">@ssl_strong_cipher</a>
 </div>
 
 
-  <span class="lead-duration duration">0.175</span>
+  <span class="lead-duration duration">0.025</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
+  <span class="name">The minimum cipher strength should meet requirements</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -226,9 +226,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the following protocols must not be supported</span>
+  <span class="name">the minimum key size must be <span class="argument">128</span> bits</span>
 
-  <span class="lead-duration duration">0.175</span>
+  <span class="lead-duration duration">0.025</span>
 
 </div>
 
@@ -238,17 +238,6 @@ $(document).ready(function() {
 
 
 
-          <table class="step-arguments">
-              <tr>
-                  <td>SSLV1</td>
-              </tr>
-              <tr>
-                  <td>SSLV2</td>
-              </tr>
-              <tr>
-                  <td>SSLV3</td>
-              </tr>
-          </table>
 
 
 

@@ -76,7 +76,7 @@ $(document).ready(function() {
     <tr class="info">
       <td>YNaMi</td>
         <td>1</td>
-      <td>26 Apr 2025, 16:34</td>
+      <td>26 Apr 2025, 18:06</td>
     </tr>
   </tbody>
 </table>
@@ -129,18 +129,18 @@ $(document).ready(function() {
         <tbody>
         <tr>
           <td class="tagname">SSL</td>
-          <td      class="passed"    >15</td>
+          <td      class="passed"    >17</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
           <td >0</td>
-          <td class="total">15</td>
+          <td class="total">17</td>
 
-          <td  class="passed"    >6</td>
+          <td  class="passed"    >7</td>
           <td >0</td>
-          <td class="total">6</td>
+          <td class="total">7</td>
 
-          <td class="duration" data-value="7819980995">7.819</td>
+          <td class="duration" data-value="7426999063">7.426</td>
           <td class="passed">Passed</td>
         </tr>
         </tbody>
@@ -194,7 +194,7 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">6.185</span>
+  <span class="lead-duration duration">6.644</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-1">
@@ -237,7 +237,7 @@ $(document).ready(function() {
   <span class="keyword indention">When</span>
   <span class="name">the SSLyze command is run against the application</span>
 
-  <span class="lead-duration duration">6.185</span>
+  <span class="lead-duration duration">6.644</span>
 
 </div>
 
@@ -445,7 +445,7 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.019</span>
+  <span class="lead-duration duration">0.025</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-7">
@@ -488,7 +488,7 @@ $(document).ready(function() {
   <span class="keyword indention">Then</span>
   <span class="name">the output must contain a line that matches <span class="argument">.*Client Renegotiation DoS Attack:\s+OK - Not vulnerable.*</span></span>
 
-  <span class="lead-duration duration">0.019</span>
+  <span class="lead-duration duration">0.025</span>
 
 </div>
 
@@ -611,7 +611,7 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.008</span>
+  <span class="lead-duration duration">0.010</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-11">
@@ -654,7 +654,7 @@ $(document).ready(function() {
   <span class="keyword indention">Then</span>
   <span class="name">the output must contain a line that matches <span class="argument">.*Secure Renegotiation:\s+OK - Supported.*</span></span>
 
-  <span class="lead-duration duration">0.008</span>
+  <span class="lead-duration duration">0.010</span>
 
 </div>
 
@@ -777,7 +777,7 @@ $(document).ready(function() {
 </div>
 
 
-  <span class="lead-duration duration">0.002</span>
+  <span class="lead-duration duration">0.008</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-15">
@@ -820,7 +820,7 @@ $(document).ready(function() {
   <span class="keyword indention">Then</span>
   <span class="name">the output must contain a line that matches <span class="argument">.*OpenSSL Heartbleed:.*</span></span>
 
-  <span class="lead-duration duration">0.001</span>
+  <span class="lead-duration duration">0.003</span>
 
 </div>
 
@@ -847,7 +847,7 @@ $(document).ready(function() {
   <span class="keyword indention">And</span>
   <span class="name">the output must contain a line that matches <span class="argument">.*OK - Not vulnerable to Heartbleed.*</span></span>
 
-  <span class="lead-duration duration">0.001</span>
+  <span class="lead-duration duration">0.004</span>
 
 </div>
 
@@ -966,18 +966,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
+       <a href="report-tag_2610149247.html">@ssl_strong_cipher</a>
 </div>
 
 
-  <span class="lead-duration duration">1.177</span>
+  <span class="lead-duration duration">0.025</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-19">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
+  <span class="name">The minimum cipher strength should meet requirements</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1011,9 +1011,9 @@ $(document).ready(function() {
 
 <div class="brief step-name-Then passed">
   <span class="keyword indention">Then</span>
-  <span class="name">the following protocols must not be supported</span>
+  <span class="name">the minimum key size must be <span class="argument">128</span> bits</span>
 
-  <span class="lead-duration duration">1.177</span>
+  <span class="lead-duration duration">0.025</span>
 
 </div>
 
@@ -1023,17 +1023,6 @@ $(document).ready(function() {
 
 
 
-          <table class="step-arguments">
-              <tr>
-                  <td>SSLV1</td>
-              </tr>
-              <tr>
-                  <td>SSLV2</td>
-              </tr>
-              <tr>
-                  <td>SSLV3</td>
-              </tr>
-          </table>
 
 
 
@@ -1143,18 +1132,18 @@ $(document).ready(function() {
     <b>Tags:</b>
        <a href="report-tag_3383637887.html">@security</a>
        <a href="report-tag_2149504459.html">@ssl</a>
-       <a href="report-tag_296074394.html">@ssl_perfect_forward_secrecy</a>
+       <a href="report-tag_958706730.html">@ssl_disabled_protocols</a>
 </div>
 
 
-  <span class="lead-duration duration">0.424</span>
+  <span class="lead-duration duration">0.175</span>
 
 
   <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-23">
 
 <div class="brief passed">
   <span class="keyword indention">Scenario</span>
-  <span class="name">Enable Perfect forward secrecy</span>
+  <span class="name">Disable weak SSL protocols due to numerous cryptographic weaknesses</span>
 
 
      <i class="chevron fa fa-fw"></i>
@@ -1183,6 +1172,183 @@ $(document).ready(function() {
   </div>
 
   <div id="steps-24" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-Then passed">
+  <span class="keyword indention">Then</span>
+  <span class="name">the following protocols must not be supported</span>
+
+  <span class="lead-duration duration">0.175</span>
+
+</div>
+
+
+
+
+
+
+
+          <table class="step-arguments">
+              <tr>
+                  <td>SSLV1</td>
+              </tr>
+              <tr>
+                  <td>SSLV2</td>
+              </tr>
+              <tr>
+                  <td>SSLV3</td>
+              </tr>
+          </table>
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+</div>
+
+
+  <span class="lead-duration duration">0.000</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-25">
+
+<div class="brief passed">
+  <span class="keyword indention">Background</span>
+  <span class="name">Run the SSLyze command only once for all features</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-25" class="collapse collapsable-details ">
+
+
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-26">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-26" class="inner-level collapse collapsable-details ">
+      <div class="step">
+
+
+<div class="brief step-name-When passed">
+  <span class="keyword indention">When</span>
+  <span class="name">the SSLyze command is run against the application</span>
+
+  <span class="lead-duration duration">0.000</span>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+
+<div class="element">
+
+
+<div class="tags indention">
+    <b>Tags:</b>
+       <a href="report-tag_3383637887.html">@security</a>
+       <a href="report-tag_2149504459.html">@ssl</a>
+       <a href="report-tag_296074394.html">@ssl_perfect_forward_secrecy</a>
+</div>
+
+
+  <span class="lead-duration duration">0.535</span>
+
+
+  <span data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#element-27">
+
+<div class="brief passed">
+  <span class="keyword indention">Scenario</span>
+  <span class="name">Enable Perfect forward secrecy</span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </span>
+  <div class="description indention"></div>
+
+  <div id="element-27" class="collapse collapsable-details ">
+
+
+
+
+
+<div class="steps inner-level">
+  <div data-toggle="collapse" class=" collapsed  collapsable-control" data-target="#steps-28">
+
+<div class="brief passed">
+  <span class="keyword indention">Steps</span>
+  <span class="name"></span>
+
+
+     <i class="chevron fa fa-fw"></i>
+</div>
+
+  </div>
+
+  <div id="steps-28" class="inner-level collapse collapsable-details ">
       <div class="step">
 
 
@@ -1217,7 +1383,7 @@ $(document).ready(function() {
   <span class="keyword indention">And</span>
   <span class="name">the output must contain a line that matches <span class="argument">.*Legacy RC4 Algorithm\s+OK - Not Supported.*</span></span>
 
-  <span class="lead-duration duration">0.002</span>
+  <span class="lead-duration duration">0.000</span>
 
 </div>
 
@@ -1244,7 +1410,7 @@ $(document).ready(function() {
   <span class="keyword indention">And</span>
   <span class="name">any of the following ciphers must be supported</span>
 
-  <span class="lead-duration duration">0.418</span>
+  <span class="lead-duration duration">0.531</span>
 
 </div>
 

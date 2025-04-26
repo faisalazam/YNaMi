@@ -81,6 +81,7 @@ font-src * data: blob: 'unsafe-inline';"/>
       "@cwe-89",
       "@ssl_heartbleed",
       "@app_scan",
+      "@ssl_strong_cipher",
       "@cwe-611",
       "@cwe-209-poodle",
       "@authentication",
@@ -112,12 +113,6 @@ font-src * data: blob: 'unsafe-inline';"/>
           14.0,
           1.0,
           1.0,
-          2.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
           1.0,
           2.0,
           1.0,
@@ -126,13 +121,21 @@ font-src * data: blob: 'unsafe-inline';"/>
           1.0,
           1.0,
           1.0,
-          22.0,
+          2.0,
           1.0,
-          6.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          23.0,
+          1.0,
+          7.0,
           1.0,
           1.0
         ],
         "backgroundColor": [
+          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
@@ -187,9 +190,11 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
@@ -244,9 +249,11 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "backgroundColor": [
+          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
@@ -289,7 +296,7 @@ font-src * data: blob: 'unsafe-inline';"/>
           "stacked": true,
           "scaleLabel": {
             "display": true,
-            "labelString": "25 Tags"
+            "labelString": "26 Tags"
           },
           "stepSize": 0.0
         }
@@ -298,7 +305,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 22.0,
+            "stepSize": 23.0,
             "display": true
           },
           "stacked": true,
@@ -407,7 +414,7 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-26 16:34:18</span>
+            <span class="text-light">2025-04-26 18:06:08</span>
         </div>
     </nav>
     <main role="main" class="container">
@@ -461,14 +468,14 @@ font-src * data: blob: 'unsafe-inline';"/>
                 <div class="card-header">Tag Summary</div>
             <div class="card-body">
             <ul class="list-group list-group-flush" data-cluecumber-item="tag-summary">
-                <li class="list-group-item">25         Tags
+                <li class="list-group-item">26         Tags
  in
                     <br>
-                    22 Tagged         Scenarios
+                    23 Tagged         Scenarios
 
                 </li>
                 <li class="list-group-item">
-                    22 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    23 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -537,6 +544,14 @@ font-src * data: blob: 'unsafe-inline';"/>
                                     href="pages/tag-scenarios/tag_app_scan.html">@app_scan</a></td>
                         <td class="text-right"><strong>14</strong></td>
                         <td class="text-right passedCell">14</td>
+                        <td class="text-right failedCell">0</td>
+                        <td class="text-right skippedCell">0</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"><a
+                                    href="pages/tag-scenarios/tag_ssl_strong_cipher.html">@ssl_strong_cipher</a></td>
+                        <td class="text-right"><strong>1</strong></td>
+                        <td class="text-right passedCell">1</td>
                         <td class="text-right failedCell">0</td>
                         <td class="text-right skippedCell">0</td>
                     </tr>
@@ -671,8 +686,8 @@ font-src * data: blob: 'unsafe-inline';"/>
                     <tr>
                         <td class="text-left"><a
                                     href="pages/tag-scenarios/tag_security.html">@security</a></td>
-                        <td class="text-right"><strong>22</strong></td>
-                        <td class="text-right passedCell">22</td>
+                        <td class="text-right"><strong>23</strong></td>
+                        <td class="text-right passedCell">23</td>
                         <td class="text-right failedCell">0</td>
                         <td class="text-right skippedCell">0</td>
                     </tr>
@@ -687,8 +702,8 @@ font-src * data: blob: 'unsafe-inline';"/>
                     <tr>
                         <td class="text-left"><a
                                     href="pages/tag-scenarios/tag_ssl.html">@ssl</a></td>
-                        <td class="text-right"><strong>6</strong></td>
-                        <td class="text-right passedCell">6</td>
+                        <td class="text-right"><strong>7</strong></td>
+                        <td class="text-right passedCell">7</td>
                         <td class="text-right failedCell">0</td>
                         <td class="text-right skippedCell">0</td>
                     </tr>
@@ -719,7 +734,7 @@ font-src * data: blob: 'unsafe-inline';"/>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-26 16:34:18.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-26 18:06:08.</span>
     </div>
 </footer>    </body>
     </html>

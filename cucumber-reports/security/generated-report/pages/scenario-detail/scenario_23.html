@@ -77,38 +77,19 @@ font-src * data: blob: 'unsafe-inline';"/>
             var chart = new Chart(ctx, {
   "data": {
     "labels": [
-      "bdd.pk.lucidxpo.ynami.webdriver.hooks.IFluentAdapterHooks.before()",
-      "I go to login page",
-      "I enter \"user\" in username field",
-      "I enter \"user\" in password field",
-      "I click on submit button",
-      "I should be logged in",
-      "I can click on logout",
-      "I should be on login page",
-      "bdd.pk.lucidxpo.ynami.webdriver.hooks.IFluentAdapterHooks.afterScenario()",
-      "bdd.pk.lucidxpo.ynami.webdriver.hooks.WebDriverHooks.afterScenario()"
+      "the output must contain a line that matches .*Forward Secrecy\\s+OK - Supported.*",
+      "the output must contain a line that matches .*Legacy RC4 Algorithm\\s+OK - Not Supported.*",
+      "any of the following ciphers must be supported"
     ],
     "datasets": [
       {
         "data": [
-          0.42,
-          1.601,
-          10.125,
-          0.214,
-          0.219,
-          0.005,
-          2.018,
-          0.908,
           0.0,
-          0.213
+          0.003,
+          0.0,
+          0.531
         ],
         "backgroundColor": [
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
-          "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
           "rgba(96, 204, 121, 1.000)",
@@ -122,21 +103,9 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
-          "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
           "rgba(252, 113, 128, 1.000)",
@@ -150,21 +119,9 @@ font-src * data: blob: 'unsafe-inline';"/>
           0.0,
           0.0,
           0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
           0.0
         ],
         "backgroundColor": [
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
-          "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
           "rgba(247, 196, 43, 1.000)",
@@ -196,7 +153,7 @@ font-src * data: blob: 'unsafe-inline';"/>
         {
           "ticks": {
             "min": 0,
-            "stepSize": 10.125,
+            "stepSize": 0.531,
             "display": true
           },
           "stacked": true,
@@ -305,17 +262,17 @@ font-src * data: blob: 'unsafe-inline';"/>
                             <a class="nav-link customLink" href="https://www.google.com" target="_blank">Integration Test Report</a>
                 </li>
             </ul>
-            <span class="text-light">2025-04-26 18:06:30</span>
+            <span class="text-light">2025-04-26 18:06:07</span>
         </div>
     </nav>
     <main role="main" class="container">
         <div class="cluecumber-template">
             <div class="pb-2 mt-4 mb-2">
                     <h5>
-                            <a href="pages/feature-scenarios/feature_1.html">Some sample feature file 2</a>
-                        <span class="small">classpath:cuke/feature//basic2.feature</span>
+                            <a href="pages/feature-scenarios/feature_2.html">SSL</a>
+                        <span class="small">classpath:cuke/security/features//ssl.feature</span>
                     </h5>
-                    <h3>[Unnamed]</h3>
+                    <h3>Enable Perfect forward secrecy</h3>
             </div>
 
     <div class="row" id="custom-parameters">
@@ -362,10 +319,15 @@ font-src * data: blob: 'unsafe-inline';"/>
         <div class="card h-100">
                 <div class="card-header">Scenario Info</div>
             <div class="card-body">
-                <li class="list-group-item">Started on:<br>2025-04-26 18:06:11</li>
-                <li class="list-group-item">Ended on:<br>2025-04-26 18:06:27</li>
-            <li class="list-group-item">Test Runtime:<br>0m 15s 728ms</li>
-            <li class="list-group-item">            </li>
+                <li class="list-group-item">Started on:<br>2025-04-26 18:06:02</li>
+                <li class="list-group-item">Ended on:<br>2025-04-26 18:06:03</li>
+            <li class="list-group-item">Test Runtime:<br>0m 00s 535ms</li>
+            <li class="list-group-item">
+                    <a href="pages/tag-scenarios/tag_security.html">@security</a>,
+
+                    <a href="pages/tag-scenarios/tag_ssl.html">@ssl</a>,
+
+                    <a href="pages/tag-scenarios/tag_ssl_perfect_forward_secrecy.html">@ssl_perfect_forward_secrecy</a>            </li>
             </div>
         </div>
     </div>
@@ -375,11 +337,11 @@ font-src * data: blob: 'unsafe-inline';"/>
             <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    7         Steps
+                    3         Steps
 
                 </li>
                 <li class="list-group-item">
-                    7 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+                    3 passed     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
        title="passed"><span style="display:none">passed</span></i>
 
                     <br>
@@ -399,10 +361,9 @@ font-src * data: blob: 'unsafe-inline';"/>
 
     <ul class="list-group list-group-flush">
 
-
     <div class="col-sm-12  h-auto" data-cluecumber-item="card">
         <div class="card h-100">
-                <div class="card-header">Steps</div>
+                <div class="card-header">Background Steps</div>
             <div class="card-body">
                 <li class="list-group-item">
 
@@ -410,127 +371,13 @@ font-src * data: blob: 'unsafe-inline';"/>
                         <div class="row row_passed table-row-passed">
                             <div class="col-9 text-left">
                                 <span class="text-left">1.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LoginSteps.iGoToLoginPage()">
-                                    <a href="pages/step-scenarios/step_02115317302.html"><span
-                                                class="keyword">Given </span> I go to login page</a>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theSslyzeCommandIsRunAgainstTheApplication()">
+                                    <a href="pages/step-scenarios/step_806119511.html"><span
+                                                class="keyword">When </span> the SSLyze command is run against the application</a>
                                 </span>
                             </div>
                             <div class="col-2 text-left small">
-                                0m 01s 601ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">2.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LoginSteps.iEnterInUsernameField(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_795354125.html"><span
-                                                class="keyword">When </span> I enter <span class="parameter">"user"</span> in username field</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 10s 125ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">3.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LoginSteps.iEnterInPasswordField(java.lang.String)">
-                                    <a href="pages/step-scenarios/step_01533819736.html"><span
-                                                class="keyword">And </span> I enter <span class="parameter">"user"</span> in password field</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 214ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">4.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LoginSteps.iClickOnSubmitButton()">
-                                    <a href="pages/step-scenarios/step_1154879558.html"><span
-                                                class="keyword">And </span> I click on submit button</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 219ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">5.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LoginSteps.iShouldBeLoggedIn()">
-                                    <a href="pages/step-scenarios/step_98769128.html"><span
-                                                class="keyword">Then </span> I should be logged in</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 005ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">6.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LogoutSteps.iCanClickOnLogout()">
-                                    <a href="pages/step-scenarios/step_1933163015.html"><span
-                                                class="keyword">When </span> I can click on logout</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 02s 018ms
-                            </div>
-                            <div class="col-1 text-right">
-    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
-       title="passed"><span style="display:none">passed</span></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="row row_passed table-row-passed">
-                            <div class="col-9 text-left">
-                                <span class="text-left">7.</span>
-                                <span data-toggle="tooltip" title="bdd.pk.lucidxpo.ynami.steps.LoginSteps.iShouldBeOnLoginPage()">
-                                    <a href="pages/step-scenarios/step_1841969784.html"><span
-                                                class="keyword">Then </span> I should be on login page</a>
-                                </span>
-                            </div>
-                            <div class="col-2 text-left small">
-                                0m 00s 908ms
+                                0m 00s 000ms
                             </div>
                             <div class="col-1 text-right">
     <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
@@ -543,13 +390,140 @@ font-src * data: blob: 'unsafe-inline';"/>
         </div>
     </div>
 
+    <div class="col-sm-12  h-auto" data-cluecumber-item="card">
+        <div class="card h-100">
+                <div class="card-header">Steps</div>
+            <div class="card-body">
+                <li class="list-group-item">
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">1.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
+                                    <a href="pages/step-scenarios/step_01237404831.html"><span
+                                                class="keyword">Then </span> the output must contain a line that matches <span class="parameter">.*Forward Secrecy\s+OK - Supported.*</span></a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 003ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">2.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.theOutputMustContainALineThatMatches(java.lang.String)">
+                                    <a href="pages/step-scenarios/step_01237404831.html"><span
+                                                class="keyword">And </span> the output must contain a line that matches <span class="parameter">.*Legacy RC4 Algorithm\s+OK - Not Supported.*</span></a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 000ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row row_passed table-row-passed">
+                            <div class="col-9 text-left">
+                                <span class="text-left">3.</span>
+                                <span data-toggle="tooltip" title="penetration.pk.lucidxpo.ynami.steps.defs.SSLyzeSteps.verifyAnyCipherSupported(java.util.List<java.lang.String>)">
+                                    <a href="pages/step-scenarios/step_01078229557.html"><span
+                                                class="keyword">And </span> any of the following ciphers must be supported</a>
+                                </span>
+                            </div>
+                            <div class="col-2 text-left small">
+                                0m 00s 531ms
+                            </div>
+                            <div class="col-1 text-right">
+    <i class="color-passed cluecumber-icon icon-passed" data-toggle="tooltip"
+       title="passed"><span style="display:none">passed</span></i>
+                            </div>
+
+                                <div class="row w-100 p-3 m-0 scenarioDataTable">
+                                    <div class="w-100 text-left border border-dark table-responsive">
+                                        <table class="table table-hover small table-striped text-left pb-0">
+                                                <tr>
+                                                        <td>TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>DHE-DSS-CAMELLIA128-SHA</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>DHE-DSS-CAMELLIA256-SHA</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>DHE-RSA-CAMELLIA128-SHA</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>DHE-RSA-CAMELLIA256-SHA</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDHE-ECDSA-CAMELLIA128-SHA256</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDHE-ECDSA-CAMELLIA256-SHA384</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDH-ECDSA-CAMELLIA128-SHA256</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDH-ECDSA-CAMELLIA256-SHA384</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDHE-RSA-CAMELLIA128-SHA256</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDHE-RSA-CAMELLIA256-SHA384</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDH-RSA-CAMELLIA128-SHA256</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ECDH-RSA-CAMELLIA256-SHA384</td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                        </div>
+                </li>
+            </div>
+        </div>
+    </div>
+
     </ul>
         </div>
     </main>
 
 <footer class="footer navbar-dark">
     <div class="container-fluid">
-        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-26 18:06:30.</span>
+        <span><a href="https://github.com/trivago/cluecumber-report-plugin" target="_blank" class="text-white">Cluecumber Report Plugin version 2.9.4</a> - Report generated on 2025-04-26 18:06:07.</span>
     </div>
 </footer>    </body>
     </html>
